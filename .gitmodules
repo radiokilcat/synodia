@@ -1,0 +1,12 @@
+[submodule "anvil/third_party/SDL"]
+	path =anvil/third_party/SDL
+	url = https://github.com/libsdl-org/SDL
+[submodule "anvil/third_party/SDL_image"]
+	path =anvil/third_party/SDL_image
+	url = https://github.com/libsdl-org/SDL_image/
+[submodule "anvil/third_party/SDL_ttf"]
+	path =anvil/third_party/SDL_ttf
+	url = https://github.com/libsdl-org/SDL_ttf
+[submodule "anvil/third_party/SDL_mixer"]
+	path =anvil/third_party/SDL_mixer
+	url = https://github.com/libsdl-org/SDL_mixer
