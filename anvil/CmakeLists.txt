@@ -1,2 +1,34 @@
-add_subdirectory(app)
-add_subdirectory(lib)
+add_subdirectory(third_party)
+
+add_executable(test
+    app/main.cpp
+)
+
+add_library(anvil
+  lib/test.cpp
+  lib/test.h
+)
+
+target_link_libraries(test PUBLIC
+SDL3::SDL3
+SDL3_image::SDL3_image
+SDL3_ttf::SDL3_ttf
+SDL3_mixer::SDL3_mixer
+)
+
+if(BUILD_SHARED_LIBS)
+  target_link_libraries(anvil PUBLIC
+    SDL3::SDL3
+    SDL3_image::SDL3_image
+    SDL3_ttf::SDL3_ttf
+    SDL3_mixer::SDL3_mixer
+  )
+else()
+  target_link_libraries(anvil PUBLIC
+    SDL3::SDL3-static
+    SDL3_image::SDL3_image-static
+    SDL3_ttf::SDL3_ttf-static
+    SDL3_mixer::SDL3_mixer-static
+  )
+endif()
+
