@@ -1,22 +1,25 @@
-add_subdirectory(third_party)
-
-add_executable(test
-    app/main.cpp
-)
-
 add_library(anvil
-  lib/test.cpp
-  lib/test.h
+  anvil.h
+  test.cpp
+  test.h
+  window.cpp
+  window.h
 )
 
-target_link_libraries(test PUBLIC
-SDL3::SDL3
-SDL3_image::SDL3_image
-SDL3_ttf::SDL3_ttf
-SDL3_mixer::SDL3_mixer
+if (BUILD_SHARED_LIBS)
+  set_target_properties(anvil PROPERTIES
+    INSTALL_RPATH $ORIGIN
+  )
+endif()
+
+target_include_directories(anvil
+  PRIVATE
+    ${SDL3_INCLUDE_DIRS}
+    ${SDL3_IMAGE_INCLUDE_DIRS}
 )
 
 if(BUILD_SHARED_LIBS)
+  add_definitions(-DEXPORT_DLL)
   target_link_libraries(anvil PUBLIC
     SDL3::SDL3
     SDL3_image::SDL3_image
@@ -31,4 +34,3 @@ else()
     SDL3_mixer::SDL3_mixer-static
   )
 endif()
-
