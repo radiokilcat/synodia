@@ -15,4 +15,5 @@ cmake --build . --target
 
 Project doc: 
 [Technical details](docs/technical.md)
-[Technical details](docs/narrative.md)
+
+[Story details](docs/narrative.md)
