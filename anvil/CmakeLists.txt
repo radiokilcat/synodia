@@ -4,6 +4,8 @@ add_library(anvil
   include/anvil.h
   src/test.cpp
   src/test.h
+  src/window.cpp
+  src/window.h
 )
 
 set(public_headers
@@ -21,17 +23,17 @@ target_include_directories(anvil
 
 
 if(BUILD_SHARED_LIBS)
- target_link_libraries(anvil PUBLIC
+ target_link_libraries(anvil INTERFACE
    SDL3::SDL3
-   SDL3_image::SDL3_image
-   SDL3_ttf::SDL3_ttf
-   SDL3_mixer::SDL3_mixer
+#   SDL3_image::SDL3_image
+#   SDL3_ttf::SDL3_ttf
+#   SDL3_mixer::SDL3_mixer
  )
 else()
- target_link_libraries(anvil PUBLIC
+ target_link_libraries(anvil INTERFACE
    SDL3::SDL3-static
-   SDL3_image::SDL3_image-static
-   SDL3_ttf::SDL3_ttf-static
-   SDL3_mixer::SDL3_mixer-static
+#   SDL3_image::SDL3_image-static
+#   SDL3_ttf::SDL3_ttf-static
+#   SDL3_mixer::SDL3_mixer-static
  )
 endif()
