@@ -13,7 +13,7 @@ add_library(anvil
 )
 
 set(public_headers
-    include/engine.h
+    include/anvil.h
 )
 
 set_target_properties(anvil PROPERTIES PUBLIC_HEADER "${public_headers}")
