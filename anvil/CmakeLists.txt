@@ -1,5 +1,9 @@
 add_subdirectory(third_party)
 
+if(WIN32)
+ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+endif()
+
 add_library(anvil
   include/anvil.h
   src/test.cpp
