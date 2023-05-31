@@ -27,21 +27,21 @@ option(SDL3IMAGE_XCF "Support loading XCF images" OFF)
 option(SDL3IMAGE_XPM "Support loading XPM images" OFF)
 option(SDL3IMAGE_XV "Support loading XV images" OFF)
 
-#add_subdirectory(SDL_image)
+add_subdirectory(SDL_image)
 # To quiet down "target X has PUBLIC_HEADER files but no PUBLIC_HEADER DESTINATION"
-#set_target_properties(SDL3_image PROPERTIES
-#  PUBLIC_HEADER ""
-#)
+set_target_properties(SDL3_image PROPERTIES
+  PUBLIC_HEADER ""
+)
 
 ### SDL_ttf
 option(SDL3TTF_SAMPLES "Build the SDL3_ttf sample program(s)" OFF)
 option(SDL3TTF_INSTALL "Enable SDL3_ttf install target" OFF)
 option(SDL3TTF_VENDORED "Use vendored third-party libraries" ON)
-#add_subdirectory(SDL_ttf)
+add_subdirectory(SDL_ttf)
 # To quiet down "target X has PUBLIC_HEADER files but no PUBLIC_HEADER DESTINATION"
-#set_target_properties(SDL3_ttf PROPERTIES
-#  PUBLIC_HEADER ""
-#)
+set_target_properties(SDL3_ttf PROPERTIES
+  PUBLIC_HEADER ""
+)
 
 ### SDL_Mixer
 option(SDL3MIXER_INSTALL "Enable SDL3mixer install target" OFF)
@@ -54,8 +54,8 @@ option(SDL3MIXER_MP3 "Enable MP3 music" OFF)
 option(SDL3MIXER_MIDI "Enable MIDI music" OFF)
 option(SDL3MIXER_OPUS "Enable Opus music" OFF)
 
-#add_subdirectory(SDL_mixer)
+add_subdirectory(SDL_mixer)
 # To quiet down "target X has PUBLIC_HEADER files but no PUBLIC_HEADER DESTINATION"
-#set_target_properties(SDL3_mixer PROPERTIES
-#  PUBLIC_HEADER ""
-#)
+set_target_properties(SDL3_mixer PROPERTIES
+  PUBLIC_HEADER ""
+)
