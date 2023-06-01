@@ -1,11 +1,16 @@
 #include <iostream>
-#include "anvil.h"
+#include "window.h"
+#include "application.h"
 
 
 
 int main(int argc, char *argv[])
 {
-    anvil::print1();
+    auto win = anvil::Window::create("SDL_test", 600, 800);
+    auto app = anvil::Application::create(std::move(win));
+    app->handle_loop();
+
+
 //    SDL_Init(SDL_INIT_VIDEO);
 
 //    SDL_Window *window = SDL_CreateWindow(
