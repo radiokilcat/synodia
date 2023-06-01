@@ -1,4 +1,3 @@
-
 #include "test.h"
 
 namespace anvil {
