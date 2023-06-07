@@ -100,8 +100,8 @@ void Application::main_loop()
             if (event->type == SDL_EventType::SDL_EVENT_QUIT)
                 running = false;
         }
-    }
     render();
+    }
 }
 
 void Application::update()
