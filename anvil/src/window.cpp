@@ -13,7 +13,8 @@ std::unique_ptr<Window> Window::create(const std::string &title,
 }
 
 Window::Window(const std::string &title, int width, int height, SDL_WindowFlags flags)
-    :m_window(SDL_CreateWindow(title.c_str(), width, height, flags), &SDL_DestroyWindow)
+//    :m_window(SDL_CreateWindow(title.c_str(), width, height, flags), &SDL_DestroyWindow)
+    :m_window(SDL_CreateWindow(title.c_str(), width, height, flags))
 {
     if (!m_window) {
         throw std::runtime_error(SDL_GetError());
@@ -24,6 +25,7 @@ Window::~Window()
 {
 
 }
+
 
 std::optional<SDL_Event> Window::pollEvents()
 {

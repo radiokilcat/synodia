@@ -20,6 +20,10 @@ public:
                     SDL_WindowFlags flags = (SDL_WindowFlags)0);
     ~Window();
 
+//    std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)>getWindow() { return m_window; }
+//    SDL_Window& getWindow() { return m_window; }
+    [[nodiscard]] auto get() const noexcept -> SDL_Window* { return m_window.get(); }
+//    SDL_Window* getWindow() { return m_window; }
     std::optional<SDL_Event> pollEvents();
 
 private:
@@ -29,6 +33,7 @@ private:
     void quit();
 
     std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> m_window;
+//    SDL_Window* m_window;
 };
 
 }
