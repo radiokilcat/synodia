@@ -1,7 +1,7 @@
 #pragma once
 
-namespace anvil {
-    void print1();
+#include "application.h"
+#include "window.h"
+#include "renderer.h"
 
-}
 

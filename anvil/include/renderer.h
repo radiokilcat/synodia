@@ -11,17 +11,18 @@ namespace anvil {
 class Renderer
 {
 public:
-    static std::unique_ptr<Renderer> create(Window& window);
+    static std::unique_ptr<Renderer> create(std::unique_ptr<Window>& window);
 
-    Renderer(Window& window);
+    Renderer(std::unique_ptr<Window>& window);
     ~Renderer();
+
+    [[nodiscard]] auto getRenderer() const noexcept -> SDL_Renderer* { return m_renderer.get(); }
 
 private:
     void init();
     void quit();
 
     std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)> m_renderer;
-//    SDL_Renderer* m_renderer;
 };
 
 }

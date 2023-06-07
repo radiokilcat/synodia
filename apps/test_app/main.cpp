@@ -1,34 +1,19 @@
 #include <iostream>
-#include "window.h"
-#include "application.h"
 
+#include "anvil.h"
 
 
 int main(int argc, char *argv[])
 {
-    auto win = anvil::Window::create("SDL_test", 600, 800);
-    auto app = anvil::Application::create(std::move(win));
-    app->handle_loop();
+    anvil::GameSettings settings{
+        .screenWidth = 800,
+        .screenHeight = 600,
+        .screenScale = 3,
+        .windowTitle = "SDL test app",
+    };
 
-
-//    SDL_Init(SDL_INIT_VIDEO);
-
-//    SDL_Window *window = SDL_CreateWindow(
-//        "SDL2Test",
-//        640,
-//        480,
-//        0
-//        );
-
-//    SDL_Renderer *renderer = SDL_CreateRenderer(window, " ", 0);
-//    SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-//    SDL_RenderClear(renderer);
-//    SDL_RenderPresent(renderer);
-
-//    SDL_Delay(3000);
-
-//    SDL_DestroyWindow(window);
-//    SDL_Quit();
+    auto app = anvil::Application::create(settings);
+    app->run();
 
     return 0;
 }
