@@ -10,10 +10,12 @@ add_library(anvil
   src/window.cpp
   src/Application.cpp
   src/Renderer.cpp
+  src/configuration.cpp
   include/anvil.h
   include/window.h
   include/Application.h
   include/renderer.h
+  include/configuration.h
 )
 
 set(public_headers

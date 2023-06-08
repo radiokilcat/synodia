@@ -11,9 +11,10 @@ int main(int argc, char *argv[])
         .screenScale = 3,
         .windowTitle = "SDL test app",
     };
-
-    auto app = anvil::Application::create(settings);
-    app->run();
+    anvil::Configuration configuration;
+    configuration.load("settings.ini");
+//    auto app = anvil::Application::create(settings);
+//   app->run();
 
     return 0;
 }
