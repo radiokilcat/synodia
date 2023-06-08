@@ -1,13 +1,18 @@
 #include "configuration.h"
+#include "inipp.h"
 
 namespace anvil {
 	void Configuration::load(std::string path) 
 	{
-		std::cout << path;
-		std::ifstream is;
-		is.open(path);
-		std::string test;
-		is >> test;
-		std::cout << test;
+		inipp::Ini<char> ini;
+		std::ifstream is(path);
+		ini.parse(is);
+		std::cout << "raw ini file:" << std::endl;
+		ini.generate(std::cout);
+		ini.strip_trailing_comments();
+		ini.default_section(ini.sections["Window"]);
+		ini.interpolate();
+		std::cout << "ini file after default section and interpolation:" << std::endl;
+		ini.generate(std::cout);
 	}
 }

@@ -32,19 +32,24 @@ target_include_directories(anvil
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
 
-
 if(BUILD_SHARED_LIBS)
- target_link_libraries(anvil PUBLIC
-   SDL3::SDL3
-   SDL3_image::SDL3_image
-   SDL3_ttf::SDL3_ttf
-   SDL3_mixer::SDL3_mixer
+ target_link_libraries(anvil 
+    PRIVATE 
+      inipp
+    PUBLIC
+      SDL3::SDL3
+      SDL3_image::SDL3_image
+      SDL3_ttf::SDL3_ttf
+      SDL3_mixer::SDL3_mixer
  )
 else()
- target_link_libraries(anvil PUBLIC
-   SDL3::SDL3-static
-   SDL3_image::SDL3_image-static
-   SDL3_ttf::SDL3_ttf-static
-   SDL3_mixer::SDL3_mixer-static
+ target_link_libraries(anvil
+    PRIVATE 
+      inipp
+    PUBLIC
+      SDL3::SDL3-static
+      SDL3_image::SDL3_image-static
+      SDL3_ttf::SDL3_ttf-static
+      SDL3_mixer::SDL3_mixer-static
  )
 endif()

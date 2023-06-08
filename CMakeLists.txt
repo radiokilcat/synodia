@@ -20,6 +20,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(BUILD_SHARED_LIBS ON CACHE BOOL "Link to libs dynamically")
 
 message("cxx flags:" ${CMAKE_CXX_FLAGS})
+include(FetchContent)
 add_subdirectory(anvil)
 add_subdirectory(apps)
 

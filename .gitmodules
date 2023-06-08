@@ -10,3 +10,6 @@
 [submodule "anvil/third_party/SDL_mixer"]
 	path = anvil/third_party/SDL_mixer
 	url = https://github.com/libsdl-org/SDL_mixer
+[submodule "anvil/third_party/inipp"]
+	path = anvil/third_party/inipp
+	url = https://github.com/mcmtroffaes/inipp.git
