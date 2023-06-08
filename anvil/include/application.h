@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <string>
+#include <filesystem>
 
 #include <SDL3/SDL.h>
 
@@ -9,6 +10,7 @@ namespace anvil {
 
 class Window;
 class Renderer;
+class TextureManager;
 
 struct GameSettings {
     void validate();
@@ -41,8 +43,11 @@ private:
     std::unique_ptr<Renderer> m_renderer = nullptr;
     //ToDo: make SDL_Texture with it's own wrapper class
     SDL_Texture* screenTexture = nullptr;
+    TextureManager* m_textureManager = nullptr;
+
 
     GameSettings m_settings;
+    std::filesystem::path m_resPath;
     bool running;
 };
 

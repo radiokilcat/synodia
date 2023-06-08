@@ -11,11 +11,13 @@ add_library(anvil
   src/Application.cpp
   src/Renderer.cpp
   src/configuration.cpp
+  src/texturemanager.cpp
   include/anvil.h
   include/window.h
   include/Application.h
   include/renderer.h
   include/configuration.h
+  include/texturemanager.h
 )
 
 set(public_headers
