@@ -1,12 +1,18 @@
 #include "application.h"
 #include "window.h"
 #include "renderer.h"
+#include "texturemanager.h"
 
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
 #include <cassert>
+#include <filesystem>
+#include <iostream>
 
+#ifdef _WIN32
+#include <Windows.h>
+#endif
 
 SDL_Texture* createBlankTexture(SDL_Renderer* renderer, int width, int height)
 {
@@ -17,6 +23,30 @@ SDL_Texture* createBlankTexture(SDL_Renderer* renderer, int width, int height)
         std::exit(1);
     }
     return texture;
+}
+
+std::filesystem::path getExecutableDir()
+{
+#ifdef _WIN32
+    std::wstring buf;
+    buf.resize(MAX_PATH);
+    do {
+        unsigned int len = GetModuleFileNameW(NULL, &buf[0], static_cast<unsigned int>(buf.size()));
+        if (len < buf.size()) {
+            buf.resize(len);
+            break;
+        }
+
+        buf.resize(buf.size() * 2);
+    } while (buf.size() < 65536);
+
+    return std::filesystem::path(buf).parent_path();
+#else
+    if (std::filesystem::exists("/proc/self/exe")) {
+        return std::filesystem::read_symlink("/proc/self/exe").parent_path();
+    }
+    return std::filesystem::path();
+#endif
 }
 
 namespace anvil {
@@ -52,6 +82,8 @@ void Application::run()
 
 void Application::init()
 {
+    std::filesystem::current_path(getExecutableDir());
+    m_resPath = std::filesystem::current_path().parent_path() / "res";
     // Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) < 0) {
         printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
@@ -81,6 +113,15 @@ void Application::init()
                               m_settings.screenWidth * m_settings.screenScale,
                               m_settings.screenHeight * m_settings.screenScale);
     m_renderer = Renderer::create(m_window);
+
+    m_textureManager = TextureManager::instance();
+
+    /* For now we load textures in Application::init
+     * Probably better to do it in client code */
+    if (!m_textureManager->loadTexture((m_resPath / "adventurer.png").string(), "test", m_renderer->getRenderer()))
+    {
+        printf("could not load texture");
+    }
 
     SDL_SetRenderDrawBlendMode(m_renderer->getRenderer(), SDL_BLENDMODE_BLEND);
 
@@ -122,6 +163,9 @@ void Application::render()
     SDL_FRect dst = {0, 0, static_cast<float>(m_settings.screenWidth) * static_cast<float>(m_settings.screenScale),
                      static_cast<float>(m_settings.screenHeight) * static_cast<float>(m_settings.screenScale)};
     SDL_RenderTexture(m_renderer->getRenderer(), screenTexture, &src, &dst);
+
+
+    m_textureManager->draw("test", 0,0, 128, 82,  m_renderer->getRenderer());
 
     SDL_RenderPresent(m_renderer->getRenderer());
 }
