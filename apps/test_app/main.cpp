@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
     anvil::GameSettings settings{
         .screenWidth = 800,
         .screenHeight = 600,
-        .screenScale = 3,
+        .screenScale = 1,
         .windowTitle = "SDL test app",
     };
 
