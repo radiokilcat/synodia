@@ -4,7 +4,7 @@
 namespace anvil {
 
 //std::unique_ptr<Renderer> Renderer::create(Window& window)
-std::unique_ptr<Renderer> Renderer::create(std::unique_ptr<Window>& window)
+std::shared_ptr<Renderer> Renderer::create(std::unique_ptr<Window>& window)
 {
     return std::make_unique<Renderer>(window);
 }

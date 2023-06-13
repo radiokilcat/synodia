@@ -11,7 +11,7 @@ namespace anvil {
 class Renderer
 {
 public:
-    static std::unique_ptr<Renderer> create(std::unique_ptr<Window>& window);
+    static std::shared_ptr<Renderer> create(std::unique_ptr<Window>& window);
 
     Renderer(std::unique_ptr<Window>& window);
     ~Renderer();

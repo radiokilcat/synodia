@@ -2,6 +2,8 @@
 #include "window.h"
 #include "renderer.h"
 #include "texturemanager.h"
+#include "gameobject.h"
+#include "player.h"
 
 #include <SDL_image.h>
 #include <SDL_ttf.h>
@@ -122,6 +124,9 @@ void Application::init()
     {
         printf("could not load texture");
     }
+    m_gameObjects.push_back(std::make_unique<Player>(Player(new LoaderParams(100, 100, 50, 37, "test"))));
+
+
 
     SDL_SetRenderDrawBlendMode(m_renderer->getRenderer(), SDL_BLENDMODE_BLEND);
 
@@ -165,7 +170,11 @@ void Application::render()
     SDL_RenderTexture(m_renderer->getRenderer(), screenTexture, &src, &dst);
 
 
-    m_textureManager->draw("test", 0,0, 128, 82,  m_renderer->getRenderer());
+    for (const auto& gameObject: m_gameObjects)
+    {
+        gameObject->draw(m_renderer);
+    }
+
 
     SDL_RenderPresent(m_renderer->getRenderer());
 }
