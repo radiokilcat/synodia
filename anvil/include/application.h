@@ -15,6 +15,13 @@ class TextureManager;
 class GameObject;
 
 struct GameSettings {
+
+    GameSettings& operator=(const GameSettings& other) {
+        if (&other == this) {
+            return *this;
+        }
+    }
+
     void validate();
 
     int screenWidth = 256;
@@ -27,15 +34,15 @@ struct GameSettings {
 class Application
 {
 public:
-    static std::unique_ptr<Application> create(GameSettings settings);
-    Application(GameSettings settings);
-    ~Application();
+    static Application* Instance();
 
+    void init(const GameSettings& settings);
     void run();
 
+    Application();
+    ~Application();
 
 private:
-    void init();
     void main_loop();
     void update();
     void render();
