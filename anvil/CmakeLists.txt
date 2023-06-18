@@ -8,21 +8,23 @@ add_library(anvil
   src/test.cpp
   src/test.h
   src/window.cpp
-  src/configuration.cpp
   src/application.cpp
   src/renderer.cpp
   src/texturemanager.cpp
   src/player.cpp
   src/nonplayable.cpp
-
+  src/configuration.cpp
+  src/ini_settings_accessor.cpp
   include/anvil.h
   include/window.h
   include/application.h
   include/renderer.h
-  include/configuration.h
   include/texturemanager.h
   include/gameobject.h
   include/vector2d.h
+  include/configuration.h
+  include/settings_accessor.h
+  include/ini_settings_accessor.h
 )
 
 set(public_headers

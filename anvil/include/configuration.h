@@ -2,13 +2,18 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <memory>
+#include "application.h"
+#include "settings_accessor.h"
 
 namespace anvil
 {
 	class Configuration
 	{
 	public:
-		void load(std::string path);
+		Configuration(std::string path);
+		GameSettings load();
 	private:
+		std::unique_ptr<SettingsAccessor> m_pConfigReader;
 	};
 }
