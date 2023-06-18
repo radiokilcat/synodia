@@ -3,7 +3,6 @@
 #include "renderer.h"
 #include "texturemanager.h"
 #include "gameobject.h"
-#include "player.h"
 
 #include <SDL_image.h>
 #include <SDL_ttf.h>
@@ -60,13 +59,20 @@ void GameSettings::validate()
     assert(screenScale > 0);
 }
 
-std::unique_ptr<Application> Application::create(GameSettings settings)
+static Application* m_instance = nullptr;
+
+Application *Application::Instance()
 {
-    return std::unique_ptr<Application>(new Application(settings));
+    if(m_instance == 0)
+    {
+        m_instance = new Application();
+        return m_instance;
+    }
+    return m_instance;
+
 }
 
-Application::Application(GameSettings settings)
-    : m_settings(settings)
+Application::Application()
 {
 }
 
@@ -77,13 +83,14 @@ Application::~Application()
 
 void Application::run()
 {
-    init();
     main_loop();
     cleanup();
 }
 
-void Application::init()
+void Application::init(const GameSettings& settings)
 {
+    m_settings = settings;
+
     std::filesystem::current_path(getExecutableDir());
     m_resPath = std::filesystem::current_path().parent_path() / "res";
     // Initialize SDL
