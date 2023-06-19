@@ -6,4 +6,3 @@
 #include "gameobject.h"
 #include "inputhandler.h"
 #include "configuration.h"
-#include "utils.h"

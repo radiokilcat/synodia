@@ -5,7 +5,7 @@ add_executable(test_app
     player.h
     nonplayable.h
     )
-add_executable(test_app main.cpp)
+
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/settings.ini
     ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COPYONLY)
 
