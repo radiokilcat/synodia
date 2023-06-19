@@ -39,6 +39,9 @@ public:
     void init(const GameSettings& settings);
     void run();
 
+    void addGameObject(std::unique_ptr<GameObject> gameObject);
+    std::shared_ptr<Renderer> getRenderer() const;
+
     Application();
     ~Application();
 
@@ -50,9 +53,7 @@ private:
 
     std::unique_ptr<Window> m_window = nullptr;
     std::shared_ptr<Renderer> m_renderer = nullptr;
-    //ToDo: make SDL_Texture with it's own wrapper class
     SDL_Texture* screenTexture = nullptr;
-    TextureManager* m_textureManager = nullptr;
 
     std::vector<std::unique_ptr<GameObject>> m_gameObjects;
 
