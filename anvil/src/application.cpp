@@ -3,6 +3,7 @@
 #include "renderer.h"
 #include "texturemanager.h"
 #include "gameobject.h"
+#include "utils.h"
 
 #include <SDL_image.h>
 #include <SDL_ttf.h>
@@ -11,9 +12,6 @@
 #include <filesystem>
 #include <iostream>
 
-#ifdef _WIN32
-#include <Windows.h>
-#endif
 
 SDL_Texture* createBlankTexture(SDL_Renderer* renderer, int width, int height)
 {
@@ -24,30 +22,6 @@ SDL_Texture* createBlankTexture(SDL_Renderer* renderer, int width, int height)
         std::exit(1);
     }
     return texture;
-}
-
-std::filesystem::path getExecutableDir()
-{
-#ifdef _WIN32
-    std::wstring buf;
-    buf.resize(MAX_PATH);
-    do {
-        unsigned int len = GetModuleFileNameW(NULL, &buf[0], static_cast<unsigned int>(buf.size()));
-        if (len < buf.size()) {
-            buf.resize(len);
-            break;
-        }
-
-        buf.resize(buf.size() * 2);
-    } while (buf.size() < 65536);
-
-    return std::filesystem::path(buf).parent_path();
-#else
-    if (std::filesystem::exists("/proc/self/exe")) {
-        return std::filesystem::read_symlink("/proc/self/exe").parent_path();
-    }
-    return std::filesystem::path();
-#endif
 }
 
 namespace anvil {
@@ -87,6 +61,16 @@ void Application::run()
     cleanup();
 }
 
+void Application::addGameObject(std::unique_ptr<GameObject> gameObject)
+{
+    m_gameObjects.push_back(std::move(gameObject));
+}
+
+std::shared_ptr<Renderer> Application::getRenderer() const
+{
+    return m_renderer;
+}
+
 void Application::init(const GameSettings& settings)
 {
     m_settings = settings;
@@ -123,21 +107,7 @@ void Application::init(const GameSettings& settings)
                               m_settings.screenHeight * m_settings.screenScale);
     m_renderer = Renderer::create(m_window);
 
-    m_textureManager = TextureManager::instance();
-
-    /* For now we load textures in Application::init
-     * Probably better to do it in client code */
-    if (!m_textureManager->loadTexture((m_resPath / "adventurer.png").string(), "test", m_renderer->getRenderer()))
-    {
-        printf("could not load texture");
-    }
-    m_gameObjects.push_back(std::make_unique<Player>(Player(new LoaderParams(100, 100, 50, 37, "test"))));
-
-
-
     SDL_SetRenderDrawBlendMode(m_renderer->getRenderer(), SDL_BLENDMODE_BLEND);
-
-    screenTexture = createBlankTexture(m_renderer->getRenderer(), m_settings.screenWidth, m_settings.screenHeight);
 
     // bg color
     SDL_SetRenderDrawColor(m_renderer->getRenderer(), 100, 149, 237, SDL_ALPHA_OPAQUE);
@@ -164,24 +134,13 @@ void Application::update()
 
 void Application::render()
 {
-    SDL_SetRenderTarget(m_renderer->getRenderer(), screenTexture);
-
-    // render to virtual screen
     SDL_RenderClear(m_renderer->getRenderer());
     SDL_SetRenderTarget(m_renderer->getRenderer(), nullptr);
-
-    // render to screen to window
-    SDL_FRect src = {0, 0, static_cast<float>(m_settings.screenWidth), static_cast<float>(m_settings.screenHeight)};
-    SDL_FRect dst = {0, 0, static_cast<float>(m_settings.screenWidth) * static_cast<float>(m_settings.screenScale),
-                     static_cast<float>(m_settings.screenHeight) * static_cast<float>(m_settings.screenScale)};
-    SDL_RenderTexture(m_renderer->getRenderer(), screenTexture, &src, &dst);
-
 
     for (const auto& gameObject: m_gameObjects)
     {
         gameObject->draw(m_renderer);
     }
-
 
     SDL_RenderPresent(m_renderer->getRenderer());
 }
