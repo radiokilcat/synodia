@@ -38,6 +38,7 @@ public:
 
     void init(const GameSettings& settings);
     void run();
+    void quit();
 
     void addGameObject(std::unique_ptr<GameObject> gameObject);
     std::shared_ptr<Renderer> getRenderer() const;
@@ -59,7 +60,7 @@ private:
 
     GameSettings m_settings;
     std::filesystem::path m_resPath;
-    bool running;
+    bool m_running;
 
 };
 
