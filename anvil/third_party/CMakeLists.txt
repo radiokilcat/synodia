@@ -59,3 +59,6 @@ add_subdirectory(SDL_mixer)
 set_target_properties(SDL3_mixer PROPERTIES
   PUBLIC_HEADER ""
 )
+
+## inipp 
+add_subdirectory(inipp)
