@@ -4,6 +4,7 @@
 #include "texturemanager.h"
 #include "gameobject.h"
 #include "utils.h"
+#include "inputhandler.h"
 
 #include <SDL_image.h>
 #include <SDL_ttf.h>
@@ -61,6 +62,11 @@ void Application::run()
     cleanup();
 }
 
+void Application::quit()
+{
+    m_running = false;
+}
+
 void Application::addGameObject(std::unique_ptr<GameObject> gameObject)
 {
     m_gameObjects.push_back(std::move(gameObject));
@@ -68,6 +74,7 @@ void Application::addGameObject(std::unique_ptr<GameObject> gameObject)
 
 std::shared_ptr<Renderer> Application::getRenderer() const
 {
+    std::cout << "update game objects " <<  std::endl;
     return m_renderer;
 }
 
@@ -115,21 +122,20 @@ void Application::init(const GameSettings& settings)
 
 void Application::main_loop()
 {
-    while (running)
+    while (m_running)
     {
-        std::optional<SDL_Event> event;
-        while (event = m_window->pollEvents())
-        {
-            if (event->type == SDL_EventType::SDL_EVENT_QUIT)
-                running = false;
-        }
-    render();
+        InputHandler::instance()->handleEvents();
+        update();
+        render();
     }
 }
 
 void Application::update()
 {
-
+    for (const auto& it: m_gameObjects)
+    {
+        it->update();
+    }
 }
 
 void Application::render()
@@ -147,7 +153,7 @@ void Application::render()
 
 void Application::cleanup()
 {
-
+    InputHandler::instance()->clean();
 }
 
 }

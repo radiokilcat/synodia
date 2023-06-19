@@ -7,6 +7,7 @@
 #include "vector2d.h"
 #include "renderer.h"
 #include "texturemanager.h"
+#include "inputhandler.h"
 
 namespace anvil {
 
@@ -52,7 +53,10 @@ public:
                                               currentRow_, currentFrame_,
                                               renderer->getRenderer());
     };
-    virtual void update() = 0;
+    virtual void update(){
+        velocity_ += acceleration_;
+        position_ += velocity_;
+    };
     virtual void clean() = 0;
     virtual ~GameObject() {};
 

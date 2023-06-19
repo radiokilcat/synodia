@@ -3,4 +3,7 @@
 #include "application.h"
 #include "window.h"
 #include "renderer.h"
+#include "gameobject.h"
+#include "inputhandler.h"
 #include "configuration.h"
+#include "utils.h"
