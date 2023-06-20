@@ -36,7 +36,6 @@ public:
     Vector2D* getMousePosition() const;
 
     bool isKeyDown(AnvilKeyCode key);
-//    bool InputHandler::isKeyDown(SDL_Scancode code);
 
 private:
     InputHandler();
