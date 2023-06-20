@@ -22,7 +22,7 @@ void Player::update()
     }
     if(anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Left))
     {
-        velocity_.setX(0.1);
+        velocity_.setX(-0.1);
     }
     if(anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Up))
     {
