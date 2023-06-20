@@ -26,30 +26,10 @@ bool InputHandler::getMouseButtonState(int buttonNumber)
 
 bool InputHandler::isKeyDown(AnvilKeyCode key)
 {
-//    std::cout << "scan key " <<  std::endl;
-//    switch (key) {
-//    case AnvilKeyCode::Up: std::cout << "up" << std::endl;
-//    case AnvilKeyCode::Down: std::cout << "down" << std::endl;
-//    case AnvilKeyCode::Left: std::cout << "left" << std::endl;
-//    case AnvilKeyCode::Right: std::cout << "Right" << std::endl;
-//    case AnvilKeyCode::Space: std::cout << "Space" << std::endl;
-//    }
 
     return m_keyState[anvilToSDLKey(key)];
 
 }
-
-//bool InputHandler::isKeyDown(SDL_Scancode code)
-//{
-//    if (m_keyState != 0)
-//    {
-//        if (m_keyState[code] == 1)
-//            return true;
-//        else
-//            return false;
-//    }
-//    return false;
-//}
 
 static InputHandler* instance_;
 InputHandler *InputHandler::instance()
@@ -68,12 +48,7 @@ void InputHandler::handleEvents()
     while (SDL_PollEvent(&event))
     {
         m_keyState = SDL_GetKeyboardState(0);
-        if (m_keyState[SDL_SCANCODE_UP]) {
-            std::cout << "<UP> is pressed << std::endl;" << std::endl;
-            }
-        if (m_keyState[SDL_SCANCODE_RIGHT]) {
-            std::cout << "<RIGHT> is pressed << std::endl;" << std::endl;
-        }
+
         if (event.type == SDL_EVENT_QUIT)
         {
             Application::Instance()->quit();
