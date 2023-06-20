@@ -11,10 +11,9 @@ add_library(anvil
   src/application.cpp
   src/renderer.cpp
   src/texturemanager.cpp
-  src/player.cpp
-  src/nonplayable.cpp
   src/configuration.cpp
   src/ini_settings_accessor.cpp
+  src/inputhandler.cpp
   include/anvil.h
   include/window.h
   include/application.h
@@ -25,6 +24,7 @@ add_library(anvil
   include/configuration.h
   include/settings_accessor.h
   include/ini_settings_accessor.h
+  include/inputhandler.h
 )
 
 set(public_headers
