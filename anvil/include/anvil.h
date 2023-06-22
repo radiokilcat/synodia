@@ -6,3 +6,4 @@
 #include "gameobject.h"
 #include "inputhandler.h"
 #include "configuration.h"
+#include "tilemap.h"
