@@ -9,6 +9,10 @@ namespace anvil
 	{
 	}
 
+	IniSettingsAccessor::~IniSettingsAccessor()
+	{
+	}
+
     void IniSettingsAccessor::load() 
 	{
 		std::ifstream is(m_path);

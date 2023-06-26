@@ -31,6 +31,15 @@ struct GameSettings {
     std::string windowTitle = "Game";
 };
 
+/*
+    SDLGetTicks return unproper ticks - its milliseconds since application
+    have started.
+*/
+struct GameTime {
+    long long m_previousFrameMs = 0;
+    long long m_currentFrameMs = 0;
+    long long m_deltaTimeMs = 0;
+};
 class Application
 {
 public:
@@ -61,7 +70,7 @@ private:
     GameSettings m_settings;
     std::filesystem::path m_resPath;
     bool m_running;
-
+    GameTime m_gameTime;
 };
 
 }

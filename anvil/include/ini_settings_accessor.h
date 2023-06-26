@@ -8,6 +8,7 @@ namespace anvil {
 	{
 	public: 
 		IniSettingsAccessor(std::string path);
+		~IniSettingsAccessor();
 		void load() override;
 		void save() override;
 		std::string getString(std::string key) override;

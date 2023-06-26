@@ -12,5 +12,7 @@ namespace anvil {
 		
 		virtual void setString(std::string key, std::string value) = 0;
 		virtual void setInt(std::string key, int value) = 0;
+
+		virtual ~SettingsAccessor() {};
 	};
 }
