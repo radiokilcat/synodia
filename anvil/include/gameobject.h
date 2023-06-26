@@ -36,7 +36,7 @@ class GameObject
 {
 public:
     GameObject(const LoaderParams* params)
-        : position_(params->getX(), params->getY())
+        : position_((float)params->getX(), (float)params->getY())
         , velocity_(0,0)
         , acceleration_(0,0)
     {
@@ -53,8 +53,9 @@ public:
                                               currentRow_, currentFrame_,
                                               renderer->getRenderer());
     };
-    virtual void update(){
-        velocity_ += acceleration_;
+    virtual void update(const GameTime gameTime){
+        auto accelartion = (acceleration_ * (float)gameTime.m_deltaTimeMs);
+        velocity_ += accelartion;
         position_ += velocity_;
     };
     virtual void clean() = 0;

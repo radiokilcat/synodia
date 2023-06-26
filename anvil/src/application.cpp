@@ -47,7 +47,7 @@ Application *Application::Instance()
 
 }
 
-Application::Application()
+Application::Application() : m_running(true)
 {
 }
 
@@ -124,17 +124,20 @@ void Application::main_loop()
 {
     while (m_running)
     {
+        m_gameTime.m_currentFrameMs = SDL_GetTicks();
         InputHandler::instance()->handleEvents();
         update();
         render();
+        m_gameTime.m_previousFrameMs = m_gameTime.m_currentFrameMs;
     }
 }
 
 void Application::update()
 {
+    m_gameTime.m_deltaTimeMs = m_gameTime.m_currentFrameMs - m_gameTime.m_previousFrameMs;
     for (const auto& it: m_gameObjects)
     {
-        it->update();
+        it->update(m_gameTime);
     }
 }
 

@@ -8,6 +8,9 @@
 
 int main(int argc, char *argv[])
 {
+    UNREFERENCED_PARAMETER(argc);
+    UNREFERENCED_PARAMETER(argv);
+
     anvil::Configuration configuration("settings.ini");
     auto settings = configuration.load();
     settings.validate();

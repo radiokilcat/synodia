@@ -11,8 +11,9 @@ void NonPlayable::draw(std::shared_ptr<anvil::Renderer> &renderer)
     anvil::GameObject::draw(renderer);
 }
 
-void NonPlayable::update()
+void NonPlayable::update(const anvil::GameTime gameTime)
 {
+    gameTime;
 }
 
 void NonPlayable::clean()

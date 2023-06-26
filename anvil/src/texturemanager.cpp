@@ -43,11 +43,11 @@ void TextureManager::draw(std::string id, int x, int y,
 
     srcRect.x = 0.f;
     srcRect.y = 0.f;
-    srcRect.w = destRect.w = width;
-    srcRect.h = destRect.h = height;
+    srcRect.w = destRect.w = (float)width;
+    srcRect.h = destRect.h = (float)height;
 
-    destRect.x = x;
-    destRect.y = y;
+    destRect.x = (float)x;
+    destRect.y = (float)y;
 
     SDL_RenderTexture(renderer, m_texture_map[id], &srcRect, &destRect);
 }
@@ -60,13 +60,13 @@ void TextureManager::drawFrame(std::string id, int x, int y,
     SDL_FRect srcRect;
     SDL_FRect destRect;
 
-    srcRect.x = width * currentFrame;
-    srcRect.y = height * (currentRow - 1);
-    srcRect.w = destRect.w = width;
-    srcRect.h = destRect.h = height;
+    srcRect.x = (float)width * currentFrame;
+    srcRect.y = (float)height * (currentRow - 1);
+    srcRect.w = destRect.w = (float)width;
+    srcRect.h = destRect.h = (float)height;
 
-    destRect.x = x;
-    destRect.y = y;
+    destRect.x = (float)x;
+    destRect.y = (float)y;
 
     SDL_RenderTexture(renderer, m_texture_map[id], &srcRect, &destRect);
 }

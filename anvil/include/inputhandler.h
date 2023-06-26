@@ -32,7 +32,7 @@ public:
     void handleEvents();
     void clean();
 
-        bool getMouseButtonState(int buttonNumber);
+    bool getMouseButtonState(int buttonNumber);
     Vector2D* getMousePosition() const;
 
     bool isKeyDown(AnvilKeyCode key);
