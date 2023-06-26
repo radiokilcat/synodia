@@ -16,11 +16,11 @@ class GameObject;
 
 struct GameSettings {
 
-    GameSettings& operator=(const GameSettings& other) {
+    /*GameSettings& operator=(const GameSettings& other) {
         if (&other == this) {
             return *this;
         }
-    }
+    }*/
 
     void validate();
 

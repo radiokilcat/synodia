@@ -13,6 +13,7 @@ namespace anvil
 	public:
 		Configuration(std::string path);
 		GameSettings load();
+		void save(GameSettings settings);
 	private:
 		std::unique_ptr<SettingsAccessor> m_pConfigReader;
 	};
