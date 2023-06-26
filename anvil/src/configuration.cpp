@@ -19,4 +19,13 @@ namespace anvil
 		};
 		return settings;
 	}
+
+	void Configuration::save(GameSettings settings)
+	{
+		m_pConfigReader->setInt("ScreenWidth", settings.screenWidth);
+		m_pConfigReader->setInt("ScreenHeight", settings.screenHeight);
+		m_pConfigReader->setInt("ScreenScale", settings.screenScale);
+		m_pConfigReader->setString("WindowTitle", settings.windowTitle);
+		m_pConfigReader->save();
+	}
 }

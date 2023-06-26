@@ -11,7 +11,6 @@ int main(int argc, char *argv[])
     anvil::Configuration configuration("settings.ini");
     auto settings = configuration.load();
     settings.validate();
-
     auto app = anvil::Application::Instance();
     app->init(settings);
 

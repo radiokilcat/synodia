@@ -15,6 +15,13 @@ namespace anvil
 		m_pIniParser->parse(is);
 	}
 
+	void IniSettingsAccessor::save()
+	{
+		std::ofstream of(m_path);
+		m_pIniParser->generate(std::cout);
+		m_pIniParser->generate(of);
+	}
+
 	std::string IniSettingsAccessor::getString(std::string key)
 	{
 		std::string result;
@@ -27,5 +34,15 @@ namespace anvil
 		int result;
 		inipp::get_value(m_pIniParser->sections["Window"], key, result);
 		return result;
+	}
+
+	void IniSettingsAccessor::setString(std::string key, std::string value)
+	{
+		m_pIniParser->sections["Window"][key] = value;
+	}
+
+	void IniSettingsAccessor::setInt(std::string key, int value)
+	{
+		m_pIniParser->sections["Window"][key] = std::to_string(value);
 	}
 }
