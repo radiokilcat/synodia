@@ -9,6 +9,8 @@
 #include "texturemanager.h"
 #include "inputhandler.h"
 
+#include "application.h"
+
 namespace anvil {
 
 class LoaderParams

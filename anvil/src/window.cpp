@@ -54,17 +54,6 @@ void Window::init()
     }
 }
 
-int Window::getWindowWidth()
-{
-    return 1;
-
-}
-
-int Window::getWindowHeight()
-{
-    return 1;
-}
-
 std::pair<int, int> Window::getWindowSize()
 {
     int width = 0;
