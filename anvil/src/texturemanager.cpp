@@ -76,4 +76,11 @@ void TextureManager::clearFromTextureMap(std::string id)
     m_texture_map.erase(id);
 }
 
+std::pair<int, int> TextureManager::textureSize(std::string id)
+{
+    int w, h;
+    auto size = SDL_QueryTexture(m_texture_map[id], NULL, NULL, &w, &h);
+    return std::pair<int, int>(w, h);
+}
+
 }

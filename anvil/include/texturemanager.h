@@ -21,6 +21,9 @@ public:
                    SDL_Renderer* renderer);
     //TODO: also need to write draw & drawFrame methods for flipped image
     void clearFromTextureMap(std::string id);
+
+    std::pair<int, int> textureSize(std::string id);
+
 private:
     TextureManager();
     std::map<std::string, SDL_Texture*> m_texture_map;

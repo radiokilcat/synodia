@@ -51,6 +51,8 @@ public:
 
     void addGameObject(std::unique_ptr<GameObject> gameObject);
     std::shared_ptr<Renderer> getRenderer() const;
+    int getScreenWidth();
+    int getScreenHeight();
 
     Application();
     ~Application();

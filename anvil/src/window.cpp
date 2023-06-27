@@ -18,11 +18,21 @@ Window::Window(const std::string &title, int width, int height, SDL_WindowFlags 
     if (!m_window) {
         throw std::runtime_error(SDL_GetError());
     }
+    {
+        SDL_DisplayID display = SDL_GetPrimaryDisplay();
+        const SDL_DisplayMode* mode = SDL_GetCurrentDisplayMode(display);
+
+        if (mode) {
+            SDL_Log("Display %" SDL_PRIu32 " mode %d: %dx%d@%gx %gHz\n",
+                    display, mode->w, mode->h, mode->pixel_density, mode->refresh_rate);
+        }
+
+    }
 }
 
 Window::~Window()
 {
-
+    quit();
 }
 
 
@@ -42,6 +52,18 @@ void Window::init()
     if (SDL_InitSubSystem(SDL_InitFlags::SDL_INIT_VIDEO)) {
         SDL_LogCritical(SDL_LogCategory::SDL_LOG_CATEGORY_ERROR, SDL_GetError());
     }
+}
+
+std::pair<int, int> Window::getWindowSize()
+{
+    int width = 0;
+    int height = 0;
+    int result = SDL_GetWindowSize(getWindow(), &width, &height);
+    if (result != 0)
+        SDL_LogCritical(SDL_LogCategory::SDL_LOG_CATEGORY_ERROR, SDL_GetError());
+
+    return std::pair<int, int>(width, height);
+
 }
 
 void Window::quit()

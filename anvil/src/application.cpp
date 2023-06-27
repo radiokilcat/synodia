@@ -78,6 +78,16 @@ std::shared_ptr<Renderer> Application::getRenderer() const
     return m_renderer;
 }
 
+int Application::getScreenWidth()
+{
+    return m_window->getWindowSize().first;
+}
+
+int Application::getScreenHeight()
+{
+    return m_window->getWindowSize().second;
+}
+
 void Application::init(const GameSettings& settings)
 {
     m_settings = settings;
@@ -112,9 +122,13 @@ void Application::init(const GameSettings& settings)
     m_window = Window::create(m_settings.windowTitle.c_str(),
                               m_settings.screenWidth * m_settings.screenScale,
                               m_settings.screenHeight * m_settings.screenScale);
+
+
     m_renderer = Renderer::create(m_window);
 
     SDL_SetRenderDrawBlendMode(m_renderer->getRenderer(), SDL_BLENDMODE_BLEND);
+
+    std::filesystem::path m_tileResPath = std::filesystem::current_path().parent_path() / "res" / "tiles";
 
     // bg color
     SDL_SetRenderDrawColor(m_renderer->getRenderer(), 100, 149, 237, SDL_ALPHA_OPAQUE);

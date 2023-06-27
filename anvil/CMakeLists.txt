@@ -14,6 +14,7 @@ add_library(anvil
   src/configuration.cpp
   src/ini_settings_accessor.cpp
   src/inputhandler.cpp
+  src/tilemap.cpp
   include/anvil.h
   include/window.h
   include/application.h
@@ -25,6 +26,7 @@ add_library(anvil
   include/settings_accessor.h
   include/ini_settings_accessor.h
   include/inputhandler.h
+  include/tilemap.h
 )
 
 set(public_headers
