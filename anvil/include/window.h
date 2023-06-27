@@ -21,12 +21,12 @@ public:
     ~Window();
 
     void init();
+    std::pair<int, int> getWindowSize();
 
     [[nodiscard]] auto getWindow() const noexcept -> SDL_Window* { return m_window.get(); }
     std::optional<SDL_Event> pollEvents();
 
 private:
-
 
     void quit();
 
