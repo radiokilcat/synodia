@@ -48,6 +48,7 @@ if(BUILD_SHARED_LIBS)
     PRIVATE 
       inipp
     PUBLIC
+      nlohmann_json
       SDL3::SDL3
       SDL3_image::SDL3_image
       SDL3_ttf::SDL3_ttf
@@ -58,6 +59,7 @@ else()
     PRIVATE 
       inipp
     PUBLIC
+      nlohmann_json
       SDL3::SDL3-static
       SDL3_image::SDL3_image-static
       SDL3_ttf::SDL3_ttf-static

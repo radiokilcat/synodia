@@ -13,3 +13,6 @@
 [submodule "anvil/third_party/inipp"]
 	path = anvil/third_party/inipp
 	url = https://github.com/mcmtroffaes/inipp.git
+[submodule "anvil/third_party/json"]
+	path = anvil/third_party/json
+	url = https://github.com/nlohmann/json.git
