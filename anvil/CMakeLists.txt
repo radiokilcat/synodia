@@ -26,8 +26,7 @@ add_library(anvil
   include/settings_accessor.h
   include/ini_settings_accessor.h
   include/inputhandler.h
-  include/tilemap.h
-)
+  include/tilemap.h)
 
 set(public_headers
     include/anvil.h
@@ -66,3 +65,5 @@ else()
       SDL3_mixer::SDL3_mixer-static
  )
 endif()
+
+add_subdirectory(tests)
