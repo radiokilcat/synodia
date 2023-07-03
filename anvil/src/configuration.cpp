@@ -15,8 +15,9 @@ namespace anvil
 			.screenWidth = m_pConfigReader->getInt("ScreenWidth"),
 			.screenHeight = m_pConfigReader->getInt("ScreenHeight"),
 			.screenScale = m_pConfigReader->getInt("ScreenScale"),
-			.windowTitle = m_pConfigReader->getString("WindowTitle"),
-		};
+            .FPS = m_pConfigReader->getInt("FPS"),
+            .windowTitle = m_pConfigReader->getString("WindowTitle")
+        };
 		return settings;
 	}
 
@@ -24,8 +25,9 @@ namespace anvil
 	{
 		m_pConfigReader->setInt("ScreenWidth", settings.screenWidth);
 		m_pConfigReader->setInt("ScreenHeight", settings.screenHeight);
-		m_pConfigReader->setInt("ScreenScale", settings.screenScale);
-		m_pConfigReader->setString("WindowTitle", settings.windowTitle);
-		m_pConfigReader->save();
+        m_pConfigReader->setInt("ScreenScale", settings.screenScale);
+        m_pConfigReader->setInt("FPS", settings.FPS);
+        m_pConfigReader->setString("WindowTitle", settings.windowTitle);
+        m_pConfigReader->save();
 	}
 }
