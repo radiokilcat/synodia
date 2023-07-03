@@ -16,30 +16,17 @@ class GameObject;
 
 struct GameSettings {
 
-    /*GameSettings& operator=(const GameSettings& other) {
-        if (&other == this) {
-            return *this;
-        }
-    }*/
-
     void validate();
 
     int screenWidth = 256;
     int screenHeight = 224;
     int screenScale = 3;
+    int FPS = 60;
 
     std::string windowTitle = "Game";
 };
 
-/*
-    SDLGetTicks return unproper ticks - its milliseconds since application
-    have started.
-*/
-struct GameTime {
-    long long m_previousFrameMs = 0;
-    long long m_currentFrameMs = 0;
-    long long m_deltaTimeMs = 0;
-};
+
 class Application
 {
 public:
@@ -53,6 +40,8 @@ public:
     std::shared_ptr<Renderer> getRenderer() const;
     int getScreenWidth();
     int getScreenHeight();
+
+    Uint32 getTicks();
 
     Application();
     ~Application();
@@ -72,7 +61,6 @@ private:
     GameSettings m_settings;
     std::filesystem::path m_resPath;
     bool m_running;
-    GameTime m_gameTime;
 };
 
 }

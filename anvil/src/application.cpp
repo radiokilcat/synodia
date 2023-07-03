@@ -88,6 +88,11 @@ int Application::getScreenHeight()
     return m_window->getWindowSize().second;
 }
 
+Uint32 Application::getTicks()
+{
+    return SDL_GetTicks();
+}
+
 void Application::init(const GameSettings& settings)
 {
     m_settings = settings;
@@ -128,30 +133,37 @@ void Application::init(const GameSettings& settings)
 
     SDL_SetRenderDrawBlendMode(m_renderer->getRenderer(), SDL_BLENDMODE_BLEND);
 
-    std::filesystem::path m_tileResPath = std::filesystem::current_path().parent_path() / "res" / "tiles";
-
     // bg color
     SDL_SetRenderDrawColor(m_renderer->getRenderer(), 100, 149, 237, SDL_ALPHA_OPAQUE);
 }
 
 void Application::main_loop()
 {
+    const int DELAY_TIME = 1000.0f / m_settings.FPS;
+
+
     while (m_running)
     {
-        m_gameTime.m_currentFrameMs = SDL_GetTicks();
+        Uint32 frameStart, frameTime;
+        frameStart = SDL_GetTicks();
+
         InputHandler::instance()->handleEvents();
         update();
         render();
-        m_gameTime.m_previousFrameMs = m_gameTime.m_currentFrameMs;
+
+        frameTime = getTicks() - frameStart;
+        if(frameTime < DELAY_TIME)
+        {
+            SDL_Delay((int)(DELAY_TIME - frameTime));
+        }
     }
 }
 
 void Application::update()
 {
-    m_gameTime.m_deltaTimeMs = m_gameTime.m_currentFrameMs - m_gameTime.m_previousFrameMs;
     for (const auto& it: m_gameObjects)
     {
-        it->update(m_gameTime);
+        it->update();
     }
 }
 
@@ -171,6 +183,9 @@ void Application::render()
 void Application::cleanup()
 {
     InputHandler::instance()->clean();
+    IMG_Quit();
+    TTF_Quit();
+    Mix_Quit();
 }
 
 }

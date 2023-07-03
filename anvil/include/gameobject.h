@@ -55,9 +55,8 @@ public:
                                               currentRow_, currentFrame_,
                                               renderer->getRenderer());
     };
-    virtual void update(const GameTime gameTime){
-        auto accelartion = (acceleration_ * (float)gameTime.m_deltaTimeMs);
-        velocity_ += accelartion;
+    virtual void update(){
+        velocity_ += acceleration_;
         position_ += velocity_;
     };
     virtual void clean() = 0;

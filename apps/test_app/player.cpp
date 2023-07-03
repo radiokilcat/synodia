@@ -12,7 +12,7 @@ void Player::draw(std::shared_ptr<anvil::Renderer>& renderer)
     anvil::GameObject::draw(renderer);
 }
 
-void Player::update(const anvil::GameTime gameTime)
+void Player::update()
 {
     velocity_.setX(0.f);
     velocity_.setY(0.f);
@@ -33,8 +33,8 @@ void Player::update(const anvil::GameTime gameTime)
         velocity_.setY(0.1f);
     }
     // Cycle through the spreadsheet and change frame position
-    currentFrame_ = int((gameTime.m_currentFrameMs / 100) % 6);
-    anvil::GameObject::update(gameTime);
+    currentFrame_ = int((anvil::Application::Instance()->getTicks() / 100) % 6);
+    anvil::GameObject::update();
 
 }
 
