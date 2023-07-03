@@ -6,14 +6,13 @@ NonPlayable::NonPlayable(const anvil::LoaderParams* params)
 
 }
 
-void NonPlayable::draw(std::shared_ptr<anvil::Renderer> &renderer)
+void NonPlayable::draw(std::shared_ptr<anvil::Renderer>& renderer)
 {
     anvil::GameObject::draw(renderer);
 }
 
-void NonPlayable::update(const anvil::GameTime gameTime)
+void NonPlayable::update()
 {
-    gameTime;
 }
 
 void NonPlayable::clean()
