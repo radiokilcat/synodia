@@ -3,7 +3,7 @@
 #include <SDL3/SDL.h>
 #include <iostream>
 #include <string>
-
+#include "json_serializer.h"
 #include "vector2d.h"
 #include "renderer.h"
 #include "texturemanager.h"
@@ -37,6 +37,7 @@ private:
 class GameObject
 {
 public:
+    GameObject() {}
     GameObject(const LoaderParams* params)
         : position_((float)params->getX(), (float)params->getY())
         , velocity_(0,0)
@@ -62,7 +63,6 @@ public:
     };
     virtual void clean() = 0;
     virtual ~GameObject() {};
-
 protected:
     std::string id_;
     int currentFrame_;

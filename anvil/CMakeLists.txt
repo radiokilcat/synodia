@@ -6,7 +6,6 @@ endif()
 
 add_library(anvil
   src/test.cpp
-  src/test.h
   src/window.cpp
   src/application.cpp
   src/renderer.cpp
@@ -15,6 +14,8 @@ add_library(anvil
   src/ini_settings_accessor.cpp
   src/inputhandler.cpp
   src/tilemap.cpp
+  src/json_serializer.cpp
+  include/test.h
   include/anvil.h
   include/window.h
   include/application.h
@@ -26,7 +27,8 @@ add_library(anvil
   include/settings_accessor.h
   include/ini_settings_accessor.h
   include/inputhandler.h
-  include/tilemap.h)
+  include/tilemap.h
+  include/json_serializer.h)
 
 set(public_headers
     include/anvil.h
