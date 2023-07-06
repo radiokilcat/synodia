@@ -22,6 +22,8 @@ enum class AnvilKeyCode {
     Left,
     Right,
     Space,
+    Escape,
+    Return,
     Unknown
 };
 
