@@ -21,7 +21,7 @@ TextureManager* TextureManager::instance()
     return instance_;
 }
 
-bool TextureManager::loadTexture(std::string filename, std::string id, SDL_Renderer *renderer)
+bool TextureManager::loadTexture(std::string filename, std::string id, SDL_Renderer* renderer)
 {
     SDL_Texture* texture = IMG_LoadTexture(renderer, filename.c_str());
     if (texture != 0)
@@ -29,7 +29,7 @@ bool TextureManager::loadTexture(std::string filename, std::string id, SDL_Rende
         m_texture_map[id] = texture;
         return true;
     }
-    std::cout << SDL_GetError()  << " _+_  " << filename.c_str() << std::endl;
+    std::cout << SDL_GetError() << " : " << filename.c_str() << std::endl;
 
     return false;
 }

@@ -35,7 +35,18 @@ private:
     std::string texture_id_;
 };
 
-class GameObject : SerializableBase
+class BaseGameObject
+{
+public:
+    BaseGameObject() {};
+    virtual ~BaseGameObject() {};
+
+    virtual void draw(std::shared_ptr<Renderer> renderer) = 0;
+    virtual void update() = 0;
+    virtual void clean() = 0;
+};
+
+class GameObject : public BaseGameObject
 {
 public:
     GameObject() :
@@ -60,18 +71,18 @@ public:
         currentRow_ = 1;
         currentFrame_ = 1;
     };
-    virtual void draw(std::shared_ptr<Renderer>& renderer)
+    virtual void draw(std::shared_ptr<Renderer> renderer) override
     {
         TextureManager::instance()->drawFrame(id_, (Uint32)position_.x(), (Uint32)position_.y(),
                                               width_, height_,
                                               currentRow_, currentFrame_,
                                               renderer->getRenderer());
     };
-    virtual void update(){
+    virtual void update() override {
         velocity_ += acceleration_;
         position_ += velocity_;
     };
-    virtual void clean() = 0;
+    virtual void clean() override {};
     virtual ~GameObject() {};
 
     void from_json(nlohmann::json &j) override {
