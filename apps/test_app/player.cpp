@@ -7,7 +7,7 @@ Player::Player(const anvil::LoaderParams* params)
 
 }
 
-void Player::draw(std::shared_ptr<anvil::Renderer>& renderer)
+void Player::draw(std::shared_ptr<anvil::Renderer> renderer)
 {
     anvil::GameObject::draw(renderer);
 }

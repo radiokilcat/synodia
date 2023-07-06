@@ -6,7 +6,7 @@ NonPlayable::NonPlayable(const anvil::LoaderParams* params)
 
 }
 
-void NonPlayable::draw(std::shared_ptr<anvil::Renderer>& renderer)
+void NonPlayable::draw(std::shared_ptr<anvil::Renderer> renderer)
 {
     anvil::GameObject::draw(renderer);
 }
