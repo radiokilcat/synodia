@@ -3,7 +3,6 @@
 #include "renderer.h"
 #include "texturemanager.h"
 #include "gameobject.h"
-#include "utils.h"
 #include "inputhandler.h"
 #include "game_state_machine.h"
 #include "playstate.h"
@@ -100,8 +99,6 @@ void Application::init(const GameSettings& settings)
 {
     m_settings = settings;
 
-    std::filesystem::current_path(getExecutableDir());
-    m_resPath = std::filesystem::current_path().parent_path() / "res";
     // Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) < 0) {
         printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
@@ -157,7 +154,7 @@ void Application::main_loop()
 
         if (InputHandler::instance()->isKeyDown(AnvilKeyCode::Escape))
         {
-            m_stateMachine->changeState(new PauseState);
+            m_stateMachine->pushState(new PauseState);
         }
 
         update();
