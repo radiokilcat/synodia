@@ -14,8 +14,13 @@ add_library(anvil
   src/ini_settings_accessor.cpp
   src/inputhandler.cpp
   src/tilemap.cpp
-  
-  include/test.h
+  src/menubutton.cpp
+  src/game_state_machine.cpp
+  src/states/gamestate.cpp
+  src/states/pausestate.cpp
+  src/states/playstate.cpp
+  src/states/menustate.cpp
+
   include/anvil.h
   include/window.h
   include/application.h
@@ -28,8 +33,13 @@ add_library(anvil
   include/ini_settings_accessor.h
   include/inputhandler.h
   include/tilemap.h
-  include/json_serializer/json_serializer.h
-  include/json_serializer/serializable_base.h)
+  include/gamestate.h
+  include/menubutton.h
+  include/pausestate.h
+  include/playstate.h
+  include/menustate.h
+  include/game_state_machine.h
+)
 
 set(public_headers
     include/anvil.h

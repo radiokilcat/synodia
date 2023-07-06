@@ -5,6 +5,10 @@
 #include "gameobject.h"
 #include "utils.h"
 #include "inputhandler.h"
+#include "game_state_machine.h"
+#include "playstate.h"
+#include "menustate.h"
+#include "pausestate.h"
 
 #include <SDL_image.h>
 #include <SDL_ttf.h>
@@ -74,7 +78,6 @@ void Application::addGameObject(std::unique_ptr<GameObject> gameObject)
 
 std::shared_ptr<Renderer> Application::getRenderer() const
 {
-    std::cout << "update game objects " <<  std::endl;
     return m_renderer;
 }
 
@@ -131,6 +134,10 @@ void Application::init(const GameSettings& settings)
 
     m_renderer = Renderer::create(m_window);
 
+    m_stateMachine = new GameStateMachine();
+    m_stateMachine->changeState(new MenuState);
+
+
     SDL_SetRenderDrawBlendMode(m_renderer->getRenderer(), SDL_BLENDMODE_BLEND);
 
     // bg color
@@ -141,13 +148,18 @@ void Application::main_loop()
 {
     const int DELAY_TIME = 1000.0f / m_settings.FPS;
 
-
     while (m_running)
     {
         Uint32 frameStart, frameTime;
         frameStart = SDL_GetTicks();
 
         InputHandler::instance()->handleEvents();
+
+        if (InputHandler::instance()->isKeyDown(AnvilKeyCode::Escape))
+        {
+            m_stateMachine->changeState(new PauseState);
+        }
+
         update();
         render();
 
@@ -161,10 +173,7 @@ void Application::main_loop()
 
 void Application::update()
 {
-    for (const auto& it: m_gameObjects)
-    {
-        it->update();
-    }
+    m_stateMachine->update();
 }
 
 void Application::render()
@@ -172,10 +181,7 @@ void Application::render()
     SDL_RenderClear(m_renderer->getRenderer());
     SDL_SetRenderTarget(m_renderer->getRenderer(), nullptr);
 
-    for (const auto& gameObject: m_gameObjects)
-    {
-        gameObject->draw(m_renderer);
-    }
+    m_stateMachine->render();
 
     SDL_RenderPresent(m_renderer->getRenderer());
 }
@@ -186,6 +192,12 @@ void Application::cleanup()
     IMG_Quit();
     TTF_Quit();
     Mix_Quit();
+
+}
+
+GameStateMachine* Application::getStateMachine() const
+{
+    return m_stateMachine;
 }
 
 }

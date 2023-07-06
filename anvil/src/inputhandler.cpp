@@ -13,6 +13,8 @@ SDL_Scancode anvilToSDLKey(AnvilKeyCode key) {
     case AnvilKeyCode::Left: return SDL_SCANCODE_LEFT;
     case AnvilKeyCode::Right: return SDL_SCANCODE_RIGHT;
     case AnvilKeyCode::Space: return SDL_SCANCODE_SPACE;
+    case AnvilKeyCode::Escape: return SDL_SCANCODE_ESCAPE;
+    case AnvilKeyCode::Return: return SDL_SCANCODE_RETURN;
 
     default: return SDL_SCANCODE_UNKNOWN;
     }
