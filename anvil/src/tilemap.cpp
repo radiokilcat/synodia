@@ -28,7 +28,7 @@ TileMap::TileMap(LoaderParams* params)
 {
 }
 
-void TileMap::draw_tile(std::string id, int x, int y, std::shared_ptr<Renderer>& renderer)
+void TileMap::draw_tile(std::string id, int x, int y, std::shared_ptr<Renderer> renderer)
 {
     auto tileHeight = TextureManager::instance()->textureSize(id).second;
 
@@ -40,7 +40,7 @@ void TileMap::draw_tile(std::string id, int x, int y, std::shared_ptr<Renderer>&
                                           renderer->getRenderer());
 }
 
-void TileMap::draw(std::shared_ptr<Renderer>& renderer)
+void TileMap::draw(std::shared_ptr<Renderer> renderer)
 {
     for (int i = 0; i < grid.size(); i++)
     {

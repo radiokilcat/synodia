@@ -8,8 +8,8 @@ class TileMap: public GameObject
 {
 public:
     TileMap(LoaderParams* params);
-    void draw_tile(std::string id, int x, int y, std::shared_ptr<Renderer>& renderer);
-    void draw(std::shared_ptr<Renderer>& renderer) override;
+    void draw_tile(std::string id, int x, int y, std::shared_ptr<Renderer> renderer);
+    void draw(std::shared_ptr<Renderer> renderer) override;
     void clean() override;
 
     ~TileMap() {};

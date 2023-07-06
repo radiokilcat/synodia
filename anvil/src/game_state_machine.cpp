@@ -18,7 +18,6 @@ void GameStateMachine::popState()
             states_.pop_back();
         }
     }
-
 }
 
 void GameStateMachine::changeState(GameState* state)
