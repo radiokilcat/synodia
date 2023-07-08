@@ -3,12 +3,13 @@
 #include <SDL3/SDL.h>
 #include <iostream>
 #include <string>
-
+#include <nlohmann/json.hpp>
+#include "json_serializer/serializable_base.h"
+#include "json_serializer/json_serializer.h"
 #include "vector2d.h"
 #include "renderer.h"
 #include "texturemanager.h"
 #include "inputhandler.h"
-
 #include "application.h"
 
 namespace anvil {
@@ -34,9 +35,20 @@ private:
     std::string texture_id_;
 };
 
-class GameObject
+class GameObject : SerializableBase
 {
 public:
+    GameObject() :
+        position_(0, 0),
+        velocity_(.0f, .0f), 
+        acceleration_(0,0),
+        id_("") {
+        currentFrame_ = 0;
+        currentRow_ = 0;
+        height_ = 0;
+        width_ = 0;
+    }
+
     GameObject(const LoaderParams* params)
         : position_((float)params->getX(), (float)params->getY())
         , velocity_(0,0)
@@ -62,10 +74,34 @@ public:
     virtual void clean() = 0;
     virtual ~GameObject() {};
 
+    void from_json(nlohmann::json &j) override {
+        id_ = j["id_"];
+        currentFrame_ = j["currentFrame_"];
+        currentRow_ = j["currentRow_"];
+        position_ = j["position_"];
+        velocity_ = j["velocity_"];
+        acceleration_ = j["acceleration_"];
+        width_ = j["width_"];
+        height_ = j["height_"];
+    }
+    void to_json(nlohmann::json &j) override {
+        j["id_"] = id_;
+        j["currentFrame_"] = currentFrame_;
+        j["currentRow_"] = currentRow_;
+        j["position_"] = position_;
+        j["velocity_"] = velocity_;
+        j["acceleration_"] = acceleration_;
+        j["width_"] = width_;
+        j["height_"] = height_;
+    }
+
+    bool operator==(const GameObject& g) {
+        return id_ == g.id_;
+    }
 protected:
     std::string id_;
-    int currentFrame_;
-    int currentRow_;
+    int currentFrame_ = 0;
+    int currentRow_ = 0;
     Vector2D position_;
     Vector2D velocity_;
     Vector2D acceleration_;

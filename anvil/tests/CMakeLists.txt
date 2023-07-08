@@ -11,14 +11,15 @@ set(public_headers
 
 add_executable(
   anviltests
-  "serializer.cpp"
+  serializer_test.cpp
 )
 
 target_include_directories(anviltests PUBLIC gtest)
 
-
 target_link_libraries(
   anviltests
+  PUBLIC
   GTest::gtest_main
+  anvil
 )
 
