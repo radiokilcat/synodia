@@ -7,3 +7,4 @@
 #include "inputhandler.h"
 #include "configuration.h"
 #include "tilemap.h"
+#include "scene.h"

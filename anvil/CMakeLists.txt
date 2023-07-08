@@ -16,6 +16,7 @@ add_library(anvil
   src/inputhandler.cpp
   src/tilemap.cpp
   src/menubutton.cpp
+  src/scene.cpp
   src/game_state_machine.cpp
   src/states/gamestate.cpp
   src/states/pausestate.cpp
@@ -40,6 +41,7 @@ add_library(anvil
   include/playstate.h
   include/menustate.h
   include/game_state_machine.h
+  include/scene.h
 )
 
 set(public_headers
