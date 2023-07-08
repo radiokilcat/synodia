@@ -142,7 +142,6 @@ void Application::init(const GameSettings& settings)
 
 
     SDL_SetRenderDrawBlendMode(m_renderer->getRenderer(), SDL_BLENDMODE_BLEND);
-
     // bg color
     SDL_SetRenderDrawColor(m_renderer->getRenderer(), 100, 149, 237, SDL_ALPHA_OPAQUE);
 }

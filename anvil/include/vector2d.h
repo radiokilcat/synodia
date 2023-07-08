@@ -1,105 +1,105 @@
 #pragma once
 
 #include <cmath>
-
+#include "json_serializer/json_serializer.h"
 
 namespace anvil {
-
-class Vector2D
-{
-public:
-    Vector2D(float x, float y)
-        : x_(x),
-        y_(y)
-    {}
-
-    float x() const
+    class Vector2D
     {
-        return x_;
-    }
+    public:
+        Vector2D() :x_(0.0f), y_(0.0f)  {}
+        Vector2D(float x, float y)
+            : x_(x), y_(y)
+        {}
 
-    float y() const
-    {
-        return y_;
-    }
-
-    void setX(float x)
-    {
-        x_ = x;
-    }
-
-    void setY(float y)
-    {
-        y_ = y;
-    }
-
-    float length() const
-    {
-        return sqrt((x_ * x_) + (y_ * y_));
-    }
-
-
-    void normalize()
-    {
-        float l = length();
-
-        if (l > 0)
+        float x() const
         {
-            (*this) *= 1 / l;
+            return x_;
         }
-    }
 
-    Vector2D operator+ (const Vector2D& v2) const
-    {
-        return Vector2D(x_ + v2.x_, y_ + v2.y_);
-    }
+        float y() const
+        {
+            return y_;
+        }
 
-    Vector2D operator*(float scalar)
-    {
-        return Vector2D(x_ * scalar, y_ * scalar);
-    }
+        void setX(float x)
+        {
+            x_ = x;
+        }
 
-    Vector2D& operator*=(float scalar)
-    {
-        x_ *= scalar;
-        y_ *= scalar;
-        return *this;
-    }
+        void setY(float y)
+        {
+            y_ = y;
+        }
 
-    Vector2D operator-(const Vector2D& v2) const
-    {
-        return Vector2D(x_ - v2.x_, y_ - v2.y_);
-    }
+        float length() const
+        {
+            return sqrt((x_ * x_) + (y_ * y_));
+        }
 
-    Vector2D operator/(float scalar)
-    {
-        return Vector2D(x_ / scalar, y_ / scalar);
-    }
 
-    Vector2D& operator/=(float scalar)
-    {
-        x_ /= scalar;
-        y_ /= scalar;
-        return *this;
-    }
+        void normalize()
+        {
+            float l = length();
 
-    friend Vector2D& operator+=(Vector2D& v1, Vector2D& v2)
-    {
-        v1.x_ += v2.x_;
-        v1.y_ += v2.y_;
+            if (l > 0)
+            {
+                (*this) *= 1 / l;
+            }
+        }
 
-        return v1;
-    }
+        Vector2D operator+ (const Vector2D& v2) const
+        {
+            return Vector2D(x_ + v2.x_, y_ + v2.y_);
+        }
 
-    friend Vector2D& operator-=(Vector2D& v1, const Vector2D& v2)
-    {
-        v1.x_ -= v2.x_;
-        v1.y_ -= v2.y_;
-        return v1;
-    }
+        Vector2D operator*(float scalar)
+        {
+            return Vector2D(x_ * scalar, y_ * scalar);
+        }
 
-private:
-    float x_;
-    float y_;
-};
+        Vector2D& operator*=(float scalar)
+        {
+            x_ *= scalar;
+            y_ *= scalar;
+            return *this;
+        }
+
+        Vector2D operator-(const Vector2D& v2) const
+        {
+            return Vector2D(x_ - v2.x_, y_ - v2.y_);
+        }
+
+        Vector2D operator/(float scalar)
+        {
+            return Vector2D(x_ / scalar, y_ / scalar);
+        }
+
+        Vector2D& operator/=(float scalar)
+        {
+            x_ /= scalar;
+            y_ /= scalar;
+            return *this;
+        }
+
+        friend Vector2D& operator+=(Vector2D& v1, Vector2D& v2)
+        {
+            v1.x_ += v2.x_;
+            v1.y_ += v2.y_;
+
+            return v1;
+        }
+
+        friend Vector2D& operator-=(Vector2D& v1, const Vector2D& v2)
+        {
+            v1.x_ -= v2.x_;
+            v1.y_ -= v2.y_;
+            return v1;
+        }
+
+        NLOHMANN_DEFINE_TYPE_INTRUSIVE(Vector2D, x_, y_)
+    private:
+        float x_;
+        float y_;
+    };
 }

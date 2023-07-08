@@ -8,3 +8,4 @@
 #include "configuration.h"
 #include "tilemap.h"
 #include "scene.h"
+#include "json_serializer/json_serializer.h"

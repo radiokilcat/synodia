@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 3.5)
-
 project(synodia)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -20,10 +19,6 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(BUILD_SHARED_LIBS ON CACHE BOOL "Link to libs dynamically")
 
 message("cxx flags:" ${CMAKE_CXX_FLAGS})
-
-include_directories(res)
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/res
-     DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 add_subdirectory(anvil)
 add_subdirectory(apps)

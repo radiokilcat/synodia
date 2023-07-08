@@ -49,8 +49,8 @@ public:
     ~Application();
 
     GameStateMachine* getStateMachine() const;
-    void setStateMachine(GameStateMachine *newStateMachine);
-
+    void setStateMachine(GameStateMachine* newStateMachine) {};
+    void setScene(std::unique_ptr<GameObject> scene);
 private:
     void main_loop();
     void update();

@@ -15,8 +15,8 @@ PauseState::PauseState()
 
 bool PauseState::onEnter()
 {
-    TextureManager::instance()->loadTexture("res/button.png", "playbutton", Application::Instance()->getRenderer()->getRenderer());
-    TextureManager::instance()->loadTexture("res/exit.png", "exitbutton", Application::Instance()->getRenderer()->getRenderer());
+    TextureManager::instance()->loadTexture("../res/button.png", "playbutton", Application::Instance()->getRenderer()->getRenderer());
+    TextureManager::instance()->loadTexture("../res/exit.png", "exitbutton", Application::Instance()->getRenderer()->getRenderer());
 
     GameObject* button1 = new MenuButton(new LoaderParams(100, 100, 400, 100, "playbutton"), []() {
         std::cout << "Play button clicked" << std::endl;

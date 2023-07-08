@@ -62,3 +62,6 @@ set_target_properties(SDL3_mixer PROPERTIES
 
 ## inipp 
 add_subdirectory(inipp)
+
+## nlochmann json
+add_subdirectory(json)

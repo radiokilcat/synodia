@@ -6,7 +6,6 @@ endif()
 
 add_library(anvil
   src/test.cpp
-  src/test.h
   src/window.cpp
   src/application.cpp
   src/renderer.cpp
@@ -22,7 +21,7 @@ add_library(anvil
   src/states/pausestate.cpp
   src/states/playstate.cpp
   src/states/menustate.cpp
-
+  include/test.h
   include/anvil.h
   include/window.h
   include/application.h
@@ -42,6 +41,8 @@ add_library(anvil
   include/menustate.h
   include/game_state_machine.h
   include/scene.h
+  include/json_serializer/json_serializer.h
+  include/json_serializer/serializable_base.h
 )
 
 set(public_headers
@@ -63,6 +64,7 @@ if(BUILD_SHARED_LIBS)
     PRIVATE 
       inipp
     PUBLIC
+      nlohmann_json
       SDL3::SDL3
       SDL3_image::SDL3_image
       SDL3_ttf::SDL3_ttf
@@ -73,9 +75,12 @@ else()
     PRIVATE 
       inipp
     PUBLIC
+      nlohmann_json
       SDL3::SDL3-static
       SDL3_image::SDL3_image-static
       SDL3_ttf::SDL3_ttf-static
       SDL3_mixer::SDL3_mixer-static
  )
 endif()
+
+add_subdirectory(tests)
