@@ -8,6 +8,7 @@
 #include "playstate.h"
 #include "menustate.h"
 #include "pausestate.h"
+#include "scene.h"
 
 #include <SDL_image.h>
 #include <SDL_ttf.h>
@@ -73,6 +74,11 @@ void Application::quit()
 void Application::addGameObject(std::unique_ptr<GameObject> gameObject)
 {
     m_gameObjects.push_back(std::move(gameObject));
+}
+
+void Application::setScene(std::unique_ptr<GameObject> scene)
+{
+    m_scene = std::move(scene);
 }
 
 std::shared_ptr<Renderer> Application::getRenderer() const

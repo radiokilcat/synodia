@@ -4,6 +4,8 @@ add_executable(test_app
     nonplayable.cpp
     player.h
     nonplayable.h
+    game_scene.h
+    game_scene.cpp
     )
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/settings.ini
