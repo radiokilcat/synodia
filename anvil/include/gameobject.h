@@ -78,7 +78,7 @@ public:
                                               currentRow_, currentFrame_,
                                               renderer->getRenderer());
     };
-    virtual void update() override {
+    virtual void update(){
         velocity_ += acceleration_;
         position_ += velocity_;
     };
