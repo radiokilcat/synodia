@@ -14,6 +14,7 @@ class Renderer;
 class TextureManager;
 class GameObject;
 class GameStateMachine;
+class GameScene;
 
 struct GameSettings {
 
@@ -58,8 +59,10 @@ private:
 
     std::unique_ptr<Window> m_window = nullptr;
     std::shared_ptr<Renderer> m_renderer = nullptr;
+    std::unique_ptr<GameObject> m_scene = nullptr;
     SDL_Texture* screenTexture = nullptr;
     GameStateMachine* m_stateMachine;
+
 
     std::vector<std::unique_ptr<GameObject>> m_gameObjects;
 
