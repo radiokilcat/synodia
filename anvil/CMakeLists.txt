@@ -14,7 +14,7 @@ add_library(anvil
   src/ini_settings_accessor.cpp
   src/inputhandler.cpp
   src/tilemap.cpp
-  src/json_serializer.cpp
+  
   include/test.h
   include/anvil.h
   include/window.h
@@ -28,7 +28,8 @@ add_library(anvil
   include/ini_settings_accessor.h
   include/inputhandler.h
   include/tilemap.h
-  include/json_serializer.h)
+  include/json_serializer/json_serializer.h
+  include/json_serializer/serializable_base.h)
 
 set(public_headers
     include/anvil.h

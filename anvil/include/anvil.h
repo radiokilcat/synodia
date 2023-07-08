@@ -7,4 +7,4 @@
 #include "inputhandler.h"
 #include "configuration.h"
 #include "tilemap.h"
-#include "json_serializer.h"
+#include "json_serializer/json_serializer.h"

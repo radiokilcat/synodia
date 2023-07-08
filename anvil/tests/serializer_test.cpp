@@ -19,24 +19,18 @@ namespace anvil
 		}
 
 
-		NLOHMANN_DEFINE_TYPE_INTRUSIVE(
-			MockGameObject,
-			id_,
-			currentFrame_,
-			currentRow_,
-			position_,
-			velocity_,
-			acceleration_,
-			width_,
-			height_)
+		bool operator==(MockGameObject& g) {
+			return id_ == g.id_;
+		}
 	};
 }
 
 // Demonstrate some basic assertions.
-TEST(HelloTest, BasicAssertions) {
+TEST(SerializeTest, BasicAssertions) {
 	auto serializer = JsonSerializer<anvil::MockGameObject>("output.txt");
 	auto player = anvil::MockGameObject(new anvil::LoaderParams(100, 100, 50, 37, "test"));
 	serializer.serialize(player);
 	auto tested = serializer.deserialize();
-	ASSERT_EQ(0, 0);
+	bool result = player == tested;
+	ASSERT_TRUE(result);
 }
