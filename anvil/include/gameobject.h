@@ -4,8 +4,6 @@
 #include <iostream>
 #include <string>
 #include <nlohmann/json.hpp>
-#include "json_serializer/serializable_base.h"
-#include "json_serializer/json_serializer.h"
 #include "vector2d.h"
 #include "renderer.h"
 #include "texturemanager.h"
@@ -46,8 +44,9 @@ public:
     virtual void clean() = 0;
 };
 
-class GameObject : public BaseGameObject, public SerializableBase
+class GameObject : public BaseGameObject
 {
+friend class GameObjectSerializer;
 public:
     GameObject() :
         position_(0, 0),
@@ -84,27 +83,6 @@ public:
     };
     virtual void clean() override {};
     virtual ~GameObject() {};
-
-    void from_json(nlohmann::json &j) override {
-        id_ = j["id_"];
-        currentFrame_ = j["currentFrame_"];
-        currentRow_ = j["currentRow_"];
-        position_ = j["position_"];
-        velocity_ = j["velocity_"];
-        acceleration_ = j["acceleration_"];
-        width_ = j["width_"];
-        height_ = j["height_"];
-    }
-    void to_json(nlohmann::json &j) override {
-        j["id_"] = id_;
-        j["currentFrame_"] = currentFrame_;
-        j["currentRow_"] = currentRow_;
-        j["position_"] = position_;
-        j["velocity_"] = velocity_;
-        j["acceleration_"] = acceleration_;
-        j["width_"] = width_;
-        j["height_"] = height_;
-    }
 
     bool operator==(const GameObject& g) {
         return id_ == g.id_;

@@ -10,6 +10,7 @@ namespace anvil {
 
 class MenuState : public GameState
 {
+    friend class MenuStateSerializer;
 public:
     bool onEnter() override;
     bool onExit() override;
@@ -19,7 +20,7 @@ public:
 
     std::string getID() override;
 
-private:
+protected:
     const std::string m_id = "MENU";
     std::vector<GameObject*> m_gameObjects;
 };

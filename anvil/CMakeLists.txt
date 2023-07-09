@@ -21,6 +21,7 @@ add_library(anvil
   src/states/pausestate.cpp
   src/states/playstate.cpp
   src/states/menustate.cpp
+  src/json_serializer/game_object_serializer.cpp
   include/test.h
   include/anvil.h
   include/window.h
@@ -43,7 +44,7 @@ add_library(anvil
   include/scene.h
   include/json_serializer/json_serializer.h
   include/json_serializer/serializable_base.h
-)
+  include/json_serializer/game_object_serializer.h "include/json_serializer/menu_state_serializer.h" "src/json_serializer/menu_state_serializer.cpp")
 
 set(public_headers
     include/anvil.h
