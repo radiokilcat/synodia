@@ -39,6 +39,7 @@ public:
     void quit();
 
     void addGameObject(std::unique_ptr<GameObject> gameObject);
+    void setScene(std::unique_ptr<GameObject> scene);
     std::shared_ptr<Renderer> getRenderer() const;
     int getScreenWidth();
     int getScreenHeight();
