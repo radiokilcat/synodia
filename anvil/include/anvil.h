@@ -1,5 +1,6 @@
 #pragma once
 
+#include "utils.h"
 #include "application.h"
 #include "window.h"
 #include "renderer.h"
@@ -8,3 +9,5 @@
 #include "configuration.h"
 #include "tilemap.h"
 #include "scene.h"
+#include "gamestate.h"
+#include "game_state_machine.h"

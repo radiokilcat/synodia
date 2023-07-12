@@ -1,24 +1,27 @@
-#include "menustate.h"
-#include "game_state_machine.h"
+#include "anvil.h"
+
+#include "pausestate.h"
 #include "playstate.h"
-#include "menubutton.h"
-#include "application.h"
+
+#include "../gameobjects/menubutton.h"
+
+#include <iostream>
 
 namespace anvil {
 
-std::string MenuState::getID()
+PauseState::PauseState()
 {
-    return m_id;
+
 }
 
-bool MenuState::onEnter()
+bool PauseState::onEnter()
 {
     TextureManager::instance()->loadTexture("res/button.png", "playbutton", Application::Instance()->getRenderer()->getRenderer());
     TextureManager::instance()->loadTexture("res/exit.png", "exitbutton", Application::Instance()->getRenderer()->getRenderer());
 
     GameObject* button1 = new MenuButton(new LoaderParams(100, 100, 400, 100, "playbutton"), []() {
         std::cout << "Play button clicked" << std::endl;
-        Application::Instance()->getStateMachine()->changeState(new PlayState);
+        Application::Instance()->getStateMachine()->popState();
     });
 
     GameObject* button2 = new MenuButton(new LoaderParams(100, 300, 400, 100, "exitbutton"), []() {
@@ -29,19 +32,11 @@ bool MenuState::onEnter()
     m_gameObjects.push_back(button1);
     m_gameObjects.push_back(button2);
 
-    std::cout << "Enter Menu state" << std::endl;
+    std::cout << "Enter Pause state" << std::endl;
     return true;
 }
 
-void MenuState::render()
-{
-    for (auto it: m_gameObjects)
-    {
-        it->draw(Application::Instance()->getRenderer());
-    }
-}
-
-bool MenuState::onExit()
+bool PauseState::onExit()
 {
     for (auto it: m_gameObjects)
     {
@@ -50,11 +45,11 @@ bool MenuState::onExit()
     m_gameObjects.clear();
     TextureManager::instance()->clearFromTextureMap("playbutton");
     TextureManager::instance()->clearFromTextureMap("exitbutton");
-    std::cout << "Exit Menu state" << std::endl;
+    std::cout << "Exit Pause state" << std::endl;
     return true;
 }
 
-void MenuState::update()
+void PauseState::update()
 {
     for (auto it: m_gameObjects)
     {
@@ -62,5 +57,17 @@ void MenuState::update()
     }
 }
 
+void PauseState::render()
+{
+    for (auto it: m_gameObjects)
+    {
+        it->draw(Application::Instance()->getRenderer());
+    }
 }
 
+std::string PauseState::getID()
+{
+    return m_id;
+}
+
+}

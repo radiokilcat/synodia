@@ -5,9 +5,6 @@
 #include "gameobject.h"
 #include "inputhandler.h"
 #include "game_state_machine.h"
-#include "playstate.h"
-#include "menustate.h"
-#include "pausestate.h"
 #include "scene.h"
 
 #include <SDL_image.h>
@@ -138,7 +135,7 @@ void Application::init(const GameSettings& settings)
     m_renderer = Renderer::create(m_window);
 
     m_stateMachine = new GameStateMachine();
-    m_stateMachine->changeState(new MenuState);
+//    m_stateMachine->changeState(new MenuState);
 
 
     SDL_SetRenderDrawBlendMode(m_renderer->getRenderer(), SDL_BLENDMODE_BLEND);
@@ -160,7 +157,7 @@ void Application::main_loop()
 
         if (InputHandler::instance()->isKeyDown(AnvilKeyCode::Escape))
         {
-            m_stateMachine->pushState(new PauseState);
+//            m_stateMachine->pushState(new PauseState);
         }
 
         update();
