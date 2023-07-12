@@ -21,8 +21,10 @@ add_library(anvil
   src/states/pausestate.cpp
   src/states/playstate.cpp
   src/states/menustate.cpp
+  src/utils.cpp
 
   include/anvil.h
+  include/utils.h
   include/window.h
   include/application.h
   include/renderer.h
