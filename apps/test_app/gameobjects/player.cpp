@@ -35,7 +35,6 @@ void Player::update()
     // Cycle through the spreadsheet and change frame position
     currentFrame_ = int((anvil::Application::Instance()->getTicks() / 100) % 6);
     anvil::GameObject::update();
-
 }
 
 void Player::clean()

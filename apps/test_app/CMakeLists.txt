@@ -10,8 +10,8 @@ add_executable(test_app
     gameobjects/menubutton.h
     gameobjects/menubutton.cpp
 
-#    gameobjects/game_scene.h
-#    gameobjects/game_scene.cpp
+    gameobjects/gamescene.h
+    gameobjects/gamescene.cpp
     states/pausestate.h
     states/playstate.h
     states/menustate.h

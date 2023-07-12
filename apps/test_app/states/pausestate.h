@@ -1,14 +1,10 @@
 #pragma once
 
-#include "gamestate.h"
+#include "anvil.h"
 #include <vector>
 
 
-namespace anvil {
-
-class GameObject;
-
-class PauseState : public GameState
+class PauseState : public anvil::GameState
 {
 public:
     PauseState();
@@ -22,9 +18,6 @@ public:
 
 private:
 
-    std::vector<GameObject*> m_gameObjects;
+    std::vector<anvil::GameObject*> m_gameObjects;
     std::string m_id = "PAUSE";
 };
-
-
-}
