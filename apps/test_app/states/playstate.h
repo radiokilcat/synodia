@@ -2,10 +2,9 @@
 
 #include "gamestate.h"
 
-namespace anvil {
+class GameScene;
 
-
-class PlayState : public GameState
+class PlayState : public anvil::GameState
 {
 public:
     PlayState();
@@ -19,9 +18,8 @@ public:
 
 private:
 
-    std::vector<GameObject*> m_gameObjects;
+//    std::vector<GameObject*> m_gameObjects;
+    std::unique_ptr<GameScene> m_scene = nullptr;
+
     const std::string m_id = "play";
 };
-
-
-}

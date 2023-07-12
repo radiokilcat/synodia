@@ -2,10 +2,9 @@
 
 #include "anvil.h"
 #include "playstate.h"
+#include "../gameobjects/gamescene.h"
 #include "../gameobjects/player.h"
 
-
-namespace anvil {
 
 PlayState::PlayState()
 {
@@ -14,21 +13,21 @@ PlayState::PlayState()
 
 bool PlayState::onEnter()
 {
-//    std::filesystem::current_path(anvil::getExecutableDir());
-//    auto resPath = std::filesystem::current_path().parent_path() / "res";
-//    auto app = anvil::Application::Instance();
+    std::filesystem::current_path(anvil::getExecutableDir());
+    auto resPath = std::filesystem::current_path().parent_path() / "res";
+    auto app = anvil::Application::Instance();
 
+//     ToDo: Texture loading and Gameobject should be deserialised from json
+    anvil::TextureManager::instance()->loadTexture((resPath / "adventurer.png").string(), "test", app->getRenderer()->getRenderer());
+    anvil::TextureManager::instance()->loadTexture((resPath / "tiles" / "water.png").string(), "water", app->getRenderer()->getRenderer());
+    anvil::TextureManager::instance()->loadTexture((resPath / "tiles" / "sand.png").string(), "sand", app->getRenderer()->getRenderer());
+    anvil::TextureManager::instance()->loadTexture((resPath / "tiles" / "grass.png").string(), "grass", app->getRenderer()->getRenderer());
+    anvil::TextureManager::instance()->loadTexture((resPath / "tiles" / "tile-11.png").string(), "eleven", app->getRenderer()->getRenderer());
+    anvil::TextureManager::instance()->loadTexture((resPath / "tiles" / "tile-9.png").string(), "hill", app->getRenderer()->getRenderer());
 
-    // ToDo: Texture loading and Gameobject should be deserialised from json
-//    TextureManager::instance()->loadTexture((resPath / "adventurer.png").string(), "test", app->getRenderer()->getRenderer());
-//    TextureManager::instance()->loadTexture((resPath / "tiles" / "water.png").string(), "water", app->getRenderer()->getRenderer());
-//    TextureManager::instance()->loadTexture((resPath / "tiles" / "sand.png").string(), "sand", app->getRenderer()->getRenderer());
-//    TextureManager::instance()->loadTexture((resPath / "tiles" / "grass.png").string(), "grass", app->getRenderer()->getRenderer());
-//    TextureManager::instance()->loadTexture((resPath / "tiles" / "tile-11.png").string(), "eleven", app->getRenderer()->getRenderer());
-//    TextureManager::instance()->loadTexture((resPath / "tiles" / "tile-9.png").string(), "hill", app->getRenderer()->getRenderer());
-
-//    m_gameObjects.push_back(new TileMap(new LoaderParams(100, 100, 50, 37, "water")));
-//    m_gameObjects.push_back(new GameObject(new LoaderParams(100, 100, 50, 37, "test")));
+    m_scene = std::make_unique<GameScene>();
+    m_scene->addGameObject(std::make_unique<anvil::TileMap>(new anvil::LoaderParams(100, 100, 50, 37, "water")));
+    m_scene->addGameObject(std::make_unique<anvil::GameObject>(new anvil::LoaderParams(100, 100, 50, 37, "test")));
 
     std::cout << "Enter Play state" << std::endl;
     return true;
@@ -42,24 +41,18 @@ bool PlayState::onExit()
 
 void PlayState::update()
 {
-    for (auto it: m_gameObjects)
+    if (m_scene)
     {
-        it->update();
+        m_scene->update();
     }
 }
 
 void PlayState::render()
 {
-    for (auto it: m_gameObjects)
-    {
-        it->draw(Application::Instance()->getRenderer());
-    }
+    m_scene->draw(anvil::Application::Instance()->getRenderer());
 }
 
 std::string PlayState::getID()
 {
     return m_id;
-}
-
-
 }

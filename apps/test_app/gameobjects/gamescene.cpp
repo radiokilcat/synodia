@@ -1,9 +1,6 @@
-#include "scene.h"
+#include "gamescene.h"
 
-namespace anvil {
-
-
-void GameScene::draw(std::shared_ptr<Renderer> renderer)
+void GameScene::draw(std::shared_ptr<anvil::Renderer> renderer)
 {
     for (auto& child: m_childs)
     {
@@ -27,10 +24,7 @@ void GameScene::clean()
     }
 }
 
-void GameScene::addGameObject(std::unique_ptr<GameObject> gameObject)
+void GameScene::addGameObject(std::unique_ptr<anvil::GameObject> gameObject)
 {
     m_childs.push_back(std::move(gameObject));
 }
-
-}
-

@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <filesystem>
+#include <functional>
 
 #include <SDL3/SDL.h>
 
@@ -38,19 +39,19 @@ public:
     void run();
     void quit();
 
-    void addGameObject(std::unique_ptr<GameObject> gameObject);
-    void setScene(std::unique_ptr<GameObject> scene);
     std::shared_ptr<Renderer> getRenderer() const;
     int getScreenWidth();
     int getScreenHeight();
 
-    Uint32 getTicks();
+    Uint64 getTicks();
 
     Application();
     ~Application();
 
     GameStateMachine* getStateMachine() const;
     void setStateMachine(GameStateMachine *newStateMachine);
+    void addInitCallback(std::function<void()> callback);
+    void addUpdateCallback(std::function<void()> callback);
 
 private:
     void main_loop();
@@ -60,12 +61,12 @@ private:
 
     std::unique_ptr<Window> m_window = nullptr;
     std::shared_ptr<Renderer> m_renderer = nullptr;
-    std::unique_ptr<GameObject> m_scene = nullptr;
+
     SDL_Texture* screenTexture = nullptr;
     GameStateMachine* m_stateMachine;
 
-
-    std::vector<std::unique_ptr<GameObject>> m_gameObjects;
+    std::function<void()> m_updateCallback;
+    std::function<void()> m_initCallback;
 
     GameSettings m_settings;
     std::filesystem::path m_resPath;

@@ -3,12 +3,9 @@
 #include <string>
 #include <vector>
 
-#include "gamestate.h"
-#include "gameobject.h"
+#include "anvil.h"
 
-namespace anvil {
-
-class MenuState : public GameState
+class MenuState : public anvil::GameState
 {
 public:
     bool onEnter() override;
@@ -21,7 +18,5 @@ public:
 
 private:
     const std::string m_id = "MENU";
-    std::vector<GameObject*> m_gameObjects;
+    std::vector<anvil::GameObject*> m_gameObjects;
 };
-
-}
