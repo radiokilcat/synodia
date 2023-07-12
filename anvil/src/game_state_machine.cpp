@@ -4,6 +4,11 @@ namespace anvil {
 
 void GameStateMachine::pushState(GameState* state)
 {
+    if (!states_.empty())
+    {
+        if (states_.back()->getID() == state->getID())
+            return;
+    }
     states_.push_back(state);
     state->onEnter();
 }

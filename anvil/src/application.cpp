@@ -5,7 +5,6 @@
 #include "gameobject.h"
 #include "inputhandler.h"
 #include "game_state_machine.h"
-#include "scene.h"
 
 #include <SDL_image.h>
 #include <SDL_ttf.h>
@@ -45,7 +44,6 @@ Application *Application::Instance()
         return m_instance;
     }
     return m_instance;
-
 }
 
 Application::Application() : m_running(true)
@@ -68,16 +66,6 @@ void Application::quit()
     m_running = false;
 }
 
-void Application::addGameObject(std::unique_ptr<GameObject> gameObject)
-{
-    m_gameObjects.push_back(std::move(gameObject));
-}
-
-void Application::setScene(std::unique_ptr<GameObject> scene)
-{
-    m_scene = std::move(scene);
-}
-
 std::shared_ptr<Renderer> Application::getRenderer() const
 {
     return m_renderer;
@@ -93,7 +81,7 @@ int Application::getScreenHeight()
     return m_window->getWindowSize().second;
 }
 
-Uint32 Application::getTicks()
+Uint64 Application::getTicks()
 {
     return SDL_GetTicks();
 }
@@ -135,8 +123,10 @@ void Application::init(const GameSettings& settings)
     m_renderer = Renderer::create(m_window);
 
     m_stateMachine = new GameStateMachine();
-//    m_stateMachine->changeState(new MenuState);
 
+    if (m_initCallback) {
+        m_initCallback();
+    }
 
     SDL_SetRenderDrawBlendMode(m_renderer->getRenderer(), SDL_BLENDMODE_BLEND);
 
@@ -155,11 +145,6 @@ void Application::main_loop()
 
         InputHandler::instance()->handleEvents();
 
-        if (InputHandler::instance()->isKeyDown(AnvilKeyCode::Escape))
-        {
-//            m_stateMachine->pushState(new PauseState);
-        }
-
         update();
         render();
 
@@ -173,6 +158,9 @@ void Application::main_loop()
 
 void Application::update()
 {
+    if (m_updateCallback) {
+        m_updateCallback();
+    }
     m_stateMachine->update();
 }
 
@@ -198,6 +186,17 @@ void Application::cleanup()
 GameStateMachine* Application::getStateMachine() const
 {
     return m_stateMachine;
+}
+
+void Application::addInitCallback(std::function<void ()> callback)
+{
+    m_initCallback = std::move(callback);
+
+}
+
+void Application::addUpdateCallback(std::function<void ()> callback)
+{
+    m_updateCallback = std::move(callback);
 }
 
 }
