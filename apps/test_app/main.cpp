@@ -2,9 +2,8 @@
 #include <filesystem>
 
 #include "anvil.h"
-#include "utils.h"
 
-#include "player.h"
+#include "gameobjects/player.h"
 
 int main(int argc, char *argv[])
 {

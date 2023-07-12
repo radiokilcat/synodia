@@ -1,18 +1,15 @@
 #pragma once
 
-#include "gameobject.h"
 #include <functional>
+#include "anvil.h"
 
 
-namespace anvil {
-
-
-class MenuButton : public GameObject
+class MenuButton : public anvil::GameObject
 {
 public:
-    MenuButton(const LoaderParams* params, std::function<void()> callback);
+    MenuButton(const anvil::LoaderParams* params, std::function<void()> callback);
 
-    void draw(std::shared_ptr<Renderer> renderer) override;
+    void draw(std::shared_ptr<anvil::Renderer> renderer) override;
     void update() override;
     void clean() override;
 
@@ -29,6 +26,3 @@ private:
     bool released_;
 
 };
-
-
-}

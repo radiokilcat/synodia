@@ -1,11 +1,24 @@
 add_executable(test_app
     main.cpp
-    player.cpp
-    nonplayable.cpp
-    player.h
-    nonplayable.h
-    game_scene.h
-    game_scene.cpp
+
+    gameobjects/player.cpp
+    gameobjects/player.h
+
+    gameobjects/nonplayable.cpp
+    gameobjects/nonplayable.h
+
+    gameobjects/menubutton.h
+    gameobjects/menubutton.cpp
+
+#    gameobjects/game_scene.h
+#    gameobjects/game_scene.cpp
+    states/pausestate.h
+    states/playstate.h
+    states/menustate.h
+
+    states/pausestate.cpp
+    states/playstate.cpp
+    states/menustate.cpp
     )
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/settings.ini
