@@ -3,7 +3,8 @@
 #include "menustate.h"
 #include "playstate.h"
 
-#include "../gameobjects/menubutton.h"
+#include "../gui/menubutton.h"
+#include "../gui/textbutton.h"
 
 std::string MenuState::getID()
 {
@@ -25,8 +26,14 @@ bool MenuState::onEnter()
         anvil::Application::Instance()->quit();
     });
 
+    anvil::GameObject* button3 = new TextButton(new anvil::LoaderParams(100, 330, 400, 100, "debug"), "test_text", []() {
+        std::cout << "Exit button clicked" << std::endl;
+        anvil::Application::Instance()->quit();
+    });
+
     m_gameObjects.push_back(button1);
     m_gameObjects.push_back(button2);
+    m_gameObjects.push_back(button3);
 
     std::cout << "Enter Menu state" << std::endl;
     return true;

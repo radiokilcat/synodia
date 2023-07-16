@@ -10,6 +10,7 @@ add_library(anvil
   src/application.cpp
   src/renderer.cpp
   src/texturemanager.cpp
+  src/text_renderer.cpp
   src/configuration.cpp
   src/ini_settings_accessor.cpp
   src/inputhandler.cpp
@@ -17,6 +18,8 @@ add_library(anvil
   src/game_state_machine.cpp
   src/utils.cpp
   src/isogameobject.cpp
+  src/textlabel.cpp
+  src/fontloader.cpp
 
   include/anvil.h
   include/utils.h
@@ -24,6 +27,7 @@ add_library(anvil
   include/application.h
   include/renderer.h
   include/texturemanager.h
+  include/text_renderer.h
   include/gameobject.h
   include/vector2d.h
   include/configuration.h
@@ -34,6 +38,8 @@ add_library(anvil
   include/gamestate.h
   include/game_state_machine.h
   include/isogameobject.h
+  include/textlabel.h
+  include/fontloader.h
 )
 
 set(public_headers

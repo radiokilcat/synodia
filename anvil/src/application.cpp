@@ -5,6 +5,7 @@
 #include "gameobject.h"
 #include "inputhandler.h"
 #include "game_state_machine.h"
+#include "fontloader.h"
 
 #include <SDL_image.h>
 #include <SDL_ttf.h>
@@ -103,17 +104,12 @@ void Application::init(const GameSettings& settings)
         std::exit(1);
     }
 
-    // Initialize SDL_ttf
-    if (TTF_Init() == -1) {
-        printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
-        std::exit(1);
-    }
-
     // Initialize SDL_mixer
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
         printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
         std::exit(1);
     }
+
 
     m_window = Window::create(m_settings.windowTitle.c_str(),
                               m_settings.screenWidth * m_settings.screenScale,

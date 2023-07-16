@@ -8,6 +8,8 @@
 #include "isogameobject.h"
 #include "inputhandler.h"
 #include "configuration.h"
+#include "fontloader.h"
+#include "textlabel.h"
 #include "tilemap.h"
 #include "gamestate.h"
 #include "game_state_machine.h"

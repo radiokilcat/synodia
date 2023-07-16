@@ -71,6 +71,23 @@ void TextureManager::drawFrame(std::string id, int x, int y,
     SDL_RenderTexture(renderer, m_texture_map[id], &srcRect, &destRect);
 }
 
+void TextureManager::drawText(std::string id, std::string text,
+                              TTF_Font* font, SDL_Color color,
+                              int x, int y, int width, int height,
+                              SDL_Renderer* renderer)
+{
+    SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, text.c_str(), color);
+    SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+
+    SDL_FRect Message_rect;
+    Message_rect.x = x;
+    Message_rect.y = y;
+    Message_rect.w = width;
+    Message_rect.h = height;
+
+    SDL_RenderTexture(renderer, Message, NULL, &Message_rect);
+}
+
 void TextureManager::clearFromTextureMap(std::string id)
 {
     m_texture_map.erase(id);
