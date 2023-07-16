@@ -27,7 +27,7 @@ bool PlayState::onEnter()
 
     m_scene = std::make_unique<GameScene>();
     m_scene->addGameObject(std::make_unique<anvil::TileMap>(new anvil::LoaderParams(100, 100, 50, 37, "water")));
-    m_scene->addGameObject(std::make_unique<anvil::GameObject>(new anvil::LoaderParams(100, 100, 50, 37, "test")));
+    m_scene->addGameObject(std::make_unique<Player>(new anvil::LoaderParams(100, 100, 50, 37, "test")));
 
     std::cout << "Enter Play state" << std::endl;
     return true;

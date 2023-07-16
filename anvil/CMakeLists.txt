@@ -16,6 +16,7 @@ add_library(anvil
   src/tilemap.cpp
   src/game_state_machine.cpp
   src/utils.cpp
+  src/isogameobject.cpp
 
   include/anvil.h
   include/utils.h
@@ -32,6 +33,7 @@ add_library(anvil
   include/tilemap.h
   include/gamestate.h
   include/game_state_machine.h
+  include/isogameobject.h
 )
 
 set(public_headers

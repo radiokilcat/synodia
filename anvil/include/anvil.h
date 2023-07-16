@@ -5,6 +5,7 @@
 #include "window.h"
 #include "renderer.h"
 #include "gameobject.h"
+#include "isogameobject.h"
 #include "inputhandler.h"
 #include "configuration.h"
 #include "tilemap.h"
