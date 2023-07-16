@@ -2,14 +2,14 @@
 
 
 Player::Player(const anvil::LoaderParams* params)
-    : anvil::GameObject(params)
+    : anvil::IsoGameObject(params)
 {
 
 }
 
 void Player::draw(std::shared_ptr<anvil::Renderer> renderer)
 {
-    anvil::GameObject::isoDraw(renderer);
+    anvil::IsoGameObject::draw(renderer);
 }
 
 void Player::update()
@@ -34,7 +34,7 @@ void Player::update()
     }
     // Cycle through the spreadsheet and change frame position
     currentFrame_ = int((anvil::Application::Instance()->getTicks() / 100) % 6);
-    anvil::GameObject::update();
+    anvil::IsoGameObject::update();
 }
 
 void Player::clean()

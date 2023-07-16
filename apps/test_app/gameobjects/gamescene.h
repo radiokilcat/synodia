@@ -12,7 +12,7 @@ public:
     void update();
     void clean();
 
-    void addGameObject(std::unique_ptr<anvil::GameObject> gameObject);
+    void addGameObject(std::unique_ptr<BaseGameObject> gameObject);
 private:
-    std::vector<std::unique_ptr<anvil::GameObject>> m_childs;
+    std::vector<std::unique_ptr<anvil::BaseGameObject>> m_childs;
 };

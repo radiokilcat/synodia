@@ -24,7 +24,7 @@ void GameScene::clean()
     }
 }
 
-void GameScene::addGameObject(std::unique_ptr<anvil::GameObject> gameObject)
+void GameScene::addGameObject(std::unique_ptr<anvil::BaseGameObject> gameObject)
 {
     m_childs.push_back(std::move(gameObject));
 }

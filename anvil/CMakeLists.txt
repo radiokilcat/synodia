@@ -38,6 +38,8 @@ add_library(anvil
   include/isogameobject.h
   include/textlabel.h
   include/fontloader.h
+  include/json_serializer/json_serializer.h
+  include/json_serializer/serializable_base.h
 )
 
 set(public_headers

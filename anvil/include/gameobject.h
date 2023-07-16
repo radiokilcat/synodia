@@ -85,7 +85,7 @@ public:
     virtual void clean() override {};
     virtual ~GameObject() {};
 
-    void from_json(nlohmann::json &j) override {
+    void from_json(nlohmann::json &j) {
         id_ = j["id_"];
         currentFrame_ = j["currentFrame_"];
         currentRow_ = j["currentRow_"];
@@ -95,7 +95,7 @@ public:
         width_ = j["width_"];
         height_ = j["height_"];
     }
-    void to_json(nlohmann::json &j) override {
+    void to_json(nlohmann::json &j)  {
         j["id_"] = id_;
         j["currentFrame_"] = currentFrame_;
         j["currentRow_"] = currentRow_;
