@@ -1,7 +1,7 @@
 #include "pausestate.h"
 #include "playstate.h"
 
-#include "../gameobjects/menubutton.h"
+#include "../gui/menubutton.h"
 
 #include <iostream>
 
