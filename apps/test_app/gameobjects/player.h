@@ -3,7 +3,7 @@
 #include "anvil.h"
 
 
-class Player: public anvil::GameObject
+class Player: public anvil::IsoGameObject
 {
 public:
     Player(const anvil::LoaderParams* params);
