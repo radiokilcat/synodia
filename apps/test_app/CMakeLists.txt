@@ -7,8 +7,10 @@ add_executable(test_app
     gameobjects/nonplayable.cpp
     gameobjects/nonplayable.h
 
-    gameobjects/menubutton.h
-    gameobjects/menubutton.cpp
+    gui/menubutton.h
+    gui/menubutton.cpp
+    gui/textbutton.h
+    gui/textbutton.cpp
 
     gameobjects/gamescene.h
     gameobjects/gamescene.cpp

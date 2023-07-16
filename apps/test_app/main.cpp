@@ -13,9 +13,16 @@ int main(int argc, char *argv[])
     (void)argc;
     (void)argv;
 
+    std::filesystem::current_path(anvil::getExecutableDir());
+    auto resPath = std::filesystem::current_path().parent_path() / "res";
+
     anvil::Configuration configuration("settings.ini");
     auto settings = configuration.load();
     settings.validate();
+
+    anvil::FontLoader::instance()->loadFont("sample", resPath / "sample.ttf", 16);
+    anvil::FontLoader::instance()->setDefaultFont("sample");
+
     auto app = anvil::Application::Instance();
 
     app->addInitCallback([]{
@@ -23,7 +30,6 @@ int main(int argc, char *argv[])
     });
 
     app->init(settings);
-
     app->addUpdateCallback([]{
         if (anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Escape))
         {
