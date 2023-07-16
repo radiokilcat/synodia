@@ -10,7 +10,6 @@ add_library(anvil
   src/application.cpp
   src/renderer.cpp
   src/texturemanager.cpp
-  src/text_renderer.cpp
   src/configuration.cpp
   src/ini_settings_accessor.cpp
   src/inputhandler.cpp
@@ -27,7 +26,6 @@ add_library(anvil
   include/application.h
   include/renderer.h
   include/texturemanager.h
-  include/text_renderer.h
   include/gameobject.h
   include/vector2d.h
   include/configuration.h
