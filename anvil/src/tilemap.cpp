@@ -28,6 +28,16 @@ TileMap::TileMap(LoaderParams* params)
 {
 }
 
+TileMap::TileMap()
+    :GameObject()
+    , m_tileWidth(100)
+    , m_tileHeight(50)
+    , m_startX(Application::Instance()->getScreenWidth() / 2 - m_tileWidth / 2)
+    , m_startY(10)
+{
+}
+
+
 void TileMap::draw_tile(std::string id, int x, int y, std::shared_ptr<Renderer> renderer)
 {
     auto tileHeight = TextureManager::instance()->textureSize(id).second;
@@ -53,6 +63,15 @@ void TileMap::draw(std::shared_ptr<Renderer> renderer)
 
 void TileMap::clean()
 {
+}
+
+void TileMap::from_json(nlohmann::json& j)
+{
+    GameObject::from_json(j);
+}
+void TileMap::to_json(nlohmann::json& j) {
+    GameObject::to_json(j);
+
 }
 
 }

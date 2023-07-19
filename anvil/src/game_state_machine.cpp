@@ -24,6 +24,14 @@ void GameStateMachine::popState()
         }
     }
 }
+GameState* GameStateMachine::previousState()
+{
+    if (!states_.empty())
+    {
+        return *(states_.end() - 2);
+    }
+    return NULL;
+}
 
 void GameStateMachine::changeState(GameState* state)
 {

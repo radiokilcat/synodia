@@ -1,6 +1,6 @@
 #include "pausestate.h"
 #include "playstate.h"
-
+#include "../gui/textbutton.h"
 #include "../gui/menubutton.h"
 
 #include <iostream>
@@ -12,8 +12,8 @@ PauseState::PauseState()
 
 bool PauseState::onEnter()
 {
-    anvil::TextureManager::instance()->loadTexture("res/button.png", "playbutton", anvil::Application::Instance()->getRenderer()->getRenderer());
-    anvil::TextureManager::instance()->loadTexture("res/exit.png", "exitbutton", anvil::Application::Instance()->getRenderer()->getRenderer());
+    anvil::TextureManager::instance()->loadTexture("../res/button.png", "playbutton", anvil::Application::Instance()->getRenderer()->getRenderer());
+    anvil::TextureManager::instance()->loadTexture("../res/exit.png", "exitbutton", anvil::Application::Instance()->getRenderer()->getRenderer());
 
     anvil::GameObject* button1 = new MenuButton(new anvil::LoaderParams(100, 100, 400, 100, "playbutton"), []() {
         std::cout << "Play button clicked" << std::endl;
@@ -25,8 +25,16 @@ bool PauseState::onEnter()
         anvil::Application::Instance()->quit();
     });
 
+    anvil::GameObject* button3 = new TextButton(new anvil::LoaderParams(100, 460, 400, 100, "savebutton"), "Save Game", []() {
+        std::cout << "Save button clicked" << std::endl;
+        auto serializer = anvil::JsonSerializer("output.txt");
+        auto playstate = anvil::Application::Instance()->getStateMachine()->previousState();
+        serializer.serialize((PlayState *)playstate);
+    });
+
     m_gameObjects.push_back(button1);
     m_gameObjects.push_back(button2);
+    m_gameObjects.push_back(button3);
 
     std::cout << "Enter Pause state" << std::endl;
     return true;

@@ -8,10 +8,12 @@ class TileMap: public GameObject
 {
 public:
     TileMap(LoaderParams* params);
+    TileMap();
     void draw_tile(std::string id, int x, int y, std::shared_ptr<Renderer> renderer);
     void draw(std::shared_ptr<Renderer> renderer) override;
     void clean() override;
-
+    void from_json(nlohmann::json& j) override;
+    void to_json(nlohmann::json& j) override;
     ~TileMap() {};
 private:
     int m_tileWidth;

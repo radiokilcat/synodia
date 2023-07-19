@@ -13,8 +13,8 @@ std::string MenuState::getID()
 
 bool MenuState::onEnter()
 {
-    anvil::TextureManager::instance()->loadTexture("res/button.png", "playbutton", anvil::Application::Instance()->getRenderer()->getRenderer());
-    anvil::TextureManager::instance()->loadTexture("res/exit.png", "exitbutton", anvil::Application::Instance()->getRenderer()->getRenderer());
+    anvil::TextureManager::instance()->loadTexture("../res/button.png", "playbutton", anvil::Application::Instance()->getRenderer()->getRenderer());
+    anvil::TextureManager::instance()->loadTexture("../res/exit.png", "exitbutton", anvil::Application::Instance()->getRenderer()->getRenderer());
 
     anvil::GameObject* button1 = new MenuButton(new anvil::LoaderParams(100, 100, 400, 100, "playbutton"), []() {
         std::cout << "Play button clicked" << std::endl;
@@ -26,10 +26,14 @@ bool MenuState::onEnter()
         anvil::Application::Instance()->quit();
     });
 
-    anvil::GameObject* button3 = new TextButton(new anvil::LoaderParams(100, 330, 400, 100, "debug"), "test_text", []() {
-        std::cout << "Exit button clicked" << std::endl;
-        anvil::Application::Instance()->quit();
+    anvil::GameObject* button3 = new TextButton(new anvil::LoaderParams(100, 460, 400, 100, "loadbutton"), "Load Game", []() {
+        std::cout << "Load button clicked" << std::endl;
+        auto serializer = anvil::JsonSerializer("output.txt");
+        auto playLoad = new PlayState();
+        serializer.deserialize(playLoad);
+        anvil::Application::Instance()->getStateMachine()->changeState(playLoad);
     });
+
 
     m_gameObjects.push_back(button1);
     m_gameObjects.push_back(button2);

@@ -35,7 +35,7 @@ private:
     std::string texture_id_;
 };
 
-class BaseGameObject
+class BaseGameObject: public SerializableBase
 {
 public:
     BaseGameObject() {};
@@ -44,6 +44,11 @@ public:
     virtual void draw(std::shared_ptr<Renderer> renderer) = 0;
     virtual void update() = 0;
     virtual void clean() = 0;
+
+    void from_json(nlohmann::json& j) override {
+    }
+    void to_json(nlohmann::json& j) override {
+    }
 };
 
 class GameObject : public BaseGameObject
