@@ -19,6 +19,7 @@ add_library(anvil
   src/isogameobject.cpp
   src/textlabel.cpp
   src/fontloader.cpp
+  src/json_serializer.cpp
 
   include/anvil.h
   include/utils.h

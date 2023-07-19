@@ -24,11 +24,12 @@ bool PlayState::onEnter()
     anvil::TextureManager::instance()->loadTexture((resPath / "tiles" / "grass.png").string(), "grass", app->getRenderer()->getRenderer());
     anvil::TextureManager::instance()->loadTexture((resPath / "tiles" / "tile-11.png").string(), "eleven", app->getRenderer()->getRenderer());
     anvil::TextureManager::instance()->loadTexture((resPath / "tiles" / "tile-9.png").string(), "hill", app->getRenderer()->getRenderer());
-
-    m_scene = std::make_unique<GameScene>();
-    m_scene->addGameObject(std::make_unique<anvil::TileMap>(new anvil::LoaderParams(100, 100, 50, 37, "water")));
-    m_scene->addGameObject(std::make_unique<Player>(new anvil::LoaderParams(100, 100, 50, 37, "test")));
-
+    if (m_scene == NULL)
+    {
+        m_scene = new GameScene();
+        m_scene->addGameObject(std::make_unique<anvil::TileMap>(new anvil::LoaderParams(100, 100, 50, 37, "water")));
+        m_scene->addGameObject(std::make_unique<Player>(new anvil::LoaderParams(100, 100, 50, 37, "test")));
+    }
     std::cout << "Enter Play state" << std::endl;
     return true;
 }
@@ -55,4 +56,15 @@ void PlayState::render()
 std::string PlayState::getID()
 {
     return m_id;
+}
+
+void PlayState::to_json(nlohmann::json& j) 
+{
+    m_scene->to_json(j["m_scene"]);
+}
+
+void PlayState::from_json(nlohmann::json& j)
+{
+    m_scene = new GameScene;
+    m_scene->from_json(j["m_scene"]);
 }
