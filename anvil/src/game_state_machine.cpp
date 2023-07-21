@@ -24,13 +24,14 @@ void GameStateMachine::popState()
         }
     }
 }
+// TODO ѕредлагаю тут и далее заменить NULL на nullptr (плюсовый аналог)
 GameState* GameStateMachine::previousState()
 {
     if (!states_.empty())
     {
         return *(states_.end() - 2);
     }
-    return NULL;
+    return nullptr;
 }
 
 void GameStateMachine::changeState(GameState* state)

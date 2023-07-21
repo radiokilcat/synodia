@@ -8,7 +8,7 @@ namespace anvil {
  	class JsonSerializer
 	{
 	private:
-		nlohmann::json m_parsedData;
+		json m_parsedData;
 		std::string m_filePath;
 	public:
 		JsonSerializer(std::string filePath);
