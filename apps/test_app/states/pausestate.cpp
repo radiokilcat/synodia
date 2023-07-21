@@ -12,8 +12,10 @@ PauseState::PauseState()
 
 bool PauseState::onEnter()
 {
-    anvil::TextureManager::instance()->loadTexture("../res/button.png", "playbutton", anvil::Application::Instance()->getRenderer()->getRenderer());
-    anvil::TextureManager::instance()->loadTexture("../res/exit.png", "exitbutton", anvil::Application::Instance()->getRenderer()->getRenderer());
+    auto resPath = std::filesystem::current_path().parent_path() / "res";
+
+    anvil::TextureManager::instance()->loadTexture((resPath / "button.png").string(), "playbutton", anvil::Application::Instance()->getRenderer()->getRenderer());
+    anvil::TextureManager::instance()->loadTexture((resPath / "exit.png").string(), "exitbutton", anvil::Application::Instance()->getRenderer()->getRenderer());
 
     anvil::GameObject* button1 = new MenuButton(new anvil::LoaderParams(100, 100, 400, 100, "playbutton"), []() {
         std::cout << "Play button clicked" << std::endl;
