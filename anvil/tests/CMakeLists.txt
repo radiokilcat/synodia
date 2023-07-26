@@ -12,6 +12,7 @@ set(public_headers
 add_executable(
   anviltests
   serializer_test.cpp
+  isogameobject_test.cpp
 )
 
 target_include_directories(anviltests PUBLIC gtest)

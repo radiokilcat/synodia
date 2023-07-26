@@ -21,7 +21,13 @@ std::pair<float, float> IsoGameObject::getIsoPosition(float x, float y)
     float isoX = x - y;
     float isoY = (x + y) / 2;
     return {isoX, isoY};
-};
+}
 
+std::pair<float, float> IsoGameObject::getScreenPosition(float isoX, float isoY)
+{
+    float x = isoY + isoX / 2;
+    float y = isoY - isoX / 2;
+    return {x, y};
+}
 
 }
