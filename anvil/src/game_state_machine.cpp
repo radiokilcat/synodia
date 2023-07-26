@@ -25,17 +25,16 @@ void GameStateMachine::popState()
     }
 }
 // TODO ѕредлагаю тут и далее заменить NULL на nullptr (плюсовый аналог)
-GameState* GameStateMachine::previousState()
+GameState* GameStateMachine::findState(std:: string id)
 {
     if (states_.empty())
     {
         return nullptr;
     }
-    if (states_.size() == 1)
-    {
-        return *(states_.end());
-    }
-    return *(states_.end() - 2);
+    auto state = std::find_if(states_.begin(), states_.end(), [&id](anvil::GameState *arg) {
+        return (arg->getID() == id);
+    });
+    return *(state);
 }
 
 void GameStateMachine::changeState(GameState* state)

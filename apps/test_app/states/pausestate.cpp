@@ -30,7 +30,7 @@ bool PauseState::onEnter()
     anvil::GameObject* button3 = new TextButton(new anvil::LoaderParams(100, 460, 400, 100, "savebutton"), "Save Game", []() {
         std::cout << "Save button clicked" << std::endl;
         auto serializer = anvil::JsonSerializer("output.txt");
-        auto playstate = anvil::Application::Instance()->getStateMachine()->previousState();
+        auto playstate = anvil::Application::Instance()->getStateMachine()->findState("play");
         serializer.serialize((PlayState *)playstate);
     });
 
