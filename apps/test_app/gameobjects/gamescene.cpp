@@ -1,16 +1,31 @@
 #include "gamescene.h"
 #include <memory>
+#include <iostream>
 
 void GameScene::draw(std::shared_ptr<anvil::Renderer> renderer)
 {
+    m_tileMap->draw(renderer);
+
+    int p_x = m_player->getX() + m_player->getWidth() / 2;
+    int p_y = m_player->getY() + m_player->getHeight() / 2;
+
+    if (m_player) {
+        auto tile = m_tileMap->getTileByPosition(p_x, p_y, renderer);
+        m_tileMap->outline_tile(tile.first, tile.second, renderer);
+    }
+
+    m_player->draw(renderer);
     for (auto& child: m_childs)
     {
         child->draw(renderer);
     }
+    anvil::TextureManager::instance()->drawPoint(renderer->getRenderer(), p_x, p_y);
 }
 
 void GameScene::update()
 {
+    m_tileMap->update();
+    m_player->update();
     for (auto& child: m_childs)
     {
         child->update();
@@ -66,4 +81,14 @@ bool GameScene::registerWithFactory() {
         return std::make_unique<GameScene>();
     });
     return true;
+}
+
+void GameScene::setTileMap(std::unique_ptr<anvil::TileMap> tileMap)
+{
+    m_tileMap = std::move(tileMap);
+}
+
+void GameScene::setPlayer(std::unique_ptr<Player> player)
+{
+    m_player = std::move(player);
 }

@@ -1,3 +1,4 @@
+#include <iostream>
 #include "player.h"
 #include <ctime>
 #include <cstdlib>
@@ -9,14 +10,53 @@ Player::Player()
     _speech->load(new anvil::LoaderParams(15, 15, 62, 40, "speech"));
 }
 
+int Player::getX()
+{
+    auto [isoX, isoY] = getIsoPosition(position_.x(), position_.y());
+    return isoX;
+}
+
+int Player::getY()
+{
+    auto [isoX, isoY] = getIsoPosition(position_.x(), position_.y());
+    return isoY;
+}
+
+int Player::getWidth()
+{
+    return width_;
+}
+
+int Player::getHeight()
+{
+    return height_;
+}
+
 void Player::draw(std::shared_ptr<anvil::Renderer> renderer)
 {
     anvil::IsoGameObject::draw(renderer);
     _speech->draw(renderer);
+    int x1 = getX();
+    int y1 = getY();
+
+    int x2 = x1 + width_;
+    int y2 = y1;
+
+    int x3 = x1 + width_;
+    int y3 = y1 + height_;
+
+    int x4 = x1;
+    int y4 = y1 + height_;
+
+    anvil::TextureManager::instance()->drawQuadrilateral(renderer->getRenderer(), x1, y1,
+                                                         x2, y2,
+                                                         x3, y3,
+                                                         x4, y4);
 }
 
 void Player::update()
 {
+    currentRow_ = 7;
     velocity_.setX(0.f);
     velocity_.setY(0.f);
     if(anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Right))
@@ -43,6 +83,23 @@ void Player::update()
             auto text = _quotes[ind];
             _speech->show(5, text);
         }
+        currentRow_ = 12;
+        velocity_.setX(0.1f);
+    }
+    if(anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Left))
+    {
+        currentRow_ = 10;
+        velocity_.setX(-0.1f);
+    }
+    if(anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Up))
+    {
+        currentRow_ = 12;
+        velocity_.setY(-0.1f);
+    }
+    if(anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Down))
+    {
+        currentRow_ = 10;
+        velocity_.setY(0.1f);
     }
     // Cycle through the spreadsheet and change frame position
     currentFrame_ = int((anvil::Application::Instance()->getTicks() / 100) % 6);

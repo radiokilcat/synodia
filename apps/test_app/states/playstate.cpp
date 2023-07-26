@@ -17,6 +17,10 @@ bool PlayState::onEnter()
     m_textureIds = anvil::StateLoader::loadTextures(m_id);
     m_scene = anvil::StateLoader::loadGameObjects(m_id);
 
+
+//    m_scene->setTileMap(std::make_unique<anvil::TileMap>(new anvil::LoaderParams(100, 100, 50, 37, "water")));
+//    m_scene->setPlayer(std::make_unique<Player>(new anvil::LoaderParams(375, 100, 64, 64, "player_1")));
+
     std::cout << "Enter Play state" << std::endl;
     return true;
 }
