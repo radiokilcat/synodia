@@ -24,7 +24,7 @@ void GameStateMachine::popState()
         }
     }
 }
-// TODO ѕредлагаю тут и далее заменить NULL на nullptr (плюсовый аналог)
+
 GameState* GameStateMachine::findState(std:: string id)
 {
     if (states_.empty())
