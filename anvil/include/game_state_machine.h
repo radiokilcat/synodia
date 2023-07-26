@@ -12,7 +12,7 @@ public:
     void pushState(GameState* state);
     void popState();
     void changeState(GameState* state);
-    GameState* previousState();
+    GameState* findState(std::string id);
     void update();
     void render();
 private:
