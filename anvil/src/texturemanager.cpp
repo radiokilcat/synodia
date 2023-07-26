@@ -133,6 +133,34 @@ void TextureManager::drawTextWrapped(std::string id, Uint32 wrapLength, std::str
     SDL_DestroyTexture(Message);
 }
 
+void TextureManager::drawPoint(SDL_Renderer* renderer,
+                                       int x1, int y1)
+{
+    SDL_Color oldColor;
+    SDL_GetRenderDrawColor(renderer, &oldColor.r, &oldColor.g, &oldColor.b, &oldColor.a);
+
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
+    SDL_RenderPoint(renderer, x1, y1);
+    SDL_SetRenderDrawColor(renderer, oldColor.r, oldColor.g, oldColor.b, SDL_ALPHA_OPAQUE);
+}
+
+void TextureManager::drawQuadrilateral(SDL_Renderer* renderer,
+                       int x1, int y1,
+                       int x2, int y2,
+                       int x3, int y3,
+                       int x4, int y4)
+{
+    SDL_Color oldColor;
+    SDL_GetRenderDrawColor(renderer, &oldColor.r, &oldColor.g, &oldColor.b, &oldColor.a);
+
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
+    SDL_RenderLine(renderer, x1, y1, x2, y2);
+    SDL_RenderLine(renderer, x2, y2, x3, y3);
+    SDL_RenderLine(renderer, x3, y3, x4, y4);
+    SDL_RenderLine(renderer, x4, y4, x1, y1);
+    SDL_SetRenderDrawColor(renderer, oldColor.r, oldColor.g, oldColor.b, SDL_ALPHA_OPAQUE);
+}
+
 void TextureManager::clearFromTextureMap(std::string id)
 {
     m_texture_map.erase(id);

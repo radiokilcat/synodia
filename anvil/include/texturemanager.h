@@ -40,6 +40,8 @@ public:
 
     std::pair<int, int> textureSize(std::string id);
 
+    void drawQuadrilateral(SDL_Renderer* renderer, int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4);
+    void drawPoint(SDL_Renderer *renderer, int x1, int y1);
 private:
     TextureManager();
     std::map<std::string, SDL_Texture*> m_texture_map;
