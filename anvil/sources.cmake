@@ -8,13 +8,14 @@ set(SOURCES
   src/configuration.cpp
   src/ini_settings_accessor.cpp
   src/inputhandler.cpp
-  src/tilemap.cpp
   src/game_state_machine.cpp
   src/utils.cpp
-  src/isogameobject.cpp
-  src/textlabel.cpp
   src/fontloader.cpp
   src/json_serializer.cpp
+  src/game_objects/gameobject.cpp
+  src/game_objects/tilemap.cpp
+  src/game_objects/isogameobject.cpp
+  src/game_objects/textlabel.cpp
 )
 
 set(HEADERS
@@ -24,20 +25,21 @@ set(HEADERS
   include/application.h
   include/renderer.h
   include/texturemanager.h
-  include/gameobject.h
   include/vector2d.h
   include/configuration.h
   include/settings_accessor.h
   include/ini_settings_accessor.h
   include/inputhandler.h
-  include/tilemap.h
   include/gamestate.h
   include/game_state_machine.h
-  include/isogameobject.h
-  include/textlabel.h
   include/fontloader.h
   include/json_serializer/json_serializer.h
   include/json_serializer/serializable_base.h
+  include/game_objects/BaseGameObject.h
+  include/game_objects/isogameobject.h
+  include/game_objects/textlabel.h
+  include/game_objects/gameobject.h
+  include/game_objects/tilemap.h
 )
 
 set(public_headers include/anvil.h )

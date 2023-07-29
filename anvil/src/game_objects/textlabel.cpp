@@ -4,7 +4,7 @@
 
 #include "vector2d.h"
 #include "renderer.h"
-#include "textlabel.h"
+#include "game_objects/textlabel.h"
 
 namespace anvil {
 

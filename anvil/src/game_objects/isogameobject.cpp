@@ -1,4 +1,4 @@
-#include "isogameobject.h"
+#include "game_objects/isogameobject.h"
 
 namespace anvil {
 

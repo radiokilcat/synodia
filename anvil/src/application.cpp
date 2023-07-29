@@ -2,10 +2,10 @@
 #include "window.h"
 #include "renderer.h"
 #include "texturemanager.h"
-#include "gameobject.h"
 #include "inputhandler.h"
 #include "game_state_machine.h"
 #include "fontloader.h"
+#include "game_objects/gameobject.h"
 
 #include <SDL_image.h>
 #include <SDL_ttf.h>
