@@ -1,18 +1,10 @@
 #include "textbutton.h"
 
-
-TextButton::TextButton(const anvil::LoaderParams* params,
-                       std::string text,
-                       std::function<void()> callback)
-    : anvil::GameObject(params)
-    , m_callback(callback)
-    , m_text(text)
+TextButton::TextButton()
+    : anvil::GameObject()
 {
-    m_label = new anvil::TextLabel("lbl", m_text,
-                                   anvil::Color{255, 255, 255},
-                                   position_.x() + 16, position_.y() + 16,
-                                   width_ - 32, height_ - 32);
     currentFrame_ = MOUSE_OUT;
+    m_label = new anvil::TextLabel(m_text, anvil::Color{54, 29, 50});
 }
 
 void TextButton::draw(std::shared_ptr<anvil::Renderer> renderer)
@@ -49,4 +41,19 @@ void TextButton::update()
 
 void TextButton::clean()
 {
+}
+
+void TextButton::load(const anvil::LoaderParams* params)
+{
+    m_label->load(params);
+    m_label->setText(m_text);
+    GameObject::load(params);
+}
+
+bool TextButton::registerWithFactory()
+{
+    anvil::GameObjectFactory::instance().registerType("TextButton", []() -> std::unique_ptr<anvil::BaseGameObject> {
+        return std::make_unique<TextButton>();
+    });
+    return true;
 }

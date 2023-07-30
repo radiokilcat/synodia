@@ -8,13 +8,17 @@
 class TextButton: public anvil::GameObject
 {
 public:
-    TextButton(const anvil::LoaderParams* params,
-               std::string text,
-               std::function<void()> callback);
+    TextButton();
 
     void draw(std::shared_ptr<anvil::Renderer> renderer) override;
     void update() override;
     void clean() override;
+    void load(const anvil::LoaderParams *params) override;
+
+    void setText(std::string text) { m_text = text; };
+    void setCallback(std::function<void()> callback) override { m_callback = callback; };
+
+    static bool registerWithFactory();
 
 private:
 

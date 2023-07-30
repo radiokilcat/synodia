@@ -4,6 +4,11 @@
 #include "anvil.h"
 
 #include "gameobjects/player.h"
+#include "gameobjects/gamescene.h"
+#include "gameobjects/nonplayable.h"
+#include "gui/menubutton.h"
+#include "gui/textbutton.h"
+
 #include "states/pausestate.h"
 #include "states/playstate.h"
 #include "states/menustate.h"
@@ -24,6 +29,15 @@ int main(int argc, char *argv[])
     anvil::FontLoader::instance()->setDefaultFont("sample");
 
     auto app = anvil::Application::Instance();
+
+    anvil::TileMap::registerWithFactory();
+    GameScene::registerWithFactory();
+    Player::registerWithFactory();
+    NonPlayable::registerWithFactory();
+    MenuButton::registerWithFactory();
+    TextButton::registerWithFactory();
+
+
 
     app->addInitCallback([]{
         anvil::Application::Instance()->getStateMachine()->changeState(new MenuState);

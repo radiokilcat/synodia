@@ -1,8 +1,8 @@
 #include "player.h"
 #include <ctime>
 #include <cstdlib>
+
 Player::Player(const anvil::LoaderParams* params)
-    : anvil::IsoGameObject(params)
 {
     srand(time(NULL));
     _speech = std::make_unique<Speech>(new anvil::LoaderParams(15, 15, 62, 40, "speech"));
@@ -53,4 +53,11 @@ void Player::update()
 
 void Player::clean()
 {
+}
+
+bool Player::registerWithFactory() {
+    anvil::GameObjectFactory::instance().registerType("Player", []() -> std::unique_ptr<anvil::BaseGameObject> {
+        return std::make_unique<Player>();
+    });
+    return true;
 }

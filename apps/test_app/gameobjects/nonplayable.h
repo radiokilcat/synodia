@@ -10,6 +10,10 @@ public:
     void draw(std::shared_ptr<anvil::Renderer> renderer) override;
     void update() override;
     void clean() override;
+
+    static bool registerWithFactory();
+
+    NonPlayable();
 private:
 
 

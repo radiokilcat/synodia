@@ -1,5 +1,6 @@
 #include "gamescene.h"
 #include <memory>
+
 void GameScene::draw(std::shared_ptr<anvil::Renderer> renderer)
 {
     for (auto& child: m_childs)
@@ -22,6 +23,11 @@ void GameScene::clean()
     {
         child->clean();
     }
+}
+
+void GameScene::load(const anvil::LoaderParams* params)
+{
+
 }
 
 void GameScene::addGameObject(std::unique_ptr<anvil::BaseGameObject> gameObject)
@@ -58,4 +64,11 @@ void GameScene::from_json(nlohmann::json& j)
         }
 
     }
+}
+
+bool GameScene::registerWithFactory() {
+    anvil::GameObjectFactory::instance().registerType("GameScene", []() -> std::unique_ptr<anvil::BaseGameObject> {
+        return std::make_unique<GameScene>();
+    });
+    return true;
 }

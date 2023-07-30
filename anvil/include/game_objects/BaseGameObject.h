@@ -36,6 +36,9 @@ public:
     virtual void draw(std::shared_ptr<Renderer> renderer) = 0;
     virtual void update() = 0;
     virtual void clean() = 0;
+    virtual void load(const LoaderParams* params) = 0;
+
+    virtual void setCallback(std::function<void()> callback) { };
 
     void from_json(nlohmann::json& j) override {
     }

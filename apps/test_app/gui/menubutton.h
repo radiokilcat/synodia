@@ -3,15 +3,18 @@
 #include <functional>
 #include "anvil.h"
 
-
 class MenuButton : public anvil::GameObject
 {
 public:
-    MenuButton(const anvil::LoaderParams* params, std::function<void()> callback);
+    MenuButton();
 
     void draw(std::shared_ptr<anvil::Renderer> renderer) override;
     void update() override;
     void clean() override;
+
+    void setCallback(std::function<void()> callback) override { m_callback = callback; };
+
+    static bool registerWithFactory();
 
 private:
 
@@ -22,7 +25,6 @@ private:
         CLICKED = 2
     };
     std::function<void()> m_callback;
-
     bool released_;
 
 };

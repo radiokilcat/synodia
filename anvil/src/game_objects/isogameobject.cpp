@@ -2,17 +2,6 @@
 
 namespace anvil {
 
-IsoGameObject::IsoGameObject(const LoaderParams* params)
-    : position_((float)params->getX(), (float)params->getY())
-    , velocity_(0,0)
-{
-    width_ = params->getWidth();
-    height_ = params->getHeight();
-    id_ = params->getId();
-    currentRow_ = 1;
-    currentFrame_ = 1;
-}
-
 void IsoGameObject::draw(std::shared_ptr<Renderer> renderer)
 {
     std::pair<float, float> isoPosition = getIsoPosition(position_.x(), position_.y());

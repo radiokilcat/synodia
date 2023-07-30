@@ -1,7 +1,7 @@
 #include "nonplayable.h"
 
-NonPlayable::NonPlayable(const anvil::LoaderParams* params)
-    : anvil::GameObject(params)
+NonPlayable::NonPlayable()
+: anvil::GameObject()
 {
 
 }
@@ -17,5 +17,12 @@ void NonPlayable::update()
 
 void NonPlayable::clean()
 {
+}
+
+bool NonPlayable::registerWithFactory() {
+    anvil::GameObjectFactory::instance().registerType("NPC", []() -> std::unique_ptr<anvil::BaseGameObject> {
+        return std::make_unique<NonPlayable>();
+    });
+    return true;
 }
 
