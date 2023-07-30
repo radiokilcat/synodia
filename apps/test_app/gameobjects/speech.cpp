@@ -1,13 +1,11 @@
 #include "speech.h"
 
 
-Speech::Speech(const anvil::LoaderParams* params)
-    : anvil::GameObject(params)
+Speech::Speech()
+    : anvil::GameObject()
 {
-    m_label = new anvil::TextLabel("lbl", m_text,
-        anvil::Color{0, 0, 0},
-        position_.x() + 8, position_.y() + 8,
-        width_, height_);
+    m_label = new anvil::TextLabel(m_text,
+        anvil::Color{0, 0, 0});
 }
 
 void Speech::draw(std::shared_ptr<anvil::Renderer> renderer)
@@ -40,10 +38,19 @@ void Speech::show(int timeSec, std::string text)
     shownAt = anvil::Application::Instance()->getTicks();
     showDuration = timeSec;
 }
+
 bool Speech::isShown() {
     return shownAt > 0 && showDuration > 0 &&
         anvil::Application::Instance()->getTicks() < shownAt + showDuration * 1000;
 }
+
 void Speech::clean()
 {
+}
+
+void Speech::load(const anvil::LoaderParams* params)
+{
+    GameObject::load(params);
+    m_label->setText(m_text);
+    m_label->setPosition(position_.x() + 8, position_.y() + 8);
 }

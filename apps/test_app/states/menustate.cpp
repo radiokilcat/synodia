@@ -20,7 +20,9 @@ bool MenuState::onEnter()
     anvil::TextureManager::instance()->loadTexture((resPath / "empty_button.png").string(), "empty_button", anvil::Application::Instance()->getRenderer()->getRenderer());
 
     anvil::Color textColor = { 255, 255, 255 };
-    anvil::BaseGameObject* title = new anvil::TextLabel("title", "Stories of Anvil", textColor, 100, 20, 500, 80);
+    anvil::TextLabel* title = new anvil::TextLabel("Stories of Anvil", textColor);
+    title->setText("Load Game");
+    title->load(new anvil::LoaderParams(100, 20, 500, 80, "title"));
 
     MenuButton* button1 = new MenuButton();
     button1->load(new anvil::LoaderParams(100, 100, 400, 100, "playbutton"));
