@@ -21,10 +21,20 @@ public:
                    int currentRow, int currentFrame,
                    SDL_Renderer* renderer);
 
+    void drawFrameScaled(std::string id, float scale, int x, int y, int width, int height,
+        int currentRow, int currentFrame,
+        SDL_Renderer* renderer);
+
     void drawText(std::string id, std::string text,
                   TTF_Font* font, SDL_Color color,
                   int x, int y, int width, int height,
                   SDL_Renderer* renderer);
+
+    void drawTextWrapped(std::string id, Uint32 wrapLength, std::string text,
+        TTF_Font* font, SDL_Color color,
+        int x, int y, int width, int height,
+        SDL_Renderer* renderer);
+
     //TODO: also need to write draw & drawFrame methods for flipped image
     void clearFromTextureMap(std::string id);
 

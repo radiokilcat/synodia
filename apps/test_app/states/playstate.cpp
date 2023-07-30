@@ -4,6 +4,7 @@
 #include "playstate.h"
 #include "../gameobjects/gamescene.h"
 #include "../gameobjects/player.h"
+#include "../gameobjects/speech.h"
 
 
 PlayState::PlayState()
@@ -24,6 +25,7 @@ bool PlayState::onEnter()
     anvil::TextureManager::instance()->loadTexture((resPath / "tiles" / "grass.png").string(), "grass", app->getRenderer()->getRenderer());
     anvil::TextureManager::instance()->loadTexture((resPath / "tiles" / "tile-11.png").string(), "eleven", app->getRenderer()->getRenderer());
     anvil::TextureManager::instance()->loadTexture((resPath / "tiles" / "tile-9.png").string(), "hill", app->getRenderer()->getRenderer());
+    anvil::TextureManager::instance()->loadTexture((resPath / "speech.png").string(), "speech", app->getRenderer()->getRenderer());
     if (m_scene == NULL)
     {
         m_scene = new GameScene();

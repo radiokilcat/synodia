@@ -47,6 +47,14 @@ void GameObject::draw(std::shared_ptr<Renderer> renderer)
                                           renderer->getRenderer());
 }
 
+void GameObject::drawScaled(std::shared_ptr<Renderer> renderer, float scale)
+{
+    TextureManager::instance()->drawFrameScaled(id_, scale,(Uint32)position_.x(), (Uint32)position_.y(),
+        width_, height_,
+        currentRow_, currentFrame_,
+        renderer->getRenderer());
+}
+
 void GameObject::from_json(nlohmann::json& j) {
     id_ = j["id_"];
     currentFrame_ = j["currentFrame_"];
