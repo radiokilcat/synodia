@@ -8,17 +8,12 @@
 
 namespace anvil {
 
-TextLabel::TextLabel(std::string id, std::string text,
+TextLabel::TextLabel(std::string text,
                      Color color,
-                     float x, float y,
-                     float w, float h,
                      TTF_Font* font)
-    : position_((float)x, (float)y)
+    : GameObject()
     , color_({ color.R, color.G, color.B })
-    , id_(id)
     , text_(text)
-    , width_(w)
-    , height_(h)
     , font_(font)
 {
 }
@@ -26,19 +21,22 @@ TextLabel::TextLabel(std::string id, std::string text,
 void TextLabel::draw(std::shared_ptr<Renderer> renderer)
 {
     TextureManager::instance()->drawText(id_, text_, font_, color_, position_.x(), position_.y(), width_, height_, renderer->getRenderer());
-};
+}
 
 void TextLabel::drawWrapped(std::shared_ptr<Renderer> renderer, Uint32 wrapLength)
 {
     TextureManager::instance()->drawTextWrapped(id_, wrapLength, text_, font_, color_, position_.x(), position_.y(), width_, height_, renderer->getRenderer());
 };
+
 void TextLabel::setPosition(float x, float y)
 {
     position_.setX(x);
     position_.setY(y);
 }
+
 void TextLabel::setText(std::string text)
 {
     text_ = text;
 }
+
 }

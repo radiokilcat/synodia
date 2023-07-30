@@ -2,9 +2,8 @@
 #include <iostream>
 
 
-MenuButton::MenuButton(const anvil::LoaderParams* params, std::function<void()> callback)
-    : anvil::GameObject(params),
-    m_callback(callback)
+MenuButton::MenuButton()
+    : anvil::GameObject()
 {
     currentFrame_ = MOUSE_OUT;
 }
@@ -42,4 +41,12 @@ void MenuButton::update()
 
 void MenuButton::clean()
 {
+}
+
+bool MenuButton::registerWithFactory()
+{
+    anvil::GameObjectFactory::instance().registerType("MenuButton", []() -> std::unique_ptr<anvil::BaseGameObject> {
+        return std::make_unique<MenuButton>();
+    });
+    return true;
 }

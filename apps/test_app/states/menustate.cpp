@@ -22,17 +22,24 @@ bool MenuState::onEnter()
     anvil::Color textColor = { 255, 255, 255 };
     anvil::BaseGameObject* title = new anvil::TextLabel("title", "Stories of Anvil", textColor, 100, 20, 500, 80);
 
-    anvil::GameObject* button1 = new MenuButton(new anvil::LoaderParams(100, 150, 400, 100, "playbutton"), []() {
+    MenuButton* button1 = new MenuButton();
+    button1->load(new anvil::LoaderParams(100, 100, 400, 100, "playbutton"));
+    button1->setCallback([]() {
         std::cout << "Play button clicked" << std::endl;
         anvil::Application::Instance()->getStateMachine()->changeState(new PlayState);
     });
 
-    anvil::GameObject* button2 = new MenuButton(new anvil::LoaderParams(100, 300, 400, 100, "exitbutton"), []() {
+    MenuButton* button2 = new MenuButton();
+    button2->load(new anvil::LoaderParams(100, 300, 400, 100, "exitbutton"));
+    button2->setCallback([]() {
         std::cout << "Exit button clicked" << std::endl;
         anvil::Application::Instance()->quit();
     });
 
-    anvil::GameObject* button3 = new TextButton(new anvil::LoaderParams(100, 450, 400, 100, "empty_button"), "Load Game", []() {
+    TextButton* button3 = new TextButton();
+    button3->setText("Load Game");
+    button3->load(new anvil::LoaderParams(100, 450, 400, 100, "empty_button"));
+    button3->setCallback([]() {
         std::cout << "Load button clicked" << std::endl;
         auto serializer = anvil::JsonSerializer("output.txt");
         auto playLoad = new PlayState();

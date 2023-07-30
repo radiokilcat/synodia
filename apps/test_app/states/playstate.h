@@ -24,14 +24,14 @@ public:
         if (m_scene)
         {
             delete m_scene;
-            m_scene = NULL;
+            m_scene = nullptr;
         }
     }
 
 private:
 
 //    std::vector<GameObject*> m_gameObjects;
-    GameScene *m_scene = NULL;
+    GameScene *m_scene = nullptr;
 
     const std::string m_id = "play";
 };

@@ -1,6 +1,7 @@
 #include "game_objects/tilemap.h"
 #include "renderer.h"
 #include "application.h"
+#include "game_objects/GameObjectsFactory.h"
 
 std::vector<std::vector<std::string>> grid = {
     {"grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass"},
@@ -19,21 +20,12 @@ const int MAX_TILE_HEIGHT = 90;
 
 namespace anvil {
 
-TileMap::TileMap(LoaderParams* params)
-  :GameObject(params)
+TileMap::TileMap()
+  :GameObject()
   , m_tileWidth(100)
   , m_tileHeight(50)
   , m_startX(Application::Instance()->getScreenWidth() / 2 - m_tileWidth / 2)
   , m_startY(10)
-{
-}
-
-TileMap::TileMap()
-    :GameObject()
-    , m_tileWidth(100)
-    , m_tileHeight(50)
-    , m_startX(Application::Instance()->getScreenWidth() / 2 - m_tileWidth / 2)
-    , m_startY(10)
 {
 }
 
@@ -72,6 +64,13 @@ void TileMap::from_json(nlohmann::json& j)
 void TileMap::to_json(nlohmann::json& j) {
     GameObject::to_json(j);
 
+}
+
+bool TileMap::registerWithFactory() {
+    GameObjectFactory::instance().registerType("TileMap", []() -> std::unique_ptr<BaseGameObject> {
+        return std::make_unique<TileMap>();
+    });
+    return true;
 }
 
 }

@@ -7,12 +7,13 @@
 class Player: public anvil::IsoGameObject
 {
 public:
-    Player(const anvil::LoaderParams* params);
-    Player() {}
+    Player();
     ~Player() {};
     void draw(std::shared_ptr<anvil::Renderer> renderer) override;
     void update() override;
     void clean() override;
+
+    static bool registerWithFactory();
 private:
     std::string _quotes[4] = { 
         std::string("Whoa!\nTHE POWER\nOF ENGINE"),

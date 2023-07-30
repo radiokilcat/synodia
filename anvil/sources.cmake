@@ -16,6 +16,7 @@ set(SOURCES
   src/game_objects/tilemap.cpp
   src/game_objects/isogameobject.cpp
   src/game_objects/textlabel.cpp
+  src/game_objects/GameObjectsFactory.cpp
 )
 
 set(HEADERS
@@ -40,6 +41,7 @@ set(HEADERS
   include/game_objects/textlabel.h
   include/game_objects/gameobject.h
   include/game_objects/tilemap.h
+  include/game_objects/GameObjectsFactory.h
 )
 
 set(public_headers include/anvil.h )

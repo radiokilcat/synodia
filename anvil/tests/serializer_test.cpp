@@ -1,15 +1,15 @@
 #include <gtest/gtest.h>
 #include <memory>
 #include "anvil.h"
-#include "gameobject.h"
+#include "game_objects/gameobject.h"
+
 namespace anvil
 {
 	class MockGameObject : anvil::GameObject
 	{
 	public:
-		MockGameObject() {}
-		MockGameObject(const anvil::LoaderParams* params)
-			: anvil::GameObject(params)
+        MockGameObject()
+            : anvil::GameObject()
 		{
 
 		}

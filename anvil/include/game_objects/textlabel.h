@@ -21,11 +21,10 @@ struct Color {
     uint8_t B;
 };
 
-class TextLabel : public BaseGameObject
+class TextLabel : public GameObject
 {
 public:
-    TextLabel(std::string id, std::string text, Color color, float x, float y, float w, float h,
-              TTF_Font* font = FontLoader::instance()->getDefaultFont());
+    TextLabel(std::string text, Color color, TTF_Font* font = FontLoader::instance()->getDefaultFont());
     TextLabel() = default;
 
     virtual void draw(std::shared_ptr<Renderer> renderer) override;
@@ -37,13 +36,9 @@ public:
     virtual ~TextLabel() {};
 
 protected:
-    std::string id_;
     std::string text_;
     TTF_Font* font_;
     SDL_Color color_;
-
-    Vector2D position_;
-    int width_, height_;
 };
 
 }
