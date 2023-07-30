@@ -9,9 +9,10 @@ TextButton::TextButton(const anvil::LoaderParams* params,
     , m_text(text)
 {
     m_label = new anvil::TextLabel("lbl", m_text,
-                                   anvil::Color{54, 29, 50},
-                                   position_.x(), position_.y(),
-                                   width_, height_);
+                                   anvil::Color{255, 255, 255},
+                                   position_.x() + 16, position_.y() + 16,
+                                   width_ - 32, height_ - 32);
+    currentFrame_ = MOUSE_OUT;
 }
 
 void TextButton::draw(std::shared_ptr<anvil::Renderer> renderer)
