@@ -10,8 +10,7 @@ public:
         HIDDEN = 0, 
         SHOWN = 1
     };
-    Speech(const anvil::LoaderParams* params);
-    Speech() {}
+    Speech();
     ~Speech() {};
     void draw(std::shared_ptr<anvil::Renderer> renderer) override;
     void update() override;
@@ -19,6 +18,8 @@ public:
     void show(int timeSec, std::string text);
     bool isShown();
     void clean() override;
+    void load(const anvil::LoaderParams* params);
+
 private:
     anvil::TextLabel* m_label = nullptr;
     std::string m_text = "";

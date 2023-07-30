@@ -2,10 +2,11 @@
 #include <ctime>
 #include <cstdlib>
 
-Player::Player(const anvil::LoaderParams* params)
+Player::Player()
 {
     srand(time(NULL));
-    _speech = std::make_unique<Speech>(new anvil::LoaderParams(15, 15, 62, 40, "speech"));
+    _speech = std::make_unique<Speech>();
+    _speech->load(new anvil::LoaderParams(15, 15, 62, 40, "speech"));
 }
 
 void Player::draw(std::shared_ptr<anvil::Renderer> renderer)
