@@ -27,18 +27,6 @@ GameObject::GameObject() :
     width_ = 0;
 }
 
-GameObject::GameObject(const LoaderParams* params)
-    : position_((float)params->getX(), (float)params->getY())
-    , velocity_(0,0)
-    , acceleration_(0,0)
-{
-    width_ = params->getWidth();
-    height_ = params->getHeight();
-    id_ = params->getId();
-    currentRow_ = 1;
-    currentFrame_ = 1;
-}
-
 void GameObject::draw(std::shared_ptr<Renderer> renderer)
 {
     TextureManager::instance()->drawFrame(id_, (Uint32)position_.x(), (Uint32)position_.y(),
@@ -53,6 +41,18 @@ void GameObject::drawScaled(std::shared_ptr<Renderer> renderer, float scale)
         width_, height_,
         currentRow_, currentFrame_,
         renderer->getRenderer());
+}
+
+void GameObject::load(const LoaderParams* params)
+{
+    position_ = Vector2D{(float)params->getX(), (float)params->getY()};
+    velocity_ = Vector2D{0,0};
+    acceleration_ = Vector2D{0,0};
+    width_ = params->getWidth();
+    height_ = params->getHeight();
+    id_ = params->getId();
+    currentRow_ = 1;
+    currentFrame_ = 1;
 }
 
 void GameObject::from_json(nlohmann::json& j) {

@@ -26,11 +26,18 @@ bool PlayState::onEnter()
     anvil::TextureManager::instance()->loadTexture((resPath / "tiles" / "tile-11.png").string(), "eleven", app->getRenderer()->getRenderer());
     anvil::TextureManager::instance()->loadTexture((resPath / "tiles" / "tile-9.png").string(), "hill", app->getRenderer()->getRenderer());
     anvil::TextureManager::instance()->loadTexture((resPath / "speech.png").string(), "speech", app->getRenderer()->getRenderer());
-    if (m_scene == NULL)
+    if (m_scene == nullptr)
     {
         m_scene = new GameScene();
-        m_scene->addGameObject(std::make_unique<anvil::TileMap>(new anvil::LoaderParams(100, 100, 50, 37, "water")));
-        m_scene->addGameObject(std::make_unique<Player>(new anvil::LoaderParams(100, 100, 50, 37, "test")));
+
+        auto map = anvil::GameObjectFactory::instance().createGameObject("TileMap");
+        auto player = anvil::GameObjectFactory::instance().createGameObject("Player");
+
+        map->load(new anvil::LoaderParams(100, 100, 50, 37, "water"));
+        player->load(new anvil::LoaderParams(100, 100, 50, 37, "test"));
+
+        m_scene->addGameObject(std::move(map));
+        m_scene->addGameObject(std::move(player));
     }
     std::cout << "Enter Play state" << std::endl;
     return true;

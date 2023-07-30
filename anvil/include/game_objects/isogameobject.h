@@ -8,7 +8,7 @@ class IsoGameObject : public GameObject
 {
 public:
     IsoGameObject() {};
-    virtual void draw(std::shared_ptr<Renderer> renderer) override;;
+    virtual void draw(std::shared_ptr<Renderer> renderer) override;
     virtual void update() override;
     virtual ~IsoGameObject() {};
 
