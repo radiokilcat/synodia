@@ -24,6 +24,7 @@ public:
 
     GameObject(const LoaderParams* params);
     virtual void draw(std::shared_ptr<Renderer> renderer) override;
+    virtual void drawScaled(std::shared_ptr<Renderer> renderer, float scale);
     virtual void update() override {};
     virtual void clean() override {};
     virtual ~GameObject() {};

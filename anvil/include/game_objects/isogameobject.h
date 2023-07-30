@@ -9,7 +9,6 @@ class IsoGameObject : public BaseGameObject
 public:
     IsoGameObject(const LoaderParams* params);
     IsoGameObject() {};
-
     virtual void draw(std::shared_ptr<Renderer> renderer) override;;
 
     virtual void update();;
