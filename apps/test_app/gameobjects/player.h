@@ -22,6 +22,7 @@ private:
         std::string("nice one!"),
     };
     std::unique_ptr<Speech> _speech;
+
 };
 
 

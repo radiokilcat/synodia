@@ -23,6 +23,7 @@ bool PauseState::onEnter()
         std::cout << "Play button clicked" << std::endl;
         anvil::Application::Instance()->getStateMachine()->popState();
     });
+    button1->load(new anvil::LoaderParams(100, 100, 400, 100, "playbutton"));
 
     MenuButton* button2 = new MenuButton();
     button2->setCallback([]() {

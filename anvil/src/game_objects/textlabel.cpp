@@ -34,6 +34,7 @@ void TextLabel::setPosition(float x, float y)
     position_.setY(y);
 }
 
+
 void TextLabel::setText(std::string text)
 {
     text_ = text;
