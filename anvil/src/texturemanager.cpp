@@ -76,7 +76,7 @@ void TextureManager::drawText(std::string id, std::string text,
                               int x, int y, int width, int height,
                               SDL_Renderer* renderer)
 {
-    SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, text.c_str(), color);
+    SDL_Surface* surfaceMessage = TTF_RenderUTF8_Blended(font, text.c_str(), color);
     SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
 
     SDL_FRect Message_rect;

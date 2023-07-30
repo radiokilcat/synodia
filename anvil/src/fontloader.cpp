@@ -29,7 +29,7 @@ FontLoader* FontLoader::instance()
 
 void FontLoader::loadFont(const std::string fontName, const std::filesystem::path path, int size)
 {
-    TTF_Font* font = TTF_OpenFont(path.string().c_str(), size);
+    TTF_Font* font = TTF_OpenFontDPI(path.string().c_str(), size, 2000, 2000);
     if (font == nullptr)
     {
         std::cout << SDL_GetError() << " " <<  path << std::endl;

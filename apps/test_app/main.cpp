@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     auto settings = configuration.load();
     settings.validate();
 
-    anvil::FontLoader::instance()->loadFont("sample", resPath / "sample.ttf", 16);
+    anvil::FontLoader::instance()->loadFont("sample", resPath / "badcomics.ttf", 14);
     anvil::FontLoader::instance()->setDefaultFont("sample");
 
     auto app = anvil::Application::Instance();
