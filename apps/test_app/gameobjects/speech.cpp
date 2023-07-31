@@ -52,5 +52,6 @@ void Speech::load(const anvil::LoaderParams* params)
 {
     GameObject::load(params);
     m_label->setText(m_text);
+    m_label->setSize(params->getWidth(), params->getHeight());
     m_label->setPosition(position_.x() + 8, position_.y() + 8);
 }

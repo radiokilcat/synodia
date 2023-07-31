@@ -17,7 +17,7 @@ TextLabel::TextLabel(std::string text,
     , font_(font)
 {
 }
-
+ 
 void TextLabel::draw(std::shared_ptr<Renderer> renderer)
 {
     TextureManager::instance()->drawText(id_, text_, font_, color_, position_.x(), position_.y(), width_, height_, renderer->getRenderer());
@@ -32,6 +32,12 @@ void TextLabel::setPosition(float x, float y)
 {
     position_.setX(x);
     position_.setY(y);
+}
+
+void TextLabel::setSize(float w, float h)
+{
+    width_ = w;
+    height_ = h;
 }
 
 
