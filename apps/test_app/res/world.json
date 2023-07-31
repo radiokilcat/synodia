@@ -1,0 +1,28 @@
+{
+    "MENU": {
+        "textures": {
+            "playbutton": "button.png",
+            "exitbutton": "exit.png",
+            "empty_button": "empty_button.png"
+        }
+    },
+    "play": {
+        "textures": {
+            "test": "adventurer.png",
+            "water": "tiles/water.png",
+            "sand": "tiles/sand.png",
+            "grass": "tiles/grass.png",
+            "eleven": "tiles/tile-11.png",
+            "hill": "tiles/tile-9.png",
+            "speech": "speech.png"
+        }
+    },
+    "PAUSE": {
+        "textures": {
+            "playbutton": "button.png",
+            "exitbutton": "exit.png",
+            "empty_button": "empty_button.png"
+        }
+    }
+}
+

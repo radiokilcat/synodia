@@ -34,4 +34,5 @@ private:
     GameScene *m_scene = nullptr;
 
     const std::string m_id = "play";
+    std::vector<std::string> m_textureIds;
 };

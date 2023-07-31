@@ -9,6 +9,7 @@
 #include "fontloader.h"
 #include "gamestate.h"
 #include "game_state_machine.h"
+#include "json_serializer/stateloader.h"
 #include "game_objects/textlabel.h"
 #include "game_objects/tilemap.h"
 #include "game_objects/gameobject.h"

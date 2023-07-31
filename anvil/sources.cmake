@@ -12,6 +12,7 @@ set(SOURCES
   src/utils.cpp
   src/fontloader.cpp
   src/json_serializer.cpp
+  src/stateloader.cpp
   src/game_objects/gameobject.cpp
   src/game_objects/tilemap.cpp
   src/game_objects/isogameobject.cpp
@@ -36,6 +37,7 @@ set(HEADERS
   include/fontloader.h
   include/json_serializer/json_serializer.h
   include/json_serializer/serializable_base.h
+  include/json_serializer/stateloader.h
   include/game_objects/BaseGameObject.h
   include/game_objects/isogameobject.h
   include/game_objects/textlabel.h
