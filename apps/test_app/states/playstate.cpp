@@ -14,18 +14,8 @@ PlayState::PlayState()
 
 bool PlayState::onEnter()
 {
-    std::filesystem::current_path(anvil::getExecutableDir());
-    auto resPath = std::filesystem::current_path().parent_path() / "res";
-    auto app = anvil::Application::Instance();
+    m_textureIds = anvil::StateLoader::loadTextures(m_id);
 
-//     ToDo: Texture loading and Gameobject should be deserialised from json
-    anvil::TextureManager::instance()->loadTexture((resPath / "adventurer.png").string(), "test", app->getRenderer()->getRenderer());
-    anvil::TextureManager::instance()->loadTexture((resPath / "tiles" / "water.png").string(), "water", app->getRenderer()->getRenderer());
-    anvil::TextureManager::instance()->loadTexture((resPath / "tiles" / "sand.png").string(), "sand", app->getRenderer()->getRenderer());
-    anvil::TextureManager::instance()->loadTexture((resPath / "tiles" / "grass.png").string(), "grass", app->getRenderer()->getRenderer());
-    anvil::TextureManager::instance()->loadTexture((resPath / "tiles" / "tile-11.png").string(), "eleven", app->getRenderer()->getRenderer());
-    anvil::TextureManager::instance()->loadTexture((resPath / "tiles" / "tile-9.png").string(), "hill", app->getRenderer()->getRenderer());
-    anvil::TextureManager::instance()->loadTexture((resPath / "speech.png").string(), "speech", app->getRenderer()->getRenderer());
     if (m_scene == nullptr)
     {
         m_scene = new GameScene();

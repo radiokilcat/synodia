@@ -20,4 +20,5 @@ private:
 
     std::vector<anvil::GameObject*> m_gameObjects;
     std::string m_id = "PAUSE";
+    std::vector<std::string> m_textureIds;
 };

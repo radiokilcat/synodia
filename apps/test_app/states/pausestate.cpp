@@ -12,11 +12,7 @@ PauseState::PauseState()
 
 bool PauseState::onEnter()
 {
-    auto resPath = std::filesystem::current_path().parent_path() / "res";
-
-    anvil::TextureManager::instance()->loadTexture((resPath / "button.png").string(), "playbutton", anvil::Application::Instance()->getRenderer()->getRenderer());
-    anvil::TextureManager::instance()->loadTexture((resPath / "exit.png").string(), "exitbutton", anvil::Application::Instance()->getRenderer()->getRenderer());
-    anvil::TextureManager::instance()->loadTexture((resPath / "empty_button.png").string(), "empty_button", anvil::Application::Instance()->getRenderer()->getRenderer());
+    m_textureIds = anvil::StateLoader::loadTextures(m_id);
 
     MenuButton* button1 = new MenuButton();
     button1->setCallback([]() {

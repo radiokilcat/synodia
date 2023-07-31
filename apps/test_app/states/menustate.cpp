@@ -13,11 +13,7 @@ std::string MenuState::getID()
 
 bool MenuState::onEnter()
 {
-    auto resPath = std::filesystem::current_path().parent_path() / "res";
-
-    anvil::TextureManager::instance()->loadTexture((resPath / "button.png").string(), "playbutton", anvil::Application::Instance()->getRenderer()->getRenderer());
-    anvil::TextureManager::instance()->loadTexture((resPath / "exit.png").string(), "exitbutton", anvil::Application::Instance()->getRenderer()->getRenderer());
-    anvil::TextureManager::instance()->loadTexture((resPath / "empty_button.png").string(), "empty_button", anvil::Application::Instance()->getRenderer()->getRenderer());
+    m_textureIds = anvil::StateLoader::loadTextures(m_id);
 
     anvil::Color textColor = { 255, 255, 255 };
     anvil::TextLabel* title = new anvil::TextLabel("Stories of Anvil", textColor);
@@ -73,8 +69,10 @@ bool MenuState::onExit()
         it->clean();
     }
     m_gameObjects.clear();
-    anvil::TextureManager::instance()->clearFromTextureMap("playbutton");
-    anvil::TextureManager::instance()->clearFromTextureMap("exitbutton");
+    for (auto it: m_textureIds)
+    {
+        anvil::TextureManager::instance()->clearFromTextureMap(it);
+    }
     std::cout << "Exit Menu state" << std::endl;
     return true;
 }
