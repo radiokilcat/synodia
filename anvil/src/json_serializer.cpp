@@ -9,8 +9,8 @@ namespace anvil {
 	{
 		json j;
 		object->to_json(j);
-		std::ofstream outf(m_filePath);
-		outf << j << std::endl;
+        std::ofstream outf(m_filePath);
+        outf << j.dump(4) << std::endl;
 	}
 
 	void JsonSerializer::deserialize(SerializableBase* buffer)

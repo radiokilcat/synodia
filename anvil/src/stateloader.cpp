@@ -3,6 +3,8 @@
 #include "utils.h"
 #include "texturemanager.h"
 #include "renderer.h"
+#include "game_objects/GameObjectsFactory.h"
+#include "game_objects/gameobject.h"
 
 namespace anvil {
 
@@ -29,6 +31,37 @@ std::filesystem::path StateLoader::getConfigFile()
 
 }
 
+std::unique_ptr<BaseGameObject> StateLoader::loadGameObjects(const std::string& stateId)
+{
+    auto resPath = StateLoader::getConfigFile();
+    std::ifstream file(resPath);
+
+    if (!file.is_open()) {
+        std::cerr << "Failed to open file" << std::endl;
+        return {};
+    }
+    nlohmann::json data = nlohmann::json::parse(file);
+
+    if (data.is_discarded()) {
+        std::cerr << "Failed to parse JSON" << std::endl;
+        return {};
+    }
+
+    auto objects = data[stateId]["objects"];
+
+    // for now GameScene can be the only one
+    auto scene = objects["GameScene"];
+
+    auto sceneObject = GameObjectFactory::instance().createGameObject(scene.value("id", std::string("GameScene")));
+    for (const auto& [child, params] : scene["childs"].items()) {
+        auto childObj = GameObjectFactory::instance().createGameObject(child);
+        childObj->from_json(params);
+        sceneObject->addChildObject(std::move(childObj));
+    }
+    return std::move(sceneObject);
+
+}
+
 std::vector<std::string> anvil::StateLoader::loadTextures(const std::string& stateId)
 {
     auto resPath = StateLoader::getConfigFile();
@@ -48,7 +81,7 @@ std::vector<std::string> anvil::StateLoader::loadTextures(const std::string& sta
 
     auto textures = data[stateId]["textures"];
     std::vector<std::string> textureIds;
-    for (auto& [name, path] : textures.items()) {
+    for (const auto& [name, path] : textures.items()) {
         std::filesystem::path fullPath = std::filesystem::canonical(std::filesystem::current_path() / "res" / path.get<std::string>());
         if (TextureManager::instance()->loadTexture(fullPath.string(), name,
                                                     Application::Instance()->getRenderer()->getRenderer()))

@@ -6,6 +6,13 @@
             "empty_button": "empty_button.png"
         }
     },
+    "PAUSE": {
+        "textures": {
+            "playbutton": "button.png",
+            "exitbutton": "exit.png",
+            "empty_button": "empty_button.png"
+        }
+    },
     "play": {
         "textures": {
             "test": "adventurer.png",
@@ -15,13 +22,38 @@
             "eleven": "tiles/tile-11.png",
             "hill": "tiles/tile-9.png",
             "speech": "speech.png"
-        }
-    },
-    "PAUSE": {
-        "textures": {
-            "playbutton": "button.png",
-            "exitbutton": "exit.png",
-            "empty_button": "empty_button.png"
+        },
+        "objects": {
+            "GameScene": {
+                "id": "GameScene",
+                "childs": {
+                    "Player": {
+                        "id": "player",
+                        "position": {
+                            "x_": 100.0,
+                            "y_": 100.0
+                        },
+                        "height": 37,
+                        "width": 50,
+                        "currentFrame": 1,
+                        "currentRow": 1,
+                        "textureId": "test"
+                    },
+                    "TileMap": {
+                        "id": "tilemap_0", 
+                        "grid": [ [ "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass" ],
+                                [ "grass", "water", "water", "water", "water", "water", "water", "water", "water", "grass" ],
+                                [ "grass", "hill", "water", "water", "water", "water", "water", "water", "water", "grass" ],
+                                [ "grass", "water", "water", "water", "water", "water", "water", "water", "water", "grass" ],
+                                [ "grass", "water", "water", "sand", "water", "water", "water", "water", "water", "grass" ],
+                                [ "grass", "water", "water", "sand", "water", "water", "water", "water", "water", "grass" ],
+                                [ "grass", "water", "water", "water", "water", "water", "water", "water", "water", "grass" ],
+                                [ "grass", "water", "water", "water", "water", "water", "water", "sand", "water", "grass" ],
+                                [ "grass", "water", "water", "water", "water", "water", "water", "water", "water", "grass" ],
+                                [ "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass" ] ]
+                    }
+                }
+            }
         }
     }
 }

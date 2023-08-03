@@ -55,26 +55,33 @@ void GameObject::load(const LoaderParams* params)
     currentFrame_ = 1;
 }
 
+void GameObject::addChildObject(std::unique_ptr<BaseGameObject> gameObject)
+{
+    m_childs.push_back(std::move(gameObject));
+}
+
 void GameObject::from_json(nlohmann::json& j) {
-    id_ = j["id_"];
-    currentFrame_ = j["currentFrame_"];
-    currentRow_ = j["currentRow_"];
-    position_ = j["position_"];
-    velocity_ = j["velocity_"];
-    acceleration_ = j["acceleration_"];
-    width_ = j["width_"];
-    height_ = j["height_"];
+    id_ = j.value("id", std::string("test1"));
+    textureId_ = j.value("textureId", std::string("test"));
+    currentFrame_ = j.value("currentFrame", 0);
+    currentRow_ = j.value("currentRow", 0);
+    position_ = j.value("position", Vector2D{0,0});
+    velocity_ = j.value("velocity", Vector2D{0,0});
+    acceleration_ = j.value("acceleration", Vector2D{0,0});
+    width_ = j.value("width", 0);
+    height_ = j.value("height", 0);
 }
 
 void GameObject::to_json(nlohmann::json& j)  {
-    j["id_"] = id_;
-    j["currentFrame_"] = currentFrame_;
-    j["currentRow_"] = currentRow_;
-    j["position_"] = position_;
-    j["velocity_"] = velocity_;
-    j["acceleration_"] = acceleration_;
-    j["width_"] = width_;
-    j["height_"] = height_;
+    j["id"] = id_;
+    j["textureId"] = textureId_;
+    j["currentFrame"] = currentFrame_;
+    j["currentRow"] = currentRow_;
+    j["position"] = position_;
+    j["velocity"] = velocity_;
+    j["acceleration"] = acceleration_;
+    j["width"] = width_;
+    j["height"] = height_;
 }
 
 bool GameObject::operator==(const GameObject& g) {

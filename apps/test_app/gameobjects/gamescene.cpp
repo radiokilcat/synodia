@@ -30,7 +30,7 @@ void GameScene::load(const anvil::LoaderParams* params)
 
 }
 
-void GameScene::addGameObject(std::unique_ptr<anvil::BaseGameObject> gameObject)
+void GameScene::addChildObject(std::unique_ptr<anvil::BaseGameObject> gameObject)
 {
     m_childs.push_back(std::move(gameObject));
 }
