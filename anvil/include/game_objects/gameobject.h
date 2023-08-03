@@ -28,6 +28,7 @@ public:
     virtual void clean() override {};
     virtual ~GameObject() {};
     virtual void load(const LoaderParams* params) override;
+    virtual void addChildObject(std::unique_ptr<anvil::BaseGameObject> gameObject);
 
     void from_json(nlohmann::json &j);
     void to_json(nlohmann::json &j);
@@ -36,12 +37,17 @@ public:
 
 protected:
     std::string id_;
+    std::string textureId_;
     int currentFrame_ = 0;
     int currentRow_ = 0;
     Vector2D position_;
     Vector2D velocity_;
     Vector2D acceleration_;
     int width_, height_;
+
+
+private:
+    std::vector<std::unique_ptr<anvil::BaseGameObject>> m_childs;
 };
 
 }

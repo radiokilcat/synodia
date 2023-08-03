@@ -56,6 +56,16 @@ void Player::clean()
 {
 }
 
+void Player::from_json(nlohmann::json& j)
+{
+    GameObject::from_json(j);
+}
+
+void Player::to_json(nlohmann::json& j)
+{
+    GameObject::to_json(j);
+}
+
 bool Player::registerWithFactory() {
     anvil::GameObjectFactory::instance().registerType("Player", []() -> std::unique_ptr<anvil::BaseGameObject> {
         return std::make_unique<Player>();

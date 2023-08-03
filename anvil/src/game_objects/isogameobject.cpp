@@ -6,7 +6,7 @@ void IsoGameObject::draw(std::shared_ptr<Renderer> renderer)
 {
     std::pair<float, float> isoPosition = getIsoPosition(position_.x(), position_.y());
 
-    TextureManager::instance()->drawFrame(id_, (Uint32)isoPosition.first, (Uint32)isoPosition.second,
+    TextureManager::instance()->drawFrame(textureId_, (Uint32)isoPosition.first, (Uint32)isoPosition.second,
                                           width_, height_,
                                           currentRow_, currentFrame_,
                                           renderer->getRenderer());

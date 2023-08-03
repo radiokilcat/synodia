@@ -12,6 +12,8 @@ public:
     void draw(std::shared_ptr<anvil::Renderer> renderer) override;
     void update() override;
     void clean() override;
+    void from_json(nlohmann::json& j) override;
+    void to_json(nlohmann::json& j) override;
 
     static bool registerWithFactory();
 private:

@@ -54,8 +54,10 @@ bool PauseState::onExit()
         it->clean();
     }
     m_gameObjects.clear();
-    anvil::TextureManager::instance()->clearFromTextureMap("playbutton");
-    anvil::TextureManager::instance()->clearFromTextureMap("exitbutton");
+    for (auto it: m_textureIds)
+    {
+        anvil::TextureManager::instance()->clearFromTextureMap(it);
+    }
     std::cout << "Exit Pause state" << std::endl;
     return true;
 }

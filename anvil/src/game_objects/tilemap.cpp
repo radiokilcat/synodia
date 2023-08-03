@@ -3,18 +3,6 @@
 #include "application.h"
 #include "game_objects/GameObjectsFactory.h"
 
-std::vector<std::vector<std::string>> grid = {
-    {"grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass"},
-    {"grass", "water", "water", "water", "water", "water", "water", "water", "water", "grass"},
-    {"grass", "hill", "water", "water", "water", "water", "water", "water", "water", "grass"},
-    {"grass", "water", "water", "water", "water", "water", "water", "water", "water", "grass"},
-    {"grass", "water", "water", "sand", "water", "water", "water", "water", "water", "grass"},
-    {"grass", "water", "water", "sand", "water", "water", "water", "water", "water", "grass"},
-    {"grass", "water", "water", "water", "water", "water", "water", "water", "water", "grass"},
-    {"grass", "water", "water", "water", "water", "water", "water", "sand", "water", "grass"},
-    {"grass", "water", "water", "water", "water", "water", "water", "water", "water", "grass"},
-    {"grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass"}
-};
 
 const int MAX_TILE_HEIGHT = 90;
 
@@ -44,11 +32,11 @@ void TileMap::draw_tile(std::string id, int x, int y, std::shared_ptr<Renderer> 
 
 void TileMap::draw(std::shared_ptr<Renderer> renderer)
 {
-    for (int i = 0; i < grid.size(); i++)
+    for (int i = 0; i < m_grid.size(); i++)
     {
-        for (int j = 0; j < grid.size(); j++)
+        for (int j = 0; j < m_grid.size(); j++)
         {
-            draw_tile(grid[i][j], i, j, renderer);
+            draw_tile(m_grid[i][j], i, j, renderer);
         }
     }
 }
@@ -59,11 +47,26 @@ void TileMap::clean()
 
 void TileMap::from_json(nlohmann::json& j)
 {
-    GameObject::from_json(j);
-}
-void TileMap::to_json(nlohmann::json& j) {
-    GameObject::to_json(j);
+    if (j.count("grid") > 0 && j["grid"].is_array()) {
+        for (auto& row : j["grid"]) {
+            if (row.is_array()) {
+                std::vector<std::string> rowVec;
 
+                for (auto& elem : row) {
+                    rowVec.push_back(elem.get<std::string>());
+                }
+
+                m_grid.push_back(rowVec);
+            }
+        }
+    GameObject::from_json(j);
+    }
+}
+
+void TileMap::to_json(nlohmann::json& j)
+{
+    j["grid"] = m_grid;
+    GameObject::to_json(j);
 }
 
 bool TileMap::registerWithFactory() {

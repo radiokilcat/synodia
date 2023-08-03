@@ -16,6 +16,8 @@ public:
     ~TileMap() {};
     static bool registerWithFactory();
 private:
+    std::vector<std::vector<std::string>> m_grid;
+
     int m_tileWidth;
     int m_tileHeight;
 
