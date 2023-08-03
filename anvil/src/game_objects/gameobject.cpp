@@ -58,6 +58,15 @@ void GameObject::load(const LoaderParams* params)
 void GameObject::addChildObject(std::unique_ptr<BaseGameObject> gameObject)
 {
     m_childs.push_back(std::move(gameObject));
+    std::sort(m_childs.begin(), m_childs.end(), [](const std::unique_ptr<anvil::BaseGameObject>& a,
+                                                   const std::unique_ptr<anvil::BaseGameObject>& b) {
+        return a->getZOrder() < b->getZOrder();
+    });
+}
+
+int GameObject::getZOrder()
+{
+    return zOrder_;
 }
 
 void GameObject::from_json(nlohmann::json& j) {
@@ -70,6 +79,7 @@ void GameObject::from_json(nlohmann::json& j) {
     acceleration_ = j.value("acceleration", Vector2D{0,0});
     width_ = j.value("width", 0);
     height_ = j.value("height", 0);
+    zOrder_ = j.value("zOrder", 0);
 }
 
 void GameObject::to_json(nlohmann::json& j)  {
@@ -82,6 +92,7 @@ void GameObject::to_json(nlohmann::json& j)  {
     j["acceleration"] = acceleration_;
     j["width"] = width_;
     j["height"] = height_;
+    j["zOorder"] = zOrder_;
 }
 
 bool GameObject::operator==(const GameObject& g) {

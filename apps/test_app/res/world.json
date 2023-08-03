@@ -29,6 +29,7 @@
                 "childs": {
                     "Player": {
                         "id": "player",
+                        "zOrder": 1,
                         "position": {
                             "x_": 100.0,
                             "y_": 100.0

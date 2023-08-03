@@ -29,6 +29,7 @@ public:
     virtual ~GameObject() {};
     virtual void load(const LoaderParams* params) override;
     virtual void addChildObject(std::unique_ptr<anvil::BaseGameObject> gameObject);
+    virtual int getZOrder();
 
     void from_json(nlohmann::json &j);
     void to_json(nlohmann::json &j);
@@ -44,9 +45,8 @@ protected:
     Vector2D velocity_;
     Vector2D acceleration_;
     int width_, height_;
+    int zOrder_;
 
-
-private:
     std::vector<std::unique_ptr<anvil::BaseGameObject>> m_childs;
 };
 
