@@ -30,11 +30,6 @@ void GameScene::load(const anvil::LoaderParams* params)
 
 }
 
-void GameScene::addChildObject(std::unique_ptr<anvil::BaseGameObject> gameObject)
-{
-    m_childs.push_back(std::move(gameObject));
-}
-
 void GameScene::to_json(nlohmann::json& j)
 {
     for (auto &gameObject : m_childs)
