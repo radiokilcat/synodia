@@ -83,24 +83,24 @@ void Player::update()
             auto text = _quotes[ind];
             _speech->show(5, text);
         }
-        currentRow_ = 12;
-        velocity_.setX(0.1f);
+//        currentRow_ = 12;
+//        velocity_.setX(0.1f);
     }
-    if(anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Left))
-    {
-        currentRow_ = 10;
-        velocity_.setX(-0.1f);
-    }
-    if(anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Up))
-    {
-        currentRow_ = 12;
-        velocity_.setY(-0.1f);
-    }
-    if(anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Down))
-    {
-        currentRow_ = 10;
-        velocity_.setY(0.1f);
-    }
+//    if(anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Left))
+//    {
+////        currentRow_ = 10;
+////        velocity_.setX(-0.1f);
+//    }
+//    if(anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Up))
+//    {
+//        currentRow_ = 12;
+//        velocity_.setY(-0.1f);
+//    }
+//    if(anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Down))
+//    {
+//        currentRow_ = 10;
+//        velocity_.setY(0.1f);
+//    }
     // Cycle through the spreadsheet and change frame position
     currentFrame_ = int((anvil::Application::Instance()->getTicks() / 100) % 6);
     anvil::IsoGameObject::update();

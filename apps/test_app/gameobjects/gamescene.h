@@ -21,13 +21,15 @@ public:
     void from_json(nlohmann::json& j) override;
 
     static bool registerWithFactory();
+
+    void addChildObject(std::unique_ptr<BaseGameObject> gameObject) override;
     void setTileMap(std::unique_ptr<anvil::TileMap> tileMap);
     void setPlayer(std::unique_ptr<Player> player);
     bool checkCollision(std::unique_ptr<anvil::BaseGameObject>& a, std::unique_ptr<anvil::BaseGameObject>& b);
 
 
 private:
-    std::vector<std::unique_ptr<anvil::BaseGameObject>> m_childs;
+//    std::vector<std::unique_ptr<anvil::BaseGameObject>> m_childs;
     std::unique_ptr<anvil::TileMap> m_tileMap;
     std::unique_ptr<Player> m_player;
 };

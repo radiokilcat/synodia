@@ -58,10 +58,11 @@ void GameObject::load(const LoaderParams* params)
 void GameObject::addChildObject(std::unique_ptr<BaseGameObject> gameObject)
 {
     m_childs.push_back(std::move(gameObject));
-    std::sort(m_childs.begin(), m_childs.end(), [](const std::unique_ptr<anvil::BaseGameObject>& a,
-                                                   const std::unique_ptr<anvil::BaseGameObject>& b) {
-        return a->getZOrder() < b->getZOrder();
-    });
+    // TODO: Uncomment when GameScene::addChildObject fixed
+//    std::sort(m_childs.begin(), m_childs.end(), [](const std::unique_ptr<anvil::BaseGameObject>& a,
+//                                                   const std::unique_ptr<anvil::BaseGameObject>& b) {
+//        return a->getZOrder() < b->getZOrder();
+//    });
 }
 
 int GameObject::getZOrder()

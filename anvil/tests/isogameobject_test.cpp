@@ -1,14 +1,14 @@
 #include <gtest/gtest.h>
 #include "anvil.h"
-#include "isogameobject.h"
+#include "game_objects/isogameobject.h"
 
 namespace anvil
 {
     class MockGameObject : anvil::IsoGameObject
     {
     public:
-        MockGameObject(const anvil::LoaderParams* params)
-            : anvil::IsoGameObject(params)
+        MockGameObject()
+            : anvil::IsoGameObject()
         {
 
         }

@@ -7,8 +7,7 @@
 class Player: public anvil::IsoGameObject
 {
 public:
-    Player(const anvil::LoaderParams* params);
-    Player() {}
+    Player();
 
     int getX();;
     int getY();;

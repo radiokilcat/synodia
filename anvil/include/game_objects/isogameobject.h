@@ -12,6 +12,7 @@ public:
     virtual void update() override;
     virtual ~IsoGameObject() {};
 
+    std::pair<float, float> getScreenPosition(float isoX, float isoY);
 protected:
     std::pair<float, float> getIsoPosition(float x, float y);;
 };
