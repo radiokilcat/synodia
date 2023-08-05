@@ -56,7 +56,7 @@ void Player::draw(std::shared_ptr<anvil::Renderer> renderer)
 
 void Player::update()
 {
-    currentRow_ = 7;
+    currentRow_ = 12;
     velocity_.setX(0.f);
     velocity_.setY(0.f);
     if(anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Right))
@@ -65,14 +65,17 @@ void Player::update()
     }
     if(anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Left))
     {
+        currentRow_ = 10;
         velocity_.setX(-3.1f);
     }
     if(anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Up))
     {
+        currentRow_ = 12;
         velocity_.setY(-3.1f);
     }
     if(anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Down))
     {
+        currentRow_ = 10;
         velocity_.setY(3.1f);
     }
     if (anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Space))
