@@ -24,10 +24,8 @@ void GameScene::update()
     int p_h = m_player->getHeight();
 
     m_tileMap->setTileOutline(p_x, p_y);
-    auto first_tile =  m_tileMap->getTileScreenPosition(0, 0);
-    //std::cout << "player iso position: " <<  p_x << " : " << p_y << std::endl;
-    //std::cout << "tile 0 0  " << m_tileMap->getTileScreenPosition(0, 0).first << " : " << m_tileMap->getTileScreenPosition(0, 0).second << std::endl;
     m_player->setInverseMove(false);
+
     for (auto& child: m_childs)
     {
         child->update();
