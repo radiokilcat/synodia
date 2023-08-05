@@ -58,10 +58,10 @@ void Player::draw(std::shared_ptr<anvil::Renderer> renderer)
     int x4 = x1;
     int y4 = y1 + height_;
 
-    anvil::TextureManager::instance()->drawQuadrilateral(renderer->getRenderer(), x1, y1,
+    /*anvil::TextureManager::instance()->drawQuadrilateral(renderer->getRenderer(), x1, y1,
                                                          x2, y2,
                                                          x3, y3,
-                                                         x4, y4);
+                                                       x4, y4); */ 
 }
 
 void Player::update()

@@ -54,9 +54,20 @@ std::unique_ptr<BaseGameObject> StateLoader::loadGameObjects(const std::string& 
 
     auto sceneObject = GameObjectFactory::instance().createGameObject(scene.value("id", std::string("GameScene")));
     for (const auto& [child, params] : scene["childs"].items()) {
-        auto childObj = GameObjectFactory::instance().createGameObject(child);
-        childObj->from_json(params);
-        sceneObject->addChildObject(std::move(childObj));
+
+        if (params.is_array()) {
+            for (auto& childParams : params) {
+                auto childObj = GameObjectFactory::instance().createGameObject(child);
+                childObj->from_json(childParams);
+                sceneObject->addChildObject(std::move(childObj));
+            }
+        }
+        else {
+            auto childObj = GameObjectFactory::instance().createGameObject(child);
+            childObj->from_json(params);
+            sceneObject->addChildObject(std::move(childObj));
+        }
+
     }
     return std::move(sceneObject);
 
