@@ -1,6 +1,7 @@
 #include "gamescene.h"
 #include <memory>
 #include <iostream>
+#include "stationary.h"
 
 void GameScene::draw(std::shared_ptr<anvil::Renderer> renderer)
 {
@@ -19,17 +20,23 @@ void GameScene::update()
     m_player->update();
     int p_x = m_player->getX();
     int p_y = m_player->getY();
+    int p_w = m_player->getWidth();
+    int p_h = m_player->getHeight();
 
     m_tileMap->setTileOutline(p_x, p_y);
     auto first_tile =  m_tileMap->getTileScreenPosition(0, 0);
-    std::cout << "player iso position: " <<  p_x << " : " << p_y << std::endl;
-    std::cout << "tile 0 0  " << m_tileMap->getTileScreenPosition(0, 0).first << " : " << m_tileMap->getTileScreenPosition(0, 0).second << std::endl;
-
+    //std::cout << "player iso position: " <<  p_x << " : " << p_y << std::endl;
+    //std::cout << "tile 0 0  " << m_tileMap->getTileScreenPosition(0, 0).first << " : " << m_tileMap->getTileScreenPosition(0, 0).second << std::endl;
+    m_player->setInverseMove(false);
     for (auto& child: m_childs)
     {
         child->update();
+        auto childGameObject = dynamic_cast<Stationary*>(child.get());
+        if(childGameObject && childGameObject->isIntersect(p_x, p_y, p_w, p_h))
+        {
+            m_player->setInverseMove(true);
+        }
     }
-
 }
 
 void GameScene::clean()

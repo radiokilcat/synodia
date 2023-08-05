@@ -99,5 +99,4 @@ void GameObject::to_json(nlohmann::json& j)  {
 bool GameObject::operator==(const GameObject& g) {
     return id_ == g.id_;
 }
-
 }
