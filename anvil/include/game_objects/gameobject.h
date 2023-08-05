@@ -17,6 +17,8 @@
 
 namespace anvil {
 
+enum class Direction { Up, Down, Left, Right, Static };
+
 class GameObject : public BaseGameObject
 {
 public:
