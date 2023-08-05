@@ -24,17 +24,17 @@ void TileMap::draw_tile(Tile& tile, int x, int y, std::shared_ptr<Renderer> rend
 
     auto tileX = m_startX + (x - y) * m_tileWidth / 2;
     auto tileY = m_startY + (x + y) * m_tileHeight / 2;
-    auto tileZ = MAX_TILE_HEIGHT - tileHeight;
+//    auto tileZ = MAX_TILE_HEIGHT - tileHeight;
 //    std::cout << "tile grid: " << x << " : " << y << "   tile coords in draw_tile: " <<  tileX << " : " << tileY << std::endl;
-    TextureManager::instance()->draw(tile.textureId, (Uint32)tileX, (Uint32)tileY + (Uint32)tileZ,
+    TextureManager::instance()->draw(tile.textureId, (Uint32)tileX, (Uint32)tileY,
                                           m_tileWidth, tileHeight,
                                           renderer->getRenderer());
     if (tile.outlined)
     {
-        SDL_FPoint p1 = { tileX + m_tileWidth / 2, tileY + tileZ };
-        SDL_FPoint p2 = { tileX + m_tileWidth / 2 + m_tileWidth / 2, tileY + tileZ  + m_tileHeight / 2 };
-        SDL_FPoint p3 = { tileX + m_tileWidth / 2, tileY + tileZ  + m_tileHeight };
-        SDL_FPoint p4 = { tileX - m_tileWidth / 2 + m_tileWidth / 2, tileY + tileZ + m_tileHeight / 2 };
+        SDL_FPoint p1 = { tileX + m_tileWidth / 2, tileY };
+        SDL_FPoint p2 = { tileX + m_tileWidth / 2 + m_tileWidth / 2, tileY  + m_tileHeight / 2 };
+        SDL_FPoint p3 = { tileX + m_tileWidth / 2, tileY  + m_tileHeight };
+        SDL_FPoint p4 = { tileX - m_tileWidth / 2 + m_tileWidth / 2, tileY + m_tileHeight / 2 };
         std::cout << "           " << p1.x << " : " << p1.y << std::endl;
 
         SDL_FPoint points[5] = { p1, p2, p3, p4, p1 };
@@ -79,13 +79,13 @@ void TileMap::setTileOutline(int x, int y)
 
 std::pair<int, int> TileMap::getTileByPosition(float sX, float sY)
 {
-//    int gX = ((sX - m_startX) / (m_tileWidth / 2) + (sY - m_startY) / (m_tileHeight / 2)) / 2;
-//    int gY = ((sY - m_startY) / (m_tileHeight / 2) - (sX - m_startX) / (m_tileWidth / 2)) / 2;
-    sX -= m_startX;
-    sY -= m_startY;
+    int gX = ((sX - m_startX) / (m_tileWidth / 2) + (sY - m_startY) / (m_tileHeight / 2)) / 2;
+    int gY = ((sY - m_startY) / (m_tileHeight / 2) - (sX - m_startX) / (m_tileWidth / 2)) / 2;
+//    sX -= m_startX;
+//    sY -= m_startY;
 
-    int gX = 2 * sX / (m_tileWidth + m_tileHeight);
-    int gY = 2 * sY / (m_tileHeight - m_tileWidth);
+//    int gX = 2 * sX / (m_tileWidth + m_tileHeight);
+//    int gY = 2 * sY / (m_tileHeight - m_tileWidth);
 
     return {gX, gY};
 }
