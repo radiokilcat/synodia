@@ -13,7 +13,7 @@ TileMap::TileMap()
   , m_tileWidth(256)
   , m_tileHeight(128)
   , m_startX(Application::Instance()->getScreenWidth() / 2 - m_tileWidth / 2)
-  , m_startY(20)
+  , m_startY(-700)
 {
 }
 

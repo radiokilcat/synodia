@@ -6,6 +6,7 @@
 #include "gameobjects/player.h"
 #include "gameobjects/gamescene.h"
 #include "gameobjects/nonplayable.h"
+#include "gameobjects/stationary.h"
 #include "gui/menubutton.h"
 #include "gui/textbutton.h"
 
@@ -36,6 +37,8 @@ int main(int argc, char *argv[])
     NonPlayable::registerWithFactory();
     MenuButton::registerWithFactory();
     TextButton::registerWithFactory();
+    Stationary::registerWithFactory();
+
 
 
 
