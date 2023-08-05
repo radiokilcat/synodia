@@ -13,9 +13,13 @@ PauseState::PauseState()
 bool PauseState::onEnter()
 {
     m_textureIds = anvil::StateLoader::loadTextures(m_id);
+    const int BUTTON_WIDTH = 400;
+    const int SCREEN_WIDTH = anvil::Application::Instance()->getScreenWidth();
+    const int HALF_SCREEN_X = SCREEN_WIDTH / 2 - BUTTON_WIDTH / 2;
+
     anvil::Color textColor = { 255, 255, 255 };
     anvil::TextLabel* title = new anvil::TextLabel("Paused", textColor);
-    title->load(new anvil::LoaderParams(100, 20, 300, 80, "Paused"));
+    title->load(new anvil::LoaderParams(SCREEN_WIDTH / 2 - 150, 20, 300, 80, "Paused"));
 
     TextButton* button1 = new TextButton();
     button1->setText("Play Game");
@@ -23,7 +27,7 @@ bool PauseState::onEnter()
         std::cout << "Play button clicked" << std::endl;
         anvil::Application::Instance()->getStateMachine()->popState();
     });
-    button1->load(new anvil::LoaderParams(100, 150, 400, 100, "empty_button"));
+    button1->load(new anvil::LoaderParams(HALF_SCREEN_X, 150, 400, 100, "empty_button"));
 
     TextButton* button2 = new TextButton();
     button2->setText("Exit Game");
@@ -31,7 +35,7 @@ bool PauseState::onEnter()
         std::cout << "Exit button clicked" << std::endl;
         anvil::Application::Instance()->quit();
     });
-    button2->load(new anvil::LoaderParams(100, 300, 400, 100, "empty_button"));
+    button2->load(new anvil::LoaderParams(HALF_SCREEN_X, 300, 400, 100, "empty_button"));
 
     TextButton* button3 = new TextButton();
     button3->setCallback([]() {
@@ -41,7 +45,7 @@ bool PauseState::onEnter()
         serializer.serialize((PlayState *)playstate);
     });
     button3->setText("Save Game");
-    button3->load(new anvil::LoaderParams(100, 460, 400, 100, "empty_button"));
+    button3->load(new anvil::LoaderParams(HALF_SCREEN_X, 460, 400, 100, "empty_button"));
     m_gameObjects.push_back(title);
     m_gameObjects.push_back(button1);
     m_gameObjects.push_back(button2);
