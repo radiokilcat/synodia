@@ -17,13 +17,11 @@ void GameScene::update()
 {
     m_tileMap->update();
     m_player->update();
-    int p_x = m_player->getX() + m_player->getWidth() / 2;
-    int p_y = m_player->getY() + m_player->getHeight() / 2;
+    int p_x = m_player->getX() - m_player->getWidth() / 2;
+    int p_y = m_player->getY();
 
-    if (m_player) {
 //        std::pair<int, int> tileGridPos = m_tileMap->getTileByPosition(p_x, p_y);
         m_tileMap->setTileOutline(p_x, p_y);
-    }
     for (auto& child: m_childs)
     {
         child->update();
