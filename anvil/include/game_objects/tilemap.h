@@ -26,8 +26,10 @@ public:
 
     void loadTiles();
 
-    std::pair<int, int> findScreenPosition(std::string textureId, int x, int y);
+    std::pair<int, int> getTileScreenPosition(int x, int y);
+    std::pair<float, float> findNearestTileCenter(float x, float y, Direction direction);
     std::pair<int, int> getTileByPosition(float x, float y) ;
+
 
     void setTileOutline(int x, int y);
 

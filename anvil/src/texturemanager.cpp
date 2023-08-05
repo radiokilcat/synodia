@@ -144,6 +144,16 @@ void TextureManager::drawPoint(SDL_Renderer* renderer,
     SDL_SetRenderDrawColor(renderer, oldColor.r, oldColor.g, oldColor.b, SDL_ALPHA_OPAQUE);
 }
 
+void TextureManager::drawLine(SDL_Renderer* renderer, int x1, int y1, int x2, int y2)
+{
+    SDL_Color oldColor;
+    SDL_GetRenderDrawColor(renderer, &oldColor.r, &oldColor.g, &oldColor.b, &oldColor.a);
+
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
+    SDL_RenderLine(renderer, x1, y1, x2, y2);
+    SDL_SetRenderDrawColor(renderer, oldColor.r, oldColor.g, oldColor.b, SDL_ALPHA_OPAQUE);
+}
+
 void TextureManager::drawQuadrilateral(SDL_Renderer* renderer,
                        int x1, int y1,
                        int x2, int y2,

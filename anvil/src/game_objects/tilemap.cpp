@@ -10,10 +10,10 @@ namespace anvil {
 
 TileMap::TileMap()
   :GameObject()
-  , m_tileWidth(128)
-  , m_tileHeight(64)
+  , m_tileWidth(256)
+  , m_tileHeight(128)
   , m_startX(Application::Instance()->getScreenWidth() / 2 - m_tileWidth / 2)
-  , m_startY(-200)
+  , m_startY(20)
 {
 }
 
@@ -25,6 +25,7 @@ void TileMap::draw_tile(Tile& tile, int x, int y, std::shared_ptr<Renderer> rend
     auto tileX = m_startX + (x - y) * m_tileWidth / 2;
     auto tileY = m_startY + (x + y) * m_tileHeight / 2;
     auto tileZ = MAX_TILE_HEIGHT - tileHeight;
+//    std::cout << "tile grid: " << x << " : " << y << "   tile coords in draw_tile: " <<  tileX << " : " << tileY << std::endl;
     TextureManager::instance()->draw(tile.textureId, (Uint32)tileX, (Uint32)tileY + (Uint32)tileZ,
                                           m_tileWidth, tileHeight,
                                           renderer->getRenderer());
@@ -34,6 +35,7 @@ void TileMap::draw_tile(Tile& tile, int x, int y, std::shared_ptr<Renderer> rend
         SDL_FPoint p2 = { tileX + m_tileWidth / 2 + m_tileWidth / 2, tileY + tileZ  + m_tileHeight / 2 };
         SDL_FPoint p3 = { tileX + m_tileWidth / 2, tileY + tileZ  + m_tileHeight };
         SDL_FPoint p4 = { tileX - m_tileWidth / 2 + m_tileWidth / 2, tileY + tileZ + m_tileHeight / 2 };
+        std::cout << "           " << p1.x << " : " << p1.y << std::endl;
 
         SDL_FPoint points[5] = { p1, p2, p3, p4, p1 };
 
@@ -67,6 +69,7 @@ void TileMap::update()
 void TileMap::setTileOutline(int x, int y)
 {
     auto gridPosition = getTileByPosition(x, y);
+//    std::cout << "tileGridPos in outline: " <<  gridPosition.first << " : " << gridPosition.second << std::endl;
     auto it = m_tiles.find(gridPosition);
 
     if (it != m_tiles.end()) {
@@ -74,40 +77,66 @@ void TileMap::setTileOutline(int x, int y)
     }
 }
 
-std::pair<int, int> TileMap::getTileByPosition(float x, float y)
+std::pair<int, int> TileMap::getTileByPosition(float sX, float sY)
 {
-    x -= m_startX;
-    y -= m_startY;
+//    int gX = ((sX - m_startX) / (m_tileWidth / 2) + (sY - m_startY) / (m_tileHeight / 2)) / 2;
+//    int gY = ((sY - m_startY) / (m_tileHeight / 2) - (sX - m_startX) / (m_tileWidth / 2)) / 2;
+    sX -= m_startX;
+    sY -= m_startY;
 
-    int gridX = (x / (m_tileWidth / 2) + y / (m_tileHeight / 2)) / 2;
-    int gridY = (y / (m_tileHeight / 2) - x / (m_tileWidth / 2)) / 2;
+    int gX = 2 * sX / (m_tileWidth + m_tileHeight);
+    int gY = 2 * sY / (m_tileHeight - m_tileWidth);
 
-    return {gridX, gridY};
+    return {gX, gY};
 }
 
-//void TileMap::loadTiles()
-//{
-//    for (int i = 0; i < grid.size(); i++)
-//    {
-//        for (int j = 0; j < grid.size(); j++)
-//        {
-//            std::stringstream ss;
-//            ss << "tile_" << i << "_" << j;
-//            auto position = findScreenPosition(grid[i][j], i, j);
-//            m_tiles[std::make_pair(i, j)] = Tile(new LoaderParams(position.first, position.second, m_tileWidth, m_tileHeight, ss.str()));
-//        }
-//    }
-//}
-
-std::pair<int, int> TileMap::findScreenPosition(std::string textureId, int x, int y)
+std::pair<int, int> TileMap::getTileScreenPosition(int x, int y)
 {
-    auto tileHeight = TextureManager::instance()->textureSize(textureId).second;
+//    auto tileHeight = 128;
+//    auto gridPosition = getTileByPosition(x, y);
 
-    auto tileX = m_startX + (x - y) * m_tileWidth / 2;
-    auto tileY = m_startY + (x + y) * m_tileHeight / 2;
-    auto zOffset = MAX_TILE_HEIGHT - tileHeight;
+    auto screenX = m_startX + (x - y) * m_tileWidth / 2;
+    auto screenY = m_startY + (x + y) * m_tileHeight / 2;
+    return std::make_pair(screenX, screenY);
+}
 
-    return std::make_pair(tileX, tileY + zOffset);
+
+std::pair<float, float> TileMap::findNearestTileCenter(float x, float y, Direction direction)
+{
+    auto gridPos = getTileByPosition(x, y);
+
+    auto gridX = gridPos.first;
+    auto gridY = gridPos.second;
+
+
+    switch(direction)
+    {
+    case Direction::Up:
+        gridY--;
+        break;
+    case Direction::Down:
+        gridY++;
+        break;
+    case Direction::Left:
+        gridX--;
+        break;
+    case Direction::Right:
+        gridX++;
+        break;
+    case Direction::Static:
+        return std::make_pair(x, y);
+        break;
+    }
+
+    std::pair<float, float> screenPos = getTileScreenPosition(x, y);
+
+    return std::make_pair(screenPos.first, screenPos.second + m_tileHeight / 2);
+
+
+//    float centerX = m_startX + (gridX - gridY) * m_tileWidth / 2 + m_tileWidth / 2;
+//    float centerY = m_startY + (gridX + gridY) * m_tileHeight / 2 + m_tileHeight / 2;
+
+//    return std::make_pair(centerX, centerY);
 }
 
 
@@ -141,6 +170,7 @@ void TileMap::to_json(nlohmann::json& j)
     j["grid"] = m_grid;
     GameObject::to_json(j);
 }
+
 
 bool TileMap::registerWithFactory() {
     GameObjectFactory::instance().registerType("TileMap", []() -> std::unique_ptr<BaseGameObject> {

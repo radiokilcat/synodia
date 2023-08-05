@@ -17,11 +17,14 @@ void GameScene::update()
 {
     m_tileMap->update();
     m_player->update();
-    int p_x = m_player->getX() - m_player->getWidth() / 2;
+    int p_x = m_player->getX();
     int p_y = m_player->getY();
 
-//        std::pair<int, int> tileGridPos = m_tileMap->getTileByPosition(p_x, p_y);
-        m_tileMap->setTileOutline(p_x, p_y);
+    m_tileMap->setTileOutline(p_x, p_y);
+    auto first_tile =  m_tileMap->getTileScreenPosition(0, 0);
+    std::cout << "player iso position: " <<  p_x << " : " << p_y << std::endl;
+    std::cout << "tile 0 0  " << m_tileMap->getTileScreenPosition(0, 0).first << " : " << m_tileMap->getTileScreenPosition(0, 0).second << std::endl;
+
     for (auto& child: m_childs)
     {
         child->update();
@@ -44,34 +47,11 @@ void GameScene::load(const anvil::LoaderParams* params)
 
 void GameScene::to_json(nlohmann::json& j)
 {
-//    for (auto &gameObject : m_childs)
-//    {
-//        nlohmann::json childJ;
-//        gameObject->to_json(childJ);
-//        childJ["class"] = typeid(*gameObject).name();
-//        j["m_childs"].push_back(childJ);
-//    }
     GameObject::to_json(j);
 }
 
 void GameScene::from_json(nlohmann::json& j)
 {
-//    for (auto childJ : j["m_childs"]) {
-//        std::string className = childJ["class"];
-//        if (className == "class anvil::TileMap") {
-//            auto child = new anvil::TileMap;
-//            child->from_json(childJ);
-//            std::unique_ptr<anvil::BaseGameObject> parentPtr(child);
-//            m_childs.push_back(std::move(parentPtr));
-//        }
-//        else {
-//            auto child = new Player();
-//            child->from_json(childJ);
-//            std::unique_ptr<anvil::BaseGameObject> parentPtr(child);
-//            m_childs.push_back(std::move(parentPtr));
-//        }
-
-//    }
     GameObject::from_json(j);
 }
 
@@ -105,4 +85,18 @@ void GameScene::setTileMap(std::unique_ptr<anvil::TileMap> tileMap)
 void GameScene::setPlayer(std::unique_ptr<Player> player)
 {
     m_player = std::move(player);
+}
+
+float GameScene::distance(anvil::Vector2D p1, anvil::Vector2D p2)
+{
+    return 0;
+}
+
+float GameScene::distance(float x1, float y1, float x2, float y2)
+{
+    float dx = x2 - x1;
+    float dy = y2 - y1;
+
+    return std::sqrt(dx * dx + dy * dy);
+
 }

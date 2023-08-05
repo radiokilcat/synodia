@@ -27,6 +27,9 @@ public:
     void setPlayer(std::unique_ptr<Player> player);
     bool checkCollision(std::unique_ptr<anvil::BaseGameObject>& a, std::unique_ptr<anvil::BaseGameObject>& b);
 
+    float distance(anvil::Vector2D p1, anvil::Vector2D p2);
+    float distance(float x1, float y1, float x2, float y2);
+
 
 private:
 //    std::vector<std::unique_ptr<anvil::BaseGameObject>> m_childs;

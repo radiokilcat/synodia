@@ -22,6 +22,16 @@ int Player::getY()
     return isoY;
 }
 
+//int Player::getScreenX()
+//{
+//    return position;
+//}
+
+//int Player::getScreenY()
+//{
+//    auto [isoX, isoY] = getIsoPosition(position_.x(), position_.y());
+//    return isoY;
+//}
 int Player::getWidth()
 {
     return width_;
@@ -59,6 +69,11 @@ void Player::update()
     currentRow_ = 12;
     velocity_.setX(0.f);
     velocity_.setY(0.f);
+    if (!_continuedMove)
+    {
+        velocity_.setX(0.f);
+        velocity_.setY(0.f);
+    }
     if(anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Right))
     {
         velocity_.setX(3.1f);
@@ -144,4 +159,35 @@ bool Player::registerWithFactory() {
         return std::make_unique<Player>();
     });
     return true;
+}
+
+bool Player::continuedMove() const
+{
+    return _continuedMove;
+}
+
+anvil::Direction Player::moveDirection()
+{
+    if (velocity_.x() > 0 && velocity_.y() == 0)
+    {
+        return anvil::Direction::Right;
+    }
+    if (velocity_.y() > 0 && velocity_.x() == 0)
+    {
+        return anvil::Direction::Down;
+    }
+    if (velocity_.y() < 0 && velocity_.x() == 0)
+    {
+        return anvil::Direction::Up;
+    }
+    if (velocity_.y() == 0 && velocity_.x() == 0)
+    {
+        return anvil::Direction::Static;
+    }
+}
+
+
+void Player::setContinuedMove(bool isContinuedMove)
+{
+    _continuedMove = isContinuedMove;
 }

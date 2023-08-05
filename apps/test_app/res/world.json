@@ -45,22 +45,23 @@
                     },
                     "TileMap": {
                         "id": "tilemap_0", 
-                        "grid":[ [ "stone_n", "stone_w", "stone_e", "stone_w", "stone_s", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e" , "stone_e", "stone_e", "stone_e", "stone_e", "stone_e"],
-                        [ "stone_e", "stone_n", "stone_s", "stone_w", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_e", "stone_e", "stone_e", "stone_e", "stone_e"],
-                        [ "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_e", "stone_e", "stone_e", "stone_e", "stone_e"],
-                        [ "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_e", "stone_e", "stone_e", "stone_e", "stone_e"],
-                        [ "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_s", "stone_s", "stone_s", "stone_s", "stone_s" ],
-                        [ "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_s", "stone_s", "stone_s", "stone_s", "stone_s" ],
-                        [ "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_s", "stone_s", "stone_s", "stone_s" ],
-                        [ "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_s", "stone_s", "stone_s", "stone_s", "stone_s" ],
-                        [ "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_s", "stone_s", "stone_s", "stone_s", "stone_s" ],
-                        [ "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_s", "stone_s", "stone_s", "stone_s" ],
-                        [ "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_s", "stone_s", "stone_s", "stone_s", "stone_s" ],
-                        [ "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_s", "stone_s", "stone_s", "stone_s", "stone_s" ],
-                        [ "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_s", "stone_s", "stone_s", "stone_s", "stone_s" ],
-                        [ "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_s", "stone_s", "stone_s", "stone_s", "stone_s" ],
-                        [ "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_s", "stone_s", "stone_s", "stone_s", "stone_s" ]
-                    ]
+                        "grid": [
+                            ["stone_s", "stone_n", "stone_e", "stone_w", "stone_w", "stone_e", "stone_s", "stone_s", "stone_n", "stone_w", "stone_e", "stone_s", "stone_e", "stone_w", "stone_n"],
+                            ["stone_n", "stone_e", "stone_w", "stone_e", "stone_s", "stone_n", "stone_e", "stone_n", "stone_s", "stone_e", "stone_n", "stone_s", "stone_e", "stone_n", "stone_s"],
+                            ["stone_n", "stone_s", "stone_s", "stone_n", "stone_s", "stone_s", "stone_w", "stone_e", "stone_n", "stone_e", "stone_n", "stone_w", "stone_n", "stone_w", "stone_s"],
+                            ["stone_w", "stone_w", "stone_e", "stone_e", "stone_n", "stone_n", "stone_s", "stone_s", "stone_n", "stone_e", "stone_n", "stone_s", "stone_n", "stone_e", "stone_s"],
+                            ["stone_e", "stone_n", "stone_s", "stone_n", "stone_e", "stone_w", "stone_w", "stone_w", "stone_w", "stone_w", "stone_n", "stone_n", "stone_s", "stone_s", "stone_w"],
+                            ["stone_e", "stone_e", "stone_e", "stone_e", "stone_s", "stone_s", "stone_s", "stone_w", "stone_w", "stone_s", "stone_s", "stone_n", "stone_w", "stone_n", "stone_w"],
+                            ["stone_s", "stone_w", "stone_s", "stone_w", "stone_s", "stone_e", "stone_w", "stone_w", "stone_s", "stone_e", "stone_n", "stone_e", "stone_s", "stone_w", "stone_s"],
+                            ["stone_w", "stone_w", "stone_s", "stone_s", "stone_n", "stone_w", "stone_w", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_e", "stone_e", "stone_s"],
+                            ["stone_s", "stone_s", "stone_e", "stone_s", "stone_n", "stone_w", "stone_w", "stone_n", "stone_s", "stone_n", "stone_s", "stone_e", "stone_w", "stone_e", "stone_n"],
+                            ["stone_s", "stone_n", "stone_n", "stone_w", "stone_w", "stone_s", "stone_e", "stone_e", "stone_s", "stone_w", "stone_e", "stone_w", "stone_e", "stone_s", "stone_w"],
+                            ["stone_e", "stone_n", "stone_w", "stone_s", "stone_w", "stone_w", "stone_w", "stone_w", "stone_n", "stone_e", "stone_s", "stone_s", "stone_w", "stone_w", "stone_n"],
+                            ["stone_n", "stone_e", "stone_w", "stone_w", "stone_e", "stone_e", "stone_w", "stone_w", "stone_e", "stone_e", "stone_n", "stone_s", "stone_s", "stone_w", "stone_s"],
+                            ["stone_s", "stone_e", "stone_w", "stone_n", "stone_n", "stone_s", "stone_s", "stone_n", "stone_s", "stone_e", "stone_w", "stone_n", "stone_e", "stone_s", "stone_n"],
+                            ["stone_n", "stone_n", "stone_w", "stone_e", "stone_e", "stone_s", "stone_n", "stone_s", "stone_s", "stone_w", "stone_w", "stone_e", "stone_w", "stone_e", "stone_s"],
+                            ["stone_n", "stone_s", "stone_w", "stone_e", "stone_w", "stone_w", "stone_s", "stone_s", "stone_s", "stone_e", "stone_e", "stone_n", "stone_e", "stone_w", "stone_n"]
+                        ]
                     }
                 }
             }

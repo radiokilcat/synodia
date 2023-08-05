@@ -4,13 +4,17 @@
 #include "speech.h"
 
 
+
 class Player: public anvil::IsoGameObject
 {
 public:
     Player();
 
-    int getX();;
-    int getY();;
+    int getX();
+    int getY();
+
+//    int getScreenX();
+//    int getScreenY();
 
     ~Player() {};
     void draw(std::shared_ptr<anvil::Renderer> renderer) override;
@@ -25,6 +29,10 @@ public:
 
     static bool registerWithFactory();
 
+    bool continuedMove() const;
+    anvil::Direction moveDirection();
+    void setContinuedMove(bool newContinuedMove);
+
 private:
     std::string _quotes[4] = { 
         std::string("Whoa!\nTHE POWER\nOF ENGINE"),
@@ -33,6 +41,7 @@ private:
         std::string("nice one!"),
     };
     std::unique_ptr<Speech> _speech;
+    bool _continuedMove = false;
 
 };
 
