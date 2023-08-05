@@ -103,6 +103,19 @@ void Player::update()
 //    }
     // Cycle through the spreadsheet and change frame position
     currentFrame_ = int((anvil::Application::Instance()->getTicks() / 100) % 6);
+    auto newPostion = position_ + velocity_;
+    auto newPositionIso = getIsoPosition(newPostion.x(), newPostion.y());
+
+    if (newPositionIso.first + width_ >= anvil::Application::Instance()->getScreenWidth()
+        || newPositionIso.first < 0) {
+        velocity_.setX(-1 * velocity_.x());
+        velocity_.setY(-1 * velocity_.y());
+    }
+    if (newPositionIso.second + height_ >= anvil::Application::Instance()->getScreenHeight()
+        || newPositionIso.second < 0) {
+        velocity_.setX(-1 * velocity_.x());
+        velocity_.setY(-1 * velocity_.y());
+    }
     anvil::IsoGameObject::update();
     auto pos = getIsoPosition(position_.x(), position_.y());
     _speech->setPosition(pos.first - 80, pos.second - 90);
