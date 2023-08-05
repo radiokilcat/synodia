@@ -2,7 +2,7 @@
 
 #include "anvil.h"
 
-class NonPlayable: public anvil::GameObject
+class NonPlayable: public anvil::IsoGameObject
 {
 public:
     NonPlayable(const anvil::LoaderParams* params);
@@ -10,6 +10,9 @@ public:
     void draw(std::shared_ptr<anvil::Renderer> renderer) override;
     void update() override;
     void clean() override;
+
+    void from_json(nlohmann::json& j) override;
+    void to_json(nlohmann::json& j) override;
 
     static bool registerWithFactory();
 

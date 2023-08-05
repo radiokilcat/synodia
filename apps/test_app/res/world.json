@@ -55,6 +55,58 @@
                         "width": 128,
                         "textureId": "table"
                     },
+                    "NonPlayable": {
+                        "id": "npc_1",
+                        "zOrder": 1,
+                        "position": {
+                            "x_": 200.0,
+                            "y_": 200.0
+                        },
+                        "height": 64,
+                        "width": 64,
+                        "currentFrame": 1,
+                        "currentRow": 1,
+                        "textureId": "evil"
+                    },
+                    "NonPlayable": {
+                        "id": "npc_2",
+                        "zOrder": 1,
+                        "position": {
+                            "x_": 150.0,
+                            "y_": 200.0
+                        },
+                        "height": 64,
+                        "width": 64,
+                        "currentFrame": 1,
+                        "currentRow": 1,
+                        "textureId": "evil"
+                    },
+                    "NonPlayable": {
+                        "id": "npc_3",
+                        "zOrder": 1,
+                        "position": {
+                            "x_": 200.0,
+                            "y_": 150.0
+                        },
+                        "height": 64,
+                        "width": 64,
+                        "currentFrame": 1,
+                        "currentRow": 1,
+                        "textureId": "evil"
+                    },
+                    "NonPlayable": {
+                        "id": "npc_4",
+                        "zOrder": 1,
+                        "position": {
+                            "x_": 170.0,
+                            "y_": 250.0
+                        },
+                        "height": 64,
+                        "width": 64,
+                        "currentFrame": 1,
+                        "currentRow": 1,
+                        "textureId": "evil"
+                    },
                     "TileMap": {
                         "id": "tilemap_0", 
                         "grid": [
