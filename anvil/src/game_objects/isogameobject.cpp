@@ -12,6 +12,17 @@ void IsoGameObject::draw(std::shared_ptr<Renderer> renderer)
                                           renderer->getRenderer());
 }
 
+int IsoGameObject::getX()
+{
+    auto [isoX, isoY] = getIsoPosition(position_.x(), position_.y());
+    return isoX;
+}
+
+int IsoGameObject::getY()
+{
+    auto [isoX, isoY] = getIsoPosition(position_.x(), position_.y());
+    return isoY;
+}
 void IsoGameObject::update(){
     position_ += velocity_;
 }
