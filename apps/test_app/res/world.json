@@ -24,7 +24,8 @@
             "stone_e": "tiles_1/stone_E.png",
             "stone_n": "tiles_1/stone_N.png",
             "stone_s": "tiles_1/stone_S.png",
-            "stone_w": "tiles_1/stone_W.png"
+            "stone_w": "tiles_1/stone_W.png",
+            "table": "tiles_1/tableRoundItemsChairs_N.png"
         },
         "objects": {
             "GameScene": {
@@ -42,6 +43,17 @@
                         "currentFrame": 1,
                         "currentRow": 1,
                         "textureId": "player"
+                    },
+                    "Stationary": {
+                        "id": "table",
+                        "zOrder": 1,
+                        "position": {
+                            "x_": 300.0,
+                            "y_": 200.0
+                        },
+                        "height": 500,
+                        "width": 256,
+                        "textureId": "table"
                     },
                     "TileMap": {
                         "id": "tilemap_0", 
