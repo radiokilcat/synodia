@@ -10,10 +10,10 @@ namespace anvil {
 
 TileMap::TileMap()
   :GameObject()
-  , m_tileWidth(100)
-  , m_tileHeight(50)
+  , m_tileWidth(128)
+  , m_tileHeight(64)
   , m_startX(Application::Instance()->getScreenWidth() / 2 - m_tileWidth / 2)
-  , m_startY(10)
+  , m_startY(-200)
 {
 }
 

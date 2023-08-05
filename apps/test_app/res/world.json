@@ -18,12 +18,13 @@
     "play": {
         "textures": {
             "test": "adventurer.png",
-            "water": "tiles/water.png",
-            "sand": "tiles/sand.png",
-            "grass": "tiles/grass.png",
-            "eleven": "tiles/tile-11.png",
-            "hill": "tiles/tile-9.png",
-            "speech": "speech.png"
+            "player": "player_1.png",
+            "evil": "evil_1.png",
+            "speech": "speech.png",
+            "stone_e": "tiles_1/stone_E.png",
+            "stone_n": "tiles_1/stone_N.png",
+            "stone_s": "tiles_1/stone_S.png",
+            "stone_w": "tiles_1/stone_W.png"
         },
         "objects": {
             "GameScene": {
@@ -36,24 +37,30 @@
                             "x_": 100.0,
                             "y_": 100.0
                         },
-                        "height": 37,
-                        "width": 50,
+                        "height": 64,
+                        "width": 64,
                         "currentFrame": 1,
                         "currentRow": 1,
-                        "textureId": "test"
+                        "textureId": "player"
                     },
                     "TileMap": {
                         "id": "tilemap_0", 
-                        "grid": [ [ "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass" ],
-                                [ "grass", "water", "water", "water", "water", "water", "water", "water", "water", "grass" ],
-                                [ "grass", "hill", "water", "water", "water", "water", "water", "water", "water", "grass" ],
-                                [ "grass", "water", "water", "water", "water", "water", "water", "water", "water", "grass" ],
-                                [ "grass", "water", "water", "sand", "water", "water", "water", "water", "water", "grass" ],
-                                [ "grass", "water", "water", "sand", "water", "water", "water", "water", "water", "grass" ],
-                                [ "grass", "water", "water", "water", "water", "water", "water", "water", "water", "grass" ],
-                                [ "grass", "water", "water", "water", "water", "water", "water", "sand", "water", "grass" ],
-                                [ "grass", "water", "water", "water", "water", "water", "water", "water", "water", "grass" ],
-                                [ "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass" ] ]
+                        "grid":[ [ "stone_n", "stone_w", "stone_e", "stone_w", "stone_s", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e" , "stone_e", "stone_e", "stone_e", "stone_e", "stone_e"],
+                        [ "stone_e", "stone_n", "stone_s", "stone_w", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_e", "stone_e", "stone_e", "stone_e", "stone_e"],
+                        [ "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_e", "stone_e", "stone_e", "stone_e", "stone_e"],
+                        [ "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_e", "stone_e", "stone_e", "stone_e", "stone_e"],
+                        [ "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_s", "stone_s", "stone_s", "stone_s", "stone_s" ],
+                        [ "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_s", "stone_s", "stone_s", "stone_s", "stone_s" ],
+                        [ "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_s", "stone_s", "stone_s", "stone_s" ],
+                        [ "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_s", "stone_s", "stone_s", "stone_s", "stone_s" ],
+                        [ "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_s", "stone_s", "stone_s", "stone_s", "stone_s" ],
+                        [ "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_s", "stone_s", "stone_s", "stone_s" ],
+                        [ "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_s", "stone_s", "stone_s", "stone_s", "stone_s" ],
+                        [ "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_s", "stone_s", "stone_s", "stone_s", "stone_s" ],
+                        [ "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_s", "stone_s", "stone_s", "stone_s", "stone_s" ],
+                        [ "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_s", "stone_s", "stone_s", "stone_s", "stone_s" ],
+                        [ "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_w", "stone_e", "stone_n", "stone_s", "stone_s", "stone_s", "stone_s", "stone_s", "stone_s" ]
+                    ]
                     }
                 }
             }
