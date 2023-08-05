@@ -13,6 +13,9 @@ public:
     virtual ~IsoGameObject() {};
 
     std::pair<float, float> getScreenPosition(float isoX, float isoY);
+    int getY();
+    int getX();
+
 protected:
     std::pair<float, float> getIsoPosition(float x, float y);;
 };

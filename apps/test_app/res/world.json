@@ -48,11 +48,11 @@
                         "id": "table",
                         "zOrder": 1,
                         "position": {
-                            "x_": 300.0,
+                            "x_": 500.0,
                             "y_": 200.0
                         },
-                        "height": 500,
-                        "width": 256,
+                        "height": 128,
+                        "width": 128,
                         "textureId": "table"
                     },
                     "TileMap": {
