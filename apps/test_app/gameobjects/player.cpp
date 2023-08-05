@@ -134,6 +134,11 @@ void Player::update()
         velocity_.setX(-1 * velocity_.x());
         velocity_.setY(-1 * velocity_.y());
     }
+    if (_inverseMove) {
+        velocity_.setX(-1 * velocity_.x());
+        velocity_.setY(-1 * velocity_.y());
+        _inverseMove = false;
+    }
     anvil::IsoGameObject::update();
     auto pos = getIsoPosition(position_.x(), position_.y());
     _speech->setPosition(pos.first - 80, pos.second - 90);
@@ -190,4 +195,15 @@ anvil::Direction Player::moveDirection()
 void Player::setContinuedMove(bool isContinuedMove)
 {
     _continuedMove = isContinuedMove;
+}
+
+void Player::setInverseMove(bool isInverseMove)
+{
+    _inverseMove = isInverseMove;
+    if (isInverseMove) {
+        velocity_.setX(-1 * velocity_.x());
+        velocity_.setY(-1 * velocity_.y());
+        anvil::IsoGameObject::update();
+    }
+
 }

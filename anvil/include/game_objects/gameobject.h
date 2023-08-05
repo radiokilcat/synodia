@@ -38,6 +38,8 @@ public:
 
     bool operator==(const GameObject& g);
 
+    Vector2D getVelocity() { return velocity_;  };
+    void setVelocity(Vector2D velocity) { velocity_ = velocity; }
 protected:
     std::string id_;
     std::string textureId_;

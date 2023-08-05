@@ -16,6 +16,7 @@ public:
     Stationary();
     void from_json(nlohmann::json& j);
     void to_json(nlohmann::json& j);
+    bool isIntersect(int x, int y, int w, int h);
 private:
 
 

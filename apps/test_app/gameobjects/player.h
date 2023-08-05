@@ -32,7 +32,7 @@ public:
     bool continuedMove() const;
     anvil::Direction moveDirection();
     void setContinuedMove(bool newContinuedMove);
-
+    void setInverseMove(bool inverseMove);
 private:
     std::string _quotes[4] = { 
         std::string("Whoa!\nTHE POWER\nOF ENGINE"),
@@ -42,7 +42,7 @@ private:
     };
     std::unique_ptr<Speech> _speech;
     bool _continuedMove = false;
-
+    bool _inverseMove = false;
 };
 
 

@@ -55,3 +55,22 @@ bool Stationary::registerWithFactory() {
     return true;
 }
 
+bool Stationary::isIntersect(int x, int y, int w, int h) {
+    int fxl = getX();
+    int fxr = getX() + width_;
+    int fyb = getY() + height_;
+    int fyt = getY();
+
+    int sxl = x;
+    int sxr = x + w;
+    int syb = y + h;
+    int syt = y;
+
+    if (fxr < sxl || sxr < fxl)
+        return false; // No horizontal overlap
+
+    if (fyb < syt || syb < fyt)
+        return false; // No vertical overlap
+    return true;
+}
+
