@@ -5,6 +5,8 @@
 
 #include "../gui/menubutton.h"
 #include "../gui/textbutton.h"
+#include "../gameobjects/nonplayable.h"
+#include "../gameobjects/gamescene.h"
 
 std::string MenuState::getID()
 {
@@ -17,18 +19,19 @@ bool MenuState::onEnter()
 
     anvil::Color textColor = { 255, 255, 255 };
     anvil::TextLabel* title = new anvil::TextLabel("Stories of Anvil", textColor);
-    title->setText("Load Game");
     title->load(new anvil::LoaderParams(100, 20, 500, 80, "title"));
 
-    MenuButton* button1 = new MenuButton();
-    button1->load(new anvil::LoaderParams(100, 100, 400, 100, "playbutton"));
+    TextButton* button1 = new TextButton();
+    button1->setText("Play Game");
+    button1->load(new anvil::LoaderParams(100, 150, 400, 100, "empty_button"));
     button1->setCallback([]() {
         std::cout << "Play button clicked" << std::endl;
         anvil::Application::Instance()->getStateMachine()->changeState(new PlayState);
     });
 
-    MenuButton* button2 = new MenuButton();
-    button2->load(new anvil::LoaderParams(100, 300, 400, 100, "exitbutton"));
+    TextButton* button2 = new TextButton();
+    button2->setText("Exit Game");
+    button2->load(new anvil::LoaderParams(100, 300, 400, 100, "empty_button"));
     button2->setCallback([]() {
         std::cout << "Exit button clicked" << std::endl;
         anvil::Application::Instance()->quit();
@@ -44,7 +47,7 @@ bool MenuState::onEnter()
         serializer.deserialize(playLoad);
         anvil::Application::Instance()->getStateMachine()->changeState(playLoad);
     });
-
+    
     m_gameObjects.push_back(title);
     m_gameObjects.push_back(button1);
     m_gameObjects.push_back(button2);
@@ -56,9 +59,16 @@ bool MenuState::onEnter()
 
 void MenuState::render()
 {
+    auto renderer = anvil::Application::Instance()->getRenderer();
+    anvil::TextureManager::instance()->draw("background",
+        0, 
+        0,
+        anvil::Application::Instance()->getScreenWidth(),
+        anvil::Application::Instance()->getScreenHeight(),
+        renderer->getRenderer());
     for (auto it: m_gameObjects)
     {
-        it->draw(anvil::Application::Instance()->getRenderer());
+        it->draw(renderer);
     }
 }
 

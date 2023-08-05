@@ -3,15 +3,17 @@
         "textures": {
             "playbutton": "button.png",
             "exitbutton": "exit.png",
-            "empty_button": "empty_button.png"
+            "empty_button": "empty_button.png",
+            "background":  "menubackground.png"
         }
     },
     "PAUSE": {
-        "textures": {
-            "playbutton": "button.png",
-            "exitbutton": "exit.png",
-            "empty_button": "empty_button.png"
-        }
+      "textures": {
+        "playbutton": "button.png",
+        "exitbutton": "exit.png",
+        "empty_button": "empty_button.png",
+        "background": "menubackground.png"
+      }
     },
     "play": {
         "textures": {

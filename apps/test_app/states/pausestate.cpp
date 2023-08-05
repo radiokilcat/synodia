@@ -13,20 +13,25 @@ PauseState::PauseState()
 bool PauseState::onEnter()
 {
     m_textureIds = anvil::StateLoader::loadTextures(m_id);
+    anvil::Color textColor = { 255, 255, 255 };
+    anvil::TextLabel* title = new anvil::TextLabel("Paused", textColor);
+    title->load(new anvil::LoaderParams(100, 20, 300, 80, "Paused"));
 
-    MenuButton* button1 = new MenuButton();
+    TextButton* button1 = new TextButton();
+    button1->setText("Play Game");
     button1->setCallback([]() {
         std::cout << "Play button clicked" << std::endl;
         anvil::Application::Instance()->getStateMachine()->popState();
     });
-    button1->load(new anvil::LoaderParams(100, 100, 400, 100, "playbutton"));
+    button1->load(new anvil::LoaderParams(100, 150, 400, 100, "empty_button"));
 
-    MenuButton* button2 = new MenuButton();
+    TextButton* button2 = new TextButton();
+    button2->setText("Exit Game");
     button2->setCallback([]() {
         std::cout << "Exit button clicked" << std::endl;
         anvil::Application::Instance()->quit();
     });
-    button2->load(new anvil::LoaderParams(100, 300, 400, 100, "exitbutton"));
+    button2->load(new anvil::LoaderParams(100, 300, 400, 100, "empty_button"));
 
     TextButton* button3 = new TextButton();
     button3->setCallback([]() {
@@ -37,7 +42,7 @@ bool PauseState::onEnter()
     });
     button3->setText("Save Game");
     button3->load(new anvil::LoaderParams(100, 460, 400, 100, "empty_button"));
-
+    m_gameObjects.push_back(title);
     m_gameObjects.push_back(button1);
     m_gameObjects.push_back(button2);
     m_gameObjects.push_back(button3);
@@ -72,6 +77,13 @@ void PauseState::update()
 
 void PauseState::render()
 {
+    auto renderer = anvil::Application::Instance()->getRenderer();
+    anvil::TextureManager::instance()->draw("background",
+        0,
+        0,
+        anvil::Application::Instance()->getScreenWidth(),
+        anvil::Application::Instance()->getScreenHeight(),
+        renderer->getRenderer());
     for (auto it: m_gameObjects)
     {
         it->draw(anvil::Application::Instance()->getRenderer());
