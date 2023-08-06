@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     (void)argv;
 
     std::filesystem::current_path(anvil::getExecutableDir());
-    auto resPath = std::filesystem::current_path().parent_path() / "res";
+    auto resPath = std::filesystem::current_path() / "res";
 
     anvil::Configuration configuration("settings.ini");
     auto settings = configuration.load();
