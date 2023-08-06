@@ -32,7 +32,8 @@ public:
 
 
 private:
-//    std::vector<std::unique_ptr<anvil::BaseGameObject>> m_childs;
     std::unique_ptr<anvil::TileMap> m_tileMap;
     std::unique_ptr<Player> m_player;
+    bool _dialogState = false;
+    Uint64 _dialogStart;
 };

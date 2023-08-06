@@ -17,8 +17,14 @@ public:
     int getX();
 
     void setVelocity(float x, float y);
+    void moveTowards(const Vector2D& targetPosition, float speed);
+    bool isIntersect(int x, int y, int w, int h);
+    Direction moveDirection();
+
 protected:
+    bool isNearlyZero(float value, float epsilon = 1e-5f);
     std::pair<float, float> getIsoPosition(float x, float y);;
+    bool debug = false;
 };
 
 }

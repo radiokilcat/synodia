@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game_objects/gameobject.h"
+#include "game_objects/textlabel.h"
 
 #include <SDL3/SDL.h>
 #include <iostream>
@@ -72,7 +73,10 @@ int GameObject::getZOrder()
 
 void GameObject::init()
 {
-
+    auto debugLabel = std::make_unique<TextLabel>(id_, anvil::Color{255, 0, 0});
+    debugLabel->setPosition(position_.x(), position_.y() - 15);
+    debugLabel->setSize(width_, 15);
+    addChildObject(std::move(debugLabel));
 }
 
 void GameObject::from_json(nlohmann::json& j) {

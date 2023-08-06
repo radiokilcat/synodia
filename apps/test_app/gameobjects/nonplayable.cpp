@@ -8,25 +8,41 @@ NonPlayable::NonPlayable()
 
 void NonPlayable::draw(std::shared_ptr<anvil::Renderer> renderer)
 {
-//    anvil::GameObject::draw(renderer);
     anvil::IsoGameObject::draw(renderer);
-
 }
 
 void NonPlayable::update()
 {
-    currentRow_ = 3;
-    currentFrame_ = int((anvil::Application::Instance()->getTicks() / 100) % 6);
-    auto newPostion = position_ + velocity_;
-    auto newPositionIso = getIsoPosition(newPostion.x(), newPostion.y());
+    auto direction = moveDirection();
+    switch (direction)
+    {
+    case anvil::Direction::Up:
+        currentRow_ = 5;
+        break;
+    case anvil::Direction::Down:
+        currentRow_ = 11;
+        break;
+    case anvil::Direction::Left:
+        currentRow_ = 10;
+        break;
+    case anvil::Direction::Right:
+        currentRow_ = 12;
+        break;
+    case anvil::Direction::Static:
+        currentRow_ = 3;
+        break;
+    }
 
-    if (newPositionIso.first + width_ >= anvil::Application::Instance()->getScreenWidth()
-        || newPositionIso.first < 0) {
+    currentFrame_ = int((anvil::Application::Instance()->getTicks() / 100) % 6);
+    auto newPosition = position_ + velocity_;
+
+    if (newPosition.x() + width_ >= anvil::Application::Instance()->getScreenWidth()
+        || newPosition.x() < 0) {
         velocity_.setX(-1 * velocity_.x());
         velocity_.setY(-1 * velocity_.y());
     }
-    if (newPositionIso.second + height_ >= anvil::Application::Instance()->getScreenHeight()
-        || newPositionIso.second < 0) {
+    if (newPosition.y() + height_ >= anvil::Application::Instance()->getScreenHeight()
+        || newPosition.y() < 0) {
         velocity_.setX(-1 * velocity_.x());
         velocity_.setY(-1 * velocity_.y());
     }

@@ -31,6 +31,17 @@ void Speech::setPosition(float x, float y)
     m_label->setPosition(position_.x() + 8, position_.y() + 8);
 }
 
+void Speech::setSize(float w, float h)
+{
+    width_ = w;
+    height_ = h;
+}
+
+void Speech::setTextSize(float size)
+{
+    m_label->setTextScale(size);
+}
+
 void Speech::show(int timeSec, std::string text)
 {
     m_text = text;

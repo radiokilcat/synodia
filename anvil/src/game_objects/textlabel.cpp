@@ -25,7 +25,7 @@ void TextLabel::draw(std::shared_ptr<Renderer> renderer)
 
 void TextLabel::drawWrapped(std::shared_ptr<Renderer> renderer, Uint32 wrapLength)
 {
-    TextureManager::instance()->drawTextWrapped(id_, wrapLength, text_, font_, color_, position_.x(), position_.y(), width_, height_, renderer->getRenderer());
+    TextureManager::instance()->drawTextWrapped(id_, wrapLength, text_, font_, color_, position_.x(), position_.y(), width_ * textScale_, height_ * textScale_, renderer->getRenderer());
 };
 
 void TextLabel::setPosition(float x, float y)
@@ -44,6 +44,11 @@ void TextLabel::setSize(float w, float h)
 void TextLabel::setText(std::string text)
 {
     text_ = text;
+}
+
+void TextLabel::setTextScale(int size)
+{
+    textScale_ = size;
 }
 
 }
