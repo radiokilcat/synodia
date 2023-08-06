@@ -16,13 +16,18 @@ add_executable(test_app
 
     gameobjects/gamescene.h
     gameobjects/gamescene.cpp
+
     states/pausestate.h
     states/playstate.h
     states/menustate.h
-
-    states/pausestate.cpp
+    states/winstate.h
+    states/losestate.h
     states/playstate.cpp
     states/menustate.cpp
+    states/pausestate.cpp
+    states/winstate.cpp
+    states/losestate.cpp
+
     gameobjects/speech.cpp
     gameobjects/speech.h)
 
