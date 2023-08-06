@@ -23,7 +23,7 @@ void GameScene::update()
     int p_w = m_player->getWidth();
     int p_h = m_player->getHeight();
 
-    //m_tileMap->setTileOutline(p_x, p_y);
+    m_tileMap->setTileOutline(p_x, p_y);
     m_player->setInverseMove(false);
 
     for (auto& child: m_childs)

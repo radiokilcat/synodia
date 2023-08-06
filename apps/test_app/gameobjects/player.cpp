@@ -12,26 +12,14 @@ Player::Player()
 
 int Player::getX()
 {
-    auto [isoX, isoY] = getIsoPosition(position_.x(), position_.y());
-    return isoX;
+    return IsoGameObject::getX();
 }
 
 int Player::getY()
 {
-    auto [isoX, isoY] = getIsoPosition(position_.x(), position_.y());
-    return isoY;
+    return IsoGameObject::getY();
 }
 
-//int Player::getScreenX()
-//{
-//    return position;
-//}
-
-//int Player::getScreenY()
-//{
-//    auto [isoX, isoY] = getIsoPosition(position_.x(), position_.y());
-//    return isoY;
-//}
 int Player::getWidth()
 {
     return width_;
@@ -58,10 +46,10 @@ void Player::draw(std::shared_ptr<anvil::Renderer> renderer)
     int x4 = x1;
     int y4 = y1 + height_;
 
-    /*anvil::TextureManager::instance()->drawQuadrilateral(renderer->getRenderer(), x1, y1,
+    anvil::TextureManager::instance()->drawQuadrilateral(renderer->getRenderer(), x1, y1,
                                                          x2, y2,
                                                          x3, y3,
-                                                       x4, y4); */ 
+                                                       x4, y4);
 }
 
 void Player::update()
@@ -71,27 +59,26 @@ void Player::update()
     velocity_.setY(0.f);
     if (!_continuedMove)
     {
-        velocity_.setX(0.f);
-        velocity_.setY(0.f);
+        setVelocity(0, 0);
     }
     if(anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Right))
     {
-        velocity_.setX(3.1f);
+        setVelocity(3.1f, 0);
     }
     if(anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Left))
     {
         currentRow_ = 10;
-        velocity_.setX(-3.1f);
+        setVelocity(-3.1f, 0);
     }
     if(anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Up))
     {
         currentRow_ = 12;
-        velocity_.setY(-3.1f);
+        setVelocity(0, -3.1f);
     }
     if(anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Down))
     {
         currentRow_ = 10;
-        velocity_.setY(3.1f);
+        setVelocity(0, 3.1f);
     }
     if (anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Space))
     {
@@ -101,42 +88,20 @@ void Player::update()
             auto text = _quotes[ind];
             _speech->show(5, text);
         }
-//        currentRow_ = 12;
-//        velocity_.setX(0.1f);
     }
-//    if(anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Left))
-//    {
-////        currentRow_ = 10;
-////        velocity_.setX(-0.1f);
-//    }
-//    if(anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Up))
-//    {
-//        currentRow_ = 12;
-//        velocity_.setY(-0.1f);
-//    }
-//    if(anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Down))
-//    {
-//        currentRow_ = 10;
-//        velocity_.setY(0.1f);
-//    }
-    // Cycle through the spreadsheet and change frame position
     currentFrame_ = int((anvil::Application::Instance()->getTicks() / 100) % 6);
-    auto newPostion = position_ + velocity_;
-    auto newPositionIso = getIsoPosition(newPostion.x(), newPostion.y());
+    auto newPosition = position_ + velocity_;
 
-    if (newPositionIso.first + width_ >= anvil::Application::Instance()->getScreenWidth()
-        || newPositionIso.first < 0) {
-        velocity_.setX(-1 * velocity_.x());
-        velocity_.setY(-1 * velocity_.y());
+    if (newPosition.x() + width_ >= anvil::Application::Instance()->getScreenWidth()
+        || newPosition.x() < 0) {
+        setVelocity(-1 * velocity_.x(), -1 * velocity_.y());
     }
-    if (newPositionIso.second + height_ >= anvil::Application::Instance()->getScreenHeight()
-        || newPositionIso.second < 0) {
-        velocity_.setX(-1 * velocity_.x());
-        velocity_.setY(-1 * velocity_.y());
+    if (newPosition.y() + height_ >= anvil::Application::Instance()->getScreenHeight()
+        || newPosition.y() < 0) {
+        setVelocity(-1 * velocity_.x(), -1 * velocity_.y());
     }
     if (_inverseMove) {
-        velocity_.setX(-1 * velocity_.x());
-        velocity_.setY(-1 * velocity_.y());
+        setVelocity(-1 * velocity_.x(), -1 * velocity_.y());
         _inverseMove = false;
     }
     anvil::IsoGameObject::update();
