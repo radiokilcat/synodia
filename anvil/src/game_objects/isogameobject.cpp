@@ -4,25 +4,32 @@ namespace anvil {
 
 void IsoGameObject::draw(std::shared_ptr<Renderer> renderer)
 {
-    std::pair<float, float> isoPosition = getIsoPosition(position_.x(), position_.y());
-
-    TextureManager::instance()->drawFrame(textureId_, (Uint32)isoPosition.first, (Uint32)isoPosition.second,
-                                          width_, height_,
-                                          currentRow_, currentFrame_,
-                                          renderer->getRenderer());
+TextureManager::instance()->drawFrame(textureId_, (Uint32)position_.x(), (Uint32)position_.y(),
+                                              width_, height_,
+                                              currentRow_, currentFrame_,
+                                              renderer->getRenderer());
 }
 
 int IsoGameObject::getX()
 {
-    auto [isoX, isoY] = getIsoPosition(position_.x(), position_.y());
-    return isoX;
+    return position_.x();
 }
 
 int IsoGameObject::getY()
 {
-    auto [isoX, isoY] = getIsoPosition(position_.x(), position_.y());
-    return isoY;
+    return position_.y();
 }
+
+void IsoGameObject::setVelocity(float x, float y)
+{
+    float isoVelocityX = x - y;
+    float isoVelocityY = (x + y) / 2;
+
+    velocity_.setX(isoVelocityX);
+    velocity_.setY(isoVelocityY);
+}
+
+
 void IsoGameObject::update(){
     position_ += velocity_;
 }

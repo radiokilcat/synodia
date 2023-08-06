@@ -32,6 +32,7 @@ public:
     virtual void load(const LoaderParams* params) override;
     virtual void addChildObject(std::unique_ptr<anvil::BaseGameObject> gameObject);
     virtual int getZOrder();
+    virtual void init();
 
     void from_json(nlohmann::json &j);
     void to_json(nlohmann::json &j);
@@ -40,6 +41,7 @@ public:
 
     Vector2D getVelocity() { return velocity_;  };
     void setVelocity(Vector2D velocity) { velocity_ = velocity; }
+
 protected:
     std::string id_;
     std::string textureId_;

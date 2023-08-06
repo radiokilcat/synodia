@@ -70,6 +70,11 @@ int GameObject::getZOrder()
     return zOrder_;
 }
 
+void GameObject::init()
+{
+
+}
+
 void GameObject::from_json(nlohmann::json& j) {
     id_ = j.value("id", std::string("test1"));
     textureId_ = j.value("textureId", std::string("test"));

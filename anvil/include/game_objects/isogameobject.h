@@ -16,6 +16,7 @@ public:
     int getY();
     int getX();
 
+    void setVelocity(float x, float y);
 protected:
     std::pair<float, float> getIsoPosition(float x, float y);;
 };

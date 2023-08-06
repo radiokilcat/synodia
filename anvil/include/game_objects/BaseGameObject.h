@@ -37,6 +37,7 @@ public:
     virtual void update() = 0;
     virtual void clean() = 0;
     virtual void load(const LoaderParams* params) = 0;
+    virtual void init() = 0;
     virtual void addChildObject(std::unique_ptr<anvil::BaseGameObject> gameObject) = 0;
     virtual int  getZOrder() = 0;
 

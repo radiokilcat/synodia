@@ -59,12 +59,14 @@ std::unique_ptr<BaseGameObject> StateLoader::loadGameObjects(const std::string& 
             for (auto& childParams : params) {
                 auto childObj = GameObjectFactory::instance().createGameObject(child);
                 childObj->from_json(childParams);
+                childObj->init();
                 sceneObject->addChildObject(std::move(childObj));
             }
         }
         else {
             auto childObj = GameObjectFactory::instance().createGameObject(child);
             childObj->from_json(params);
+            childObj->init();
             sceneObject->addChildObject(std::move(childObj));
         }
 
