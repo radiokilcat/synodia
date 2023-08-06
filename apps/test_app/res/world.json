@@ -15,6 +15,22 @@
         "background": "menubackground.png"
       }
     },
+    "WIN": {
+        "textures": {
+            "playbutton": "button.png",
+            "exitbutton": "exit.png",
+            "empty_button": "empty_button.png",
+            "background":  "menubackground.png"
+        }
+    },
+    "LOSE": {
+        "textures": {
+            "playbutton": "button.png",
+            "exitbutton": "exit.png",
+            "empty_button": "empty_button.png",
+            "background":  "menubackground.png"
+        }
+    },
     "play": {
         "textures": {
             "test": "adventurer.png",
@@ -60,8 +76,8 @@
                         "id": "npc_1",
                         "zOrder": 1,
                         "position": {
-                          "x_": 200.0,
-                          "y_": 200.0
+                          "x_": 306.0,
+                          "y_": 387.0
                         },
                         "height": 64,
                         "width": 64,
@@ -73,8 +89,8 @@
                         "id": "npc_2",
                         "zOrder": 1,
                         "position": {
-                          "x_": 150.0,
-                          "y_": 200.0
+                          "x_": 661.0,
+                          "y_": 324.0
                         },
                         "height": 64,
                         "width": 64,
@@ -86,8 +102,8 @@
                         "id": "npc_3",
                         "zOrder": 1,
                         "position": {
-                          "x_": 200.0,
-                          "y_": 150.0
+                          "x_": 797.0,
+                          "y_": 523.0
                         },
                         "height": 64,
                         "width": 64,
@@ -99,8 +115,8 @@
                         "id": "npc_4",
                         "zOrder": 1,
                         "position": {
-                          "x_": 170.0,
-                          "y_": 250.0
+                          "x_": 399.0,
+                          "y_": 607.0
                         },
                         "height": 64,
                         "width": 64,

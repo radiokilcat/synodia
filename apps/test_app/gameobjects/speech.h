@@ -20,9 +20,12 @@ public:
     void clean() override;
     void load(const anvil::LoaderParams* params);
 
+    void setTextSize(float size);
+    void setSize(float w, float h);
 private:
     anvil::TextLabel* m_label = nullptr;
     std::string m_text = "";
     int shownAt = 0;
     int showDuration = 0;
+    float m_scale = 1;
 };

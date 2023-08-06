@@ -36,9 +36,12 @@ public:
     virtual void clean() override {};
     virtual ~TextLabel() {};
 
+    void setTextScale(int size);
+
 protected:
     std::string text_;
     TTF_Font* font_;
+    int textScale_ = 1;
     SDL_Color color_;
 };
 

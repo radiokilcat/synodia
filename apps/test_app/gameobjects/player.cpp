@@ -34,60 +34,54 @@ void Player::draw(std::shared_ptr<anvil::Renderer> renderer)
 {
     anvil::IsoGameObject::draw(renderer);
     _speech->draw(renderer);
-    int x1 = getX();
-    int y1 = getY();
-
-    int x2 = x1 + width_;
-    int y2 = y1;
-
-    int x3 = x1 + width_;
-    int y3 = y1 + height_;
-
-    int x4 = x1;
-    int y4 = y1 + height_;
-
-    anvil::TextureManager::instance()->drawQuadrilateral(renderer->getRenderer(), x1, y1,
-                                                         x2, y2,
-                                                         x3, y3,
-                                                       x4, y4);
 }
 
 void Player::update()
 {
     currentRow_ = 12;
-    velocity_.setX(0.f);
-    velocity_.setY(0.f);
     if (!_continuedMove)
     {
         setVelocity(0, 0);
     }
-    if(anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Right))
+    if (!_blockInteractions)
     {
-        setVelocity(3.1f, 0);
-    }
-    if(anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Left))
-    {
-        currentRow_ = 10;
-        setVelocity(-3.1f, 0);
-    }
-    if(anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Up))
-    {
-        currentRow_ = 12;
-        setVelocity(0, -3.1f);
-    }
-    if(anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Down))
-    {
-        currentRow_ = 10;
-        setVelocity(0, 3.1f);
-    }
-    if (anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Space))
-    {
-        if (!_speech->isShown())
+        if(anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Right))
         {
-            auto ind = rand() % std::size(_quotes);
-            auto text = _quotes[ind];
-            _speech->show(5, text);
+            setVelocity(3.1f, 0);
         }
+        if(anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Left))
+        {
+            currentRow_ = 10;
+            setVelocity(-3.1f, 0);
+        }
+        if(anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Up))
+        {
+            currentRow_ = 12;
+            setVelocity(0, -3.1f);
+        }
+        if(anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Down))
+        {
+            currentRow_ = 10;
+            setVelocity(0, 3.1f);
+        }
+        if (anvil::InputHandler::instance()->isKeyDown(anvil::AnvilKeyCode::Space))
+        {
+            if (!_speech->isShown())
+            {
+                auto ind = rand() % std::size(_quotes);
+                auto text = _quotes[ind];
+                _speech->show(5, text);
+            }
+        }
+    }
+    else {
+            if (!_speech->isShown())
+            {
+                auto text = "I found it!\nThe Cultists Scrolls!";
+                _speech->show(3, text);
+                _speech->setTextSize(2.0f);
+                _speech->setSize(70.f, 50.f);
+            }
     }
     currentFrame_ = int((anvil::Application::Instance()->getTicks() / 100) % 6);
     auto newPosition = position_ + velocity_;
@@ -105,8 +99,8 @@ void Player::update()
         _inverseMove = false;
     }
     anvil::IsoGameObject::update();
-    auto pos = getIsoPosition(position_.x(), position_.y());
-    _speech->setPosition(pos.first - 80, pos.second - 90);
+//    auto pos = getIsoPosition(position_.x(), position_.y());
+    _speech->setPosition(position_.x() - 80, position_.y() - 90);
     _speech->update();
 }
 
@@ -136,27 +130,6 @@ bool Player::continuedMove() const
     return _continuedMove;
 }
 
-anvil::Direction Player::moveDirection()
-{
-    if (velocity_.x() > 0 && velocity_.y() == 0)
-    {
-        return anvil::Direction::Right;
-    }
-    if (velocity_.y() > 0 && velocity_.x() == 0)
-    {
-        return anvil::Direction::Down;
-    }
-    if (velocity_.y() < 0 && velocity_.x() == 0)
-    {
-        return anvil::Direction::Up;
-    }
-    if (velocity_.y() == 0 && velocity_.x() == 0)
-    {
-        return anvil::Direction::Static;
-    }
-}
-
-
 void Player::setContinuedMove(bool isContinuedMove)
 {
     _continuedMove = isContinuedMove;
@@ -171,4 +144,9 @@ void Player::setInverseMove(bool isInverseMove)
         anvil::IsoGameObject::update();
     }
 
+}
+
+void Player::blockInteractions()
+{
+    _blockInteractions = true;
 }

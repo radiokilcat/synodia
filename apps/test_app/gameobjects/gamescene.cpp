@@ -2,6 +2,9 @@
 #include <memory>
 #include <iostream>
 #include "stationary.h"
+#include "nonplayable.h"
+#include "../states/losestate.h"
+#include "../states/winstate.h"
 
 void GameScene::draw(std::shared_ptr<anvil::Renderer> renderer)
 {
@@ -23,16 +26,48 @@ void GameScene::update()
     int p_w = m_player->getWidth();
     int p_h = m_player->getHeight();
 
-    m_tileMap->setTileOutline(p_x, p_y);
+//    m_tileMap->setTileOutline(p_x, p_y);
     m_player->setInverseMove(false);
+
+    if (_dialogState)
+    {
+        auto delta = anvil::Application::Instance()->getTicks() - _dialogStart;
+        if (delta >= 3 * 1000)
+        {
+            anvil::Application::Instance()->getStateMachine()->changeState(new WinState);
+        }
+    }
 
     for (auto& child: m_childs)
     {
         child->update();
-        auto childGameObject = dynamic_cast<Stationary*>(child.get());
-        if(childGameObject && childGameObject->isIntersect(p_x, p_y, p_w, p_h))
+        if(auto childGameObject = dynamic_cast<Stationary*>(child.get()))
         {
-            m_player->setInverseMove(true);
+            if (childGameObject->isIntersect(p_x, p_y, p_w, p_h) && !_dialogState)
+            {
+                for (auto& child: m_childs)
+                {
+                    if (auto npc = dynamic_cast<NonPlayable*>(child.get()))
+                    {
+                        npc->setVelocity(0, 0);
+                    }
+                }
+                m_player->blockInteractions();
+                _dialogState = true;
+                _dialogStart = anvil::Application::Instance()->getTicks();
+
+            }
+//            m_player->setInverseMove(true);
+        }
+        else if (auto npc = dynamic_cast<NonPlayable*>(child.get()))
+        {
+            if(npc->isIntersect(p_x, p_y, p_w, p_h))
+            {
+                 anvil::Application::Instance()->getStateMachine()->changeState(new LoseState);
+            }
+
+            auto playerDirection = anvil::Vector2D{float(p_x), float(p_y)};
+            npc->moveTowards(playerDirection, 0.2f);
         }
     }
 }
