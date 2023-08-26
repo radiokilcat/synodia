@@ -4,6 +4,7 @@
 #include "inputhandler.h"
 #include "game_state_machine.h"
 #include "audio_manager.h"
+#include "utils.h"
 
 #include <SDL_image.h>
 #include <SDL_ttf.h>
@@ -11,6 +12,9 @@
 #include <cassert>
 #include <iostream>
 #include <ui/scrollable_text.h>
+#include <backends/imgui_impl_sdl3.h>
+#include <backends/imgui_impl_sdlrenderer3.h>
+#include <imgui.h>
 
 #include "logger.h"
 
@@ -38,7 +42,7 @@ static Application* m_instance = nullptr;
 
 Application* Application::Instance()
 {
-    if(m_instance == 0)
+    if(m_instance == nullptr)
     {
         m_instance = new Application();
         return m_instance;
@@ -107,6 +111,12 @@ void Application::init(const GameSettings& settings)
     }
     AudioManager::instance().initAudio();
 
+    // Initialize SDL_mixer
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+        printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+        std::exit(1);
+    }
+
     m_window = Window::create(m_settings.windowTitle.c_str(),
                               m_settings.screenWidth * m_settings.screenScale,
                               m_settings.screenHeight * m_settings.screenScale);
@@ -116,10 +126,14 @@ void Application::init(const GameSettings& settings)
 
     m_stateMachine = new GameStateMachine();
 
+
     if (m_initCallback) {
         m_initCallback();
     }
 
+#ifndef NDEBUG
+    ImguiSystem::Instance()->init(m_window, m_renderer->getRenderer());
+#endif
     SDL_SetRenderDrawBlendMode(m_renderer->getRenderer(), SDL_BLENDMODE_BLEND);
 
     // bg color
@@ -159,10 +173,18 @@ void Application::update()
 
 void Application::render()
 {
+#ifndef NDEBUG
+    ImguiSystem::Instance()->drawMenuBar(m_window);
+#endif
+
     SDL_RenderClear(m_renderer->getRenderer());
     SDL_SetRenderTarget(m_renderer->getRenderer(), nullptr);
 
     m_stateMachine->render();
+
+#ifndef NDEBUG
+    ImguiSystem::Instance()->render();
+#endif
 
     SDL_RenderPresent(m_renderer->getRenderer());
 }
@@ -171,6 +193,10 @@ void Application::cleanup()
 {
     InputHandler::instance()->clean();
     AudioManager::instance().cleanup();
+#ifndef NDEBUG
+    ImguiSystem::Instance()->shutDown();
+#endif
+
     SDL_Quit();
     IMG_Quit();
     TTF_Quit();

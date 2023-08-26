@@ -1,4 +1,5 @@
 #include <iostream>
+#include <backends/imgui_impl_sdl3.h>
 
 #include "inputhandler.h"
 #include "application.h"
@@ -50,6 +51,10 @@ void InputHandler::handleEvents()
     while (SDL_PollEvent(&event))
     {
         m_keyState = SDL_GetKeyboardState(0);
+
+#ifndef NDEBUG
+        ImGui_ImplSDL3_ProcessEvent(&event);
+#endif
 
         if (event.type == SDL_EVENT_QUIT)
         {

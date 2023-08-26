@@ -22,3 +22,7 @@
 [submodule "anvil/third_party/fmt"]
 	path = anvil/third_party/fmt
 	url = https://github.com/fmtlib/fmt.git
+[submodule "anvil/third_party/imgui"]
+	path = anvil/third_party/imgui
+	url = https://github.com/ocornut/imgui.git
+	branch = docking
