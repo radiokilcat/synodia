@@ -13,7 +13,6 @@ Renderer::Renderer(std::unique_ptr<Window>& window)
 {
 }
 
-
 Renderer::~Renderer() {}
 
 void init();

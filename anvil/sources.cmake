@@ -20,6 +20,7 @@ set(SOURCES
   src/game_objects/GameObjectsFactory.cpp
   src/ui/scrollable_text.cpp
   src/audio_manager.cpp
+  src/AnvilImgui/ImguiSystem.cpp
 )
 
 set(HEADERS
@@ -49,6 +50,7 @@ set(HEADERS
   include/ui/scrollable_text.h
   include/audio_manager.h
   include/logger.h
+  include/AnvilImgui/ImguiSystem.h
 )
 
 set(public_headers include/anvil.h )

@@ -7,6 +7,7 @@
 #include <functional>
 
 #include <SDL3/SDL.h>
+#include "AnvilImgui/ImguiSystem.h"
 
 namespace anvil {
 

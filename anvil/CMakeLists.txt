@@ -19,10 +19,7 @@ target_include_directories(anvil
 
 if(BUILD_SHARED_LIBS)
  target_link_libraries(anvil 
-    PRIVATE 
-      inipp
     PUBLIC
-      nlohmann_json
       SDL3::SDL3
       SDL3_image::SDL3_image
       SDL3_ttf::SDL3_ttf
@@ -31,10 +28,7 @@ if(BUILD_SHARED_LIBS)
  )
 else()
  target_link_libraries(anvil
-    PRIVATE 
-      inipp
     PUBLIC
-      nlohmann_json
       SDL3::SDL3-static
       SDL3_image::SDL3_image-static
       SDL3_ttf::SDL3_ttf-static
@@ -42,5 +36,13 @@ else()
       fmt::fmt
  )
 endif()
+target_link_libraries(anvil
+    PRIVATE 
+      inipp
+    PUBLIC
+      nlohmann_json
+      imgui
+)
+
 
 add_subdirectory(tests)

@@ -46,3 +46,5 @@ CMakeSettings.json
 _deps
 .vs/
 .idea
+cmake-build-release
+cmake-build-debug
