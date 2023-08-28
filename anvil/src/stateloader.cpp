@@ -5,6 +5,7 @@
 #include "renderer.h"
 #include "game_objects/GameObjectsFactory.h"
 #include "game_objects/gameobject.h"
+#include <regex>
 
 namespace anvil {
 
@@ -53,26 +54,63 @@ std::unique_ptr<BaseGameObject> StateLoader::loadGameObjects(const std::string& 
     auto scene = objects["GameScene"];
 
     auto sceneObject = GameObjectFactory::instance().createGameObject(scene.value("id", std::string("GameScene")));
-    for (const auto& [child, params] : scene["childs"].items()) {
-
-        if (params.is_array()) {
-            for (auto& childParams : params) {
-                auto childObj = GameObjectFactory::instance().createGameObject(child);
-                childObj->from_json(childParams);
-                childObj->init();
-                sceneObject->addChildObject(std::move(childObj));
-            }
-        }
-        else {
-            auto childObj = GameObjectFactory::instance().createGameObject(child);
-            childObj->from_json(params);
-            childObj->init();
-            sceneObject->addChildObject(std::move(childObj));
-        }
-
+    for (const auto& [child, params] : scene["childs"].items())
+    {
+        loadChild(sceneObject.get(), child, params);
     }
     return std::move(sceneObject);
+}
 
+void StateLoader::loadChild(BaseGameObject* parent, std::string id, json item) {
+    if (item.is_array()) {
+        for (auto& childParams : item)
+        {
+            auto childObj = GameObjectFactory::instance().createGameObject(id);
+            childObj->from_json(childParams);
+            childObj->init();
+            parent->addChildObject(std::move(childObj));
+        }
+    }
+    else if (item.is_object())
+    {
+        auto childObj = GameObjectFactory::instance().createGameObject(id);
+        childObj->from_json(item);
+        childObj->init();
+        parent->addChildObject(std::move(childObj));
+    }
+    else if (item.is_string())
+    {
+        std::smatch sm;
+        const std::string command = item;
+        if (regex_match(command, sm, std::regex{ "\@(?:include)[(](.+)[)]" })) {
+            const auto path = sm[1].str();
+            auto childObj = includeObject(path);
+            parent->addChildObject(std::move(childObj));
+        }
+    }
+}
+
+std::unique_ptr<BaseGameObject> StateLoader::includeObject(const std::string path) {
+    std::ifstream file(path);
+
+    if (!file.is_open()) {
+        std::cerr << "Failed to open file" << std::endl;
+        return {};
+    }
+    nlohmann::json data = nlohmann::json::parse(file);
+
+    if (data.is_discarded()) {
+        std::cerr << "Failed to parse JSON" << std::endl;
+        return {};
+    }
+    auto object = GameObjectFactory::instance().createGameObject(data["id"]);
+    object->from_json(data);
+    object->init();
+    for (const auto& [child, params] : data["childs"].items())
+    {
+        loadChild(object.get(), child, params);
+    }
+    return object;
 }
 
 std::vector<std::string> anvil::StateLoader::loadTextures(const std::string& stateId)

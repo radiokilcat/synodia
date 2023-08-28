@@ -39,9 +39,6 @@ int main(int argc, char *argv[])
     TextButton::registerWithFactory();
     Stationary::registerWithFactory();
 
-
-
-
     app->addInitCallback([]{
         anvil::Application::Instance()->getStateMachine()->changeState(new MenuState);
     });

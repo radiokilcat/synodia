@@ -14,6 +14,7 @@
 #include <cassert>
 #include <filesystem>
 #include <iostream>
+#include <ui/scrollable_text.h>
 
 
 SDL_Texture* createBlankTexture(SDL_Renderer* renderer, int width, int height)
@@ -59,6 +60,8 @@ Application::~Application()
 
 void Application::run()
 {
+    anvil::ScrollableText::registerWithFactory();
+
     main_loop();
     cleanup();
 }
@@ -160,7 +163,6 @@ void Application::main_loop()
         frameTime = getTicks() - frameStart;
         if(frameTime < DELAY_TIME)
         {
-            SDL_Delay((int)(DELAY_TIME - frameTime));
         }
     }
     Mix_HaltChannel(-1); // Stop playing any sounds on all channels

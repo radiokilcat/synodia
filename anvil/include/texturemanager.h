@@ -43,7 +43,7 @@ public:
     void drawQuadrilateral(SDL_Renderer* renderer, int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4);
     void drawPoint(SDL_Renderer *renderer, int x1, int y1);
     void drawLine(SDL_Renderer* renderer, int x1, int y1, int x2, int y2);
-
+    void drawRect(SDL_Renderer* renderer, int x, int y, int w, int h, SDL_Color color);
 private:
     TextureManager();
     std::map<std::string, SDL_Texture*> m_texture_map;

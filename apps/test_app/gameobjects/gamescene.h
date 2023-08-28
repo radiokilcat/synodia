@@ -25,6 +25,8 @@ public:
     void addChildObject(std::unique_ptr<BaseGameObject> gameObject) override;
     void setTileMap(std::unique_ptr<anvil::TileMap> tileMap);
     void setPlayer(std::unique_ptr<Player> player);
+    void setSpeech(std::unique_ptr<anvil::ScrollableText> scrollable);
+
     bool checkCollision(std::unique_ptr<anvil::BaseGameObject>& a, std::unique_ptr<anvil::BaseGameObject>& b);
 
     float distance(anvil::Vector2D p1, anvil::Vector2D p2);
@@ -34,6 +36,7 @@ public:
 private:
     std::unique_ptr<anvil::TileMap> m_tileMap;
     std::unique_ptr<Player> m_player;
+    std::unique_ptr<anvil::ScrollableText> m_scrollable;
     bool _dialogState = false;
     Uint64 _dialogStart;
 };
