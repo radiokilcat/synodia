@@ -16,3 +16,4 @@
 #include "game_objects/isogameobject.h"
 #include "game_objects/BaseGameObject.h"
 #include "game_objects/GameObjectsFactory.h"
+#include "ui/scrollable_text.h"

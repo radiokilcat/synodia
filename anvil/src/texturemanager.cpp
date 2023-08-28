@@ -171,6 +171,19 @@ void TextureManager::drawQuadrilateral(SDL_Renderer* renderer,
     SDL_SetRenderDrawColor(renderer, oldColor.r, oldColor.g, oldColor.b, SDL_ALPHA_OPAQUE);
 }
 
+void TextureManager::drawRect(SDL_Renderer* renderer,
+    int x, int y,
+    int w, int h, 
+    SDL_Color color = {0, 0, 0})
+{
+    SDL_Color oldColor { 0, 0, 0 };
+    SDL_GetRenderDrawColor(renderer, &oldColor.r, &oldColor.g, &oldColor.b, &oldColor.a);
+    const SDL_FRect rect { x, y, w, h };
+    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, SDL_ALPHA_OPAQUE);
+    SDL_RenderFillRect(renderer, &rect);
+    SDL_SetRenderDrawColor(renderer, oldColor.r, oldColor.g, oldColor.b, SDL_ALPHA_OPAQUE);
+}
+
 void TextureManager::clearFromTextureMap(std::string id)
 {
     m_texture_map.erase(id);

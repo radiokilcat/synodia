@@ -40,7 +40,7 @@ public:
 
 protected:
     std::string text_;
-    TTF_Font* font_;
+    TTF_Font* font_ = nullptr;
     int textScale_ = 1;
     SDL_Color color_;
 };

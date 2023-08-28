@@ -10,7 +10,7 @@ void GameScene::draw(std::shared_ptr<anvil::Renderer> renderer)
 {
     m_tileMap->draw(renderer);
     m_player->draw(renderer);
-
+    m_scrollable->draw(renderer);
     for (auto& child: m_childs)
     {
         child->draw(renderer);
@@ -21,6 +21,8 @@ void GameScene::update()
 {
     m_tileMap->update();
     m_player->update();
+    m_scrollable->update();
+
     int p_x = m_player->getX();
     int p_y = m_player->getY();
     int p_w = m_player->getWidth();
@@ -112,7 +114,10 @@ void GameScene::addChildObject(std::unique_ptr<BaseGameObject> gameObject)
         setTileMap(std::unique_ptr<anvil::TileMap>(tilemap));
         gameObject.release();
     }
-    else {
+    else if (auto speech = dynamic_cast<anvil::ScrollableText*>(gameObject.get())) {
+        setSpeech(std::unique_ptr<anvil::ScrollableText>(speech));
+        gameObject.release();
+    } else {
         GameObject::addChildObject(std::move(gameObject));
     }
 }
@@ -125,6 +130,10 @@ void GameScene::setTileMap(std::unique_ptr<anvil::TileMap> tileMap)
 void GameScene::setPlayer(std::unique_ptr<Player> player)
 {
     m_player = std::move(player);
+}
+
+void GameScene::setSpeech(std::unique_ptr<anvil::ScrollableText> scrollable) {
+    m_scrollable = std::move(scrollable);
 }
 
 float GameScene::distance(anvil::Vector2D p1, anvil::Vector2D p2)
