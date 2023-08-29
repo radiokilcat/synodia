@@ -19,6 +19,7 @@ set(SOURCES
   src/game_objects/textlabel.cpp
   src/game_objects/GameObjectsFactory.cpp
   src/ui/scrollable_text.cpp
+  src/audio_manager.cpp
 )
 
 set(HEADERS
@@ -46,7 +47,7 @@ set(HEADERS
   include/game_objects/tilemap.h
   include/game_objects/GameObjectsFactory.h
   include/ui/scrollable_text.h
-
+  include/audio_manager.h
 )
 
 set(public_headers include/anvil.h )

@@ -19,6 +19,7 @@ public:
 
     static StateLoader& instance();
     static std::vector<std::string> loadTextures(const std::string& stateId);
+    static void loadAudio(const std::string& stateId);
     static std::unique_ptr<BaseGameObject> loadGameObjects(const std::string& stateId);
     static void loadChild(BaseGameObject* parent, std::string id, json item);
     static std::unique_ptr<BaseGameObject> includeObject(const std::string path);

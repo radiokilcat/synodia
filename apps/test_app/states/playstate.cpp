@@ -15,6 +15,7 @@ PlayState::PlayState()
 bool PlayState::onEnter()
 {
     m_textureIds = anvil::StateLoader::loadTextures(m_id);
+    anvil::StateLoader::loadAudio(m_id);
     m_scene = anvil::StateLoader::loadGameObjects(m_id);
 
 //    m_scene->setTileMap(std::make_unique<anvil::TileMap>(new anvil::LoaderParams(100, 100, 50, 37, "water")));
