@@ -145,7 +145,19 @@
                       [ "stone_n", "stone_s", "stone_w", "stone_e", "stone_w", "stone_w", "stone_s", "stone_s", "stone_s", "stone_e", "stone_e", "stone_n", "stone_e", "stone_w", "stone_n" ]
                     ]
                   },
-                  "ScrollableText": "@include(res/objects/scrollable_text.json)"
+                  "ScrollableText": {
+                    "id": "ScrollableText",
+                    "zOrder": 1,
+                    "position": {
+                      "x_": 30.0,
+                      "y_": 800.0
+                    },
+                    "height": 256,
+                    "width": 768,
+                    "currentFrame": 1,
+                    "currentRow": 1,
+                    "textureId": "evil"
+                  }
               }
             }
         }
