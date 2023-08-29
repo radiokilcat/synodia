@@ -4,6 +4,7 @@
 #include <map>
 #include <SDL3/SDL.h>
 #include <SDL_ttf.h>
+#include "vector2d.h"
 
 namespace anvil {
 
@@ -34,6 +35,19 @@ public:
         TTF_Font* font, SDL_Color color,
         int x, int y, int width, int height,
         SDL_Renderer* renderer);
+
+    void drawTextMultiline(SDL_Renderer* renderer,
+        TTF_Font* font,
+        std::vector<std::string> &m_lines,
+        SDL_Color color,
+        Vector2D position,
+        int startLine,
+        int lineCount,
+        int lineHeight,
+        int padding,
+        int width,
+        int height,
+        SDL_Color background);
 
     //TODO: also need to write draw & drawFrame methods for flipped image
     void clearFromTextureMap(std::string id);

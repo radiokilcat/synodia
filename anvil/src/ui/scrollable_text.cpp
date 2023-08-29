@@ -13,29 +13,21 @@ namespace anvil {
 		}
 		font_ = font;
 	}
-
 	void ScrollableText::draw(std::shared_ptr<Renderer> renderer) {
-		TextureManager::instance()->drawRect(
+		TextureManager::instance()->drawTextMultiline(
 			renderer->getRenderer(),
-			position_.x(), 
-			position_.y(), 
-			width_, height_, { 34, 39, 46});
-		for (int i = startLine; i < startLine + lineCount; i++) {
-			TextureManager::instance()->drawTextWrapped(
-				"", 0,
-				m_lines[i],
-				font_,
-				White,
-				position_.x() + padding,
-				position_.y() + padding + (i % lineCount) * lineHeight, 
-				std::min(width_ - padding, (int)m_lines[i].length() * 14),
-				lineHeight,
-				renderer->getRenderer());
-		}
-		for (auto& child : m_childs)
-		{
-			child->draw(renderer);
-		}
+			font_,
+			m_lines,
+			White,
+			position_,
+			startLine,
+			lineCount,
+			lineHeight,
+			padding,
+			width_,
+			height_,
+			{ 34, 39, 46 });
+		 
 	}
 
 	void ScrollableText::update() {
