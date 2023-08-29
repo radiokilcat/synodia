@@ -139,20 +139,20 @@ void TextureManager::drawTextMultiline(
     TTF_Font* font,
     std::vector<std::string> &m_lines,
     SDL_Color color,
-    Vector2D position,
     int startLine,
     int lineCount,
     int lineHeight,
     int padding,
-    int width,
-    int height,
-    SDL_Color background)
+    Vector2D windowPosition,
+    int windowWidth,
+    int windowHeight,
+    SDL_Color backgroundColor)
 {
     SDL_Surface* target = SDL_CreateSurface(
-        width, 
-        height, 
+        windowWidth,
+        windowHeight,
         SDL_PIXELFORMAT_RGB444);
-    SDL_FillSurfaceRect(target, NULL, SDL_MapRGB(target->format, background.r, background.g, background.b));
+    SDL_FillSurfaceRect(target, NULL, SDL_MapRGB(target->format, backgroundColor.r, backgroundColor.g, backgroundColor.b));
     for (int i = startLine; i < startLine + lineCount; i++) {
         SDL_Surface* surfaceMessage =
             TTF_RenderUTF8_Blended(font, m_lines[i].c_str(), color);
@@ -160,7 +160,7 @@ void TextureManager::drawTextMultiline(
         SDL_Rect Message_rect;
         Message_rect.x = padding;
         Message_rect.y = padding + (i % lineCount) * lineHeight;
-        Message_rect.w = std::min(width - padding, (int)(m_lines[i].length() * 14));
+        Message_rect.w = std::min(windowWidth - padding, (int)(m_lines[i].length() * 14));
         Message_rect.h = lineHeight;
 
         SDL_BlitSurfaceScaled(surfaceMessage, NULL, target, &Message_rect);
@@ -168,10 +168,10 @@ void TextureManager::drawTextMultiline(
         SDL_DestroySurface(surfaceMessage);
     }
     SDL_FRect dst;
-    dst.x = position.x();
-    dst.y = position.y();
+    dst.x = windowPosition.x();
+    dst.y = windowPosition.y();
     dst.h = lineHeight * lineCount;
-    dst.w = width;
+    dst.w = windowWidth;
     SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, target);
     SDL_RenderTexture(renderer, Message, NULL, &dst);
     SDL_DestroyTexture(Message);

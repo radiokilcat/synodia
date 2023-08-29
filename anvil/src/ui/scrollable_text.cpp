@@ -19,11 +19,11 @@ namespace anvil {
 			font_,
 			m_lines,
 			White,
-			position_,
 			startLine,
 			lineCount,
 			lineHeight,
 			padding,
+			position_,
 			width_,
 			height_,
 			{ 34, 39, 46 });
