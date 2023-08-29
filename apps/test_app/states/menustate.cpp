@@ -16,6 +16,9 @@ std::string MenuState::getID()
 bool MenuState::onEnter()
 {
     m_textureIds = anvil::StateLoader::loadTextures(m_id);
+    anvil::StateLoader::loadAudio(m_id);
+    anvil::AudioManager::instance().playMusic("theme");
+
 
     anvil::Color textColor = { 255, 255, 255 };
     const int BUTTON_WIDTH = 400;

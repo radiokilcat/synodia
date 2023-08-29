@@ -2,6 +2,7 @@
 #include <iostream>
 #include "utils.h"
 #include "texturemanager.h"
+#include "audio_manager.h"
 #include "renderer.h"
 #include "game_objects/GameObjectsFactory.h"
 #include "game_objects/gameobject.h"
@@ -142,6 +143,29 @@ std::vector<std::string> anvil::StateLoader::loadTextures(const std::string& sta
 
     }
     return textureIds;
+}
+
+void StateLoader::loadAudio(const std::string& stateId)
+{
+    auto resPath = StateLoader::getConfigFile();
+
+    std::ifstream file(resPath);
+    if (!file.is_open()) {
+        std::cerr << "Failed to open file" << std::endl;
+        return;
+    }
+    nlohmann::json data = nlohmann::json::parse(file);
+
+    if (data.is_discarded()) {
+        std::cerr << "Failed to parse JSON" << std::endl;
+        return;
+    }
+
+    auto sounds = data[stateId]["audio"];
+    for (const auto& [name, path] : sounds.items()) {
+        auto fullPath = std::filesystem::canonical(std::filesystem::current_path() / "res" / path.get<std::string>());
+        AudioManager::instance().loadFile(fullPath.string(), name);
+    }
 }
 
 }

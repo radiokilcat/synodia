@@ -7,6 +7,7 @@
 #include "inputhandler.h"
 #include "configuration.h"
 #include "fontloader.h"
+#include "audio_manager.h"
 #include "gamestate.h"
 #include "game_state_machine.h"
 #include "json_serializer/stateloader.h"

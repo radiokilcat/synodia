@@ -7,6 +7,7 @@
 #include "fontloader.h"
 #include "game_objects/gameobject.h"
 #include "utils.h"
+#include "audio_manager.h"
 
 #include <SDL_image.h>
 #include <SDL_ttf.h>
@@ -107,14 +108,7 @@ void Application::init(const GameSettings& settings)
         printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
         std::exit(1);
     }
-
-    // Initialize SDL_mixer
-    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
-        printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
-        std::exit(1);
-    }
-
-
+    AudioManager::instance().initAudio();
 
     m_window = Window::create(m_settings.windowTitle.c_str(),
                               m_settings.screenWidth * m_settings.screenScale,
@@ -137,17 +131,6 @@ void Application::init(const GameSettings& settings)
 
 void Application::main_loop()
 {
-    std::filesystem::current_path(getExecutableDir());
-    auto audioPath = std::filesystem::current_path() / "res" / "spooky_6.wav";
-    auto stringPath = audioPath.string();
-
-    Mix_Chunk *sound = Mix_LoadWAV(stringPath.c_str());
-    if(!sound)
-    {
-        printf("Error loading sound: %s\n", Mix_GetError());
-    }
-    Mix_PlayChannel(-1, sound, -1);
-
     const int DELAY_TIME = 1000.0f / m_settings.FPS;
 
     while (m_running)
@@ -165,10 +148,6 @@ void Application::main_loop()
         {
         }
     }
-    Mix_HaltChannel(-1); // Stop playing any sounds on all channels
-
-    Mix_FreeChunk(sound);
-    Mix_CloseAudio();
 }
 
 void Application::update()
@@ -192,12 +171,11 @@ void Application::render()
 void Application::cleanup()
 {
     InputHandler::instance()->clean();
-
+    AudioManager::instance().cleanup();
     SDL_Quit();
     IMG_Quit();
     TTF_Quit();
     Mix_Quit();
-
 }
 
 GameStateMachine* Application::getStateMachine() const
