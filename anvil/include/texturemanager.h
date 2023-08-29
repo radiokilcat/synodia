@@ -38,16 +38,16 @@ public:
 
     void drawTextMultiline(SDL_Renderer* renderer,
         TTF_Font* font,
-        std::vector<std::string> &m_lines,
+        std::vector<std::string>& m_lines,
         SDL_Color color,
-        Vector2D position,
         int startLine,
         int lineCount,
         int lineHeight,
         int padding,
-        int width,
-        int height,
-        SDL_Color background);
+        Vector2D windowPosition,
+        int windowWidth,
+        int windowHeight,
+        SDL_Color backgroundColor);
 
     //TODO: also need to write draw & drawFrame methods for flipped image
     void clearFromTextureMap(std::string id);
