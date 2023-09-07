@@ -146,6 +146,7 @@ void Application::main_loop()
         frameTime = getTicks() - frameStart;
         if(frameTime < DELAY_TIME)
         {
+            SDL_Delay((int)(DELAY_TIME - frameTime));
         }
     }
 }
