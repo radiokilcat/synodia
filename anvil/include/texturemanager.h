@@ -49,6 +49,36 @@ public:
         int windowHeight,
         SDL_Color backgroundColor);
 
+
+    void drawTextMultilineScroll(SDL_Renderer* renderer,
+        TTF_Font* font,
+        SDL_Color backgroundColor,
+        Vector2D &windowPosition,
+        int windowWidth,
+        int windowHeight,
+        std::vector<std::string>& m_lines,
+        SDL_Color color,
+        int startLine,
+        int lineCount,
+        int lineHeight,
+        int padding
+    );
+
+    void TEST_drawTestScroll(SDL_Renderer* renderer,
+        Vector2D& windowPosition,
+        Vector2D& windowSize,
+        Vector2D& contentOffset,
+        Vector2D& contentSize,
+        SDL_Color color,
+        SDL_Color backgroundColor,
+        TTF_Font* font,
+        std::vector<std::string>& m_lines,
+        int startLine,
+        int lineCount,
+        int lineHeight,
+        int padding
+    );
+
     //TODO: also need to write draw & drawFrame methods for flipped image
     void clearFromTextureMap(std::string id);
 

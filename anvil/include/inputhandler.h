@@ -33,8 +33,8 @@ public:
     static InputHandler* instance();
     void handleEvents();
     void clean();
-
     bool getMouseButtonState(int buttonNumber);
+    Vector2D* getMouseWheelOffset() const;
     Vector2D* getMousePosition() const;
 
     bool isKeyDown(AnvilKeyCode key);
@@ -42,12 +42,12 @@ public:
 private:
     InputHandler();
     ~InputHandler();
+    void clearState();
     std::vector<std::vector<bool>> m_buttonStates;
     std::vector<bool> m_mouseButtonStates;
     Vector2D* m_mousePosition;
-
+    Vector2D* m_mouseWheelOffset;
 private:
-
     const Uint8* m_keyState;
 };
 

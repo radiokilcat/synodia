@@ -242,4 +242,116 @@ std::pair<int, int> TextureManager::textureSize(std::string id)
     return std::pair<int, int>(w, h);
 }
 
+
+void TextureManager::drawTextMultilineScroll(SDL_Renderer* renderer,
+    TTF_Font* font,
+    SDL_Color backgroundColor,
+    Vector2D &windowPosition,
+    int windowWidth,
+    int windowHeight,
+    std::vector<std::string>& m_lines,
+    SDL_Color color,
+    int startLine,
+    int lineCount,
+    int lineHeight,
+    int padding)
+{
+    SDL_Surface* target = SDL_CreateSurface(
+        windowWidth,
+        windowHeight,
+        SDL_PIXELFORMAT_RGB444);
+    SDL_FillSurfaceRect(target, NULL, SDL_MapRGB(target->format, backgroundColor.r, backgroundColor.g, backgroundColor.b));
+    SDL_FRect dst;
+    dst.x = windowPosition.x();
+    dst.y = windowPosition.y();
+    dst.h = windowHeight;
+    dst.w = windowWidth;
+
+    for (int i = startLine; i < startLine + lineCount; i++) {
+        SDL_Surface* surfaceMessage =
+            TTF_RenderUTF8_Blended(font, m_lines[i].c_str(), color);
+
+        SDL_Rect Message_rect;
+        Message_rect.x = padding;
+        Message_rect.y = padding + (i % lineCount) * lineHeight;
+        Message_rect.w = std::min(windowWidth - padding, (int)(m_lines[i].length() * 14));
+        Message_rect.h = lineHeight;
+
+        SDL_BlitSurfaceScaled(surfaceMessage, NULL, target, &Message_rect);
+
+        SDL_DestroySurface(surfaceMessage);
+    }
+
+    SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, target);
+    SDL_RenderTexture(renderer, Message, NULL, &dst);
+    SDL_DestroyTexture(Message);
+    SDL_DestroySurface(target);
+}
+
+void TextureManager::TEST_drawTestScroll(SDL_Renderer* renderer,
+    Vector2D& windowPosition,
+    Vector2D& windowSize,
+    Vector2D& contentOffset,
+    Vector2D& contentSize,
+    SDL_Color color,
+    SDL_Color backgroundColor,
+    TTF_Font* font,
+    std::vector<std::string>& m_lines,
+    int startLine,
+    int lineCount,
+    int lineHeight,
+    int padding
+) 
+{
+    // Content 
+    SDL_Surface* content = SDL_CreateSurface(
+        contentSize.x(),
+        contentSize.y(),
+        SDL_PIXELFORMAT_RGB444);
+    SDL_Surface* window = SDL_CreateSurface(
+        windowSize.x(),
+        windowSize.y(),
+        SDL_PIXELFORMAT_RGB444);
+
+    SDL_FillSurfaceRect(window, NULL, SDL_MapRGB(window->format, backgroundColor.r, backgroundColor.g, backgroundColor.b));
+    SDL_FillSurfaceRect(content, NULL, SDL_MapRGB(content->format, backgroundColor.r, backgroundColor.g, backgroundColor.b));
+
+    SDL_FRect src { contentOffset.x(), contentOffset.y(), contentSize.x(), contentSize.y()};
+    SDL_FRect dst { windowPosition.x(), windowPosition.y(), windowSize.x(), windowSize.y() };
+
+    SDL_Rect intSrc { 0, 0, (int)src.w, (int)src.h };
+    SDL_Rect intDst{ 
+        (int)contentOffset.x(), 
+        (int)contentOffset.y() - lineHeight,
+        (int)contentSize.x(),
+        (int)contentSize.y()
+    };
+
+    for (int i = -1; i < lineCount * 2; i++) {
+        if (i < 0 && startLine == 0) {
+            i = 0;
+        }
+        SDL_Surface* surfaceMessage =
+            TTF_RenderUTF8_Blended(font, m_lines[startLine + i].c_str(), color);
+
+        SDL_Rect msgRect {
+            padding,
+            padding + ( i % (lineCount * 2) + 1) * lineHeight,
+            std::min((int)windowSize.x() - padding, (int)(m_lines[startLine + i].length() * 14)),
+            lineHeight
+        };
+        SDL_BlitSurfaceScaled(surfaceMessage, NULL, content, &msgRect);
+        SDL_DestroySurface(surfaceMessage);
+    }
+    SDL_BlitSurface(content, &intSrc, window, &intDst);
+
+    // Window to texture
+    SDL_Texture* result = SDL_CreateTextureFromSurface(renderer, window);
+    SDL_RenderTexture(renderer, result, NULL, &dst);
+
+    SDL_DestroyTexture(result);
+    SDL_DestroySurface(window);
+    SDL_DestroySurface(content);
+}
+
 }

@@ -30,7 +30,6 @@ bool InputHandler::isKeyDown(AnvilKeyCode key)
 {
 
     return m_keyState[anvilToSDLKey(key)];
-
 }
 
 static InputHandler* instance_;
@@ -45,6 +44,7 @@ InputHandler *InputHandler::instance()
 
 void InputHandler::handleEvents()
 {
+    clearState();
     SDL_Event event;
 
     while (SDL_PollEvent(&event))
@@ -78,8 +78,17 @@ void InputHandler::handleEvents()
             m_mousePosition->setX(event.motion.x);
             m_mousePosition->setY(event.motion.y);
         }
+        if (event.type == SDL_EVENT_MOUSE_WHEEL) {
+            m_mouseWheelOffset->setX(event.wheel.x);
+            m_mouseWheelOffset->setY(event.wheel.y);
+        }
     }
 
+}
+void InputHandler::clearState()
+{
+    m_mouseWheelOffset->setX(0);
+    m_mouseWheelOffset->setY(0);
 }
 
 void InputHandler::clean()
@@ -87,7 +96,9 @@ void InputHandler::clean()
 }
 
 InputHandler::InputHandler()
-    : m_mousePosition{new Vector2D{0.0f, 0.0f}}, m_keyState(0)
+    : m_mousePosition{new Vector2D{0.0f, 0.0f}}
+    , m_keyState(0)
+    , m_mouseWheelOffset{new Vector2D{0.0f, 0.0f}}
 {
     for (int i = 0; i < 3; ++i)
     {
@@ -95,12 +106,26 @@ InputHandler::InputHandler()
     }
 }
 
-InputHandler::~InputHandler() {}
+InputHandler::~InputHandler() {
+    if(m_mouseWheelOffset != nullptr) {
+        delete m_mouseWheelOffset;
+        m_mouseWheelOffset = nullptr;
+    }
+    if (m_mousePosition != nullptr) {
+        delete m_mousePosition;
+        m_mousePosition = nullptr;
+    }
+
+}
 
 Vector2D* InputHandler::getMousePosition() const
 {
     return m_mousePosition;
 }
 
+Vector2D* InputHandler::getMouseWheelOffset() const
+{
+    return m_mouseWheelOffset;
+}
 }
 

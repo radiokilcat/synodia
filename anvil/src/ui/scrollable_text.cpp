@@ -2,6 +2,7 @@
 #include "game_objects/GameObjectsFactory.h"
 #include "game_objects/gameobject.h"
 #include "fontloader.h"
+#include <iostream>
 
 namespace anvil {
 	ScrollableText::ScrollableText(TTF_Font* font = FontLoader::instance()->getDefaultFont()) : GameObject() {
@@ -14,7 +15,7 @@ namespace anvil {
 		font_ = font;
 	}
 	void ScrollableText::draw(std::shared_ptr<Renderer> renderer) {
-		TextureManager::instance()->drawTextMultiline(
+		/*TextureManager::instance()->drawTextMultiline(
 			renderer->getRenderer(),
 			font_,
 			m_lines,
@@ -26,34 +27,65 @@ namespace anvil {
 			position_,
 			width_,
 			height_,
-			{ 34, 39, 46 });
+			{ 34, 39, 46 });*/
+
+		TextureManager::instance()->TEST_drawTestScroll(
+			renderer->getRenderer(),
+			position_,
+			size,
+			contentOffset,
+			contentSize,
+			White,
+			{ 34, 39, 46 },
+			font_,
+			m_lines,
+			startLine,
+			lineCount,
+			lineHeight,
+			padding
+		);
 		 
 	}
 
 	void ScrollableText::update() {
 		const auto inputHandler = anvil::InputHandler::instance();
-		auto lkmPressed = inputHandler->getMouseButtonState(0);
-		auto rkmPressed = inputHandler->getMouseButtonState(2);
+		scrollOffset += inputHandler->getMouseWheelOffset()->y();
+		
 		auto shownAt = anvil::Application::Instance()->getTicks();
-		if (shownAt - lastUpdate < 200) {
-			return;
+		contentOffset.setY(contentOffset.y() + 3 * inputHandler->getMouseWheelOffset()->y());
+		if (contentOffset.y() > 0 && contentOffset.y() > lineHeight) {
+			startLine -= contentOffset.y() / lineHeight;
+			if (startLine < 0) {
+				startLine = 0;
+			}
+			contentOffset.setY(0);
+		}
+		else if (contentOffset.y() < 0 && (-1 * contentOffset.y()) > lineHeight) {
+			startLine += -1 * ( contentOffset.y() / lineHeight);
+			if (startLine >= m_lines.size()) {
+				startLine = 0;
+			}
+			contentOffset.setY(0);
 		}
 		lastUpdate = shownAt;
-		if (lkmPressed || rkmPressed) {
+
+		return;
+		if (scrollOffset != 0) {
 			const auto mousePosition = inputHandler->getMousePosition();
 			const auto isMouseInside = mousePosition->x() >= position_.x()
 				&& mousePosition->x() <= position_.x() + width_
 				&& mousePosition->y() >= position_.y()
 				&& mousePosition->y() <= position_.y() + height_;
-			if (isMouseInside && lkmPressed) {
-				startLine += lineCount;
+			if (isMouseInside && scrollOffset < 0) {
+				startLine += 1;
 			} 
-			if (isMouseInside && rkmPressed) {
-				startLine -= lineCount;
+			if (isMouseInside && scrollOffset > 0) {
+				startLine -= 1;
 			}
 			if (startLine > m_lines.size() || startLine < 0) {
 				startLine = 0;
 			}
+			scrollOffset = 0;
 		}
 	}
 	bool ScrollableText::registerWithFactory() {
