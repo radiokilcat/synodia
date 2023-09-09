@@ -2,6 +2,7 @@
 
 #include "utils.h"
 #include "application.h"
+#include "logger.h"
 #include "window.h"
 #include "renderer.h"
 #include "inputhandler.h"

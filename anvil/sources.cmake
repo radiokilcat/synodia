@@ -48,6 +48,7 @@ set(HEADERS
   include/game_objects/GameObjectsFactory.h
   include/ui/scrollable_text.h
   include/audio_manager.h
+  include/logger.h
 )
 
 set(public_headers include/anvil.h )
