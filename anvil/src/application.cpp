@@ -1,22 +1,18 @@
 #include "application.h"
 #include "window.h"
 #include "renderer.h"
-#include "texturemanager.h"
 #include "inputhandler.h"
 #include "game_state_machine.h"
-#include "fontloader.h"
-#include "game_objects/gameobject.h"
-#include "utils.h"
 #include "audio_manager.h"
 
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
 #include <cassert>
-#include <filesystem>
 #include <iostream>
 #include <ui/scrollable_text.h>
 
+#include "logger.h"
 
 SDL_Texture* createBlankTexture(SDL_Renderer* renderer, int width, int height)
 {
@@ -40,7 +36,7 @@ void GameSettings::validate()
 
 static Application* m_instance = nullptr;
 
-Application *Application::Instance()
+Application* Application::Instance()
 {
     if(m_instance == 0)
     {
@@ -94,6 +90,7 @@ Uint64 Application::getTicks()
 
 void Application::init(const GameSettings& settings)
 {
+    Logger::instance().startTimer();
     m_settings = settings;
 
     // Initialize SDL
@@ -127,6 +124,7 @@ void Application::init(const GameSettings& settings)
 
     // bg color
     SDL_SetRenderDrawColor(m_renderer->getRenderer(), 100, 149, 237, SDL_ALPHA_OPAQUE);
+    Logger::instance().endTimer("application initialization");
 }
 
 void Application::main_loop()

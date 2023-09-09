@@ -27,6 +27,7 @@ if(BUILD_SHARED_LIBS)
       SDL3_image::SDL3_image
       SDL3_ttf::SDL3_ttf
       SDL3_mixer::SDL3_mixer
+      fmt::fmt
  )
 else()
  target_link_libraries(anvil
@@ -38,6 +39,7 @@ else()
       SDL3_image::SDL3_image-static
       SDL3_ttf::SDL3_ttf-static
       SDL3_mixer::SDL3_mixer-static
+      fmt::fmt
  )
 endif()
 

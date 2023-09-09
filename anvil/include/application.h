@@ -15,7 +15,7 @@ class Renderer;
 class TextureManager;
 class GameObject;
 class GameStateMachine;
-class GameScene;
+class Logger;
 
 struct GameSettings {
 
