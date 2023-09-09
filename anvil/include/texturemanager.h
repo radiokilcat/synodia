@@ -5,6 +5,7 @@
 #include <SDL3/SDL.h>
 #include <SDL_ttf.h>
 #include "vector2d.h"
+#include <SDL_FontCache.h>
 
 namespace anvil {
 
@@ -27,51 +28,23 @@ public:
         SDL_Renderer* renderer);
 
     void drawText(std::string id, std::string text,
-                  TTF_Font* font, SDL_Color color,
+        FC_Font* font, SDL_Color color,
                   int x, int y, int width, int height,
                   SDL_Renderer* renderer);
 
     void drawTextWrapped(std::string id, Uint32 wrapLength, std::string text,
-        TTF_Font* font, SDL_Color color,
+        FC_Font* font, SDL_Color color,
         int x, int y, int width, int height,
         SDL_Renderer* renderer);
-
-    void drawTextMultiline(SDL_Renderer* renderer,
-        TTF_Font* font,
-        std::vector<std::string>& m_lines,
-        SDL_Color color,
-        int startLine,
-        int lineCount,
-        int lineHeight,
-        int padding,
-        Vector2D windowPosition,
-        int windowWidth,
-        int windowHeight,
-        SDL_Color backgroundColor);
-
-
+ 
     void drawTextMultilineScroll(SDL_Renderer* renderer,
-        TTF_Font* font,
-        SDL_Color backgroundColor,
-        Vector2D &windowPosition,
-        int windowWidth,
-        int windowHeight,
-        std::vector<std::string>& m_lines,
-        SDL_Color color,
-        int startLine,
-        int lineCount,
-        int lineHeight,
-        int padding
-    );
-
-    void TEST_drawTestScroll(SDL_Renderer* renderer,
         Vector2D& windowPosition,
         Vector2D& windowSize,
         Vector2D& contentOffset,
         Vector2D& contentSize,
         SDL_Color color,
         SDL_Color backgroundColor,
-        TTF_Font* font,
+        FC_Font* font,
         std::vector<std::string>& m_lines,
         int startLine,
         int lineCount,

@@ -3,18 +3,19 @@
 #include <SDL_ttf.h>
 #include <iostream>
 #include <string>
+#include "SDL_FontCache.h"
 #include "game_objects/gameobject.h"
 
 namespace anvil {
 	class ScrollableText : public GameObject
 	{
 	public:
-		ScrollableText(TTF_Font* font);
+		ScrollableText(FC_Font* font);
 		virtual void draw(std::shared_ptr<Renderer> renderer) override;
 		virtual void update() override;
 		static bool registerWithFactory();
 	private:
-		TTF_Font* font_ = nullptr;
+		FC_Font* font_ = nullptr;
 		SDL_Color White = { 255, 255, 255 };
 		std::vector<std::string> m_lines;
 		int lineCount = 3;

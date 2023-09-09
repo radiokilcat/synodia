@@ -1,8 +1,9 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
-
+#include <SDL_FontCache.h>
 #include "fontloader.h"
 #include <iostream>
+#include <renderer.h>
 
 static anvil::FontLoader* instance_;
 
@@ -27,25 +28,27 @@ FontLoader* FontLoader::instance()
     return instance_;
 }
 
-void FontLoader::loadFont(const std::string fontName, const std::filesystem::path path, int size)
+void FontLoader::loadFont(const std::string fontName, std::shared_ptr<Renderer> renderer, const std::filesystem::path path, int size)
 {
-    TTF_Font* font = TTF_OpenFontDPI(path.string().c_str(), size, 2000, 2000);
+    FC_Font* font = FC_CreateFont();
+
     if (font == nullptr)
     {
         std::cout << SDL_GetError() << " " <<  path << std::endl;
         throw std::runtime_error("Font not loaded: " + fontName);
     }
+    FC_LoadFont(font, renderer->getRenderer(), path.string().c_str(), size, FC_MakeColor(255, 255, 255, 255), TTF_STYLE_NORMAL);
     fontsMap_[fontName] = font;
 }
 
-TTF_Font* FontLoader::getFont(const std::string& fontName) {
+FC_Font* FontLoader::getFont(const std::string& fontName) {
     if (fontsMap_.count(fontName) > 0) {
         return fontsMap_[fontName];
     }
     throw std::runtime_error("Font not loaded: " + fontName);
 }
 
-TTF_Font* FontLoader::setDefaultFont(const std::string& fontName)
+FC_Font* FontLoader::setDefaultFont(const std::string& fontName)
 {
     if (fontsMap_.count(fontName) == 0) {
         throw std::runtime_error("Can't set default font. Font not loaded: " + fontName);
@@ -53,14 +56,14 @@ TTF_Font* FontLoader::setDefaultFont(const std::string& fontName)
     defaultFontName_ = fontName;
 }
 
-TTF_Font* FontLoader::getDefaultFont()
+FC_Font* FontLoader::getDefaultFont()
 {
     return getFont(defaultFontName_);
 }
 
 void FontLoader::closeFont(const std::string& fontName) {
     if (fontsMap_.count(fontName) > 0) {
-        TTF_CloseFont(fontsMap_[fontName]);
+        FC_FreeFont(fontsMap_[fontName]);
         fontsMap_.erase(fontName);
 
         if (fontName == defaultFontName_) {
@@ -71,7 +74,7 @@ void FontLoader::closeFont(const std::string& fontName) {
 
 FontLoader::~FontLoader() {
     for (auto& pair : fontsMap_) {
-        TTF_CloseFont(pair.second);
+        FC_FreeFont(pair.second);
     }
 }
 

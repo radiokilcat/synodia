@@ -20,14 +20,10 @@ int main(int argc, char *argv[])
     (void)argv;
 
     std::filesystem::current_path(anvil::getExecutableDir());
-    auto resPath = std::filesystem::current_path() / "res";
 
     anvil::Configuration configuration("settings.ini");
     auto settings = configuration.load();
     settings.validate();
-
-    anvil::FontLoader::instance()->loadFont("sample", resPath / "DungeonFont.ttf", 14);
-    anvil::FontLoader::instance()->setDefaultFont("sample");
 
     auto app = anvil::Application::Instance();
 
@@ -40,7 +36,14 @@ int main(int argc, char *argv[])
     Stationary::registerWithFactory();
 
     app->addInitCallback([]{
+        auto app = anvil::Application::Instance();
+        auto resPath = std::filesystem::current_path() / "res";
+        anvil::FontLoader::instance()->loadFont("sample", app->getRenderer(), resPath / "DungeonFont.ttf", 14);
+        anvil::FontLoader::instance()->setDefaultFont("sample");
+
         anvil::Application::Instance()->getStateMachine()->changeState(new MenuState);
+
+
     });
 
     app->init(settings);

@@ -10,7 +10,7 @@ namespace anvil {
 
 TextLabel::TextLabel(std::string text,
                      Color color,
-                     TTF_Font* font)
+                     FC_Font* font)
     : GameObject()
     , color_({ color.R, color.G, color.B })
     , text_(text)

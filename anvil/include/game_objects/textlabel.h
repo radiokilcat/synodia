@@ -24,7 +24,7 @@ struct Color {
 class TextLabel : public GameObject
 {
 public:
-    TextLabel(std::string text, Color color, TTF_Font* font = FontLoader::instance()->getDefaultFont());
+    TextLabel(std::string text, Color color, FC_Font* font = FontLoader::instance()->getDefaultFont());
     TextLabel() = default;
 
     virtual void draw(std::shared_ptr<Renderer> renderer) override;
@@ -40,7 +40,7 @@ public:
 
 protected:
     std::string text_;
-    TTF_Font* font_ = nullptr;
+    FC_Font* font_ = nullptr;
     int textScale_ = 1;
     SDL_Color color_;
 };

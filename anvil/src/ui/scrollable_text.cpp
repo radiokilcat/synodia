@@ -3,9 +3,10 @@
 #include "game_objects/gameobject.h"
 #include "fontloader.h"
 #include <iostream>
+#include "SDL_FontCache.h"
 
 namespace anvil {
-	ScrollableText::ScrollableText(TTF_Font* font = FontLoader::instance()->getDefaultFont()) : GameObject() {
+	ScrollableText::ScrollableText(FC_Font* font = FontLoader::instance()->getDefaultFont()) : GameObject() {
 		std::ifstream in("res/tale.txt", std::ios_base::in); // the in flag is optional
 		std::string line;
 		while (std::getline(in, line))
@@ -14,22 +15,10 @@ namespace anvil {
 		}
 		font_ = font;
 	}
-	void ScrollableText::draw(std::shared_ptr<Renderer> renderer) {
-		/*TextureManager::instance()->drawTextMultiline(
-			renderer->getRenderer(),
-			font_,
-			m_lines,
-			White,
-			startLine,
-			lineCount,
-			lineHeight,
-			padding,
-			position_,
-			width_,
-			height_,
-			{ 34, 39, 46 });*/
 
-		TextureManager::instance()->TEST_drawTestScroll(
+	void ScrollableText::draw(std::shared_ptr<Renderer> renderer)
+	{
+		TextureManager::instance()->drawTextMultilineScroll(
 			renderer->getRenderer(),
 			position_,
 			size,
