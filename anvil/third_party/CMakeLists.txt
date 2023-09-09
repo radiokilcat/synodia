@@ -65,3 +65,6 @@ add_subdirectory(inipp)
 
 ## nlochmann json
 add_subdirectory(json)
+
+## nlochmann json
+add_subdirectory(SDL_FontCache)
