@@ -50,7 +50,7 @@ public:
     ~Application();
 
     GameStateMachine* getStateMachine() const;
-    void setStateMachine(GameStateMachine *newStateMachine);
+    void setStateMachine(GameStateMachine* newStateMachine);
     void addInitCallback(std::function<void()> callback);
     void addUpdateCallback(std::function<void()> callback);
 

@@ -35,8 +35,8 @@ bool TextureManager::loadTexture(std::string filename, std::string id, SDL_Rende
     return false;
 }
 
-void TextureManager::draw(std::string id, int x, int y,
-                          int width, int height,
+void TextureManager::draw(std::string id, float x, float y,
+                          float width, float height,
                           SDL_Renderer *renderer)
 {
     SDL_FRect srcRect;
@@ -53,8 +53,8 @@ void TextureManager::draw(std::string id, int x, int y,
     SDL_RenderTexture(renderer, m_texture_map[id], &srcRect, &destRect);
 }
 
-void TextureManager::drawFrame(std::string id, int x, int y,
-                               int width, int height,
+void TextureManager::drawFrame(std::string id, float x, float y,
+                               float width, float height,
                                int currentRow, int currentFrame,
                                SDL_Renderer *renderer)
 {
@@ -73,8 +73,8 @@ void TextureManager::drawFrame(std::string id, int x, int y,
 }
 
 
-void TextureManager::drawFrameScaled(std::string id, float scale, int x, int y,
-    int width, int height,
+void TextureManager::drawFrameScaled(std::string id, float scale, float x, float y,
+    float width, float height,
     int currentRow, int currentFrame,
     SDL_Renderer* renderer)
 {
@@ -97,7 +97,7 @@ void TextureManager::drawFrameScaled(std::string id, float scale, int x, int y,
 
 void TextureManager::drawText(std::string id, std::string text,
                               TTF_Font* font, SDL_Color color,
-                              int x, int y, int width, int height,
+                              float x, float y, float width, float height,
                               SDL_Renderer* renderer)
 {
     SDL_Surface* surfaceMessage = TTF_RenderUTF8_Blended(font, text.c_str(), color);
@@ -117,7 +117,7 @@ void TextureManager::drawText(std::string id, std::string text,
 
 void TextureManager::drawTextWrapped(std::string id, Uint32 wrapLength, std::string text,
     TTF_Font* font, SDL_Color color,
-    int x, int y, int width, int height,
+    float x, float y, float width, float height,
     SDL_Renderer* renderer)
 {
     SDL_Surface* surfaceMessage = TTF_RenderUTF8_Blended_Wrapped(font, text.c_str(), color, wrapLength);
@@ -180,7 +180,7 @@ void TextureManager::drawTextMultiline(
 
 
 void TextureManager::drawPoint(SDL_Renderer* renderer,
-                                       int x1, int y1)
+                                       float x1, float y1)
 {
     SDL_Color oldColor;
     SDL_GetRenderDrawColor(renderer, &oldColor.r, &oldColor.g, &oldColor.b, &oldColor.a);
@@ -190,7 +190,7 @@ void TextureManager::drawPoint(SDL_Renderer* renderer,
     SDL_SetRenderDrawColor(renderer, oldColor.r, oldColor.g, oldColor.b, SDL_ALPHA_OPAQUE);
 }
 
-void TextureManager::drawLine(SDL_Renderer* renderer, int x1, int y1, int x2, int y2)
+void TextureManager::drawLine(SDL_Renderer* renderer, float x1, float y1, float x2, float y2)
 {
     SDL_Color oldColor;
     SDL_GetRenderDrawColor(renderer, &oldColor.r, &oldColor.g, &oldColor.b, &oldColor.a);
@@ -201,10 +201,10 @@ void TextureManager::drawLine(SDL_Renderer* renderer, int x1, int y1, int x2, in
 }
 
 void TextureManager::drawQuadrilateral(SDL_Renderer* renderer,
-                       int x1, int y1,
-                       int x2, int y2,
-                       int x3, int y3,
-                       int x4, int y4)
+                       float x1, float y1,
+                       float x2, float y2,
+                       float x3, float y3,
+                       float x4, float y4)
 {
     SDL_Color oldColor;
     SDL_GetRenderDrawColor(renderer, &oldColor.r, &oldColor.g, &oldColor.b, &oldColor.a);
@@ -218,8 +218,8 @@ void TextureManager::drawQuadrilateral(SDL_Renderer* renderer,
 }
 
 void TextureManager::drawRect(SDL_Renderer* renderer,
-    int x, int y,
-    int w, int h, 
+    float x, float y,
+    float w, float h,
     SDL_Color color = {0, 0, 0})
 {
     SDL_Color oldColor { 0, 0, 0 };
@@ -238,7 +238,7 @@ void TextureManager::clearFromTextureMap(std::string id)
 std::pair<int, int> TextureManager::textureSize(std::string id)
 {
     int w, h;
-    auto size = SDL_QueryTexture(m_texture_map[id], NULL, NULL, &w, &h);
+    SDL_QueryTexture(m_texture_map[id], NULL, NULL, &w, &h);
     return std::pair<int, int>(w, h);
 }
 

@@ -82,9 +82,8 @@ void GameScene::clean()
     }
 }
 
-void GameScene::load(const anvil::LoaderParams* params)
+void GameScene::load(const anvil::LoaderParams*)
 {
-
 }
 
 void GameScene::to_json(nlohmann::json& j)
@@ -136,7 +135,7 @@ void GameScene::setSpeech(std::unique_ptr<anvil::ScrollableText> scrollable) {
     m_scrollable = std::move(scrollable);
 }
 
-float GameScene::distance(anvil::Vector2D p1, anvil::Vector2D p2)
+float GameScene::distance(anvil::Vector2D, anvil::Vector2D)
 {
     return 0;
 }

@@ -43,9 +43,9 @@ public:
 
     virtual void setCallback(std::function<void()> callback) { };
 
-    void from_json(nlohmann::json& j) override {
+    void from_json(nlohmann::json&) override {
     }
-    void to_json(nlohmann::json& j) override {
+    void to_json(nlohmann::json&) override {
     }
 };
 
