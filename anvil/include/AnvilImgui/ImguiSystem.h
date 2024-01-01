@@ -13,7 +13,8 @@ public:
     void init(std::unique_ptr<anvil::Window>& window, SDL_Renderer* renderer);
     static ImguiSystem* Instance();
 
-    void drawMenuBar(std::unique_ptr<anvil::Window>& window);
+    void drawMenuBar();
+    void drawWidgets();
     void render();
     void shutDown();
 

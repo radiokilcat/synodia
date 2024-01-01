@@ -12,7 +12,7 @@ void ImguiSystem::init(std::unique_ptr<anvil::Window>& window, SDL_Renderer* ren
     ImGui_ImplSDLRenderer3_Init( renderer );
 }
 
-void ImguiSystem::drawMenuBar(std::unique_ptr<anvil::Window>& window) {
+void ImguiSystem::drawWidgets() {
     ImGui_ImplSDLRenderer3_NewFrame();
     ImGui_ImplSDL3_NewFrame();
     ImGui::NewFrame();
@@ -76,5 +76,23 @@ void ImguiSystem::shutDown() {
     ImGui_ImplSDLRenderer3_Shutdown();
     ImGui_ImplSDL3_Shutdown();
     ImGui::DestroyContext();
+}
+
+void ImguiSystem::drawMenuBar() {
+    ImGui_ImplSDLRenderer3_NewFrame();
+    ImGui_ImplSDL3_NewFrame();
+    ImGui::NewFrame();
+    if (ImGui::BeginMainMenuBar())
+    {
+        if (ImGui::BeginMenu("File"))
+        {
+            if (ImGui::MenuItem("Open..", "Ctrl+O")) {  }
+            if (ImGui::MenuItem("Save", "Ctrl+S"))   {  }
+            if (ImGui::MenuItem("Close", "Ctrl+W"))  {  }
+            ImGui::EndMenu();
+        }
+        ImGui::EndMainMenuBar();
+    }
+    ImGui::Render();
 }
 

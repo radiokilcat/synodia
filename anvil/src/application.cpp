@@ -174,7 +174,7 @@ void Application::update()
 void Application::render()
 {
 #ifndef NDEBUG
-    ImguiSystem::Instance()->drawMenuBar(m_window);
+    ImguiSystem::Instance()->drawMenuBar();
 #endif
 
     SDL_RenderClear(m_renderer->getRenderer());
