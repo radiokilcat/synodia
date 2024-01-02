@@ -10,46 +10,44 @@ bool IsoGameObject::isNearlyZero(float value, float epsilon)
 
 void IsoGameObject::draw(std::shared_ptr<Renderer> renderer)
 {
-    TextureManager::instance()->drawFrame(textureId_, (Uint32)position_.x(), (Uint32)position_.y(),
-                                                  width_, height_,
-                                                  currentRow_, currentFrame_,
-                                                  renderer->getRenderer());
+    TextureManager::instance()->drawFrame(textureId_, (float)position_.x(), (float)position_.y(),
+                                          (float)width_, (float)height_,
+                                          currentRow_, currentFrame_,
+                                          renderer->getRenderer());
     if (debug)
     {
-        int x1 = getX();
-        int y1 = getY();
+        float x1 = getX();
+        float y1 = getY();
 
-        int x2 = x1 + width_;
-        int y2 = y1;
+        float x2 = x1 + (float)width_;
+        float y2 = y1;
 
-        int x3 = x1 + width_;
-        int y3 = y1 + height_;
+        float x3 = x1 + (float)width_;
+        float y3 = y1 + (float)height_;
 
-        int x4 = x1;
-        int y4 = y1 + height_;
+        float x4 = x1;
+        float y4 = y1 + (float)height_;
 
         anvil::TextureManager::instance()->drawQuadrilateral(renderer->getRenderer(), x1, y1,
-                                                             x2, y2,
-                                                             x3, y3,
-                                                           x4, y4);
+                                                                                      x2, y2,
+                                                                                      x3, y3,
+                                                                                      x4, y4);
         for (auto& child: m_childs)
         {
             if(auto label = dynamic_cast<TextLabel*>(child.get()))
             {
                 label->draw(renderer);
             }
-
         }
     }
-
 }
 
-int IsoGameObject::getX()
+float IsoGameObject::getX()
 {
     return position_.x();
 }
 
-int IsoGameObject::getY()
+float IsoGameObject::getY()
 {
     return position_.y();
 }
@@ -100,6 +98,7 @@ Direction IsoGameObject::moveDirection()
     {
         return anvil::Direction::Static;
     }
+    return anvil::Direction::Static;
 }
 
 void IsoGameObject::update(){
@@ -120,16 +119,16 @@ std::pair<float, float> IsoGameObject::getScreenPosition(float isoX, float isoY)
     return {x, y};
 }
 
-bool IsoGameObject::isIntersect(int x, int y, int w, int h) {
-    int fxl = getX();
-    int fxr = getX() + width_;
-    int fyb = getY() + height_;
-    int fyt = getY();
+bool IsoGameObject::isIntersect(float x, float y, float w, float h) {
+    float fxl = getX();
+    float fxr = getX() + (float)width_;
+    float fyb = getY() + (float)height_;
+    float fyt = getY();
 
-    int sxl = x;
-    int sxr = x + w;
-    int syb = y + h;
-    int syt = y;
+    float sxl = x;
+    float sxr = x + w;
+    float syb = y + h;
+    float syt = y;
 
     if (fxr < sxl || sxr < fxl)
         return false; // No horizontal overlap

@@ -21,14 +21,14 @@ bool MenuState::onEnter()
 
 
     anvil::Color textColor = { 255, 255, 255 };
-    const int BUTTON_WIDTH = 400;
-    const int SCREEN_WIDTH = anvil::Application::Instance()->getScreenWidth();
-    const int HALF_SCREEN_X = SCREEN_WIDTH / 2 - BUTTON_WIDTH / 2;
+    const float BUTTON_WIDTH = 400.f;
+    const auto SCREEN_WIDTH = static_cast<float>(anvil::Application::Instance()->getScreenWidth());
+    const float HALF_SCREEN_X = SCREEN_WIDTH / 2 - BUTTON_WIDTH / 2;
 
-    anvil::TextLabel* title = new anvil::TextLabel("Stories of Anvil", textColor);
+    auto title = new anvil::TextLabel("Stories of Anvil", textColor);
     title->load(new anvil::LoaderParams(SCREEN_WIDTH / 2 - 250, 20, 500, 80, "title"));
 
-    TextButton* button1 = new TextButton();
+    auto button1 = new TextButton();
     button1->setText("Play Game");
     button1->load(new anvil::LoaderParams(HALF_SCREEN_X, 150, 400, 100, "empty_button"));
     button1->setCallback([]() {
@@ -36,7 +36,7 @@ bool MenuState::onEnter()
         anvil::Application::Instance()->getStateMachine()->changeState(new PlayState);
     });
 
-    TextButton* button2 = new TextButton();
+    auto button2 = new TextButton();
     button2->setText("Exit Game");
     button2->load(new anvil::LoaderParams(HALF_SCREEN_X, 300, 400, 100, "empty_button"));
     button2->setCallback([]() {
@@ -44,7 +44,7 @@ bool MenuState::onEnter()
         anvil::Application::Instance()->quit();
     });
 
-    TextButton* button3 = new TextButton();
+    auto button3 = new TextButton();
     button3->setText("Load Game");
     button3->load(new anvil::LoaderParams(HALF_SCREEN_X, 450, 400, 100, "empty_button"));
     button3->setCallback([]() {
@@ -70,8 +70,8 @@ void MenuState::render()
     anvil::TextureManager::instance()->draw("background",
         0, 
         0,
-        anvil::Application::Instance()->getScreenWidth(),
-        anvil::Application::Instance()->getScreenHeight(),
+        static_cast<float>(anvil::Application::Instance()->getScreenWidth()),
+        static_cast<float>(anvil::Application::Instance()->getScreenHeight()),
         renderer->getRenderer());
     for (auto it: m_gameObjects)
     {
@@ -86,7 +86,7 @@ bool MenuState::onExit()
         it->clean();
     }
     m_gameObjects.clear();
-    for (auto it: m_textureIds)
+    for (const auto& it: m_textureIds)
     {
         anvil::TextureManager::instance()->clearFromTextureMap(it);
     }

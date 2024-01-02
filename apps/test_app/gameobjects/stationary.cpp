@@ -12,22 +12,22 @@ void Stationary::draw(std::shared_ptr<anvil::Renderer> renderer)
                                             renderer->getRenderer());
     if (debug)
     {
-        int x1 = getX();
-        int y1 = getY();
+        float x1 = getX();
+        float y1 = getY();
 
-        int x2 = x1 + width_;
-        int y2 = y1;
+        float x2 = x1 + width_;
+        float y2 = y1;
 
-        int x3 = x1 + width_;
-        int y3 = y1 + height_;
+        float x3 = x1 + width_;
+        float y3 = y1 + height_;
 
-        int x4 = x1;
-        int y4 = y1 + height_;
+        float x4 = x1;
+        float y4 = y1 + height_;
 
         anvil::TextureManager::instance()->drawQuadrilateral(renderer->getRenderer(), x1, y1,
-                                                             x2, y2,
-                                                             x3, y3,
-                                                             x4, y4);
+                                                                                      x2, y2,
+                                                                                      x3, y3,
+                                                                                      x4, y4);
     }
 }
 
@@ -53,8 +53,8 @@ void Stationary::init()
 {
     auto screenW = anvil::Application::Instance()->getScreenWidth();
     auto screenH = anvil::Application::Instance()->getScreenHeight();
-    position_.setX(screenW / 2 - width_ / 2);
-    position_.setY(screenH / 2 - height_ / 2);
+    position_.setX(static_cast<float>(screenW) / 2 - width_ / 2);
+    position_.setY(static_cast<float>(screenH) / 2 - height_ / 2);
 }
 
 bool Stationary::registerWithFactory() {

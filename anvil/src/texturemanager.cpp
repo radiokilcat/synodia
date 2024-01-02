@@ -170,8 +170,8 @@ void TextureManager::drawTextMultiline(
     SDL_FRect dst;
     dst.x = windowPosition.x();
     dst.y = windowPosition.y();
-    dst.h = lineHeight * lineCount;
-    dst.w = windowWidth;
+    dst.h = static_cast<float>(lineHeight) * static_cast<float>(lineCount);
+    dst.w = static_cast<float>(windowWidth);
     SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, target);
     SDL_RenderTexture(renderer, Message, NULL, &dst);
     SDL_DestroyTexture(Message);

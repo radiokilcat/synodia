@@ -143,11 +143,11 @@ void Application::init(const GameSettings& settings)
 
 void Application::main_loop()
 {
-    const int DELAY_TIME = 1000.0f / m_settings.FPS;
+    const Uint64 DELAY_TIME = 1000 / m_settings.FPS;
 
     while (m_running)
     {
-        Uint32 frameStart, frameTime;
+        Uint64 frameStart, frameTime;
         frameStart = SDL_GetTicks();
 
         InputHandler::instance()->handleEvents();
@@ -173,9 +173,6 @@ void Application::update()
 
 void Application::render()
 {
-#ifndef NDEBUG
-    ImguiSystem::Instance()->drawMenuBar();
-#endif
 
     SDL_RenderClear(m_renderer->getRenderer());
     SDL_SetRenderTarget(m_renderer->getRenderer(), nullptr);
@@ -183,6 +180,7 @@ void Application::render()
     m_stateMachine->render();
 
 #ifndef NDEBUG
+    ImguiSystem::Instance()->drawMenuBar();
     ImguiSystem::Instance()->render();
 #endif
 
@@ -211,12 +209,10 @@ GameStateMachine* Application::getStateMachine() const
 void Application::addInitCallback(std::function<void ()> callback)
 {
     m_initCallback = std::move(callback);
-
 }
 
 void Application::addUpdateCallback(std::function<void ()> callback)
 {
     m_updateCallback = std::move(callback);
 }
-
 }

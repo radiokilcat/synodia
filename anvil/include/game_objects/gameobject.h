@@ -50,7 +50,7 @@ protected:
     Vector2D position_;
     Vector2D velocity_;
     Vector2D acceleration_;
-    int width_, height_;
+    float width_, height_;
     int zOrder_;
 
     std::vector<std::unique_ptr<anvil::BaseGameObject>> m_childs;

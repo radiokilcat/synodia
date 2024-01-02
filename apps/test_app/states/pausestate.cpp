@@ -13,15 +13,15 @@ PauseState::PauseState()
 bool PauseState::onEnter()
 {
     m_textureIds = anvil::StateLoader::loadTextures(m_id);
-    const int BUTTON_WIDTH = 400;
-    const int SCREEN_WIDTH = anvil::Application::Instance()->getScreenWidth();
-    const int HALF_SCREEN_X = SCREEN_WIDTH / 2 - BUTTON_WIDTH / 2;
+    const float BUTTON_WIDTH = 400.f;
+    const auto SCREEN_WIDTH = static_cast<float>(anvil::Application::Instance()->getScreenWidth());
+    const float HALF_SCREEN_X = SCREEN_WIDTH / 2 - BUTTON_WIDTH / 2;
 
     anvil::Color textColor = { 255, 255, 255 };
-    anvil::TextLabel* title = new anvil::TextLabel("Paused", textColor);
+    auto title = new anvil::TextLabel("Paused", textColor);
     title->load(new anvil::LoaderParams(SCREEN_WIDTH / 2 - 150, 20, 300, 80, "Paused"));
 
-    TextButton* button1 = new TextButton();
+    auto button1 = new TextButton();
     button1->setText("Play Game");
     button1->setCallback([]() {
         std::cout << "Play button clicked" << std::endl;
@@ -29,7 +29,7 @@ bool PauseState::onEnter()
     });
     button1->load(new anvil::LoaderParams(HALF_SCREEN_X, 150, 400, 100, "empty_button"));
 
-    TextButton* button2 = new TextButton();
+    auto button2 = new TextButton();
     button2->setText("Exit Game");
     button2->setCallback([]() {
         std::cout << "Exit button clicked" << std::endl;
@@ -37,7 +37,7 @@ bool PauseState::onEnter()
     });
     button2->load(new anvil::LoaderParams(HALF_SCREEN_X, 300, 400, 100, "empty_button"));
 
-    TextButton* button3 = new TextButton();
+    auto button3 = new TextButton();
     button3->setCallback([]() {
         std::cout << "Save button clicked" << std::endl;
         auto serializer = anvil::JsonSerializer("output.txt");
@@ -63,7 +63,7 @@ bool PauseState::onExit()
         it->clean();
     }
     m_gameObjects.clear();
-    for (auto it: m_textureIds)
+    for (const auto& it: m_textureIds)
     {
         anvil::TextureManager::instance()->clearFromTextureMap(it);
     }
@@ -85,8 +85,8 @@ void PauseState::render()
     anvil::TextureManager::instance()->draw("background",
         0,
         0,
-        anvil::Application::Instance()->getScreenWidth(),
-        anvil::Application::Instance()->getScreenHeight(),
+        static_cast<float>(anvil::Application::Instance()->getScreenWidth()),
+        static_cast<float>(anvil::Application::Instance()->getScreenHeight()),
         renderer->getRenderer());
     for (auto it: m_gameObjects)
     {

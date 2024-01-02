@@ -26,8 +26,8 @@ void TileMap::draw_tile(Tile& tile, int x, int y, std::shared_ptr<Renderer> rend
     auto tileY = m_startY + (x + y) * m_tileHeight / 2;
 //    auto tileZ = MAX_TILE_HEIGHT - tileHeight;
 //    std::cout << "tile grid: " << x << " : " << y << "   tile coords in draw_tile: " <<  tileX << " : " << tileY << std::endl;
-    TextureManager::instance()->draw(tile.textureId, (Uint32)tileX, (Uint32)tileY,
-                                          m_tileWidth, tileHeight,
+    TextureManager::instance()->draw(tile.textureId, static_cast<float>(tileX), static_cast<float>(tileY),
+                                          static_cast<float>(m_tileWidth), static_cast<float>(tileHeight),
                                           renderer->getRenderer());
     if (tile.outlined)
     {
@@ -57,7 +57,6 @@ void TileMap::draw(std::shared_ptr<Renderer> renderer)
     }
 }
 
-
 void TileMap::clean()
 {
 }
@@ -66,6 +65,7 @@ void TileMap::update()
 {
 
 }
+
 void TileMap::setTileOutline(int x, int y)
 {
     auto gridPosition = getTileByPosition(x, y);
@@ -100,14 +100,12 @@ std::pair<int, int> TileMap::getTileScreenPosition(int x, int y)
     return std::make_pair(screenX, screenY);
 }
 
-
 std::pair<float, float> TileMap::findNearestTileCenter(float x, float y, Direction direction)
 {
     auto gridPos = getTileByPosition(x, y);
 
     auto gridX = gridPos.first;
     auto gridY = gridPos.second;
-
 
     switch(direction)
     {
@@ -131,7 +129,6 @@ std::pair<float, float> TileMap::findNearestTileCenter(float x, float y, Directi
     std::pair<float, float> screenPos = getTileScreenPosition(x, y);
 
     return std::make_pair(screenPos.first, screenPos.second + m_tileHeight / 2);
-
 
 //    float centerX = m_startX + (gridX - gridY) * m_tileWidth / 2 + m_tileWidth / 2;
 //    float centerY = m_startY + (gridX + gridY) * m_tileHeight / 2 + m_tileHeight / 2;
@@ -171,13 +168,12 @@ void TileMap::to_json(nlohmann::json& j)
     GameObject::to_json(j);
 }
 
-
 bool TileMap::registerWithFactory() {
     GameObjectFactory::instance().registerType("TileMap", []() -> std::unique_ptr<BaseGameObject> {
+
         return std::make_unique<TileMap>();
     });
     return true;
 }
-
 
 }

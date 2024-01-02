@@ -8,17 +8,17 @@ class IsoGameObject : public GameObject
 {
 public:
     IsoGameObject() {};
-    virtual void draw(std::shared_ptr<Renderer> renderer) override;
-    virtual void update() override;
+    void draw(std::shared_ptr<Renderer> renderer) override;
+    void update() override;
     virtual ~IsoGameObject() {};
 
     std::pair<float, float> getScreenPosition(float isoX, float isoY);
-    int getY();
-    int getX();
+    float getY();
+    float getX();
 
     void setVelocity(float x, float y);
     void moveTowards(const Vector2D& targetPosition, float speed);
-    bool isIntersect(int x, int y, int w, int h);
+    bool isIntersect(float x, float y, float w, float h);
     Direction moveDirection();
 
 protected:
