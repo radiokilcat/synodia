@@ -33,8 +33,8 @@ void TextLabel::drawWrapped(std::shared_ptr<Renderer> renderer, Uint32 wrapLengt
         color_, 
         position_.x(),
         position_.y(), 
-        std::min(width_ * textScale_, (int)text_.length() * 14),
-        height_ * textScale_, 
+        std::min((int)width_ * textScale_, (int)text_.length() * 14),
+        (int)height_ * textScale_,
         renderer->getRenderer());
 };
 
@@ -51,7 +51,7 @@ void TextLabel::setSize(float w, float h)
 }
 
 
-void TextLabel::setText(std::string text)
+void TextLabel::setText(const std::string& text)
 {
     text_ = text;
 }

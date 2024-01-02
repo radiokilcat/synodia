@@ -10,9 +10,11 @@ class Player: public anvil::IsoGameObject
 public:
     Player();
 
-    int getX();
-    int getY();
+    float getX();
+    float getY();
 
+    float getWidth();
+    float getHeight();
 //    int getScreenX();
 //    int getScreenY();
 
@@ -24,8 +26,6 @@ public:
     void from_json(nlohmann::json& j) override;
     void to_json(nlohmann::json& j) override;
 
-    int getWidth();
-    int getHeight();
 
     static bool registerWithFactory();
 

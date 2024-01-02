@@ -24,24 +24,24 @@ GameObject::GameObject() :
     id_("") {
     currentFrame_ = 0;
     currentRow_ = 0;
-    height_ = 0;
-    width_ = 0;
+    height_ = 0.f;
+    width_ = 0.f;
 }
 
 void GameObject::draw(std::shared_ptr<Renderer> renderer)
 {
-    TextureManager::instance()->drawFrame(id_, (Uint32)position_.x(), (Uint32)position_.y(),
-                                          width_, height_,
+    TextureManager::instance()->drawFrame(id_, (float)position_.x(), (float)position_.y(),
+                                          (float)width_, (float)height_,
                                           currentRow_, currentFrame_,
                                           renderer->getRenderer());
 }
 
 void GameObject::drawScaled(std::shared_ptr<Renderer> renderer, float scale)
 {
-    TextureManager::instance()->drawFrameScaled(id_, scale,(Uint32)position_.x(), (Uint32)position_.y(),
-        width_, height_,
-        currentRow_, currentFrame_,
-        renderer->getRenderer());
+    TextureManager::instance()->drawFrameScaled(id_, scale,(float)position_.x(), (float)position_.y(),
+                                                (float)width_, (float)height_,
+                                                currentRow_, currentFrame_,
+                                                renderer->getRenderer());
 }
 
 void GameObject::load(const LoaderParams* params)
@@ -74,8 +74,8 @@ int GameObject::getZOrder()
 void GameObject::init()
 {
     auto debugLabel = std::make_unique<TextLabel>(id_, anvil::Color{255, 0, 0});
-    debugLabel->setPosition(position_.x(), position_.y() - 15);
-    debugLabel->setSize(width_, 15);
+    debugLabel->setPosition(position_.x(), position_.y() - 15.f);
+    debugLabel->setSize(width_, 15.f);
     addChildObject(std::move(debugLabel));
 }
 
@@ -87,8 +87,8 @@ void GameObject::from_json(nlohmann::json& j) {
     position_ = j.value("position", Vector2D{0,0});
     velocity_ = j.value("velocity", Vector2D{0,0});
     acceleration_ = j.value("acceleration", Vector2D{0,0});
-    width_ = j.value("width", 0);
-    height_ = j.value("height", 0);
+    width_ = j.value("width", 0.f);
+    height_ = j.value("height", 0.f);
     zOrder_ = j.value("zOrder", 0);
 }
 

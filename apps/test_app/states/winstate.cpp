@@ -19,15 +19,15 @@ bool WinState::onEnter()
     m_textureIds = anvil::StateLoader::loadTextures(m_id);
 
     anvil::Color textColor = { 255, 255, 255 };
-    const int BUTTON_WIDTH = 400;
-    const int SCREEN_WIDTH = anvil::Application::Instance()->getScreenWidth();
-    const int SCREEN_HEIGHT = anvil::Application::Instance()->getScreenHeight();
-    const int HALF_SCREEN_X = SCREEN_WIDTH / 2 - BUTTON_WIDTH / 2;
+    const float BUTTON_WIDTH = 400.f;
+    const auto SCREEN_WIDTH = static_cast<float>(anvil::Application::Instance()->getScreenWidth());
+    const auto SCREEN_HEIGHT = static_cast<float>(anvil::Application::Instance()->getScreenHeight());
+    const float HALF_SCREEN_X = SCREEN_WIDTH / 2 - BUTTON_WIDTH / 2;
 
-    anvil::TextLabel* title = new anvil::TextLabel("You succeeded... This time...", textColor);
+    auto title = new anvil::TextLabel("You succeeded... This time...", textColor);
     title->load(new anvil::LoaderParams(SCREEN_WIDTH / 2 - 300, SCREEN_HEIGHT / 4, 600, 80, "title"));
 
-    TextButton* button1 = new TextButton();
+    auto button1 = new TextButton();
     button1->setText("Play Again");
     button1->load(new anvil::LoaderParams(HALF_SCREEN_X, SCREEN_HEIGHT / 4 + 140, 400, 100, "empty_button"));
     button1->setCallback([]() {
@@ -35,7 +35,7 @@ bool WinState::onEnter()
         anvil::Application::Instance()->getStateMachine()->changeState(new PlayState);
     });
 
-    TextButton* button2 = new TextButton();
+    auto button2 = new TextButton();
     button2->setText("Exit Game");
     button2->load(new anvil::LoaderParams(HALF_SCREEN_X, SCREEN_HEIGHT / 4 + 280, 400, 100, "empty_button"));
     button2->setCallback([]() {
@@ -58,8 +58,8 @@ void WinState::render()
     anvil::TextureManager::instance()->draw("background",
         0, 
         0,
-        anvil::Application::Instance()->getScreenWidth(),
-        anvil::Application::Instance()->getScreenHeight(),
+        static_cast<float>(anvil::Application::Instance()->getScreenWidth()),
+        static_cast<float>(anvil::Application::Instance()->getScreenHeight()),
         renderer->getRenderer());
     for (auto it: m_gameObjects)
     {

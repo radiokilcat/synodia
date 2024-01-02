@@ -10,22 +10,22 @@ Player::Player()
     _speech->load(new anvil::LoaderParams(15, 15, 62, 40, "speech"));
 }
 
-int Player::getX()
+float Player::getX()
 {
     return IsoGameObject::getX();
 }
 
-int Player::getY()
+float Player::getY()
 {
     return IsoGameObject::getY();
 }
 
-int Player::getWidth()
+float Player::getWidth()
 {
     return width_;
 }
 
-int Player::getHeight()
+float Player::getHeight()
 {
     return height_;
 }

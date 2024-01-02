@@ -9,21 +9,21 @@ namespace anvil {
 class LoaderParams
 {
 public:
-    LoaderParams(int x, int y, int width, int height, std::string id)
+    LoaderParams(float x, float y, float width, float height, std::string id)
         : x_(x)
         , y_(y)
         , width_(width)
         , height_(height)
         , texture_id_(id)
         {};
-    int getX() const          { return x_; }
-    int getY() const          { return y_; }
-    int getWidth() const      { return width_; }
-    int getHeight() const     { return height_; }
+    float getX() const          { return x_; }
+    float getY() const          { return y_; }
+    float getWidth() const      { return width_; }
+    float getHeight() const     { return height_; }
     std::string getId() const { return texture_id_; }
 private:
-    int x_, y_;
-    int width_, height_;
+    float x_, y_;
+    float width_, height_;
     std::string texture_id_;
 };
 

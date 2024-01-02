@@ -23,10 +23,10 @@ void GameScene::update()
     m_player->update();
     m_scrollable->update();
 
-    int p_x = m_player->getX();
-    int p_y = m_player->getY();
-    int p_w = m_player->getWidth();
-    int p_h = m_player->getHeight();
+    float p_x = m_player->getX();
+    float p_y = m_player->getY();
+    float p_w = m_player->getWidth();
+    float p_h = m_player->getHeight();
 
 //    m_tileMap->setTileOutline(p_x, p_y);
     m_player->setInverseMove(false);
@@ -47,9 +47,9 @@ void GameScene::update()
         {
             if (childGameObject->isIntersect(p_x, p_y, p_w, p_h) && !_dialogState)
             {
-                for (auto& child: m_childs)
+                for (auto& child_: m_childs)
                 {
-                    if (auto npc = dynamic_cast<NonPlayable*>(child.get()))
+                    if (auto npc = dynamic_cast<NonPlayable*>(child_.get()))
                     {
                         npc->setVelocity(0, 0);
                     }

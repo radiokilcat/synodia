@@ -17,7 +17,7 @@ public:
 
     TTF_Font* getFont(const std::string& fontName);
 
-    TTF_Font* setDefaultFont(const std::string& fontName);
+    void setDefaultFont(const std::string& fontName);
     TTF_Font* getDefaultFont();
 
     ~FontLoader();

@@ -45,7 +45,7 @@ TTF_Font* FontLoader::getFont(const std::string& fontName) {
     throw std::runtime_error("Font not loaded: " + fontName);
 }
 
-TTF_Font* FontLoader::setDefaultFont(const std::string& fontName)
+void FontLoader::setDefaultFont(const std::string& fontName)
 {
     if (fontsMap_.count(fontName) == 0) {
         throw std::runtime_error("Can't set default font. Font not loaded: " + fontName);

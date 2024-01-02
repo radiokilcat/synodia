@@ -31,7 +31,7 @@ public:
     void drawWrapped(std::shared_ptr<Renderer> renderer, Uint32 wrapLength);
     void setPosition(float x, float y);
     void setSize(float w, float h);
-    void setText(std::string text);
+    void setText(const std::string& text);
     virtual void update() override {};
     virtual void clean() override {};
     virtual ~TextLabel() {};
