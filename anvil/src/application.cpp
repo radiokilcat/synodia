@@ -94,7 +94,6 @@ Uint64 Application::getTicks()
 
 void Application::init(const GameSettings& settings)
 {
-    Logger::instance().startTimer();
     m_settings = settings;
 
     // Initialize SDL
@@ -138,7 +137,6 @@ void Application::init(const GameSettings& settings)
 
     // bg color
     SDL_SetRenderDrawColor(m_renderer->getRenderer(), 100, 149, 237, SDL_ALPHA_OPAQUE);
-    Logger::instance().endTimer("application initialization");
 }
 
 void Application::main_loop()

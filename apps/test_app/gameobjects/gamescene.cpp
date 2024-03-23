@@ -5,12 +5,14 @@
 #include "nonplayable.h"
 #include "../states/losestate.h"
 #include "../states/winstate.h"
+#include "logger.h"
 
 void GameScene::draw(std::shared_ptr<anvil::Renderer> renderer)
 {
+
     m_tileMap->draw(renderer);
     m_player->draw(renderer);
-    m_scrollable->draw(renderer);
+    // m_scrollable->draw(renderer);
     for (auto& child: m_childs)
     {
         child->draw(renderer);
@@ -21,7 +23,7 @@ void GameScene::update()
 {
     m_tileMap->update();
     m_player->update();
-    m_scrollable->update();
+    // m_scrollable->update();
 
     float p_x = m_player->getX();
     float p_y = m_player->getY();
@@ -103,7 +105,7 @@ bool GameScene::registerWithFactory() {
     return true;
 }
 
-void GameScene::addChildObject(std::unique_ptr<BaseGameObject> gameObject)
+void GameScene::addChild(std::unique_ptr<BaseGameObject> gameObject)
 {
     if (auto player = dynamic_cast<Player*>(gameObject.get())) {
         setPlayer(std::unique_ptr<Player>(player));
@@ -117,7 +119,7 @@ void GameScene::addChildObject(std::unique_ptr<BaseGameObject> gameObject)
         setSpeech(std::unique_ptr<anvil::ScrollableText>(speech));
         gameObject.release();
     } else {
-        GameObject::addChildObject(std::move(gameObject));
+        GameObject::addChild(std::move(gameObject));
     }
 }
 

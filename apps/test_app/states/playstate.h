@@ -21,6 +21,7 @@ public:
 
 private:
     std::unique_ptr<anvil::BaseGameObject> m_scene = nullptr;
+//    std::vector<anvil::BaseGameObject> objects() override;
 
     const std::string m_id = "play";
     std::vector<std::string> m_textureIds;

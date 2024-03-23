@@ -3,9 +3,9 @@
 #include "utils.h"
 #include "texturemanager.h"
 #include "audio_manager.h"
-#include "renderer.h"
 #include "game_objects/GameObjectsFactory.h"
 #include "game_objects/gameobject.h"
+#include "AnvilImgui/ImguiSystem.h"
 #include <regex>
 
 namespace anvil {
@@ -69,7 +69,7 @@ void StateLoader::loadChild(BaseGameObject* parent, std::string id, json item) {
             auto childObj = GameObjectFactory::instance().createGameObject(id);
             childObj->from_json(childParams);
             childObj->init();
-            parent->addChildObject(std::move(childObj));
+            parent->addChild(std::move(childObj));
         }
     }
     else if (item.is_object())
@@ -77,7 +77,7 @@ void StateLoader::loadChild(BaseGameObject* parent, std::string id, json item) {
         auto childObj = GameObjectFactory::instance().createGameObject(id);
         childObj->from_json(item);
         childObj->init();
-        parent->addChildObject(std::move(childObj));
+        parent->addChild(std::move(childObj));
     }
     else if (item.is_string())
     {
@@ -86,7 +86,7 @@ void StateLoader::loadChild(BaseGameObject* parent, std::string id, json item) {
         if (regex_match(command, sm, std::regex{ "\@(?:include)[(](.+)[)]" })) {
             const auto path = sm[1].str();
             auto childObj = includeObject(path);
-            parent->addChildObject(std::move(childObj));
+            parent->addChild(std::move(childObj));
         }
     }
 }
@@ -105,6 +105,7 @@ std::unique_ptr<BaseGameObject> StateLoader::includeObject(const std::string pat
         return {};
     }
     auto object = GameObjectFactory::instance().createGameObject(data["id"]);
+
     object->from_json(data);
     object->init();
     for (const auto& [child, params] : data["childs"].items())

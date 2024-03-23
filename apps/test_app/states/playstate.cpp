@@ -2,9 +2,6 @@
 
 #include "anvil.h"
 #include "playstate.h"
-#include "../gameobjects/gamescene.h"
-#include "../gameobjects/player.h"
-#include "../gameobjects/speech.h"
 
 
 PlayState::PlayState()
@@ -17,6 +14,8 @@ bool PlayState::onEnter()
     m_textureIds = anvil::StateLoader::loadTextures(m_id);
     anvil::StateLoader::loadAudio(m_id);
     m_scene = anvil::StateLoader::loadGameObjects(m_id);
+    auto rootScene = dynamic_cast<anvil::GameObject*>(m_scene.get());
+    anvil::ImguiSystem::Instance()->setRootNode(rootScene);
 
 //    m_scene->setTileMap(std::make_unique<anvil::TileMap>(new anvil::LoaderParams(100, 100, 50, 37, "water")));
 //    m_scene->setPlayer(std::make_unique<Player>(new anvil::LoaderParams(375, 100, 64, 64, "player_1")));
@@ -67,3 +66,9 @@ void PlayState::from_json(nlohmann::json& j)
     }
     m_scene->from_json(j["GameScene"]);
 }
+
+//std::vector<anvil::BaseGameObject> PlayState::objects() {
+//    std::vector<anvil::BaseGameObject> result;
+//    result.push_back(m_scene);
+//    return std::vector<anvil::BaseGameObject>();
+//}

@@ -18,6 +18,12 @@
 namespace anvil {
 
 enum class Direction { Up, Down, Left, Right, Static };
+    
+    class GameObjectData
+    {
+        
+        
+    };
 
 class GameObject : public BaseGameObject
 {
@@ -30,7 +36,9 @@ public:
     virtual void clean() override {};
     virtual ~GameObject() {};
     virtual void load(const LoaderParams* params) override;
-    virtual void addChildObject(std::unique_ptr<anvil::BaseGameObject> gameObject);
+    virtual void addChild(std::unique_ptr<BaseGameObject> child);
+    virtual void removeChild(std::unique_ptr<BaseGameObject> child);
+    virtual const std::vector<std::unique_ptr<BaseGameObject>>& getChildren();
     virtual int getZOrder();
     virtual void init();
 
@@ -41,6 +49,15 @@ public:
 
     Vector2D getVelocity() { return velocity_;  };
     void setVelocity(Vector2D velocity) { velocity_ = velocity; }
+
+    const std::string& getId() const;
+    const std::string& getTextureId() const;
+    int getCurrentFrame() const;
+    int getCurrentRow() const;
+    const Vector2D& getPosition() const;
+    const Vector2D& getAcceleration() const;
+    float getWidth() const;
+    float getHeight() const;
 
 protected:
     std::string id_;

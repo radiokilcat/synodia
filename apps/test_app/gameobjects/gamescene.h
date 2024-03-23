@@ -22,7 +22,7 @@ public:
 
     static bool registerWithFactory();
 
-    void addChildObject(std::unique_ptr<BaseGameObject> gameObject) override;
+    void addChild(std::unique_ptr<BaseGameObject> gameObject) override;
     void setTileMap(std::unique_ptr<anvil::TileMap> tileMap);
     void setPlayer(std::unique_ptr<Player> player);
     void setSpeech(std::unique_ptr<anvil::ScrollableText> scrollable);

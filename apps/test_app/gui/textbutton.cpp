@@ -1,4 +1,5 @@
 #include "textbutton.h"
+#include "logger.h"
 
 TextButton::TextButton()
     : anvil::GameObject()

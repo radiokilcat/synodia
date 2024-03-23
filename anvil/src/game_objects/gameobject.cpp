@@ -3,17 +3,14 @@
 #include "game_objects/gameobject.h"
 #include "game_objects/textlabel.h"
 
-#include <SDL3/SDL.h>
 #include <iostream>
 #include <string>
 #include <nlohmann/json.hpp>
-#include "json_serializer/serializable_base.h"
-#include "json_serializer/json_serializer.h"
 #include "vector2d.h"
 #include "renderer.h"
 #include "texturemanager.h"
-#include "inputhandler.h"
-#include "application.h"
+#include "logger.h"
+#include <fmt/format.h>
 
 namespace anvil {
 
@@ -56,14 +53,24 @@ void GameObject::load(const LoaderParams* params)
     currentFrame_ = 1;
 }
 
-void GameObject::addChildObject(std::unique_ptr<BaseGameObject> gameObject)
+void GameObject::addChild(std::unique_ptr<BaseGameObject> child)
 {
-    m_childs.push_back(std::move(gameObject));
+    m_childs.push_back(std::move(child));
     // TODO: Uncomment when GameScene::addChildObject fixed
 //    std::sort(m_childs.begin(), m_childs.end(), [](const std::unique_ptr<anvil::BaseGameObject>& a,
 //                                                   const std::unique_ptr<anvil::BaseGameObject>& b) {
 //        return a->getZOrder() < b->getZOrder();
 //    });
+}
+
+
+void GameObject::removeChild(std::unique_ptr<BaseGameObject> child) {
+    auto it = std::remove(m_childs.begin(), m_childs.end(), child);
+    m_childs.erase(it, m_childs.end());
+}
+
+const std::vector<std::unique_ptr<BaseGameObject>>& GameObject::getChildren() {
+    return m_childs;
 }
 
 int GameObject::getZOrder()
@@ -76,7 +83,7 @@ void GameObject::init()
     auto debugLabel = std::make_unique<TextLabel>(id_, anvil::Color{255, 0, 0});
     debugLabel->setPosition(position_.x(), position_.y() - 15.f);
     debugLabel->setSize(width_, 15.f);
-    addChildObject(std::move(debugLabel));
+    addChild(std::move(debugLabel));
 }
 
 void GameObject::from_json(nlohmann::json& j) {
@@ -108,4 +115,36 @@ void GameObject::to_json(nlohmann::json& j)  {
 bool GameObject::operator==(const GameObject& g) {
     return id_ == g.id_;
 }
+
+    const std::string &GameObject::getId() const {
+        return id_;
+    }
+
+    const std::string &GameObject::getTextureId() const {
+        return textureId_;
+    }
+
+    int GameObject::getCurrentFrame() const {
+        return currentFrame_;
+    }
+
+    int GameObject::getCurrentRow() const {
+        return currentRow_;
+    }
+
+    const Vector2D& GameObject::getPosition() const {
+        return position_;
+    }
+
+    const Vector2D& GameObject::getAcceleration() const {
+        return acceleration_;
+    }
+
+    float GameObject::getWidth() const {
+        return width_;
+    }
+
+    float GameObject::getHeight() const {
+        return height_;
+    }
 }
