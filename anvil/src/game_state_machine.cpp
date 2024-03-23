@@ -31,7 +31,7 @@ GameState* GameStateMachine::findState(std:: string id)
     {
         return nullptr;
     }
-    auto state = std::find_if(states_.begin(), states_.end(), [&id](anvil::GameState *arg) {
+    auto state = std::find_if(states_.begin(), states_.end(), [&id](GameState *arg) {
         return (arg->getID() == id);
     });
     return *(state);

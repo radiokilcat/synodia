@@ -21,6 +21,7 @@ public:
     float getWidth() const      { return width_; }
     float getHeight() const     { return height_; }
     std::string getId() const { return texture_id_; }
+
 private:
     float x_, y_;
     float width_, height_;
@@ -38,10 +39,13 @@ public:
     virtual void clean() = 0;
     virtual void load(const LoaderParams* params) = 0;
     virtual void init() = 0;
-    virtual void addChildObject(std::unique_ptr<anvil::BaseGameObject> gameObject) = 0;
     virtual int  getZOrder() = 0;
 
     virtual void setCallback(std::function<void()> callback) { };
+
+    virtual void addChild(std::unique_ptr<BaseGameObject> child) = 0;
+    virtual void removeChild(std::unique_ptr<BaseGameObject> child) = 0;
+    virtual const std::vector<std::unique_ptr<BaseGameObject>>& getChildren() = 0;
 
     void from_json(nlohmann::json&) override {
     }

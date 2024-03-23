@@ -51,6 +51,7 @@ set(HEADERS
   include/audio_manager.h
   include/logger.h
   include/AnvilImgui/ImguiSystem.h
+  include/observer.h
 )
 
 set(public_headers include/anvil.h )

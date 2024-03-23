@@ -15,8 +15,8 @@ public:
     GameObjectFactory(const GameObjectFactory&) = delete;
     GameObjectFactory& operator=(const GameObjectFactory&) = delete;
 
-    void registerType(std::string type, FactoryFunction function);
-    std::unique_ptr<BaseGameObject> createGameObject(std::string type);
+    void registerType(const std::string& type, FactoryFunction function);
+    std::unique_ptr<BaseGameObject> createGameObject(const std::string& type);
 
     static GameObjectFactory& instance();
 
