@@ -21,7 +21,7 @@ public:
     void clean() override;
     void update() override;
 
-    void from_json(nlohmann::json& j) override;
+    void from_json(const nlohmann::json& j) override;
     void to_json(nlohmann::json& j) override;
 
     void loadTiles();

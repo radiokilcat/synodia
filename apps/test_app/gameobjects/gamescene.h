@@ -18,7 +18,7 @@ public:
     void load(const anvil::LoaderParams* params) override;
 
     void to_json(nlohmann::json& j) override;
-    void from_json(nlohmann::json& j) override;
+    void from_json(const nlohmann::json& j) override;
 
     static bool registerWithFactory();
 

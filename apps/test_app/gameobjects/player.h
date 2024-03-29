@@ -23,7 +23,7 @@ public:
     void update() override;
     void clean() override;
 
-    void from_json(nlohmann::json& j) override;
+    void from_json(const nlohmann::json& j) override;
     void to_json(nlohmann::json& j) override;
 
 

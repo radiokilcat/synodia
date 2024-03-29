@@ -42,7 +42,7 @@ public:
     virtual int getZOrder();
     virtual void init();
 
-    void from_json(nlohmann::json &j);
+    void from_json(const nlohmann::json &j);
     void to_json(nlohmann::json &j);
 
     bool operator==(const GameObject& g);

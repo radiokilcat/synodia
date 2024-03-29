@@ -1,0 +1,33 @@
+{
+    "GameScene": {
+    },
+    "Player": {
+        "zOrder": 1,
+        "width": 64, "height": 64,
+        "currentFrame": 1,
+        "currentRow": 1,
+        "textureId": "player"
+    },
+    "Stationary": {
+        "zOrder": 1,
+        "width": 128, "height": 128,
+        "textureId": "table"
+    },
+    "NonPlayable": {
+        "zOrder": 1,
+        "width": 64, "height": 64,
+        "currentFrame": 1,
+        "currentRow": 1,
+        "textureId": "evil"
+    },
+    "TileMap": {
+    },
+    "ScrollableText": {
+        "zOrder": 1,
+        "width": 768, "height": 256,
+        "currentFrame": 1,
+        "currentRow": 1,
+        "textureId": "evil"
+    }
+}
+

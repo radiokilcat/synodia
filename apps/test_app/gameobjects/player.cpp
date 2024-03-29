@@ -108,7 +108,7 @@ void Player::clean()
 {
 }
 
-void Player::from_json(nlohmann::json& j)
+void Player::from_json(const nlohmann::json& j)
 {
     GameObject::from_json(j);
 }

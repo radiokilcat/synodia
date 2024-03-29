@@ -137,7 +137,7 @@ std::pair<float, float> TileMap::findNearestTileCenter(float x, float y, Directi
 }
 
 
-void TileMap::from_json(nlohmann::json& j)
+void TileMap::from_json(const nlohmann::json& j)
 {
     if (j.count("grid") > 0 && j["grid"].is_array()) {
         int rowIndex = 0;
