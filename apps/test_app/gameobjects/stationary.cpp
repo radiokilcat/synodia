@@ -31,7 +31,7 @@ void Stationary::draw(std::shared_ptr<anvil::Renderer> renderer)
     }
 }
 
-void Stationary::from_json(nlohmann::json& j)
+void Stationary::from_json(const nlohmann::json& j)
 {
     GameObject::from_json(j);
 }

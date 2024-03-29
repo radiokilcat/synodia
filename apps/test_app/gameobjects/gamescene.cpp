@@ -93,7 +93,7 @@ void GameScene::to_json(nlohmann::json& j)
     GameObject::to_json(j);
 }
 
-void GameScene::from_json(nlohmann::json& j)
+void GameScene::from_json(const nlohmann::json& j)
 {
     GameObject::from_json(j);
 }

@@ -17,7 +17,7 @@ public:
     std::string getID() override;
 
     void to_json(nlohmann::json& j) override;
-    void from_json(nlohmann::json& j) override;
+    void from_json(const nlohmann::json& j) override;
 
 private:
     std::unique_ptr<anvil::BaseGameObject> m_scene = nullptr;

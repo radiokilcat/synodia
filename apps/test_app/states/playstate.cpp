@@ -58,7 +58,7 @@ void PlayState::to_json(nlohmann::json& j)
     m_scene->to_json(j["GameScene"]);
 }
 
-void PlayState::from_json(nlohmann::json& j)
+void PlayState::from_json(const nlohmann::json& j)
 {
     if (!m_scene)
     {

@@ -47,7 +47,7 @@ public:
     virtual void removeChild(std::unique_ptr<BaseGameObject> child) = 0;
     virtual const std::vector<std::unique_ptr<BaseGameObject>>& getChildren() = 0;
 
-    void from_json(nlohmann::json&) override {
+    void from_json(const nlohmann::json&) override {
     }
     void to_json(nlohmann::json&) override {
     }

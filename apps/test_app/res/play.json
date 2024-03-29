@@ -1,0 +1,72 @@
+{
+    "textures": {
+        "test": "adventurer.png",
+        "player": "player_1.png",
+        "evil": "evil_1.png",
+        "speech": "speech.png",
+        "stone_e": "tiles_1/stone_E.png",
+        "stone_n": "tiles_1/stone_N.png",
+        "stone_s": "tiles_1/stone_S.png",
+        "stone_w": "tiles_1/stone_W.png",
+        "table": "tiles_1/tableRoundItemsChairs_N.png"
+    },
+    "GameScene": {
+        "id": "GameScene",
+        "type": "GameScene",
+        "childs": [
+                {
+                    "type": "Player",
+                    "id": "player",
+                    "position": { "x_": 100.0, "y_": 100.0 },
+                    "childs": [
+                    {
+                    "type": "Stationary",
+                    "id": "table",
+                    "position": { "x_": 306.0, "y_": 387.0 }
+                    },
+                    {
+                    "type": "Stationary",
+                    "id": "table",
+                    "position": { "x_": 306.0, "y_": 387.0 }
+                    }
+                    ]
+                },
+                {
+                    "type": "Stationary",
+                    "id": "table",
+                    "position": { "x_": 306.0, "y_": 387.0 }
+                },
+                {
+                    "type": "NonPlayable",
+                    "id": "npc_1",
+                    "position": { "x_": 306.0, "y_": 387.0 }
+                },
+                {
+                    "type": "NonPlayable",
+                    "id": "npc_2",
+                    "position": { "x_": 661.0, "y_": 324.0 }
+                },
+                {
+                    "type": "NonPlayable",
+                    "id": "npc_3",
+                    "zOrder": 1,
+                    "position": { "x_": 797.0, "y_": 523.0 }
+                },
+                {
+                    "type": "NonPlayable",
+                    "id": "npc_4",
+                    "position": { "x_": 399.0, "y_": 607.0 }
+                },
+                {
+                    "type": "TileMap",
+                    "id": "tilemap_0",
+                    "fillType": "random"
+                },
+                {
+                    "type": "TileMap",
+                    "id": "ScrollableText",
+                    "position": { "x_": 30.0, "y_": 800.0 }
+                }
+        ]
+    }
+}

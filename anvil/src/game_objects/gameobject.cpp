@@ -86,7 +86,7 @@ void GameObject::init()
     addChild(std::move(debugLabel));
 }
 
-void GameObject::from_json(nlohmann::json& j) {
+void GameObject::from_json(const nlohmann::json& j) {
     id_ = j.value("id", std::string("test1"));
     textureId_ = j.value("textureId", std::string("test"));
     currentFrame_ = j.value("currentFrame", 0);

@@ -1,0 +1,11 @@
+{
+    "textures": {
+        "playbutton": "button.png",
+        "exitbutton": "exit.png",
+        "empty_button": "empty_button.png",
+        "background":  "menubackground.png"
+    },
+    "audio": {
+        "theme": "spooky_6.wav"
+    }
+}
