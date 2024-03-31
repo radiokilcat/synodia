@@ -20,11 +20,13 @@ public:
     void draw(std::shared_ptr<Renderer> renderer) override;
     void clean() override;
     void update() override;
+    
 
     void from_json(const nlohmann::json& j) override;
     void to_json(nlohmann::json& j) override;
 
     void loadTiles();
+    void generateRandomLayout(int dimension, std::vector<std::string> elements);
 
     std::pair<int, int> getTileScreenPosition(int x, int y);
     std::pair<float, float> findNearestTileCenter(float x, float y, Direction direction);

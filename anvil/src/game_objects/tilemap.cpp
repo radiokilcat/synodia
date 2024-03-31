@@ -1,6 +1,7 @@
 #include "game_objects/tilemap.h"
 #include "renderer.h"
 #include "application.h"
+#include  <random>
 #include "game_objects/GameObjectsFactory.h"
 
 
@@ -90,6 +91,7 @@ std::pair<int, int> TileMap::getTileByPosition(float sX, float sY)
     return {gX, gY};
 }
 
+
 std::pair<int, int> TileMap::getTileScreenPosition(int x, int y)
 {
 //    auto tileHeight = 128;
@@ -137,29 +139,35 @@ std::pair<float, float> TileMap::findNearestTileCenter(float x, float y, Directi
 }
 
 
+void TileMap::generateRandomLayout(int dimension, std::vector<std::string> elements) {
+    std::random_device rd;
+    std::mt19937 gen;
+    std::uniform_int_distribution<> dis;
+    
+    gen = std::mt19937(rd());
+    dis = std::uniform_int_distribution<>(0, elements.size() - 1);
+
+    m_tiles.clear();
+    m_grid.clear();
+    m_grid.resize(dimension, std::vector<std::string>(dimension));
+    for (int i = 0; i < dimension; ++i) {
+        for (int j = 0; j < dimension; ++j) {
+            std::string tileType = elements[dis(gen)];
+            m_grid[i][j] = tileType;
+
+            Tile tile(tileType, false);
+            m_tiles[std::make_pair(i, j)] = tile;
+        }
+    }
+}
+    
 void TileMap::from_json(const nlohmann::json& j)
 {
-    if (j.count("grid") > 0 && j["grid"].is_array()) {
-        int rowIndex = 0;
-        for (auto& row : j["grid"]) {
-            if (row.is_array()) {
-                std::vector<std::string> rowVec;
-                int colIndex = 0;
-
-                for (auto& elem : row) {
-                    rowVec.push_back(elem.get<std::string>());
-
-                    Tile tile(elem.get<std::string>(), false);
-                    m_tiles[std::make_pair(rowIndex, colIndex)] = tile;
-
-                    colIndex++;
-                }
-                m_grid.push_back(rowVec);
-            }
-            rowIndex++;
-        }
-    GameObject::from_json(j);
+    const auto& fillType = j.at("fillType");
+    if (fillType =="random") {
+        generateRandomLayout(j.at("dimension"), j.at("elements"));
     }
+    GameObject::from_json(j);
 }
 
 void TileMap::to_json(nlohmann::json& j)
