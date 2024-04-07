@@ -1,4 +1,6 @@
 #include "AnvilImgui/ImguiSystem.h"
+#include "application.h"
+#include "states/editstate.h"
 
 namespace anvil {
 
@@ -90,6 +92,9 @@ namespace anvil {
                     if (ImGui::MenuItem("Open..", "Ctrl+O")) {}
                     if (ImGui::MenuItem("Save", "Ctrl+S")) {}
                     if (ImGui::MenuItem("Close", "Ctrl+W")) {}
+                    if (ImGui::MenuItem("Editor", "Ctrl+W")) {
+                        Application::Instance()->getStateMachine()->changeState(new EditState);
+                    }
                     if (ImGui::MenuItem("debug view")) {
                         showInspector = !showInspector;
                     }

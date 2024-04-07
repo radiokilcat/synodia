@@ -21,6 +21,8 @@ set(SOURCES
   src/ui/scrollable_text.cpp
   src/audio_manager.cpp
   src/AnvilImgui/ImguiSystem.cpp
+  src/states/editstate.cpp
+  src/states/editstate.h
 )
 
 set(HEADERS
@@ -41,7 +43,7 @@ set(HEADERS
   include/json_serializer/json_serializer.h
   include/json_serializer/serializable_base.h
   include/json_serializer/stateloader.h
-  include/game_objects/BaseGameObject.h
+  include/game_objects/IGameObject.h
   include/game_objects/isogameobject.h
   include/game_objects/textlabel.h
   include/game_objects/gameobject.h

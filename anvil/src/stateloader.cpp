@@ -52,6 +52,9 @@ std::filesystem::path StateLoader::getConfigFile()
 
 std::unique_ptr<IGameObject> StateLoader::loadGameObjects(const std::string& stateId)
 {
+    if (stateId == "EDIT") {
+        return loadGameObjects("play");
+    }
     auto resPath = getStateConfigFile(stateId);
     std::ifstream file(resPath);
 
@@ -109,6 +112,9 @@ IGameObject* StateLoader::loadObject(const json& item) {
 
 std::vector<std::string> StateLoader::loadTextures(const std::string& stateId)
 {
+    if (stateId == "EDIT") {
+        return loadTextures("play");
+    }
     auto resPath = getConfigFile();
 
     std::cout << "assets path: " <<  resPath << std::endl;
