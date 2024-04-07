@@ -50,7 +50,7 @@ std::filesystem::path StateLoader::getConfigFile()
     return resPath;
 }
 
-std::unique_ptr<IGameObject> StateLoader::loadGameObjects(const std::string& stateId)
+std::shared_ptr<IGameObject> StateLoader::loadGameObjects(const std::string& stateId)
 {
     if (stateId == "EDIT") {
         return loadGameObjects("play");
@@ -69,11 +69,10 @@ std::unique_ptr<IGameObject> StateLoader::loadGameObjects(const std::string& sta
         return {};
     }
 
-    auto scene = loadObject(data.at("GameScene"));
-    return std::move(std::unique_ptr<IGameObject>(scene));
+    return loadObject(data.at("GameScene"));
 }
 
-void StateLoader::loadObjectTemplate(IGameObject* object, const nlohmann::json& data) {
+void StateLoader::loadObjectTemplate(std::shared_ptr<IGameObject>& object, const nlohmann::json& data) {
     std::filesystem::current_path(getExecutableDir());
     auto resPath = std::filesystem::current_path() / "res" / fmt::format("objects_templates.json");
     
@@ -96,15 +95,15 @@ void StateLoader::loadObjectTemplate(IGameObject* object, const nlohmann::json& 
     object->from_json(defaultVal);
 }
     
-IGameObject* StateLoader::loadObject(const json& item) {
-    auto parent = GameObjectFactory::instance().createGameObject(item.at("type")).release();
+std::shared_ptr<IGameObject> StateLoader::loadObject(const json& item) {
+    auto parent = GameObjectFactory::instance().createGameObject(item.at("type"));
     loadObjectTemplate(parent, item);
     parent->init();
     
     if (item.find("childs") != item.end() && item.at("childs").is_array()) {
         for (auto& childJson : item.at("childs")) {
-            auto childNode = GameObjectFactory::instance().createGameObject(childJson.at("type")).release();
-            parent->addChild(std::unique_ptr<IGameObject>(loadObject(childJson)));
+            auto childNode = GameObjectFactory::instance().createGameObject(childJson.at("type"));
+            parent->addChild(loadObject(childJson));
         }
     }
     return parent;

@@ -53,23 +53,23 @@ void GameObject::load(const anvil::GameObjectData* params)
     currentFrame_ = 1;
 }
 
-void GameObject::addChild(std::unique_ptr<IGameObject> child)
+void GameObject::addChild(std::shared_ptr<IGameObject> child)
 {
     m_childs.push_back(std::move(child));
     // TODO: Uncomment when GameScene::addChildObject fixed
-//    std::sort(m_childs.begin(), m_childs.end(), [](const std::unique_ptr<anvil::IGameObject>& a,
-//                                                   const std::unique_ptr<anvil::IGameObject>& b) {
+//    std::sort(m_childs.begin(), m_childs.end(), [](const std::shared_ptr<anvil::IGameObject>& a,
+//                                                   const std::shared_ptr<anvil::IGameObject>& b) {
 //        return a->getZOrder() < b->getZOrder();
 //    });
 }
 
 
-void GameObject::removeChild(std::unique_ptr<IGameObject> child) {
-    auto it = std::remove(m_childs.begin(), m_childs.end(), child);
-    m_childs.erase(it, m_childs.end());
-}
+// void GameObject::removeChild(std::shared_ptr<IGameObject> child) {
+//     auto it = std::remove(m_childs.begin(), m_childs.end(), child);
+//     m_childs.erase(it, m_childs.end());
+// }
 
-const std::vector<std::unique_ptr<IGameObject>>& GameObject::getChildren() {
+const std::vector<std::shared_ptr<IGameObject>>& GameObject::getChildren() {
     return m_childs;
 }
 
@@ -80,7 +80,7 @@ int GameObject::getZOrder()
 
 void GameObject::init()
 {
-    auto debugLabel = std::make_unique<TextLabel>(id_, anvil::Color{255, 0, 0});
+    auto debugLabel = std::make_shared<TextLabel>(id_, anvil::Color{255, 0, 0});
     debugLabel->setPosition(position_.x(), position_.y() - 15.f);
     debugLabel->setSize(width_, 15.f);
     addChild(std::move(debugLabel));

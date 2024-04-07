@@ -17,7 +17,7 @@ public:
     std::string getID() override;
 
 private:
-    std::unique_ptr<anvil::IGameObject> m_scene = nullptr;
+    std::shared_ptr<anvil::IGameObject> m_scene = nullptr;
     const std::string m_id = "EDIT";
     std::vector<anvil::IGameObject*> m_gameObjects;
     std::vector<std::string> m_textureIds;

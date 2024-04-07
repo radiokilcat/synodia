@@ -21,9 +21,9 @@ public:
     static std::filesystem::path getStateConfigFile(const std::string& stateId);
     static std::vector<std::string> loadTextures(const std::string& stateId);
     static void loadAudio(const std::string& stateId);
-    static std::unique_ptr<IGameObject> loadGameObjects(const std::string& stateId);
-    static void loadObjectTemplate(IGameObject* object, const nlohmann::json& data);
-    static IGameObject* loadObject(const json& item);
+    static std::shared_ptr<IGameObject> loadGameObjects(const std::string& stateId);
+    static void loadObjectTemplate(std::shared_ptr<IGameObject>& object, const nlohmann::json& data);
+    static std::shared_ptr<IGameObject> loadObject(const json& item);
     static void clearTextures(const std::string& stateId);
     static std::filesystem::path getConfigFile();
 

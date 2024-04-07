@@ -53,9 +53,8 @@ public:
     virtual void clean() override {};
     virtual ~GameObject() {};
     virtual void load(const anvil::GameObjectData* params);
-    virtual void addChild(std::unique_ptr<IGameObject> child);
-    virtual void removeChild(std::unique_ptr<IGameObject> child);
-    virtual const std::vector<std::unique_ptr<IGameObject>>& getChildren();
+    virtual void addChild(std::shared_ptr<IGameObject> child);
+    virtual const std::vector<std::shared_ptr<IGameObject>>& getChildren();
     virtual int getZOrder();
     virtual void init();
 
@@ -87,7 +86,7 @@ protected:
     float width_, height_;
     int zOrder_;
 
-    std::vector<std::unique_ptr<anvil::IGameObject>> m_childs;
+    std::vector<std::shared_ptr<anvil::IGameObject>> m_childs;
     
 };
 
