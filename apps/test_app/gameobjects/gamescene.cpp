@@ -9,7 +9,6 @@
 
 void GameScene::draw(std::shared_ptr<anvil::Renderer> renderer)
 {
-
     m_tileMap->draw(renderer);
     m_player->draw(renderer);
     // m_scrollable->draw(renderer);
@@ -99,42 +98,39 @@ void GameScene::from_json(const nlohmann::json& j)
 }
 
 bool GameScene::registerWithFactory() {
-    anvil::GameObjectFactory::instance().registerType("GameScene", []() -> std::unique_ptr<anvil::IGameObject> {
-        return std::make_unique<GameScene>();
+    anvil::GameObjectFactory::instance().registerType("GameScene", []() -> std::shared_ptr<anvil::IGameObject> {
+        return std::make_shared<GameScene>();
     });
     return true;
 }
 
-void GameScene::addChild(std::unique_ptr<IGameObject> gameObject)
+void GameScene::addChild(std::shared_ptr<IGameObject> gameObject)
 {
-    if (auto player = dynamic_cast<Player*>(gameObject.get())) {
-        setPlayer(std::unique_ptr<Player>(player));
-        gameObject.release();
+    if (auto player = std::dynamic_pointer_cast<Player>(gameObject)) {
+        setPlayer(player);
     }
-    else if (auto tilemap = dynamic_cast<anvil::TileMap*>(gameObject.get())) {
-        setTileMap(std::unique_ptr<anvil::TileMap>(tilemap));
-        gameObject.release();
+    else if (auto tilemap = std::dynamic_pointer_cast<anvil::TileMap>(gameObject)) {
+        setTileMap(tilemap);
     }
-    else if (auto speech = dynamic_cast<anvil::ScrollableText*>(gameObject.get())) {
-        setSpeech(std::unique_ptr<anvil::ScrollableText>(speech));
-        gameObject.release();
+    else if (auto speech = std::dynamic_pointer_cast<anvil::ScrollableText>(gameObject)) {
+        setSpeech(speech);
     } else {
-        GameObject::addChild(std::move(gameObject));
+        GameObject::addChild(gameObject);
     }
 }
 
-void GameScene::setTileMap(std::unique_ptr<anvil::TileMap> tileMap)
+void GameScene::setTileMap(std::shared_ptr<anvil::TileMap> tileMap)
 {
-    m_tileMap = std::move(tileMap);
+    m_tileMap = tileMap;
 }
 
-void GameScene::setPlayer(std::unique_ptr<Player> player)
+void GameScene::setPlayer(std::shared_ptr<Player> player)
 {
-    m_player = std::move(player);
+    m_player = player;
 }
 
-void GameScene::setSpeech(std::unique_ptr<anvil::ScrollableText> scrollable) {
-    m_scrollable = std::move(scrollable);
+void GameScene::setSpeech(std::shared_ptr<anvil::ScrollableText> scrollable) {
+    m_scrollable = scrollable;
 }
 
 float GameScene::distance(anvil::Vector2D, anvil::Vector2D)
