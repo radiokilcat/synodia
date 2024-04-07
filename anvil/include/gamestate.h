@@ -17,7 +17,6 @@ public:
     virtual void render() = 0;
 
     virtual std::string getID() = 0;
-//    virtual std::vector<BaseGameObject> objects() = 0;
 };
 
 }

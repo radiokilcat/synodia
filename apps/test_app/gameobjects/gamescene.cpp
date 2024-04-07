@@ -84,7 +84,7 @@ void GameScene::clean()
     }
 }
 
-void GameScene::load(const anvil::LoaderParams*)
+void GameScene::load(const anvil::GameObjectData*)
 {
 }
 
@@ -99,13 +99,13 @@ void GameScene::from_json(const nlohmann::json& j)
 }
 
 bool GameScene::registerWithFactory() {
-    anvil::GameObjectFactory::instance().registerType("GameScene", []() -> std::unique_ptr<anvil::BaseGameObject> {
+    anvil::GameObjectFactory::instance().registerType("GameScene", []() -> std::unique_ptr<anvil::IGameObject> {
         return std::make_unique<GameScene>();
     });
     return true;
 }
 
-void GameScene::addChild(std::unique_ptr<BaseGameObject> gameObject)
+void GameScene::addChild(std::unique_ptr<IGameObject> gameObject)
 {
     if (auto player = dynamic_cast<Player*>(gameObject.get())) {
         setPlayer(std::unique_ptr<Player>(player));

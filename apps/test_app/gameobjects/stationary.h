@@ -5,7 +5,7 @@
 class Stationary: public anvil::IsoGameObject
 {
 public:
-    Stationary(const anvil::LoaderParams* params);
+    Stationary(const anvil::GameObjectData* params);
     ~Stationary() {};
     void draw(std::shared_ptr<anvil::Renderer> renderer) override;
     void update() override;

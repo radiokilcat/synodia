@@ -20,8 +20,8 @@ public:
     void from_json(const nlohmann::json& j) override;
 
 private:
-    std::unique_ptr<anvil::BaseGameObject> m_scene = nullptr;
-//    std::vector<anvil::BaseGameObject> objects() override;
+    std::unique_ptr<anvil::IGameObject> m_scene = nullptr;
+//    std::vector<anvil::IGameObject> objects() override;
 
     const std::string m_id = "play";
     std::vector<std::string> m_textureIds;

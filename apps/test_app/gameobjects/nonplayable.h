@@ -5,7 +5,7 @@
 class NonPlayable: public anvil::IsoGameObject
 {
 public:
-    NonPlayable(const anvil::LoaderParams* params);
+    NonPlayable(const anvil::GameObjectData* params);
     ~NonPlayable() {};
     void draw(std::shared_ptr<anvil::Renderer> renderer) override;
     void update() override;

@@ -8,7 +8,7 @@
 
 namespace anvil {
 
-class BaseGameObject;
+class IGameObject;
 using json = nlohmann::json;
 
 class StateLoader
@@ -21,9 +21,9 @@ public:
     static std::filesystem::path getStateConfigFile(const std::string& stateId);
     static std::vector<std::string> loadTextures(const std::string& stateId);
     static void loadAudio(const std::string& stateId);
-    static std::unique_ptr<BaseGameObject> loadGameObjects(const std::string& stateId);
-    static void loadObjectTemplate(BaseGameObject* object, const nlohmann::json& data);
-    static BaseGameObject* loadObject(const json& item);
+    static std::unique_ptr<IGameObject> loadGameObjects(const std::string& stateId);
+    static void loadObjectTemplate(IGameObject* object, const nlohmann::json& data);
+    static IGameObject* loadObject(const json& item);
     static void clearTextures(const std::string& stateId);
     static std::filesystem::path getConfigFile();
 

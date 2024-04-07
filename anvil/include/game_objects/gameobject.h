@@ -12,20 +12,37 @@
 #include "texturemanager.h"
 #include "inputhandler.h"
 #include "application.h"
-#include "BaseGameObject.h"
+#include "IGameObject.h"
 
 
 namespace anvil {
 
 enum class Direction { Up, Down, Left, Right, Static };
     
-    class GameObjectData
-    {
-        
-        
-    };
 
-class GameObject : public BaseGameObject
+class GameObjectData
+{
+public:
+    GameObjectData(float x, float y, float width, float height, std::string id)
+        : x_(x)
+        , y_(y)
+        , width_(width)
+        , height_(height)
+        , texture_id_(id)
+        {};
+    float getX() const          { return x_; }
+    float getY() const          { return y_; }
+    float getWidth() const      { return width_; }
+    float getHeight() const     { return height_; }
+    std::string getId() const { return texture_id_; }
+
+private:
+    float x_, y_;
+    float width_, height_;
+    std::string texture_id_;
+};
+    
+class GameObject : public IGameObject
 {
 public:
     GameObject();
@@ -35,15 +52,15 @@ public:
     virtual void update() override {};
     virtual void clean() override {};
     virtual ~GameObject() {};
-    virtual void load(const LoaderParams* params) override;
-    virtual void addChild(std::unique_ptr<BaseGameObject> child);
-    virtual void removeChild(std::unique_ptr<BaseGameObject> child);
-    virtual const std::vector<std::unique_ptr<BaseGameObject>>& getChildren();
+    virtual void load(const anvil::GameObjectData* params);
+    virtual void addChild(std::unique_ptr<IGameObject> child);
+    virtual void removeChild(std::unique_ptr<IGameObject> child);
+    virtual const std::vector<std::unique_ptr<IGameObject>>& getChildren();
     virtual int getZOrder();
     virtual void init();
 
-    void from_json(const nlohmann::json &j);
-    void to_json(nlohmann::json &j);
+    virtual void from_json(const nlohmann::json &j);
+    virtual void to_json(nlohmann::json &j);
 
     bool operator==(const GameObject& g);
 
@@ -70,7 +87,8 @@ protected:
     float width_, height_;
     int zOrder_;
 
-    std::vector<std::unique_ptr<anvil::BaseGameObject>> m_childs;
+    std::vector<std::unique_ptr<anvil::IGameObject>> m_childs;
+    
 };
 
 }

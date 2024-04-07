@@ -59,7 +59,7 @@ void Speech::clean()
 {
 }
 
-void Speech::load(const anvil::LoaderParams* params)
+void Speech::load(const anvil::GameObjectData* params)
 {
     GameObject::load(params);
     m_label->setText(m_text);

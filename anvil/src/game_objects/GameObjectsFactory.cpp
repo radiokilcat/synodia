@@ -8,7 +8,7 @@ void GameObjectFactory::registerType(const std::string& type, FactoryFunction fu
     factoryFunctions[type] = function;
 }
 
-std::unique_ptr<BaseGameObject> GameObjectFactory::createGameObject(const std::string& type) {
+std::unique_ptr<IGameObject> GameObjectFactory::createGameObject(const std::string& type) {
     auto iter = factoryFunctions.find(type);
     if (iter != factoryFunctions.end()) {
         return iter->second();

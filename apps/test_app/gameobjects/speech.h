@@ -18,7 +18,7 @@ public:
     void show(int timeSec, std::string text);
     bool isShown();
     void clean() override;
-    void load(const anvil::LoaderParams* params);
+    void load(const anvil::GameObjectData* params);
 
     void setTextSize(float size);
     void setSize(float w, float h);

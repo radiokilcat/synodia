@@ -25,11 +25,11 @@ bool WinState::onEnter()
     const float HALF_SCREEN_X = SCREEN_WIDTH / 2 - BUTTON_WIDTH / 2;
 
     auto title = new anvil::TextLabel("You succeeded... This time...", textColor);
-    title->load(new anvil::LoaderParams(SCREEN_WIDTH / 2 - 300, SCREEN_HEIGHT / 4, 600, 80, "title"));
+    title->load(new anvil::GameObjectData(SCREEN_WIDTH / 2 - 300, SCREEN_HEIGHT / 4, 600, 80, "title"));
 
     auto button1 = new TextButton();
     button1->setText("Play Again");
-    button1->load(new anvil::LoaderParams(HALF_SCREEN_X, SCREEN_HEIGHT / 4 + 140, 400, 100, "empty_button"));
+    button1->load(new anvil::GameObjectData(HALF_SCREEN_X, SCREEN_HEIGHT / 4 + 140, 400, 100, "empty_button"));
     button1->setCallback([]() {
         std::cout << "Play button clicked" << std::endl;
         anvil::Application::Instance()->getStateMachine()->changeState(new PlayState);
@@ -37,7 +37,7 @@ bool WinState::onEnter()
 
     auto button2 = new TextButton();
     button2->setText("Exit Game");
-    button2->load(new anvil::LoaderParams(HALF_SCREEN_X, SCREEN_HEIGHT / 4 + 280, 400, 100, "empty_button"));
+    button2->load(new anvil::GameObjectData(HALF_SCREEN_X, SCREEN_HEIGHT / 4 + 280, 400, 100, "empty_button"));
     button2->setCallback([]() {
         std::cout << "Exit button clicked" << std::endl;
         anvil::Application::Instance()->quit();

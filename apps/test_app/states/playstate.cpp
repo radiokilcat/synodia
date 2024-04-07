@@ -17,9 +17,9 @@ bool PlayState::onEnter()
     auto rootScene = dynamic_cast<anvil::GameObject*>(m_scene.get());
     anvil::ImguiSystem::Instance()->setRootNode(rootScene);
 
-//    m_scene->setTileMap(std::make_unique<anvil::TileMap>(new anvil::LoaderParams(100, 100, 50, 37, "water")));
-//    m_scene->setPlayer(std::make_unique<Player>(new anvil::LoaderParams(375, 100, 64, 64, "player_1")));
-
+//    m_scene->setTileMap(std::make_unique<anvil::TileMap>(new anvil::GameObjectData(100, 100, 50, 37, "water")));
+//    m_scene->setPlayer(std::make_unique<Player>(new anvil::GameObjectData(375, 100, 64, 64, "player_1")));
+        
     std::cout << "Enter Play state" << std::endl;
     return true;
 }
@@ -67,8 +67,8 @@ void PlayState::from_json(const nlohmann::json& j)
     m_scene->from_json(j["GameScene"]);
 }
 
-//std::vector<anvil::BaseGameObject> PlayState::objects() {
-//    std::vector<anvil::BaseGameObject> result;
+//std::vector<anvil::IGameObject> PlayState::objects() {
+//    std::vector<anvil::IGameObject> result;
 //    result.push_back(m_scene);
-//    return std::vector<anvil::BaseGameObject>();
+//    return std::vector<anvil::IGameObject>();
 //}

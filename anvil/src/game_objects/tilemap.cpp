@@ -46,7 +46,7 @@ void TileMap::draw_tile(Tile& tile, int x, int y, std::shared_ptr<Renderer> rend
 
         SDL_SetRenderDrawColor(renderer->getRenderer(), 100, 149, 237, 255);
     }
-    //TODO: bring out all post-draw things to it's own function in BaseGameObject(?)
+    //TODO: bring out all post-draw things to it's own function in IGameObject(?)
     tile.outlined = false;
 }
 
@@ -177,7 +177,7 @@ void TileMap::to_json(nlohmann::json& j)
 }
 
 bool TileMap::registerWithFactory() {
-    GameObjectFactory::instance().registerType("TileMap", []() -> std::unique_ptr<BaseGameObject> {
+    GameObjectFactory::instance().registerType("TileMap", []() -> std::unique_ptr<IGameObject> {
 
         return std::make_unique<TileMap>();
     });

@@ -6,9 +6,9 @@
 
 namespace anvil {
 
-class BaseGameObject;
+class IGameObject;
 
-using FactoryFunction = std::function<std::unique_ptr<BaseGameObject>()>;
+using FactoryFunction = std::function<std::unique_ptr<IGameObject>()>;
 
 class GameObjectFactory {
 public:
@@ -16,7 +16,7 @@ public:
     GameObjectFactory& operator=(const GameObjectFactory&) = delete;
 
     void registerType(const std::string& type, FactoryFunction function);
-    std::unique_ptr<BaseGameObject> createGameObject(const std::string& type);
+    std::unique_ptr<IGameObject> createGameObject(const std::string& type);
 
     static GameObjectFactory& instance();
 

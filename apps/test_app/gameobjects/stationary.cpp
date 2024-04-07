@@ -58,7 +58,7 @@ void Stationary::init()
 }
 
 bool Stationary::registerWithFactory() {
-    anvil::GameObjectFactory::instance().registerType("Stationary", []() -> std::unique_ptr<anvil::BaseGameObject> {
+    anvil::GameObjectFactory::instance().registerType("Stationary", []() -> std::unique_ptr<anvil::IGameObject> {
         return std::make_unique<Stationary>();
     });
     return true;

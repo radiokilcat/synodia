@@ -13,7 +13,7 @@ public:
     void draw(std::shared_ptr<anvil::Renderer> renderer) override;
     void update() override;
     void clean() override;
-    void load(const anvil::LoaderParams *params) override;
+    void load(const anvil::GameObjectData *params) override;
 
     void setText(std::string text) { m_text = text; };
     void setCallback(std::function<void()> callback) override { m_callback = callback; };

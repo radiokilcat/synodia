@@ -45,7 +45,7 @@ void MenuButton::clean()
 
 bool MenuButton::registerWithFactory()
 {
-    anvil::GameObjectFactory::instance().registerType("MenuButton", []() -> std::unique_ptr<anvil::BaseGameObject> {
+    anvil::GameObjectFactory::instance().registerType("MenuButton", []() -> std::unique_ptr<anvil::IGameObject> {
         return std::make_unique<MenuButton>();
     });
     return true;

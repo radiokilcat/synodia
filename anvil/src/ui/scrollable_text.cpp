@@ -57,7 +57,7 @@ namespace anvil {
 		}
 	}
 	bool ScrollableText::registerWithFactory() {
-		GameObjectFactory::instance().registerType("ScrollableText", []() -> std::unique_ptr<BaseGameObject> {
+		GameObjectFactory::instance().registerType("ScrollableText", []() -> std::unique_ptr<IGameObject> {
 			return std::make_unique<ScrollableText>();
 			});
 		return true;

@@ -44,7 +44,7 @@ void TextButton::clean()
 {
 }
 
-void TextButton::load(const anvil::LoaderParams* params)
+void TextButton::load(const anvil::GameObjectData* params)
 {
     m_label->load(params);
     m_label->setText(m_text);
@@ -53,7 +53,7 @@ void TextButton::load(const anvil::LoaderParams* params)
 
 bool TextButton::registerWithFactory()
 {
-    anvil::GameObjectFactory::instance().registerType("TextButton", []() -> std::unique_ptr<anvil::BaseGameObject> {
+    anvil::GameObjectFactory::instance().registerType("TextButton", []() -> std::unique_ptr<anvil::IGameObject> {
         return std::make_unique<TextButton>();
     });
     return true;

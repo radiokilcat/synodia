@@ -7,7 +7,7 @@ Player::Player()
 {
     srand(time(NULL));
     _speech = std::make_unique<Speech>();
-    _speech->load(new anvil::LoaderParams(15, 15, 62, 40, "speech"));
+    _speech->load(new anvil::GameObjectData(15, 15, 62, 40, "speech"));
 }
 
 float Player::getX()
@@ -119,7 +119,7 @@ void Player::to_json(nlohmann::json& j)
 }
 
 bool Player::registerWithFactory() {
-    anvil::GameObjectFactory::instance().registerType("Player", []() -> std::unique_ptr<anvil::BaseGameObject> {
+    anvil::GameObjectFactory::instance().registerType("Player", []() -> std::unique_ptr<anvil::IGameObject> {
         return std::make_unique<Player>();
     });
     return true;

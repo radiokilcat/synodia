@@ -65,7 +65,7 @@ void NonPlayable::to_json(nlohmann::json& j)
 }
 
 bool NonPlayable::registerWithFactory() {
-    anvil::GameObjectFactory::instance().registerType("NonPlayable", []() -> std::unique_ptr<anvil::BaseGameObject> {
+    anvil::GameObjectFactory::instance().registerType("NonPlayable", []() -> std::unique_ptr<anvil::IGameObject> {
         return std::make_unique<NonPlayable>();
     });
     return true;

@@ -41,7 +41,7 @@ void GameObject::drawScaled(std::shared_ptr<Renderer> renderer, float scale)
                                                 renderer->getRenderer());
 }
 
-void GameObject::load(const LoaderParams* params)
+void GameObject::load(const anvil::GameObjectData* params)
 {
     position_ = Vector2D{(float)params->getX(), (float)params->getY()};
     velocity_ = Vector2D{0,0};
@@ -53,23 +53,23 @@ void GameObject::load(const LoaderParams* params)
     currentFrame_ = 1;
 }
 
-void GameObject::addChild(std::unique_ptr<BaseGameObject> child)
+void GameObject::addChild(std::unique_ptr<IGameObject> child)
 {
     m_childs.push_back(std::move(child));
     // TODO: Uncomment when GameScene::addChildObject fixed
-//    std::sort(m_childs.begin(), m_childs.end(), [](const std::unique_ptr<anvil::BaseGameObject>& a,
-//                                                   const std::unique_ptr<anvil::BaseGameObject>& b) {
+//    std::sort(m_childs.begin(), m_childs.end(), [](const std::unique_ptr<anvil::IGameObject>& a,
+//                                                   const std::unique_ptr<anvil::IGameObject>& b) {
 //        return a->getZOrder() < b->getZOrder();
 //    });
 }
 
 
-void GameObject::removeChild(std::unique_ptr<BaseGameObject> child) {
+void GameObject::removeChild(std::unique_ptr<IGameObject> child) {
     auto it = std::remove(m_childs.begin(), m_childs.end(), child);
     m_childs.erase(it, m_childs.end());
 }
 
-const std::vector<std::unique_ptr<BaseGameObject>>& GameObject::getChildren() {
+const std::vector<std::unique_ptr<IGameObject>>& GameObject::getChildren() {
     return m_childs;
 }
 

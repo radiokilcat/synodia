@@ -18,6 +18,6 @@ public:
 
 private:
     const std::string m_id = "LOSE";
-    std::vector<anvil::BaseGameObject*> m_gameObjects;
+    std::vector<anvil::IGameObject*> m_gameObjects;
     std::vector<std::string> m_textureIds;
 };
