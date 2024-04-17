@@ -21,8 +21,11 @@ set(SOURCES
   src/ui/scrollable_text.cpp
   src/audio_manager.cpp
   src/AnvilImgui/ImguiSystem.cpp
+
   src/states/editstate.cpp
   src/states/editstate.h
+  src/GameObjectObserver.cpp
+  src/GameObjectObserver.h
 )
 
 set(HEADERS

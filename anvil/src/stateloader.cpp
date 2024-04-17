@@ -102,7 +102,6 @@ std::shared_ptr<IGameObject> StateLoader::loadObject(const json& item) {
     
     if (item.find("childs") != item.end() && item.at("childs").is_array()) {
         for (auto& childJson : item.at("childs")) {
-            auto childNode = GameObjectFactory::instance().createGameObject(childJson.at("type"));
             parent->addChild(loadObject(childJson));
         }
     }

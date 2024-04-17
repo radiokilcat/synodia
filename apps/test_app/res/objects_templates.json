@@ -26,8 +26,7 @@
         "zOrder": 1,
         "width": 768, "height": 256,
         "currentFrame": 1,
-        "currentRow": 1,
-        "textureId": "evil"
+        "currentRow": 1
     }
 }
 

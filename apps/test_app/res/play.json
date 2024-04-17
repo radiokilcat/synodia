@@ -19,16 +19,16 @@
                     "id": "player",
                     "position": { "x_": 100.0, "y_": 100.0 },
                     "childs": [
-                    {
-                    "type": "Stationary",
-                    "id": "table",
-                    "position": { "x_": 306.0, "y_": 387.0 }
-                    },
-                    {
-                    "type": "Stationary",
-                    "id": "table",
-                    "position": { "x_": 306.0, "y_": 387.0 }
-                    }
+                        {
+                        "type": "Stationary",
+                        "id": "table",
+                        "position": { "x_": 306.0, "y_": 387.0 }
+                        },
+                        {
+                        "type": "Stationary",
+                        "id": "table",
+                        "position": { "x_": 306.0, "y_": 387.0 }
+                        }
                     ]
                 },
                 {
@@ -63,11 +63,6 @@
                     "fillType": "random",
                     "elements": ["stone_e", "stone_n", "stone_s", "stone_w"],
                     "dimension": 15
-                },
-                {
-                    "type": "ScrollableText",
-                    "id": "ScrollableText",
-                    "position": { "x_": 30.0, "y_": 800.0 }
                 }
         ]
     }

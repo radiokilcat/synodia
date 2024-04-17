@@ -9,21 +9,13 @@
 
 void GameScene::draw(std::shared_ptr<anvil::Renderer> renderer)
 {
-    m_tileMap->draw(renderer);
-    m_player->draw(renderer);
-    // m_scrollable->draw(renderer);
-    for (auto& child: m_childs)
-    {
+    for (auto& child: m_childs) {
         child->draw(renderer);
     }
 }
 
 void GameScene::update()
 {
-    m_tileMap->update();
-    m_player->update();
-    // m_scrollable->update();
-
     float p_x = m_player->getX();
     float p_y = m_player->getY();
     float p_w = m_player->getWidth();
@@ -35,23 +27,17 @@ void GameScene::update()
     if (_dialogState)
     {
         auto delta = anvil::Application::Instance()->getTicks() - _dialogStart;
-        if (delta >= 3 * 1000)
-        {
+        if (delta >= 3 * 1000) {
             anvil::Application::Instance()->getStateMachine()->changeState(new WinState);
         }
     }
 
-    for (auto& child: m_childs)
-    {
+    for (auto& child: m_childs) {
         child->update();
-        if(auto childGameObject = dynamic_cast<Stationary*>(child.get()))
-        {
-            if (childGameObject->isIntersect(p_x, p_y, p_w, p_h) && !_dialogState)
-            {
-                for (auto& child_: m_childs)
-                {
-                    if (auto npc = dynamic_cast<NonPlayable*>(child_.get()))
-                    {
+        if (auto childGameObject = dynamic_cast<Stationary*>(child.get())) {
+            if (childGameObject->isIntersect(p_x, p_y, p_w, p_h) && !_dialogState) {
+                for (auto& child_: m_childs) {
+                    if (auto npc = dynamic_cast<NonPlayable*>(child_.get())) {
                         npc->setVelocity(0, 0);
                     }
                 }
@@ -60,12 +46,9 @@ void GameScene::update()
                 _dialogStart = anvil::Application::Instance()->getTicks();
 
             }
-//            m_player->setInverseMove(true);
         }
-        else if (auto npc = dynamic_cast<NonPlayable*>(child.get()))
-        {
-            if(npc->isIntersect(p_x, p_y, p_w, p_h))
-            {
+        else if (auto npc = dynamic_cast<NonPlayable*>(child.get())) {
+            if (npc->isIntersect(p_x, p_y, p_w, p_h)) {
                  anvil::Application::Instance()->getStateMachine()->changeState(new LoseState);
             }
 
@@ -77,8 +60,7 @@ void GameScene::update()
 
 void GameScene::clean()
 {
-    for (auto& child: m_childs)
-    {
+    for (auto& child: m_childs) {
         child->clean();
     }
 }
@@ -87,13 +69,11 @@ void GameScene::load(const anvil::GameObjectData*)
 {
 }
 
-void GameScene::to_json(nlohmann::json& j)
-{
+void GameScene::to_json(nlohmann::json& j) {
     GameObject::to_json(j);
 }
 
-void GameScene::from_json(const nlohmann::json& j)
-{
+void GameScene::from_json(const nlohmann::json& j) {
     GameObject::from_json(j);
 }
 
@@ -104,8 +84,7 @@ bool GameScene::registerWithFactory() {
     return true;
 }
 
-void GameScene::addChild(std::shared_ptr<IGameObject> gameObject)
-{
+void GameScene::addChild(std::shared_ptr<IGameObject> gameObject) {
     if (auto player = std::dynamic_pointer_cast<Player>(gameObject)) {
         setPlayer(player);
     }
@@ -114,18 +93,15 @@ void GameScene::addChild(std::shared_ptr<IGameObject> gameObject)
     }
     else if (auto speech = std::dynamic_pointer_cast<anvil::ScrollableText>(gameObject)) {
         setSpeech(speech);
-    } else {
-        GameObject::addChild(gameObject);
     }
+    GameObject::addChild(gameObject);
 }
 
-void GameScene::setTileMap(std::shared_ptr<anvil::TileMap> tileMap)
-{
+void GameScene::setTileMap(std::shared_ptr<anvil::TileMap> tileMap) {
     m_tileMap = tileMap;
 }
 
-void GameScene::setPlayer(std::shared_ptr<Player> player)
-{
+void GameScene::setPlayer(std::shared_ptr<Player> player) {
     m_player = player;
 }
 
@@ -133,13 +109,11 @@ void GameScene::setSpeech(std::shared_ptr<anvil::ScrollableText> scrollable) {
     m_scrollable = scrollable;
 }
 
-float GameScene::distance(anvil::Vector2D, anvil::Vector2D)
-{
+float GameScene::distance(anvil::Vector2D, anvil::Vector2D) {
     return 0;
 }
 
-float GameScene::distance(float x1, float y1, float x2, float y2)
-{
+float GameScene::distance(float x1, float y1, float x2, float y2) {
     float dx = x2 - x1;
     float dy = y2 - y1;
 
