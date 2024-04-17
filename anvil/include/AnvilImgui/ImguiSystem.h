@@ -24,15 +24,19 @@ public:
     void render();
     void shutDown();
     void addGameObject(GameObject* obj);
-    void setRootNode(GameObject* node);
-    void drawNodes(GameObject* rootNode);
-    void drawSingleNode(GameObject* node);
+    void setRootNode(std::shared_ptr<GameObject> node);
+    void drawPropertiesWidget(std::shared_ptr<GameObject> node);
+
+    void drawSingleNode(std::shared_ptr<GameObject> node);
+    void drawNode(std::weak_ptr<GameObject> node);
 
 private:
-    bool showInspector = false;
+    bool showInspector = true;
     std::vector<GameObject*> objects;
     std::queue<std::function<void()>> callbacks;
-    GameObject* rootNode = nullptr;
+    std::shared_ptr<GameObject> scene;
+    std::shared_ptr<GameObject> currentObj;
+    bool show_demo_window = false;
 };
 
 }

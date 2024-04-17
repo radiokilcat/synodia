@@ -74,7 +74,12 @@ public:
     const Vector2D& getAcceleration() const;
     float getWidth() const;
     float getHeight() const;
+    void setWidth(float width);
+    void setHeight(float height);
 
+    void setX(float x);
+    void setY(float y);
+    
 protected:
     std::string id_;
     std::string textureId_;

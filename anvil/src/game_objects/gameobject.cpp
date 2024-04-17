@@ -55,12 +55,12 @@ void GameObject::load(const anvil::GameObjectData* params)
 
 void GameObject::addChild(std::shared_ptr<IGameObject> child)
 {
-    m_childs.push_back(std::move(child));
+    m_childs.push_back(child);
     // TODO: Uncomment when GameScene::addChildObject fixed
-//    std::sort(m_childs.begin(), m_childs.end(), [](const std::shared_ptr<anvil::IGameObject>& a,
-//                                                   const std::shared_ptr<anvil::IGameObject>& b) {
-//        return a->getZOrder() < b->getZOrder();
-//    });
+    std::sort(m_childs.begin(), m_childs.end(), [](const std::shared_ptr<anvil::IGameObject>& a,
+                                                   const std::shared_ptr<anvil::IGameObject>& b) {
+        return a->getZOrder() < b->getZOrder();
+    });
 }
 
 
@@ -80,10 +80,10 @@ int GameObject::getZOrder()
 
 void GameObject::init()
 {
-    auto debugLabel = std::make_shared<TextLabel>(id_, anvil::Color{255, 0, 0});
-    debugLabel->setPosition(position_.x(), position_.y() - 15.f);
-    debugLabel->setSize(width_, 15.f);
-    addChild(std::move(debugLabel));
+    // auto debugLabel = std::make_shared<TextLabel>(id_, anvil::Color{255, 0, 0});
+    // debugLabel->setPosition(position_.x(), position_.y() - 15.f);
+    // debugLabel->setSize(width_, 15.f);
+    // addChild(debugLabel);
 }
 
 void GameObject::from_json(const nlohmann::json& j) {
@@ -146,5 +146,21 @@ bool GameObject::operator==(const GameObject& g) {
 
     float GameObject::getHeight() const {
         return height_;
+    }
+
+    void GameObject::setWidth(float width) {
+        width_ = width;
+    }
+    
+    void GameObject::setHeight(float height) {
+        height_ = height;
+    }
+    
+    void GameObject::setX(float x) {
+        position_.setX(x);
+    }
+    
+    void GameObject::setY(float y) {
+        position_.setY(y);
     }
 }

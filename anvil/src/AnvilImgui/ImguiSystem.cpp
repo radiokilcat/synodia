@@ -1,5 +1,6 @@
 #include "AnvilImgui/ImguiSystem.h"
 #include "application.h"
+#include "../../../apps/test_app/gameobjects/gamescene.h"
 #include "states/editstate.h"
 
 namespace anvil {
@@ -91,7 +92,9 @@ namespace anvil {
                 if (ImGui::BeginMenu("File")) {
                     if (ImGui::MenuItem("Open..", "Ctrl+O")) {}
                     if (ImGui::MenuItem("Save", "Ctrl+S")) {}
-                    if (ImGui::MenuItem("Close", "Ctrl+W")) {}
+                    if (ImGui::MenuItem("Imgui Demo", "Ctrl+W")) {
+                        show_demo_window = !show_demo_window;
+                    }
                     if (ImGui::MenuItem("Editor", "Ctrl+W")) {
                         Application::Instance()->getStateMachine()->changeState(new EditState);
                     }
@@ -102,6 +105,9 @@ namespace anvil {
                 }
                 ImGui::EndMainMenuBar();
             }
+            if (show_demo_window) {
+                ImGui::ShowDemoWindow(&show_demo_window);
+            }
             if (showInspector) {
                 ImGui::Begin("test", NULL, ImGuiWindowFlags_None);
                 if (ImGui::BeginTable("##split", 2, ImGuiTableFlags_BordersOuter | ImGuiTableFlags_Resizable |
@@ -110,9 +116,7 @@ namespace anvil {
                     ImGui::TableSetupColumn("Object");
                     ImGui::TableSetupColumn("Contents");
                     ImGui::TableHeadersRow();
-
-                    drawNodes(rootNode);
-
+                    drawNode(scene);
                     ImGui::EndTable();
                 }
                 ImGui::End();
@@ -124,61 +128,74 @@ namespace anvil {
         objects.push_back(obj);
     }
 
-    void ImguiSystem::setRootNode(anvil::GameObject* node) {
-        rootNode = node;
+    void ImguiSystem::setRootNode(std::shared_ptr<GameObject> node) {
+        scene = node;
     }
 
-    void ImguiSystem::drawSingleNode(anvil::GameObject *node) {
-        if (node == nullptr) return;
+    void ImguiSystem::drawPropertiesWidget(std::shared_ptr<GameObject> node) {
+        ImGui::SetCursorPosY(ImGui::GetTextLineHeight() * 2);
+        float x, y = 0.f;
+        if (node.get() == nullptr)
+            return;
+        
+        auto pos = node->getPosition();
+        x = pos.x();
+        y = pos.y();
+        if (ImGui::InputFloat("x", &x, 10.f, 10.f)) {
+            node->setX(x);
+        }
+        if (ImGui::InputFloat("y", &y, 10.f, 10.f)) {
+            node->setY(y);
+        }
+    }
+    
+    void ImguiSystem::drawSingleNode(std::shared_ptr<GameObject> node) {
         ImGui::PushID(node->getId().c_str());
         ImGui::TableNextRow();
         ImGui::TableSetColumnIndex(0);
         ImGui::AlignTextToFramePadding();
         bool node_open = ImGui::TreeNode("Object", "%s", node->getId().c_str());
-        ImGui::TableSetColumnIndex(1);
 
         if (node_open)
         {
-            static float placeholder_members[8] = { 0.0f, 0.0f, 1.0f, 3.1416f, 100.0f, 999.0f };
-            for (int i = 0; i < 8; i++)
+            auto children = node.get()->getChildren();
+            if ( children.size() == 0 )
             {
-                ImGui::PushID(i); // Use field index as identifier.
-                if (i < 2)
-                {
-//                    ShowPlaceholderObject("Child", 424242);
-                }
-                else
-                {
-                    // Here we use a TreeNode to highlight on hover (we could use e.g. Selectable as well)
+                ImGui::Text(node->getId().c_str());
+                ImGui::NextColumn();
+
+                ImGui::Button(node->getId().c_str());
+                ImGui::NextColumn();
+            }
+            else {
+                for (auto i: children) {
+                    auto obj = std::dynamic_pointer_cast<GameObject>(i);
+                    ImGui::PushID(obj.get()->getId().c_str()); // Use field index as identifier.
                     ImGui::TableNextRow();
                     ImGui::TableSetColumnIndex(0);
                     ImGui::AlignTextToFramePadding();
-                    ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen | ImGuiTreeNodeFlags_Bullet;
-                    ImGui::TreeNodeEx("Field", flags, "Field_%d", i);
-
-                    ImGui::TableSetColumnIndex(1);
-                    ImGui::SetNextItemWidth(-FLT_MIN);
-                    if (i >= 5)
-                        ImGui::InputFloat("##value", &placeholder_members[i], 1.0f);
-                    else
-                        ImGui::DragFloat("##value", &placeholder_members[i], 0.01f);
-                    ImGui::NextColumn();
+                    ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen ;
+                    if (ImGui::TreeNodeEx(obj.get()->getId().c_str(), flags)) {
+                        if (ImGui::IsItemClicked()) {
+                            currentObj = obj;
+                        }
+                    }
+                    ImGui::PopID();
                 }
-                ImGui::PopID();
             }
+            ImGui::TableSetColumnIndex(1);
+            drawPropertiesWidget(currentObj);
             ImGui::TreePop();
         }
         ImGui::PopID();
     }
-void ImguiSystem::drawNodes(anvil::GameObject* node) {
-        if (node == nullptr) return;
-        drawSingleNode(node);
 
-        for (const auto &child: node->getChildren()) {
-            auto obj = dynamic_cast<anvil::GameObject*>(child.get());
-            drawSingleNode(obj);
-
+    void ImguiSystem::drawNode(std::weak_ptr<GameObject> node) {
+        if (auto root = node.lock()) {
+            drawSingleNode(root);
+        }
+        else {
+            std::cout << "cannot lock the object" << std::endl;
         }
     }
-
 }

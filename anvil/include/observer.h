@@ -1,13 +1,15 @@
 #pragma once
 
-#include "game_objects/BaseGameObject.h"
+#include <memory>
+
+#include "game_objects/IGameObject.h"
 
 namespace anvil {
 
-class Observer {
+class IObserver {
 public:
-    virtual ~Observer() = 0;
-    virtual void onNotify(BaseGameObject* obj);
+    virtual ~IObserver() = 0;
+    virtual void onNotify(std::weak_ptr<IGameObject> obj);
 };
 
 }
