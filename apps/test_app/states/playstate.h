@@ -11,7 +11,7 @@ public:
     bool onEnter() override;
     bool onExit() override;
 
-    void update() override;
+    void update(Uint64 deltaTime) override;
     void render() override;
 
     std::string getID() override;

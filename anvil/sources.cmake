@@ -21,6 +21,10 @@ set(SOURCES
   src/ui/scrollable_text.cpp
   src/audio_manager.cpp
   src/AnvilImgui/ImguiSystem.cpp
+  src/components/MovementIsoComponent.cpp
+  src/components/Sprite2DComponent.cpp
+  src/components/Transform2DComponent.cpp
+  src/components/TextComponent.cpp
 
   src/states/editstate.cpp
   src/states/editstate.h
@@ -57,6 +61,13 @@ set(HEADERS
   include/logger.h
   include/AnvilImgui/ImguiSystem.h
   include/observer.h
+  include/components/IComponent.h
+  include/components/TransformComponent.h
+  include/components/Collision2DComponent.h
+  include/components/MovementIsoComponent.h
+  include/components/Sprite2DComponent.h
+  include/components/Transform2DComponent.h
+  include/components/TextComponent.h
 )
 
 set(public_headers include/anvil.h )

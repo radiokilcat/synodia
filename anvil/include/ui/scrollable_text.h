@@ -11,8 +11,9 @@ namespace anvil {
 	public:
 		ScrollableText(TTF_Font* font);
 		virtual void draw(std::shared_ptr<Renderer> renderer) override;
-		virtual void update() override;
+		virtual void update(Uint64 deltaTime) override;
 		static bool registerWithFactory();
+		void init() override {};
 	private:
 		TTF_Font* font_ = nullptr;
 		SDL_Color White = { 255, 255, 255 };

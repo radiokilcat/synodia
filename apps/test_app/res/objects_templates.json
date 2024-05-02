@@ -1,24 +1,34 @@
 {
     "GameScene": {
     },
+    "Button": {
+        "width": 400,
+        "height": 100,
+        "textColor": [255, 255, 255, 0]
+    },
+    "TextLabel": {
+    },
     "Player": {
         "zOrder": 1,
-        "width": 64, "height": 64,
         "currentFrame": 1,
         "currentRow": 1,
-        "textureId": "player"
+        "movementMode": "isometric"
     },
     "Stationary": {
         "zOrder": 1,
         "width": 128, "height": 128,
-        "textureId": "table"
+        "CollisionComponent": { "width": 64, "height": 64 },
+        "textureId": "table",
+        "movementMode": "static"
     },
     "NonPlayable": {
         "zOrder": 1,
         "width": 64, "height": 64,
+        "CollisionComponent": { "width": 32, "height": 32 },
         "currentFrame": 1,
         "currentRow": 1,
-        "textureId": "evil"
+        "textureId": "evil",
+        "movementMode": "isometric"
     },
     "TileMap": {
     },

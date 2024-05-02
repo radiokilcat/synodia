@@ -19,22 +19,18 @@ public:
 
     /* Draw certain frame from the spreadsheet */
     void drawFrame(std::string id, float x, float y, float width, float height,
-                   int currentRow, int currentFrame,
-                   SDL_Renderer* renderer);
+                   int currentRow, int currentFrame, SDL_Renderer* renderer);
 
     void drawFrameScaled(std::string id, float scale, float x, float y, float width, float height,
         int currentRow, int currentFrame,
         SDL_Renderer* renderer);
 
-    void drawText(std::string id, std::string text,
-                  TTF_Font* font, SDL_Color color,
+    void drawText(std::string text, TTF_Font* font, SDL_Color color,
                   float x, float y, float width, float height,
                   SDL_Renderer* renderer);
 
-    void drawTextWrapped(std::string id, Uint32 wrapLength, std::string text,
-        TTF_Font* font, SDL_Color color,
-        float x, float y, float width, float height,
-        SDL_Renderer* renderer);
+    void drawTextWrapped(Uint32 wrapLength, std::string text, TTF_Font* font, SDL_Color color,
+        float x, float y, float width, float height, SDL_Renderer* renderer);
 
     void drawTextMultiline(SDL_Renderer* renderer,
         TTF_Font* font,

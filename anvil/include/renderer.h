@@ -1,7 +1,6 @@
 #pragma once
 
 #include <SDL3/SDL.h>
-
 #include <memory>
 
 #include "window.h"

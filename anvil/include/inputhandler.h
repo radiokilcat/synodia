@@ -38,6 +38,9 @@ public:
     Vector2D* getMousePosition() const;
 
     bool isKeyDown(AnvilKeyCode key);
+    bool isKeyUp(AnvilKeyCode key);
+    bool isAnyKeyUp();
+    bool isAnyKeyDown();
 
 private:
     InputHandler();
@@ -46,9 +49,9 @@ private:
     std::vector<bool> m_mouseButtonStates;
     Vector2D* m_mousePosition;
 
-private:
-
     const Uint8* m_keyState;
+    std::vector<Uint8> m_releasedKeys;
+    bool anyKeyPressed_ = false;
 };
 
 

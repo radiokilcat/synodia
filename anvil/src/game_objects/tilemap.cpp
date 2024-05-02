@@ -2,6 +2,8 @@
 #include "renderer.h"
 #include "application.h"
 #include  <random>
+
+#include "texturemanager.h"
 #include "game_objects/GameObjectsFactory.h"
 
 
@@ -36,7 +38,6 @@ void TileMap::draw_tile(Tile& tile, int x, int y, std::shared_ptr<Renderer> rend
         SDL_FPoint p2 = { tileX + m_tileWidth / 2 + m_tileWidth / 2, tileY  + m_tileHeight / 2 };
         SDL_FPoint p3 = { tileX + m_tileWidth / 2, tileY  + m_tileHeight };
         SDL_FPoint p4 = { tileX - m_tileWidth / 2 + m_tileWidth / 2, tileY + m_tileHeight / 2 };
-        std::cout << "           " << p1.x << " : " << p1.y << std::endl;
 
         SDL_FPoint points[5] = { p1, p2, p3, p4, p1 };
 
@@ -62,7 +63,7 @@ void TileMap::clean()
 {
 }
 
-void TileMap::update()
+void TileMap::update(Uint64 deltaTime)
 {
 
 }

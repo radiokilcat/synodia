@@ -11,12 +11,13 @@ public:
     TextButton();
 
     void draw(std::shared_ptr<anvil::Renderer> renderer) override;
-    void update() override;
+    void update(Uint64 deltaTime) override;
     void clean() override;
-    void load(const anvil::GameObjectData *params) override;
+    void load();
+    void init() {};
 
     void setText(std::string text) { m_text = text; };
-    void setCallback(std::function<void()> callback) override { m_callback = callback; };
+    void setCallback(std::function<void()> callback) { m_callback = callback; };
 
     static bool registerWithFactory();
 
@@ -30,8 +31,7 @@ private:
     };
     std::function<void()> m_callback;
     std::string m_text;
-    anvil::TextLabel* m_label = nullptr;
+    // anvil::TextLabel* m_label = nullptr;
 
     bool m_released;
-
 };
