@@ -5,9 +5,14 @@
 #include "audio_manager.h"
 #include "game_objects/GameObjectsFactory.h"
 #include "game_objects/gameobject.h"
-#include "AnvilImgui/ImguiSystem.h"
 #include <regex>
 #include <fmt/format.h>
+
+#include "components/Collision2DComponent.h"
+#include "components/MovementIsoComponent.h"
+#include "components/Sprite2DComponent.h"
+#include "components/TextComponent.h"
+#include "components/Transform2DComponent.h"
 
 namespace anvil {
 
@@ -50,8 +55,7 @@ std::filesystem::path StateLoader::getConfigFile()
     return resPath;
 }
 
-std::shared_ptr<IGameObject> StateLoader::loadGameObjects(const std::string& stateId)
-{
+std::shared_ptr<IGameObject> StateLoader::loadGameObjects(const std::string& stateId) {
     if (stateId == "EDIT") {
         return loadGameObjects("play");
     }
@@ -69,10 +73,10 @@ std::shared_ptr<IGameObject> StateLoader::loadGameObjects(const std::string& sta
         return {};
     }
 
-    return loadObject(data.at("GameScene"));
+    return loadObjectAndChildren(data.at("GameScene"));
 }
 
-void StateLoader::loadObjectTemplate(std::shared_ptr<IGameObject>& object, const nlohmann::json& data) {
+nlohmann::json StateLoader::loadObjectTemplate(std::shared_ptr<IGameObject>& object, const nlohmann::json& data) {
     std::filesystem::current_path(getExecutableDir());
     auto resPath = std::filesystem::current_path() / "res" / fmt::format("objects_templates.json");
     
@@ -92,20 +96,63 @@ void StateLoader::loadObjectTemplate(std::shared_ptr<IGameObject>& object, const
     for (auto& [key, val] : data.items()) {
         defaultVal[key] = val;
     }
-    object->from_json(defaultVal);
+    return defaultVal;
 }
     
-std::shared_ptr<IGameObject> StateLoader::loadObject(const json& item) {
-    auto parent = GameObjectFactory::instance().createGameObject(item.at("type"));
-    loadObjectTemplate(parent, item);
-    parent->init();
-    
-    if (item.find("childs") != item.end() && item.at("childs").is_array()) {
-        for (auto& childJson : item.at("childs")) {
-            parent->addChild(loadObject(childJson));
+std::shared_ptr<IGameObject> StateLoader::loadObjectAndChildren(const json& rootData) {
+    auto root = GameObjectFactory::instance().createGameObject(rootData.at("type"));
+    auto newData = loadObjectTemplate(root, rootData);
+    if (newData.find("position") != newData.end()) {
+        root->addComponent(std::make_shared<Transform2DComponent>(newData["position"]));
+    }
+    if (newData.find("movementMode") != newData.end()) {
+        if (newData["movementMode"] == "isometric") {
+            auto movementComp = std::make_shared<MovementIsoComponent>();
+            root->addComponent(movementComp);
+            movementComp->setOwner(root);
         }
     }
-    return parent;
+    if (newData.find("image") != newData.end()) {
+        nlohmann::json spriteData = {
+            { "width", newData.value("width", 0) },
+            { "height", newData.value("height", 0) },
+            { "image", newData["image"] }
+        };
+        auto sprite = std::make_shared<Sprite2DComponent>(spriteData);
+        root->addComponent(sprite);
+        sprite->setOwner(root);
+    }
+    if (newData.find("sprite") != newData.end()) {
+        nlohmann::json spriteData = {
+            { "width", newData.value("width", 0) },
+            { "height", newData.value("height", 0) },
+            { "sprite", newData["sprite"] }
+        };
+        auto sprite = std::make_shared<Sprite2DComponent>(spriteData);
+        root->addComponent(sprite);
+        sprite->setOwner(root);
+    }
+    if (newData.find("text") != newData.end()) {
+        nlohmann::json textData = {
+            { "width", newData.value("width", 0) },
+            { "height", newData.value("height", 0) },
+            { "text", newData.value("text", "") },
+            { "color", newData["textColor"] }
+        };
+        root->addComponent(std::make_shared<TextComponent>(textData));
+    }
+    if (newData.find("CollisionComponent") != newData.end()) {
+        auto collider = std::make_shared<CollisionComponent>(newData["CollisionComponent"].value("width", 10), newData["CollisionComponent"].value("height", 10));
+        root->addComponent(collider);
+        collider->setOwner(root);
+    }
+    if (newData.find("childs") != newData.end() && newData.at("childs").is_array()) {
+        for (auto& childJson : newData.at("childs")) {
+            root->addChild(loadObjectAndChildren(childJson));
+        }
+    }
+    root->from_json(newData);
+    return root;
 }
 
 std::vector<std::string> StateLoader::loadTextures(const std::string& stateId)
@@ -113,7 +160,7 @@ std::vector<std::string> StateLoader::loadTextures(const std::string& stateId)
     if (stateId == "EDIT") {
         return loadTextures("play");
     }
-    auto resPath = getConfigFile();
+    auto resPath = getStateConfigFile(stateId);
 
     std::cout << "assets path: " <<  resPath << std::endl;
     std::ifstream file(resPath);
@@ -128,14 +175,17 @@ std::vector<std::string> StateLoader::loadTextures(const std::string& stateId)
         return {};
     }
 
-    auto textures = data[stateId]["textures"];
+    auto textures = data["textures"];
     std::vector<std::string> textureIds;
     for (const auto& [name, path] : textures.items()) {
         std::filesystem::path fullPath = std::filesystem::canonical(std::filesystem::current_path() / "res" / path.get<std::string>());
         if (TextureManager::instance()->loadTexture(fullPath.string(), name,
-                                                    Application::Instance()->getRenderer()->getRenderer()))
+                Application::Instance()->getRenderer()->getRenderer()))
         {
             textureIds.push_back(name);
+        }
+        else {
+            std::cerr << "Failed to load texture " << name <<  std::endl;
         }
 
     }

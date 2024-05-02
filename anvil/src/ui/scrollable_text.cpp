@@ -14,47 +14,47 @@ namespace anvil {
 		font_ = font;
 	}
 	void ScrollableText::draw(std::shared_ptr<Renderer> renderer) {
-		TextureManager::instance()->drawTextMultiline(
-			renderer->getRenderer(),
-			font_,
-			m_lines,
-			White,
-			startLine,
-			lineCount,
-			lineHeight,
-			padding,
-			position_,
-			width_,
-			height_,
-			{ 34, 39, 46 });
+		// TextureManager::instance()->drawTextMultiline(
+		// 	renderer->getRenderer(),
+		// 	font_,
+		// 	m_lines,
+		// 	White,
+		// 	startLine,
+		// 	lineCount,
+		// 	lineHeight,
+		// 	padding,
+		// 	position_,
+		// 	width_,
+		// 	height_,
+		// 	{ 34, 39, 46 });
 		 
 	}
 
-	void ScrollableText::update() {
-		const auto inputHandler = anvil::InputHandler::instance();
-		auto lkmPressed = inputHandler->getMouseButtonState(0);
-		auto rkmPressed = inputHandler->getMouseButtonState(2);
-		auto shownAt = anvil::Application::Instance()->getTicks();
-		if (shownAt - lastUpdate < 200) {
-			return;
-		}
-		lastUpdate = shownAt;
-		if (lkmPressed || rkmPressed) {
-			const auto mousePosition = inputHandler->getMousePosition();
-			const auto isMouseInside = mousePosition->x() >= position_.x()
-				&& mousePosition->x() <= position_.x() + width_
-				&& mousePosition->y() >= position_.y()
-				&& mousePosition->y() <= position_.y() + height_;
-			if (isMouseInside && lkmPressed) {
-				startLine += lineCount;
-			} 
-			if (isMouseInside && rkmPressed) {
-				startLine -= lineCount;
-			}
-			if (startLine > m_lines.size() || startLine < 0) {
-				startLine = 0;
-			}
-		}
+	void ScrollableText::update(Uint64 deltaTime) {
+		// const auto inputHandler = anvil::InputHandler::instance();
+		// auto lkmPressed = inputHandler->getMouseButtonState(0);
+		// auto rkmPressed = inputHandler->getMouseButtonState(2);
+		// auto shownAt = anvil::Application::Instance()->getTicks();
+		// if (shownAt - lastUpdate < 200) {
+		// 	return;
+		// }
+		// lastUpdate = shownAt;
+		// if (lkmPressed || rkmPressed) {
+		// 	const auto mousePosition = inputHandler->getMousePosition();
+		// 	const auto isMouseInside = mousePosition->x() >= position_.x()
+		// 		&& mousePosition->x() <= position_.x() + width_
+		// 		&& mousePosition->y() >= position_.y()
+		// 		&& mousePosition->y() <= position_.y() + height_;
+		// 	if (isMouseInside && lkmPressed) {
+		// 		startLine += lineCount;
+		// 	} 
+		// 	if (isMouseInside && rkmPressed) {
+		// 		startLine -= lineCount;
+		// 	}
+		// 	if (startLine > m_lines.size() || startLine < 0) {
+		// 		startLine = 0;
+		// 	}
+		// }
 	}
 	bool ScrollableText::registerWithFactory() {
 		GameObjectFactory::instance().registerType("ScrollableText", []() -> std::unique_ptr<IGameObject> {

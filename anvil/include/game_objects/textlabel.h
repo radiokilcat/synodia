@@ -2,47 +2,41 @@
 
 #include <SDL3/SDL.h>
 #include <SDL_ttf.h>
-#include <iostream>
 #include <string>
 
-#include "vector2d.h"
 #include "renderer.h"
-#include "texturemanager.h"
 #include "gameobject.h"
-#include "inputhandler.h"
 #include "fontloader.h"
 
 
 namespace anvil {
+    class TextComponent;
+    class Transform2DComponent;
+    class Sprite2DComponent;
 
-struct Color {
-    uint8_t R;
-    uint8_t G;
-    uint8_t B;
-};
-
-class TextLabel : public GameObject
+    class TextLabel : public GameObject
 {
 public:
-    TextLabel(std::string text, Color color, TTF_Font* font = FontLoader::instance()->getDefaultFont());
-    TextLabel() = default;
+    TextLabel();
+    TextLabel(const nlohmann::json& data);
+    ~TextLabel() {};
 
-    virtual void draw(std::shared_ptr<Renderer> renderer) override;
+    void draw(std::shared_ptr<Renderer> renderer) override;
     void drawWrapped(std::shared_ptr<Renderer> renderer, Uint32 wrapLength);
-    void setPosition(float x, float y);
-    void setSize(float w, float h);
     void setText(const std::string& text);
-    virtual void update() override {};
-    virtual void clean() override {};
-    virtual ~TextLabel() {};
+    void update(Uint64 deltaTime) override {};
+    void clean() override {};
+    void init() override;
+    
+    void from_json(const nlohmann::json& j);
+    void to_json(nlohmann::json& j);
 
-    void setTextScale(int size);
-
-protected:
-    std::string text_;
-    TTF_Font* font_ = nullptr;
-    int textScale_ = 1;
-    SDL_Color color_;
+    static bool registerWithFactory();
+    
+private:
+    std::shared_ptr<anvil::Sprite2DComponent> sprite_;
+    std::shared_ptr<anvil::Transform2DComponent> transform_;
+    std::shared_ptr<anvil::TextComponent> text_;
 };
 
 }

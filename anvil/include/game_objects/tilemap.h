@@ -16,11 +16,12 @@ class TileMap : public GameObject
 {
 public:
     TileMap();
+    ~TileMap() {};
     void draw_tile(Tile& tile, int x, int y, std::shared_ptr<Renderer> renderer);
     void draw(std::shared_ptr<Renderer> renderer) override;
     void clean() override;
-    void update() override;
-    
+    void init() override {};
+    void update(Uint64 deltaTime) override;
 
     void from_json(const nlohmann::json& j) override;
     void to_json(nlohmann::json& j) override;
@@ -34,8 +35,6 @@ public:
 
 
     void setTileOutline(int x, int y);
-
-    ~TileMap() {};
     static bool registerWithFactory();
 private:
     std::vector<std::vector<std::string>> m_grid;

@@ -120,11 +120,9 @@ void Application::init(const GameSettings& settings)
                               m_settings.screenWidth * m_settings.screenScale,
                               m_settings.screenHeight * m_settings.screenScale);
 
-
     m_renderer = Renderer::create(m_window);
 
     m_stateMachine = new GameStateMachine();
-
 
     if (m_initCallback) {
         m_initCallback();
@@ -142,31 +140,32 @@ void Application::init(const GameSettings& settings)
 void Application::main_loop()
 {
     const Uint64 DELAY_TIME = 1000 / m_settings.FPS;
+    Uint64 lastTime = SDL_GetTicks();
 
     while (m_running)
     {
-        Uint64 frameStart, frameTime;
-        frameStart = SDL_GetTicks();
-
+        Uint64 current = SDL_GetTicks();
+        Uint64 deltaTime = current - lastTime;
+        
         InputHandler::instance()->handleEvents();
 
-        update();
+        update(deltaTime);
         render();
 
-        frameTime = getTicks() - frameStart;
-        if(frameTime < DELAY_TIME)
+        lastTime = current;
+        if(deltaTime < DELAY_TIME)
         {
-            SDL_Delay((int)(DELAY_TIME - frameTime));
+            SDL_Delay((int)(DELAY_TIME - deltaTime));
         }
     }
 }
 
-void Application::update()
+void Application::update(Uint64 deltaTime)
 {
     if (m_updateCallback) {
         m_updateCallback();
     }
-    m_stateMachine->update();
+    m_stateMachine->update(deltaTime);
 }
 
 void Application::render()

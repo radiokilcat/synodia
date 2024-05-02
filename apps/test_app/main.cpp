@@ -37,6 +37,7 @@ int main(int argc, char *argv[])
     NonPlayable::registerWithFactory();
     MenuButton::registerWithFactory();
     TextButton::registerWithFactory();
+    anvil::TextLabel::registerWithFactory();
     Stationary::registerWithFactory();
 
     app->addInitCallback([]{

@@ -48,3 +48,5 @@ _deps
 .idea
 cmake-build-release
 cmake-build-debug
+.vscode
+apps/test_app/res/lady/x180p_Spritesheets

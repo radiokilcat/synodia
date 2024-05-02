@@ -27,8 +27,7 @@ TextureManager* TextureManager::instance()
 bool TextureManager::loadTexture(std::string filename, std::string id, SDL_Renderer* renderer)
 {
     SDL_Texture* texture = IMG_LoadTexture(renderer, filename.c_str());
-    if (texture != 0)
-    {
+    if (texture != 0) {
         m_texture_map[id] = texture;
         return true;
     }
@@ -97,8 +96,7 @@ void TextureManager::drawFrameScaled(std::string id, float scale, float x, float
 }
 
 
-void TextureManager::drawText(std::string id, std::string text,
-                              TTF_Font* font, SDL_Color color,
+void TextureManager::drawText(std::string text, TTF_Font* font, SDL_Color color,
                               float x, float y, float width, float height,
                               SDL_Renderer* renderer)
 {
@@ -117,10 +115,8 @@ void TextureManager::drawText(std::string id, std::string text,
 }
 
 
-void TextureManager::drawTextWrapped(std::string id, Uint32 wrapLength, std::string text,
-    TTF_Font* font, SDL_Color color,
-    float x, float y, float width, float height,
-    SDL_Renderer* renderer)
+void TextureManager::drawTextWrapped(Uint32 wrapLength, std::string text, TTF_Font* font, SDL_Color color,
+    float x, float y, float width, float height, SDL_Renderer* renderer)
 {
     SDL_Surface* surfaceMessage = TTF_RenderUTF8_Blended_Wrapped(font, text.c_str(), color, wrapLength);
     SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
@@ -202,11 +198,14 @@ void TextureManager::drawLine(SDL_Renderer* renderer, float x1, float y1, float 
     SDL_SetRenderDrawColor(renderer, oldColor.r, oldColor.g, oldColor.b, SDL_ALPHA_OPAQUE);
 }
 
+    //                        1--------2
+    //                        |        |
+    //                        4--------3
 void TextureManager::drawQuadrilateral(SDL_Renderer* renderer,
-                       float x1, float y1,
-                       float x2, float y2,
-                       float x3, float y3,
-                       float x4, float y4)
+                                       float x1, float y1,
+                                       float x2, float y2,
+                                       float x3, float y3,
+                                       float x4, float y4)
 {
     SDL_Color oldColor;
     SDL_GetRenderDrawColor(renderer, &oldColor.r, &oldColor.g, &oldColor.b, &oldColor.a);

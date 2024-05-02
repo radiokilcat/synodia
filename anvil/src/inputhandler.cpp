@@ -9,10 +9,10 @@ namespace anvil {
 
 SDL_Scancode anvilToSDLKey(AnvilKeyCode key) {
     switch (key) {
-    case AnvilKeyCode::Up: return SDL_SCANCODE_UP;
-    case AnvilKeyCode::Down: return SDL_SCANCODE_DOWN;
-    case AnvilKeyCode::Left: return SDL_SCANCODE_LEFT;
-    case AnvilKeyCode::Right: return SDL_SCANCODE_RIGHT;
+    case AnvilKeyCode::Up: return SDL_SCANCODE_W;
+    case AnvilKeyCode::Down: return SDL_SCANCODE_S;
+    case AnvilKeyCode::Left: return SDL_SCANCODE_A;
+    case AnvilKeyCode::Right: return SDL_SCANCODE_D;
     case AnvilKeyCode::Space: return SDL_SCANCODE_SPACE;
     case AnvilKeyCode::Escape: return SDL_SCANCODE_ESCAPE;
     case AnvilKeyCode::Return: return SDL_SCANCODE_RETURN;
@@ -27,13 +27,22 @@ bool InputHandler::getMouseButtonState(int buttonNumber)
     return m_mouseButtonStates[buttonNumber];
 }
 
-bool InputHandler::isKeyDown(AnvilKeyCode key)
-{
-
+bool InputHandler::isKeyDown(AnvilKeyCode key) {
     return m_keyState[anvilToSDLKey(key)];
-
 }
 
+bool InputHandler::isKeyUp(AnvilKeyCode key) {
+    return m_releasedKeys[anvilToSDLKey(key)];
+}
+    
+bool InputHandler::isAnyKeyUp() {
+    return std::count(m_releasedKeys.begin(), m_releasedKeys.end(), 1) > 0;
+}
+    
+bool InputHandler::isAnyKeyDown() {
+    return anyKeyPressed_;
+}
+    
 static InputHandler* instance_;
 InputHandler *InputHandler::instance()
 {
@@ -51,17 +60,19 @@ void InputHandler::handleEvents()
     while (SDL_PollEvent(&event))
     {
         m_keyState = SDL_GetKeyboardState(0);
+        m_releasedKeys = std::vector<Uint8>(512, 0);
 
 #ifndef NDEBUG
         ImGui_ImplSDL3_ProcessEvent(&event);
 #endif
 
-        if (event.type == SDL_EVENT_QUIT)
-        {
+        if (event.type == SDL_EVENT_QUIT) {
             Application::Instance()->quit();
         }
-        if (event.button.type == SDL_EVENT_MOUSE_BUTTON_DOWN)
-        {
+        if (event.type == SDL_EVENT_KEY_UP) {
+            m_releasedKeys[event.key.keysym.scancode] = 1;
+        }
+        if (event.button.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
             if (event.button.button == SDL_BUTTON_LEFT)
                 m_mouseButtonStates[LEFT] = true;
             if (event.button.button == SDL_BUTTON_MIDDLE)
@@ -84,6 +95,7 @@ void InputHandler::handleEvents()
             m_mousePosition->setY(event.motion.y);
         }
     }
+    m_keyState = SDL_GetKeyboardState(0);
 
 }
 

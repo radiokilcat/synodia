@@ -56,7 +56,7 @@ public:
 
 private:
     void main_loop();
-    void update();
+    void update(Uint64 deltaTime);
     void render();
     void cleanup();
 

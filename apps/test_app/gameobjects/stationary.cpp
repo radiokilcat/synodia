@@ -1,60 +1,50 @@
 #include "stationary.h"
 
-Stationary::Stationary()
-: anvil::IsoGameObject()
-{
+#include "components/Collision2DComponent.h"
+#include "components/Sprite2DComponent.h"
+#include "components/Transform2DComponent.h"
+
+Stationary::Stationary() {
 
 }
 
-void Stationary::draw(std::shared_ptr<anvil::Renderer> renderer)
-{
-    anvil::TextureManager::instance()->draw(textureId_, position_.x(), position_.y(), width_, height_,
-                                            renderer->getRenderer());
-    if (debug)
-    {
-        float x1 = getX();
-        float y1 = getY();
-
-        float x2 = x1 + width_;
-        float y2 = y1;
-
-        float x3 = x1 + width_;
-        float y3 = y1 + height_;
-
-        float x4 = x1;
-        float y4 = y1 + height_;
-
-        anvil::TextureManager::instance()->drawQuadrilateral(renderer->getRenderer(), x1, y1,
-                                                                                      x2, y2,
-                                                                                      x3, y3,
-                                                                                      x4, y4);
+void Stationary::draw(std::shared_ptr<anvil::Renderer> renderer) {
+    auto x = transform_->getX();
+    auto y = transform_->getY();
+    sprite_->draw(x, y, renderer);
+    if (outline_) {
+        auto collider = getComponent<anvil::CollisionComponent>();
+        collider->drawOutline(renderer);
     }
 }
 
-void Stationary::from_json(const nlohmann::json& j)
-{
+void Stationary::from_json(const nlohmann::json& j) {
     GameObject::from_json(j);
 }
 
-void Stationary::to_json(nlohmann::json& j)
-{
+void Stationary::to_json(nlohmann::json& j) {
     GameObject::to_json(j);
 }
 
-void Stationary::update()
-{
+void Stationary::update(Uint64 deltaTime) {
+    // for (auto component: components_) {
+    //     component.second->update(deltaTime);
+    // }
+    transform_->update(deltaTime);
+    auto collider = getComponent<anvil::CollisionComponent>();
+    collider->update(deltaTime);
 }
 
-void Stationary::clean()
-{
+void Stationary::clean() {
 }
 
-void Stationary::init()
-{
-    auto screenW = anvil::Application::Instance()->getScreenWidth();
-    auto screenH = anvil::Application::Instance()->getScreenHeight();
-    position_.setX(static_cast<float>(screenW) / 2 - width_ / 2);
-    position_.setY(static_cast<float>(screenH) / 2 - height_ / 2);
+void Stationary::init() {
+    if (!sprite_) {
+        sprite_ = getComponent<anvil::Sprite2DComponent>();
+    }
+    if (!transform_) {
+        transform_ = getComponent<anvil::Transform2DComponent>();
+    }
 }
 
 bool Stationary::registerWithFactory() {
@@ -63,23 +53,3 @@ bool Stationary::registerWithFactory() {
     });
     return true;
 }
-
-//bool Stationary::isIntersect(int x, int y, int w, int h) {
-//    int fxl = getX();
-//    int fxr = getX() + width_;
-//    int fyb = getY() + height_;
-//    int fyt = getY();
-
-//    int sxl = x;
-//    int sxr = x + w;
-//    int syb = y + h;
-//    int syt = y;
-
-//    if (fxr < sxl || sxr < fxl)
-//        return false; // No horizontal overlap
-
-//    if (fyb < syt || syb < fyt)
-//        return false; // No vertical overlap
-//    return true;
-//}
-

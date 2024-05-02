@@ -18,4 +18,6 @@
 #include "game_objects/isogameobject.h"
 #include "game_objects/IGameObject.h"
 #include "game_objects/GameObjectsFactory.h"
+#include "components/IComponent.h"
+#include "components/Transform2DComponent.h"
 #include "ui/scrollable_text.h"

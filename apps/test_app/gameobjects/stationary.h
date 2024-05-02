@@ -2,23 +2,22 @@
 
 #include "anvil.h"
 
-class Stationary: public anvil::IsoGameObject
+class Stationary: public anvil::GameObject
 {
 public:
-    Stationary(const anvil::GameObjectData* params);
+    Stationary();
     ~Stationary() {};
     void draw(std::shared_ptr<anvil::Renderer> renderer) override;
-    void update() override;
+    void update(Uint64 deltaTime) override;
     void clean() override;
     void init() override;
 
     static bool registerWithFactory();
 
-    Stationary();
     void from_json(const nlohmann::json& j);
     void to_json(nlohmann::json& j);
-//    bool isIntersect(int x, int y, int w, int h);
 private:
     bool debug = false;
-
+    std::shared_ptr<anvil::Sprite2DComponent> sprite_;
+    std::shared_ptr<anvil::Transform2DComponent> transform_;
 };

@@ -2,6 +2,23 @@
     "textures": {
         "test": "adventurer.png",
         "player": "player_1.png",
+        "player_2": "player_2.png",
+        "lady_top": "lady/WalkForward_Unarmed_top.png",
+        "lady_right": "lady/WalkForward_Unarmed_Body_right.png",
+        "lady_left": "lady/WalkForward_Unarmed_Body_left.png",
+        "lady_back": "lady/WalkForward_Unarmed_Body_back.png",
+        "lady_idle_top": "lady/idle_top.png",
+        "lady_idle_bottom": "lady/idle_bottom.png",
+        "lady_idle_right": "lady/idle_right.png",
+        "lady_idle_left": "lady/idle_left.png",
+        "lady_run_right": "lady/run_right.png",
+        "lady_run_left": "lady/run_left.png",
+        "lady_run_bottom": "lady/run_bottom.png",
+        "lady_run_top": "lady/run_top.png",
+        "lady_attack_right": "lady/attack_right.png",
+        "lady_attack_left": "lady/attack_left.png",
+        "lady_attack_bottom": "lady/attack_bottom.png",
+        "lady_attack_top": "lady/attack_top.png",
         "evil": "evil_1.png",
         "speech": "speech.png",
         "stone_e": "tiles_1/stone_E.png",
@@ -11,59 +28,71 @@
         "table": "tiles_1/tableRoundItemsChairs_N.png"
     },
     "GameScene": {
-        "id": "GameScene",
+        "name": "GameScene",
         "type": "GameScene",
         "childs": [
-                {
-                    "type": "Player",
-                    "id": "player",
-                    "position": { "x_": 100.0, "y_": 100.0 },
-                    "childs": [
-                        {
-                        "type": "Stationary",
-                        "id": "table",
-                        "position": { "x_": 306.0, "y_": 387.0 }
-                        },
-                        {
-                        "type": "Stationary",
-                        "id": "table",
-                        "position": { "x_": 306.0, "y_": 387.0 }
-                        }
-                    ]
+            {
+                "type": "Player",
+                "id": "player",
+                "width": 180, "height": 180,
+                "position": { "x": 500.0, "y": 500.0 },
+                "CollisionComponent": { "width": 90, "height": 90 },
+                "sprite": {
+                    "animations": {
+                        "run" : [ "lady_run_top", "lady_run_right", "lady_run_left", "lady_run_bottom"],
+                        "walk" : [ "lady_top", "lady_right", "lady_left", "lady_back" ],
+                        "idle" : [ "lady_idle_top", "lady_idle_right", "lady_idle_bottom", "lady_idle_left"],
+                        "attack" : [ "lady_attack_top", "lady_attack_right", "lady_attack_bottom", "lady_attack_left"]
+                    }
                 },
-                {
-                    "type": "Stationary",
-                    "id": "table",
-                    "position": { "x_": 306.0, "y_": 387.0 }
-                },
-                {
-                    "type": "NonPlayable",
-                    "id": "npc_1",
-                    "position": { "x_": 306.0, "y_": 387.0 }
-                },
-                {
-                    "type": "NonPlayable",
-                    "id": "npc_2",
-                    "position": { "x_": 661.0, "y_": 324.0 }
-                },
-                {
-                    "type": "NonPlayable",
-                    "id": "npc_3",
-                    "zOrder": 1,
-                    "position": { "x_": 797.0, "y_": 523.0 }
-                },
-                {
-                    "type": "NonPlayable",
-                    "id": "npc_4",
-                    "position": { "x_": 399.0, "y_": 607.0 }
-                },
-                {
-                    "type": "TileMap",
-                    "id": "tilemap_0",
-                    "fillType": "random",
-                    "elements": ["stone_e", "stone_n", "stone_s", "stone_w"],
-                    "dimension": 15
-                }
+                "layer": 1
+            },
+            {
+                "type": "Stationary",
+                "id": "table",
+                "layer": 1,
+                "image": "table",
+                "width": 128, "height": 128,
+                "position": { "x": 306.0, "y": 387.0 },
+                "CollisionComponent": { "width": 64, "height": 64 }
+            },
+            {
+                "type": "NonPlayable",
+                "id": "npc_1",
+                "image": "evil",
+                "layer": 1,
+                "position": { "x": 306.0, "y": 387.0 }
+            },
+            {
+                "type": "NonPlayable",
+                "id": "npc_2",
+                "image": "evil",
+                "layer": 1,
+                "position": { "x": 306.0, "y": 387.0 }
+            },
+            {
+                "type": "NonPlayable",
+                "id": "npc_3",
+                "image": "evil",
+                "layer": 1,
+                "position": { "x": 797.0, "y": 523.0 }
+            },
+            {
+                "type": "NonPlayable",
+                "id": "npc_4",
+                "image": "evil",
+                "layer": 1,
+                "position": { "x": 399.0, "y": 607.0 }
+            },
+            {
+            
+                "type": "TileMap",
+                "id": "tilemap_0",
+                "layer": 0,
+                "fillType": "random",
+                "elements": ["stone_e", "stone_n", "stone_s", "stone_w"],
+                "dimension": 15
+            }
         ]
     }
 }

@@ -4,24 +4,21 @@
 #include "speech.h"
 
 
+namespace anvil {
+    class MovementIsoComponent;
+    class Sprite2DComponent;
+}
 
-class Player: public anvil::IsoGameObject
+class Player: public anvil::GameObject
 {
 public:
     Player();
-
-    float getX();
-    float getY();
-
-    float getWidth();
-    float getHeight();
-//    int getScreenX();
-//    int getScreenY();
-
     ~Player() {};
+    
     void draw(std::shared_ptr<anvil::Renderer> renderer) override;
-    void update() override;
+    void update(Uint64 deltaTime) override;
     void clean() override;
+    void init() override;
 
     void from_json(const nlohmann::json& j) override;
     void to_json(nlohmann::json& j) override;
@@ -42,10 +39,15 @@ private:
         std::string("nice one!"),
     };
 
-    std::unique_ptr<Speech> _speech;
+    // std::unique_ptr<Speech> _speech;
     bool _continuedMove = false;
     bool _inverseMove = false;
     bool _blockInteractions = false;
+    bool isMoving = false;
+    std::shared_ptr<anvil::Sprite2DComponent> sprite_;
+    std::shared_ptr<anvil::Transform2DComponent> transform_;
+    std::shared_ptr<anvil::MovementIsoComponent> movement_;
+    anvil::Direction lastDirection_ = anvil::Direction::Down;
 };
 
 

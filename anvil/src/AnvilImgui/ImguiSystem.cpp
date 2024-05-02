@@ -1,11 +1,12 @@
 #include "AnvilImgui/ImguiSystem.h"
 #include "application.h"
 #include "../../../apps/test_app/gameobjects/gamescene.h"
+#include "components/Sprite2DComponent.h"
 #include "states/editstate.h"
 
 namespace anvil {
 
-    void ImguiSystem::init(std::unique_ptr<anvil::Window> &window, SDL_Renderer *renderer) {
+    void ImguiSystem::init(std::unique_ptr<Window> &window, SDL_Renderer *renderer) {
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImGuiIO &io{ImGui::GetIO()};
@@ -124,7 +125,7 @@ namespace anvil {
         });
     }
 
-    void ImguiSystem::addGameObject(anvil::GameObject* obj) {
+    void ImguiSystem::addGameObject(GameObject* obj) {
         objects.push_back(obj);
     }
 
@@ -134,19 +135,59 @@ namespace anvil {
 
     void ImguiSystem::drawPropertiesWidget(std::shared_ptr<GameObject> node) {
         ImGui::SetCursorPosY(ImGui::GetTextLineHeight() * 2);
-        float x, y = 0.f;
-        if (node.get() == nullptr)
+        if (!node.get())
+            return;
+        // Transform
+        auto transform = node->getComponent<Transform2DComponent>();
+        if (!transform)
             return;
         
-        auto pos = node->getPosition();
-        x = pos.x();
-        y = pos.y();
-        if (ImGui::InputFloat("x", &x, 10.f, 10.f)) {
-            node->setX(x);
+        float x, y = 0.f;
+        x = transform->getX();
+        y = transform->getY();
+        ImGui::PushItemWidth(200);
+        if (ImGui::InputFloat("x    ", &x, 10.f, 10.f)) {
+            transform->setX(x);
         }
+        ImGui::SameLine();
         if (ImGui::InputFloat("y", &y, 10.f, 10.f)) {
-            node->setY(y);
+            transform->setY(y);
         }
+        // 
+        //Sprite
+        auto sprite = node->getComponent<Sprite2DComponent>();
+        if (!sprite)
+            return;
+        float width, height = 0.f;
+        width = sprite->width();
+        height = sprite->height();
+        if (ImGui::InputFloat("width", &width, 10.f, 10.f)) {
+            sprite->setWidth(width);
+        }
+        ImGui::SameLine();
+        if (ImGui::InputFloat("height", &height, 10.f, 10.f)) {
+            sprite->setHeight(height);
+        }
+        ImGui::SeparatorText("Sprite");
+        int row = sprite->getCurrentRow();
+        int frame = sprite->getCurrentFrame();
+        if (ImGui::InputInt("currentrow", &row, 1)) {
+            sprite->setCurrentRow(row);
+        }
+        if (ImGui::InputInt("currentframe", &frame, 1)) {
+            sprite->setCurrentFrame(row);
+        }
+        //
+        ImGui::SeparatorText("Sprite");
+
+       constexpr size_t bufferSize = 256;
+       char buffer[bufferSize];
+       std::string str0 = sprite->getTextureId();
+       std::strncpy(buffer, str0.c_str(), bufferSize);
+       buffer[bufferSize - 1] = '\0';
+       if (ImGui::InputText("current sheet", buffer, bufferSize)) {
+           sprite->setCurrentSheet(std::string(buffer)); 
+       }
     }
     
     void ImguiSystem::drawSingleNode(std::shared_ptr<GameObject> node) {
@@ -158,7 +199,7 @@ namespace anvil {
 
         if (node_open)
         {
-            auto children = node.get()->getChildren();
+            auto children = node->getChildren();
             if ( children.size() == 0 )
             {
                 ImGui::Text(node->getId().c_str());
@@ -170,12 +211,12 @@ namespace anvil {
             else {
                 for (auto i: children) {
                     auto obj = std::dynamic_pointer_cast<GameObject>(i);
-                    ImGui::PushID(obj.get()->getId().c_str()); // Use field index as identifier.
+                    ImGui::PushID(obj->getId().c_str()); // Use field index as identifier.
                     ImGui::TableNextRow();
                     ImGui::TableSetColumnIndex(0);
                     ImGui::AlignTextToFramePadding();
                     ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen ;
-                    if (ImGui::TreeNodeEx(obj.get()->getId().c_str(), flags)) {
+                    if (ImGui::TreeNodeEx(obj->getId().c_str(), flags)) {
                         if (ImGui::IsItemClicked()) {
                             currentObj = obj;
                         }

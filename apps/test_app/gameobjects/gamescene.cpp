@@ -1,26 +1,25 @@
 #include "gamescene.h"
 #include <memory>
-#include <iostream>
 #include "stationary.h"
 #include "nonplayable.h"
 #include "../states/losestate.h"
 #include "../states/winstate.h"
 #include "logger.h"
+#include "components/MovementIsoComponent.h"
+#include "components/Sprite2DComponent.h"
 
 void GameScene::draw(std::shared_ptr<anvil::Renderer> renderer)
 {
-    for (auto& child: m_childs) {
+    for (auto& child: m_children) {
+        child->draw(renderer);
+    }
+    for (auto& child: m_children) {
         child->draw(renderer);
     }
 }
 
-void GameScene::update()
+void GameScene::update(Uint64 deltaTime)
 {
-    float p_x = m_player->getX();
-    float p_y = m_player->getY();
-    float p_w = m_player->getWidth();
-    float p_h = m_player->getHeight();
-
 //    m_tileMap->setTileOutline(p_x, p_y);
     m_player->setInverseMove(false);
 
@@ -32,49 +31,41 @@ void GameScene::update()
         }
     }
 
-    for (auto& child: m_childs) {
-        child->update();
-        if (auto childGameObject = dynamic_cast<Stationary*>(child.get())) {
-            if (childGameObject->isIntersect(p_x, p_y, p_w, p_h) && !_dialogState) {
-                for (auto& child_: m_childs) {
+    for (auto& child: m_children) {
+        child->update(deltaTime);
+        if (auto npc = dynamic_cast<NonPlayable*>(child.get())) {
+            npc->setChaising(false);
+            if (npc->chasing()) {
+                npc->getComponent<anvil::MovementIsoComponent>()->setVelocityTowardObject(m_player, 0.2f);
+            }
+        }
+        if (auto obstacle = dynamic_cast<Stationary*>(child.get())) {
+            if (obstacle->isCollide(m_player) && !_dialogState) {
+                for (auto& child_: m_children) {
                     if (auto npc = dynamic_cast<NonPlayable*>(child_.get())) {
-                        npc->setVelocity(0, 0);
+                        npc->setChaising(false);
+                        npc->getComponent<anvil::MovementIsoComponent>()->setVelocity(anvil::Vector2D{0, 0});
                     }
                 }
                 m_player->blockInteractions();
                 _dialogState = true;
                 _dialogStart = anvil::Application::Instance()->getTicks();
-
+                 anvil::Application::Instance()->getStateMachine()->changeState(new WinState);
             }
         }
         else if (auto npc = dynamic_cast<NonPlayable*>(child.get())) {
-            if (npc->isIntersect(p_x, p_y, p_w, p_h)) {
+            if (npc->isCollide(m_player)) {
                  anvil::Application::Instance()->getStateMachine()->changeState(new LoseState);
             }
-
-            auto playerDirection = anvil::Vector2D{float(p_x), float(p_y)};
-            npc->moveTowards(playerDirection, 0.2f);
+            // npc->getComponent<anvil::MovementIsoComponent>()->setVelocityTowardObject(m_player, 0.2f);
         }
     }
 }
 
-void GameScene::clean()
-{
-    for (auto& child: m_childs) {
-        child->clean();
-    }
+void GameScene::clean() {
 }
 
-void GameScene::load(const anvil::GameObjectData*)
-{
-}
-
-void GameScene::to_json(nlohmann::json& j) {
-    GameObject::to_json(j);
-}
-
-void GameScene::from_json(const nlohmann::json& j) {
-    GameObject::from_json(j);
+void GameScene::load() {
 }
 
 bool GameScene::registerWithFactory() {

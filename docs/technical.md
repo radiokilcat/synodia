@@ -17,3 +17,15 @@ SDL включен в проект в качестве git submodules.
 
 Полезные ссылки:
 гайд по миграции с SDL2 на SDL3 https://github.com/libsdl-org/SDL/blob/main/docs/README-migration.md
+
+
+Игровые состояния:
+Сост
+    - Play state
+    - Menu State
+    - Exit state
+    - Edit state
+
+Создание игровой сцены:
+
+
