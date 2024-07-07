@@ -16,7 +16,7 @@ bool PlayState::onEnter() {
     m_textureIds = anvil::StateLoader::loadTextures(m_id);
     m_scene = anvil::StateLoader::loadGameObjects(m_id);
     auto rootScene = std::dynamic_pointer_cast<anvil::GameObject>(m_scene);
-    anvil::ImguiSystem::Instance()->setRootNode(rootScene);
+    anvil::ImguiSystem::Instance()->setScene(rootScene);
     rootScene->baseInit();
     std::cout << "Enter Play state" << std::endl;
     return true;

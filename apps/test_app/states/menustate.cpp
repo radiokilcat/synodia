@@ -22,7 +22,7 @@ bool MenuState::onEnter() {
     
     m_gameMenu = anvil::StateLoader::loadGameObjects(m_id);
     auto rootScene = std::dynamic_pointer_cast<anvil::GameObject>(m_gameMenu);
-    anvil::ImguiSystem::Instance()->setRootNode(rootScene);
+    anvil::ImguiSystem::Instance()->setScene(rootScene);
     rootScene->baseInit();
     if (auto title = rootScene->findChild("title")) {
         auto transform = title->getComponent<anvil::Transform2DComponent>();

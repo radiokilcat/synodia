@@ -12,9 +12,7 @@
 #include <cassert>
 #include <iostream>
 #include <ui/scrollable_text.h>
-#include <backends/imgui_impl_sdl3.h>
-#include <backends/imgui_impl_sdlrenderer3.h>
-#include <imgui.h>
+#include <AnvilImgui/ImguiSystem.h>
 
 #include "logger.h"
 
@@ -50,50 +48,40 @@ Application* Application::Instance()
     return m_instance;
 }
 
-Application::Application() : m_running(true)
-{
+Application::Application() : m_running(true) {
 }
 
-Application::~Application()
-{
+Application::~Application() {
 
 }
 
-void Application::run()
-{
+void Application::run() {
     anvil::ScrollableText::registerWithFactory();
-
     main_loop();
     cleanup();
 }
 
-void Application::quit()
-{
+void Application::quit() {
     m_running = false;
 }
 
-std::shared_ptr<Renderer> Application::getRenderer() const
-{
+std::shared_ptr<Renderer> Application::getRenderer() const {
     return m_renderer;
 }
 
-int Application::getScreenWidth()
-{
+int Application::getScreenWidth() {
     return m_window->getWindowSize().first;
 }
 
-int Application::getScreenHeight()
-{
+int Application::getScreenHeight() {
     return m_window->getWindowSize().second;
 }
 
-Uint64 Application::getTicks()
-{
+Uint64 Application::getTicks() {
     return SDL_GetTicks();
 }
 
-void Application::init(const GameSettings& settings)
-{
+void Application::init(const GameSettings& settings) {
     m_settings = settings;
 
     // Initialize SDL
@@ -137,13 +125,11 @@ void Application::init(const GameSettings& settings)
     SDL_SetRenderDrawColor(m_renderer->getRenderer(), 100, 149, 237, SDL_ALPHA_OPAQUE);
 }
 
-void Application::main_loop()
-{
+void Application::main_loop() {
     const Uint64 DELAY_TIME = 1000 / m_settings.FPS;
     Uint64 lastTime = SDL_GetTicks();
 
-    while (m_running)
-    {
+    while (m_running) {
         Uint64 current = SDL_GetTicks();
         Uint64 deltaTime = current - lastTime;
         
@@ -153,39 +139,34 @@ void Application::main_loop()
         render();
 
         lastTime = current;
-        if(deltaTime < DELAY_TIME)
-        {
+        if(deltaTime < DELAY_TIME) {
             SDL_Delay((int)(DELAY_TIME - deltaTime));
         }
     }
 }
 
-void Application::update(Uint64 deltaTime)
-{
+void Application::update(Uint64 deltaTime) {
     if (m_updateCallback) {
         m_updateCallback();
     }
     m_stateMachine->update(deltaTime);
 }
 
-void Application::render()
-{
-
+void Application::render() {
     SDL_RenderClear(m_renderer->getRenderer());
     SDL_SetRenderTarget(m_renderer->getRenderer(), nullptr);
 
     m_stateMachine->render();
 
 #ifndef NDEBUG
-    ImguiSystem::Instance()->drawMenuBar();
+    ImguiSystem::Instance()->ShowWidget("MenuBar");
     ImguiSystem::Instance()->render();
 #endif
 
     SDL_RenderPresent(m_renderer->getRenderer());
 }
 
-void Application::cleanup()
-{
+void Application::cleanup() {
     InputHandler::instance()->clean();
     AudioManager::instance().cleanup();
 #ifndef NDEBUG
@@ -198,18 +179,15 @@ void Application::cleanup()
     Mix_Quit();
 }
 
-GameStateMachine* Application::getStateMachine() const
-{
+GameStateMachine* Application::getStateMachine() const {
     return m_stateMachine;
 }
 
-void Application::addInitCallback(std::function<void ()> callback)
-{
+void Application::addInitCallback(std::function<void ()> callback) {
     m_initCallback = std::move(callback);
 }
 
-void Application::addUpdateCallback(std::function<void ()> callback)
-{
+void Application::addUpdateCallback(std::function<void ()> callback) {
     m_updateCallback = std::move(callback);
 }
 }

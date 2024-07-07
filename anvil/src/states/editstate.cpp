@@ -12,7 +12,7 @@ bool EditState::onEnter() {
     m_scene = anvil::StateLoader::loadGameObjects(m_id);
     auto rootScene = std::dynamic_pointer_cast<anvil::GameObject>(m_scene);
     rootScene->baseInit();
-    anvil::ImguiSystem::Instance()->setRootNode(rootScene);
+    anvil::ImguiSystem::Instance()->setScene(rootScene);
     std::cout << "Enter Edit state" << std::endl;
     return true;
 }

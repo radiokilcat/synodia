@@ -20,7 +20,12 @@ set(SOURCES
   src/game_objects/GameObjectsFactory.cpp
   src/ui/scrollable_text.cpp
   src/audio_manager.cpp
+  
+  ## ImGui system
   src/AnvilImgui/ImguiSystem.cpp
+  src/AnvilImgui/SceneWidget.cpp
+  src/AnvilImgui/MenuBar.cpp
+
   src/components/MovementIsoComponent.cpp
   src/components/Sprite2DComponent.cpp
   src/components/Transform2DComponent.cpp
@@ -59,7 +64,11 @@ set(HEADERS
   include/ui/scrollable_text.h
   include/audio_manager.h
   include/logger.h
+
   include/AnvilImgui/ImguiSystem.h
+  include/AnvilImgui/SceneWidget.h
+  include/AnvilImgui/MenuBar.h
+
   include/observer.h
   include/components/IComponent.h
   include/components/TransformComponent.h
