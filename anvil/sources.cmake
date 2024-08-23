@@ -25,6 +25,7 @@ set(SOURCES
   src/AnvilImgui/ImguiSystem.cpp
   src/AnvilImgui/SceneWidget.cpp
   src/AnvilImgui/MenuBar.cpp
+  src/AnvilImgui/EditorBar.cpp
 
   src/components/MovementIsoComponent.cpp
   src/components/Sprite2DComponent.cpp
@@ -68,6 +69,7 @@ set(HEADERS
   include/AnvilImgui/ImguiSystem.h
   include/AnvilImgui/SceneWidget.h
   include/AnvilImgui/MenuBar.h
+  include/AnvilImgui/EditorBar.h
 
   include/observer.h
   include/components/IComponent.h

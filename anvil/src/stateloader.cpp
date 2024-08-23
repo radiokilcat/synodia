@@ -38,8 +38,7 @@ std::filesystem::path StateLoader::getStateConfigFile(const std::string& stateId
     return resPath;
 }
 
-std::filesystem::path StateLoader::getConfigFile()
-{
+std::filesystem::path StateLoader::getConfigFile() {
     std::filesystem::current_path(getExecutableDir());
     auto resPath = std::filesystem::current_path() / "res" / "world.json";
 
@@ -142,6 +141,8 @@ std::shared_ptr<IGameObject> StateLoader::loadObjectAndChildren(const json& root
         root->addComponent(std::make_shared<TextComponent>(textData));
     }
     if (newData.find("CollisionComponent") != newData.end()) {
+        auto centerX = 0;
+        auto centerY = 0;
         auto collider = std::make_shared<CollisionComponent>(newData["CollisionComponent"].value("width", 10), newData["CollisionComponent"].value("height", 10));
         root->addComponent(collider);
         collider->setOwner(root);
@@ -155,8 +156,7 @@ std::shared_ptr<IGameObject> StateLoader::loadObjectAndChildren(const json& root
     return root;
 }
 
-std::vector<std::string> StateLoader::loadTextures(const std::string& stateId)
-{
+std::vector<std::string> StateLoader::loadTextures(const std::string& stateId) {
     if (stateId == "EDIT") {
         return loadTextures("play");
     }
@@ -192,8 +192,7 @@ std::vector<std::string> StateLoader::loadTextures(const std::string& stateId)
     return textureIds;
 }
 
-void StateLoader::loadAudio(const std::string& stateId)
-{
+void StateLoader::loadAudio(const std::string& stateId) {
     auto resPath = getConfigFile();
 
     std::ifstream file(resPath);
