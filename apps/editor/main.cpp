@@ -21,7 +21,6 @@ int main(int argc, char *argv[])
 
     auto app = anvil::Application::Instance();
 
-
     app->addInitCallback([]{
         anvil::Application::Instance()->getStateMachine()->changeState(new MainState);
     });
