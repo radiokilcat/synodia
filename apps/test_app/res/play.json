@@ -35,7 +35,7 @@
                 "type": "Player",
                 "id": "player",
                 "width": 180, "height": 180,
-                "position": { "x": 500.0, "y": 500.0 },
+                "position": { "x": 500.0, "y": 500.0, "width": 250, "height": 250 },
                 "CollisionComponent": { "width": 90, "height": 90 },
                 "sprite": {
                     "animations": {
@@ -53,7 +53,7 @@
                 "layer": 1,
                 "image": "table",
                 "width": 128, "height": 128,
-                "position": { "x": 306.0, "y": 387.0 },
+                "position": { "x": 306.0, "y": 387.0, "width": 128, "height": 128 },
                 "CollisionComponent": { "width": 64, "height": 64 }
             },
             {
@@ -61,28 +61,28 @@
                 "id": "npc_1",
                 "image": "evil",
                 "layer": 1,
-                "position": { "x": 306.0, "y": 387.0 }
+                "position": { "x": 306.0, "y": 387.0, "width": 32, "height": 32 }
             },
             {
                 "type": "NonPlayable",
                 "id": "npc_2",
                 "image": "evil",
                 "layer": 1,
-                "position": { "x": 306.0, "y": 387.0 }
+                "position": { "x": 306.0, "y": 387.0, "width": 32, "height": 32 }
             },
             {
                 "type": "NonPlayable",
                 "id": "npc_3",
                 "image": "evil",
                 "layer": 1,
-                "position": { "x": 797.0, "y": 523.0 }
+                "position": { "x": 797.0, "y": 523.0, "width": 32, "height": 32 }
             },
             {
                 "type": "NonPlayable",
                 "id": "npc_4",
                 "image": "evil",
                 "layer": 1,
-                "position": { "x": 399.0, "y": 607.0 }
+                "position": { "x": 399.0, "y": 607.0, "width": 32, "height": 32 }
             },
             {
             

@@ -67,56 +67,69 @@ void GameSceneWidget::drawPropertiesWidget(std::shared_ptr<GameObject> node) {
     if (!node.get())
         return;
     // Transform
-    auto transform = node->getComponent<Transform2DComponent>();
-    if (!transform)
-        return;
-    
-    float x, y = 0.f;
-    x = transform->getX();
-    y = transform->getY();
-    ImGui::PushItemWidth(200);
-    if (ImGui::InputFloat("x    ", &x, 10.f, 10.f)) {
-        transform->setX(x);
+    {
+        ImGui::SeparatorText("TransformComponent");
+        auto transform = node->getComponent<Transform2DComponent>();
+        if (!transform)
+            return;
+        
+        float x, y = 0.f;
+        x = transform->getX();
+        y = transform->getY();
+        ImGui::PushItemWidth(200);
+        if (ImGui::InputFloat("x    ", &x, 10.f, 10.f)) {
+            transform->setX(x);
+        }
+        ImGui::SameLine();
+        if (ImGui::InputFloat("y", &y, 10.f, 10.f)) {
+            transform->setY(y);
+        }
+        float width, height = 0.f;
+        width = transform->getWidth();
+        height = transform->getHeight();
+        if (ImGui::InputFloat("width", &width, 10.f, 10.f)) {
+            transform->setWidth(width);
+        }
+        ImGui::SameLine();
+        if (ImGui::InputFloat("height", &height, 10.f, 10.f)) {
+            transform->setHeight(height);
+        }
     }
-    ImGui::SameLine();
-    if (ImGui::InputFloat("y", &y, 10.f, 10.f)) {
-        transform->setY(y);
-    }
-    // 
     //Sprite
-    auto sprite = node->getComponent<Sprite2DComponent>();
-    if (!sprite)
-        return;
-    float width, height = 0.f;
-    width = sprite->width();
-    height = sprite->height();
-    if (ImGui::InputFloat("width", &width, 10.f, 10.f)) {
-        sprite->setWidth(width);
-    }
-    ImGui::SameLine();
-    if (ImGui::InputFloat("height", &height, 10.f, 10.f)) {
-        sprite->setHeight(height);
-    }
-    ImGui::SeparatorText("Sprite");
-    int row = sprite->getCurrentRow();
-    int frame = sprite->getCurrentFrame();
-    if (ImGui::InputInt("currentrow", &row, 1)) {
-        sprite->setCurrentRow(row);
-    }
-    if (ImGui::InputInt("currentframe", &frame, 1)) {
-        sprite->setCurrentFrame(row);
-    }
-    //
-    ImGui::SeparatorText("Sprite");
+    {
+        ImGui::SeparatorText("Sprite");
+        auto sprite = node->getComponent<Sprite2DComponent>();
+        if (!sprite)
+            return;
+        float width, height = 0.f;
+        width = sprite->width();
+        height = sprite->height();
+        if (ImGui::InputFloat("width", &width, 10.f, 10.f)) {
+            sprite->setWidth(width);
+        }
+        ImGui::SameLine();
+        if (ImGui::InputFloat("height", &height, 10.f, 10.f)) {
+            sprite->setHeight(height);
+        }
+        int row = sprite->getCurrentRow();
+        int frame = sprite->getCurrentFrame();
+        if (ImGui::InputInt("currentrow", &row, 1)) {
+            sprite->setCurrentRow(row);
+        }
+        if (ImGui::InputInt("currentframe", &frame, 1)) {
+            sprite->setCurrentFrame(row);
+        }
+        //
 
-   constexpr size_t bufferSize = 256;
-   char buffer[bufferSize];
-   std::string str0 = sprite->getTextureId();
-   std::strncpy(buffer, str0.c_str(), bufferSize);
-   buffer[bufferSize - 1] = '\0';
-   if (ImGui::InputText("current sheet", buffer, bufferSize)) {
-       sprite->setCurrentSheet(std::string(buffer)); 
-   }
+       constexpr size_t bufferSize = 256;
+       char buffer[bufferSize];
+       std::string str0 = sprite->getTextureId();
+       std::strncpy(buffer, str0.c_str(), bufferSize);
+       buffer[bufferSize - 1] = '\0';
+       if (ImGui::InputText("current sheet", buffer, bufferSize)) {
+           sprite->setCurrentSheet(std::string(buffer)); 
+       }
+    }
 }
 
 void GameSceneWidget::drawSingleNode(std::shared_ptr<GameObject> node) {

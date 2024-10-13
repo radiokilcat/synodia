@@ -97,61 +97,20 @@ nlohmann::json StateLoader::loadObjectTemplate(std::shared_ptr<IGameObject>& obj
     }
     return defaultVal;
 }
-    
+
+
 std::shared_ptr<IGameObject> StateLoader::loadObjectAndChildren(const json& rootData) {
     auto root = GameObjectFactory::instance().createGameObject(rootData.at("type"));
     auto newData = loadObjectTemplate(root, rootData);
-    if (newData.find("position") != newData.end()) {
-        root->addComponent(std::make_shared<Transform2DComponent>(newData["position"]));
-    }
-    if (newData.find("movementMode") != newData.end()) {
-        if (newData["movementMode"] == "isometric") {
-            auto movementComp = std::make_shared<MovementIsoComponent>();
-            root->addComponent(movementComp);
-            movementComp->setOwner(root);
-        }
-    }
-    if (newData.find("image") != newData.end()) {
-        nlohmann::json spriteData = {
-            { "width", newData.value("width", 0) },
-            { "height", newData.value("height", 0) },
-            { "image", newData["image"] }
-        };
-        auto sprite = std::make_shared<Sprite2DComponent>(spriteData);
-        root->addComponent(sprite);
-        sprite->setOwner(root);
-    }
-    if (newData.find("sprite") != newData.end()) {
-        nlohmann::json spriteData = {
-            { "width", newData.value("width", 0) },
-            { "height", newData.value("height", 0) },
-            { "sprite", newData["sprite"] }
-        };
-        auto sprite = std::make_shared<Sprite2DComponent>(spriteData);
-        root->addComponent(sprite);
-        sprite->setOwner(root);
-    }
-    if (newData.find("text") != newData.end()) {
-        nlohmann::json textData = {
-            { "width", newData.value("width", 0) },
-            { "height", newData.value("height", 0) },
-            { "text", newData.value("text", "") },
-            { "color", newData["textColor"] }
-        };
-        root->addComponent(std::make_shared<TextComponent>(textData));
-    }
-    if (newData.find("CollisionComponent") != newData.end()) {
-        auto centerX = 0;
-        auto centerY = 0;
-        auto collider = std::make_shared<CollisionComponent>(newData["CollisionComponent"].value("width", 10), newData["CollisionComponent"].value("height", 10));
-        root->addComponent(collider);
-        collider->setOwner(root);
-    }
-    if (newData.find("childs") != newData.end() && newData.at("childs").is_array()) {
-        for (auto& childJson : newData.at("childs")) {
-            root->addChild(loadObjectAndChildren(childJson));
-        }
-    }
+    
+    addTransformComponent(root, newData);
+    addMovementComponent(root, newData);
+    addSpriteComponent(root, newData);
+    addTextComponent(root, newData);
+    addCollisionComponent(root, newData);
+    
+    loadChildObjects(root, newData);
+
     root->from_json(newData);
     return root;
 }
@@ -214,5 +173,76 @@ void StateLoader::loadAudio(const std::string& stateId) {
     }
 }
 
+void StateLoader::addTransformComponent(std::shared_ptr<IGameObject>& root, const json& data) {
+    if (data.find("position") != data.end()) {
+        root->addComponent(std::make_shared<Transform2DComponent>(data["position"]));
+    }
+}
+
+void StateLoader::addMovementComponent(std::shared_ptr<IGameObject>& root, const json& data) {
+    if (data.find("movementMode") != data.end()) {
+        if (data["movementMode"] == "isometric") {
+            auto movementComp = std::make_shared<MovementIsoComponent>();
+            root->addComponent(movementComp);
+            movementComp->setOwner(root);
+        }
+    }
+}
+
+void StateLoader::addSpriteComponent(std::shared_ptr<IGameObject>& root, const json& data) {
+    if (data.find("image") != data.end()) {
+        nlohmann::json spriteData = {
+            { "width", data.value("width", 0) },
+            { "height", data.value("height", 0) },
+            { "image", data["image"] }
+        };
+        auto sprite = std::make_shared<Sprite2DComponent>(spriteData);
+        root->addComponent(sprite);
+        sprite->setOwner(root);
+    }
+    if (data.find("sprite") != data.end()) {
+        nlohmann::json spriteData = {
+            { "width", data.value("width", 0) },
+            { "height", data.value("height", 0) },
+            { "sprite", data["sprite"] }
+        };
+        auto sprite = std::make_shared<Sprite2DComponent>(spriteData);
+        root->addComponent(sprite);
+        sprite->setOwner(root);
+    }
+}
+
+void StateLoader::addTextComponent(std::shared_ptr<IGameObject>& root, const json& data) {
+    if (data.find("text") != data.end()) {
+        nlohmann::json textData = {
+            { "width", data.value("width", 0) },
+            { "height", data.value("height", 0) },
+            { "text", data.value("text", "") },
+            { "color", data["textColor"] }
+        };
+        root->addComponent(std::make_shared<TextComponent>(textData));
+    }
+}
+
+void StateLoader::addCollisionComponent(std::shared_ptr<IGameObject>& root, const json& data) {
+    if (data.find("CollisionComponent") != data.end()) {
+        auto collider = std::make_shared<CollisionComponent>(
+            data["CollisionComponent"].value("width", 10), 
+            data["CollisionComponent"].value("height", 10)
+        );
+        root->addComponent(collider);
+        collider->setOwner(root);
+    }
+}
+    
+void StateLoader::loadChildObjects(std::shared_ptr<IGameObject>& root, const json& data)
+{
+    if (data.find("childs") != data.end() && data.at("childs").is_array()) {
+        for (const auto& childJson : data.at("childs")) {
+            root->addChild(loadObjectAndChildren(childJson));
+        }
+    }
+}
+    
 }
 
