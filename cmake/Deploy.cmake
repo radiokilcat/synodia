@@ -1,4 +1,4 @@
-set(ASSET_SOURCE_DIR "${CMAKE_SOURCE_DIR}/apps/test_app/res")
+set(ASSET_SOURCE_DIR "${CMAKE_SOURCE_DIR}/apps/test_app/assets")
 
 set(ASSET_DESTINATION_DIR "${CMAKE_BINARY_DIR}/bin/")
 

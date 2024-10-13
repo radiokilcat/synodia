@@ -20,13 +20,13 @@ int main(int argc, char *argv[])
     (void)argv;
 
     std::filesystem::current_path(anvil::getExecutableDir());
-    auto resPath = std::filesystem::current_path() / "res";
+    auto resPath = std::filesystem::current_path() / "assets";
 
     anvil::Configuration configuration("settings.ini");
     auto settings = configuration.load();
     settings.validate();
 
-    anvil::FontLoader::instance()->loadFont("sample", resPath / "DungeonFont.ttf", 14);
+    anvil::FontLoader::instance()->loadFont("sample", resPath / "fonts" / "DungeonFont.ttf", 14);
     anvil::FontLoader::instance()->setDefaultFont("sample");
 
     auto app = anvil::Application::Instance();
