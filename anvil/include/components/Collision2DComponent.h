@@ -16,24 +16,17 @@ public:
 	virtual void to_json(const nlohmann::json& j) {};
     
 	void update(Uint64 deltaTime) override {
-		auto transform = owner_->getComponent<Transform2DComponent>();
-		x_ = transform->getX();
-		y_ = transform->getY();
-	};
+		const auto transform = owner_->getComponent<Transform2DComponent>();
+		x_ = transform->getX() - width_ * 0.5f;
+		y_ = transform->getY() - height_ * 0.5f;
+	}
 	
 void drawOutline(std::shared_ptr<Renderer> renderer) {
 		auto transform = owner_->getComponent<Transform2DComponent>();
-        auto x = x_;
-        auto y = y_;
-		float x1 = x;
-		float y1 = y;
-		float x2 = x + width_;
-		float y2 = y;
-		float x3 = x + width_;
-		float y3 = y + height_;
-		float x4 = x;
-		float y4 = y + height_;
-		TextureManager::instance()->drawQuadrilateral(renderer->getRenderer(), x1, y1, x2, y2, x3, y3, x4, y4);
+		TextureManager::instance()->drawQuadrilateral(renderer->getRenderer(), x_, y_,
+																			x_ + width_, y_,
+																			x_ + width_, y_ + height_,
+																			x_, y_ + height_);
 }
 	
     bool checkCollision(const CollisionComponent& other) const {

@@ -21,6 +21,12 @@ public:
     static std::filesystem::path getStateConfigFile(const std::string& stateId);
     static std::vector<std::string> loadTextures(const std::string& stateId);
     static void loadAudio(const std::string& stateId);
+    static void addTransformComponent(std::shared_ptr<IGameObject>& root, const json& data);
+    static void addMovementComponent(std::shared_ptr<IGameObject>& root, const json& data);
+    static void addSpriteComponent(std::shared_ptr<IGameObject>& root, const json& data);
+    static void addTextComponent(std::shared_ptr<IGameObject>& root, const json& data);
+    static void addCollisionComponent(std::shared_ptr<IGameObject>& root, const json& data);
+    static void loadChildObjects(std::shared_ptr<IGameObject>& root, const json& data);
     static std::shared_ptr<IGameObject> loadGameObjects(const std::string& stateId);
     static std::shared_ptr<IGameObject> loadMenu(const std::string& stateId);
     static nlohmann::json loadObjectTemplate(std::shared_ptr<IGameObject>& object, const nlohmann::json& data);

@@ -46,14 +46,16 @@ namespace anvil {
 	}
 
 	void Sprite2DComponent::draw_sheet(std::shared_ptr<Renderer> renderer) {
-		auto x = owner_->getComponent<Transform2DComponent>()->getX();
-		auto y = owner_->getComponent<Transform2DComponent>()->getY();
+		auto transform = owner_->getComponent<Transform2DComponent>();
+		auto x = transform->getX() - frameWidth_ * 0.5;
+		auto y = transform->getY() - frameHeight_ * 0.5;
 		
 		int row = currentFrame_ / framesPerRow_ + 1;
 		int col = currentFrame_ % framesPerRow_;
 		
 		TextureManager::instance()->drawFrame(animations_[currentAnimation_.first][currentAnimation_.second], x, y, frameWidth_, frameHeight_, row, col,
 											renderer->getRenderer());
+		TextureManager::instance()->drawPoint(renderer->getRenderer(), transform->getX(), transform->getY());
 	}
 
 	void Sprite2DComponent::draw(float x, float y, std::shared_ptr<Renderer> renderer) const {
