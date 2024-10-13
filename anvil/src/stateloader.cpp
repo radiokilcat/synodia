@@ -24,7 +24,7 @@ StateLoader& StateLoader::instance() {
 std::filesystem::path StateLoader::getStateConfigFile(const std::string& stateId)
 {
     std::filesystem::current_path(getExecutableDir());
-    auto resPath = std::filesystem::current_path() / "res" / fmt::format("{}.json", stateId);
+    auto resPath = std::filesystem::current_path() / "assets" / fmt::format("{}.json", stateId);
 
     if (!std::filesystem::exists(resPath)) {
         std::cerr << "File" << resPath << " doesn't exist" << std::endl;
@@ -40,7 +40,7 @@ std::filesystem::path StateLoader::getStateConfigFile(const std::string& stateId
 
 std::filesystem::path StateLoader::getConfigFile() {
     std::filesystem::current_path(getExecutableDir());
-    auto resPath = std::filesystem::current_path() / "res" / "world.json";
+    auto resPath = std::filesystem::current_path() / "assets" / "world.json";
 
     if (!std::filesystem::exists(resPath)) {
         std::cerr << "File" << resPath << " doesn't exist" << std::endl;
@@ -77,7 +77,7 @@ std::shared_ptr<IGameObject> StateLoader::loadGameObjects(const std::string& sta
 
 nlohmann::json StateLoader::loadObjectTemplate(std::shared_ptr<IGameObject>& object, const nlohmann::json& data) {
     std::filesystem::current_path(getExecutableDir());
-    auto resPath = std::filesystem::current_path() / "res" / fmt::format("objects_templates.json");
+    auto resPath = std::filesystem::current_path() / "assets" / fmt::format("objects_templates.json");
     
     std::ifstream file(resPath);
     
@@ -137,7 +137,7 @@ std::vector<std::string> StateLoader::loadTextures(const std::string& stateId) {
     auto textures = data["textures"];
     std::vector<std::string> textureIds;
     for (const auto& [name, path] : textures.items()) {
-        std::filesystem::path fullPath = std::filesystem::canonical(std::filesystem::current_path() / "res" / path.get<std::string>());
+        std::filesystem::path fullPath = std::filesystem::canonical(std::filesystem::current_path() / "assets" / "sprites" / path.get<std::string>());
         if (TextureManager::instance()->loadTexture(fullPath.string(), name,
                 Application::Instance()->getRenderer()->getRenderer()))
         {
@@ -168,7 +168,7 @@ void StateLoader::loadAudio(const std::string& stateId) {
 
     auto sounds = data[stateId]["audio"];
     for (const auto& [name, path] : sounds.items()) {
-        auto fullPath = std::filesystem::canonical(std::filesystem::current_path() / "res" / path.get<std::string>());
+        auto fullPath = std::filesystem::canonical(std::filesystem::current_path() / "assets" / "sounds" / path.get<std::string>());
         AudioManager::instance().loadFile(fullPath.string(), name);
     }
 }
