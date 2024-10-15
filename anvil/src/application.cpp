@@ -150,6 +150,7 @@ void Application::update(Uint64 deltaTime) {
         m_updateCallback();
     }
     m_stateMachine->update(deltaTime);
+    ImguiSystem::Instance()->update();
 }
 
 void Application::render() {
