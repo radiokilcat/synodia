@@ -23,21 +23,23 @@ public:
     static ImguiSystem* Instance();
 
     void render();
+    void update();
     void shutDown();
 
     void RegisterWidget(const std::string& name, std::shared_ptr<IWidget> widget);
     void UnregisterWidget(const std::string& name);
     void ShowWidget(const std::string& name);
     void HideWidget(const std::string& name);
+    void addUpdateTask(std::function<void()> task);
     
 
     void setScene(std::shared_ptr<GameObject> scene);
     std::shared_ptr<GameObject> getScene();
 
 private:
+    std::vector<std::function<void()>> updateTasks;
     bool showInspector = true;
     std::vector<GameObject*> objects;
-    std::queue<std::function<void()>> callbacks;
     std::shared_ptr<GameObject> scene_;
     std::shared_ptr<GameObject> currentObj;
     std::unordered_map<std::string, std::shared_ptr<IWidget>> widgets;
