@@ -21,10 +21,27 @@ StateLoader& StateLoader::instance() {
     return instance;
 }
 
+std::filesystem::path StateLoader::getTexturesConfigFile()
+{
+    std::filesystem::current_path(getExecutableDir());
+    auto resPath = std::filesystem::current_path() / "assets" / "objects" / "textures.json";
+
+    if (!std::filesystem::exists(resPath)) {
+        std::cerr << "File" << resPath << " doesn't exist" << std::endl;
+        return {};
+    }
+
+    if (std::filesystem::file_size(resPath) == 0) {
+        std::cerr << "File" << resPath << " is empty" << std::endl;
+        return {};
+    }
+    return resPath;
+}
+    
 std::filesystem::path StateLoader::getStateConfigFile(const std::string& stateId)
 {
     std::filesystem::current_path(getExecutableDir());
-    auto resPath = std::filesystem::current_path() / "assets" / fmt::format("{}.json", stateId);
+    auto resPath = std::filesystem::current_path() / "assets" / "objects" / fmt::format("{}.json", stateId);
 
     if (!std::filesystem::exists(resPath)) {
         std::cerr << "File" << resPath << " doesn't exist" << std::endl;
@@ -38,9 +55,11 @@ std::filesystem::path StateLoader::getStateConfigFile(const std::string& stateId
     return resPath;
 }
 
-std::filesystem::path StateLoader::getConfigFile() {
+
+// to be removed    
+std::filesystem::path StateLoader::getAudioConfigFile() {
     std::filesystem::current_path(getExecutableDir());
-    auto resPath = std::filesystem::current_path() / "assets" / "world.json";
+    auto resPath = std::filesystem::current_path() / "assets" / "objects" / "audio.json";
 
     if (!std::filesystem::exists(resPath)) {
         std::cerr << "File" << resPath << " doesn't exist" << std::endl;
@@ -77,7 +96,7 @@ std::shared_ptr<IGameObject> StateLoader::loadGameObjects(const std::string& sta
 
 nlohmann::json StateLoader::loadObjectTemplate(std::shared_ptr<IGameObject>& object, const nlohmann::json& data) {
     std::filesystem::current_path(getExecutableDir());
-    auto resPath = std::filesystem::current_path() / "assets" / fmt::format("objects_templates.json");
+    auto resPath = std::filesystem::current_path() / "assets" / "objects" / fmt::format("objects_templates.json");
     
     std::ifstream file(resPath);
     
@@ -98,10 +117,18 @@ nlohmann::json StateLoader::loadObjectTemplate(std::shared_ptr<IGameObject>& obj
     return defaultVal;
 }
 
+void StateLoader::loadUI(const std::shared_ptr<IGameObject>& root, const json& data) {
+    if (data.find("UI") != data.end()) {
+        // root->addChild()
+    }
+}
 
+
+// main load function
 std::shared_ptr<IGameObject> StateLoader::loadObjectAndChildren(const json& rootData) {
     auto root = GameObjectFactory::instance().createGameObject(rootData.at("type"));
     auto newData = loadObjectTemplate(root, rootData);
+    // loadUI(root, newData);
     
     addTransformComponent(root, newData);
     addMovementComponent(root, newData);
@@ -116,12 +143,8 @@ std::shared_ptr<IGameObject> StateLoader::loadObjectAndChildren(const json& root
 }
 
 std::vector<std::string> StateLoader::loadTextures(const std::string& stateId) {
-    if (stateId == "EDIT") {
-        return loadTextures("play");
-    }
-    auto resPath = getStateConfigFile(stateId);
+    auto resPath = getTexturesConfigFile();
 
-    std::cout << "assets path: " <<  resPath << std::endl;
     std::ifstream file(resPath);
     if (!file.is_open()) {
         std::cerr << "Failed to open file" << std::endl;
@@ -134,7 +157,7 @@ std::vector<std::string> StateLoader::loadTextures(const std::string& stateId) {
         return {};
     }
 
-    auto textures = data["textures"];
+    auto textures = data[stateId];
     std::vector<std::string> textureIds;
     for (const auto& [name, path] : textures.items()) {
         std::filesystem::path fullPath = std::filesystem::canonical(std::filesystem::current_path() / "assets" / "sprites" / path.get<std::string>());
@@ -146,13 +169,12 @@ std::vector<std::string> StateLoader::loadTextures(const std::string& stateId) {
         else {
             std::cerr << "Failed to load texture " << name <<  std::endl;
         }
-
     }
     return textureIds;
 }
 
 void StateLoader::loadAudio(const std::string& stateId) {
-    auto resPath = getConfigFile();
+    auto resPath = getAudioConfigFile();
 
     std::ifstream file(resPath);
     if (!file.is_open()) {
@@ -166,7 +188,7 @@ void StateLoader::loadAudio(const std::string& stateId) {
         return;
     }
 
-    auto sounds = data[stateId]["audio"];
+    auto sounds = data[stateId];
     for (const auto& [name, path] : sounds.items()) {
         auto fullPath = std::filesystem::canonical(std::filesystem::current_path() / "assets" / "sounds" / path.get<std::string>());
         AudioManager::instance().loadFile(fullPath.string(), name);
@@ -200,12 +222,8 @@ void StateLoader::addSpriteComponent(std::shared_ptr<IGameObject>& root, const j
         root->addComponent(sprite);
         sprite->setOwner(root);
     }
-    if (data.find("sprite") != data.end()) {
-        nlohmann::json spriteData = {
-            { "width", data.value("width", 0) },
-            { "height", data.value("height", 0) },
-            { "sprite", data["sprite"] }
-        };
+    if (data.find("spriteComponent") != data.end()) {
+        nlohmann::json spriteData = data["spriteComponent"];
         auto sprite = std::make_shared<Sprite2DComponent>(spriteData);
         root->addComponent(sprite);
         sprite->setOwner(root);
@@ -235,8 +253,7 @@ void StateLoader::addCollisionComponent(std::shared_ptr<IGameObject>& root, cons
     }
 }
     
-void StateLoader::loadChildObjects(std::shared_ptr<IGameObject>& root, const json& data)
-{
+void StateLoader::loadChildObjects(std::shared_ptr<IGameObject>& root, const json& data) {
     if (data.find("childs") != data.end() && data.at("childs").is_array()) {
         for (const auto& childJson : data.at("childs")) {
             root->addChild(loadObjectAndChildren(childJson));

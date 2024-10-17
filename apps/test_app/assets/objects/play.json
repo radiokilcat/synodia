@@ -1,32 +1,4 @@
 {
-    "textures": {
-        "test": "adventurer.png",
-        "player": "player_1.png",
-        "player_2": "player_2.png",
-        "lady_top": "lady/WalkForward_Unarmed_top.png",
-        "lady_right": "lady/WalkForward_Unarmed_Body_right.png",
-        "lady_left": "lady/WalkForward_Unarmed_Body_left.png",
-        "lady_back": "lady/WalkForward_Unarmed_Body_back.png",
-        "lady_idle_top": "lady/idle_top.png",
-        "lady_idle_bottom": "lady/idle_bottom.png",
-        "lady_idle_right": "lady/idle_right.png",
-        "lady_idle_left": "lady/idle_left.png",
-        "lady_run_right": "lady/run_right.png",
-        "lady_run_left": "lady/run_left.png",
-        "lady_run_bottom": "lady/run_bottom.png",
-        "lady_run_top": "lady/run_top.png",
-        "lady_attack_right": "lady/attack_right.png",
-        "lady_attack_left": "lady/attack_left.png",
-        "lady_attack_bottom": "lady/attack_bottom.png",
-        "lady_attack_top": "lady/attack_top.png",
-        "evil": "evil_1.png",
-        "speech": "speech.png",
-        "stone_e": "tiles_1/stone_E.png",
-        "stone_n": "tiles_1/stone_N.png",
-        "stone_s": "tiles_1/stone_S.png",
-        "stone_w": "tiles_1/stone_W.png",
-        "table": "tiles_1/tableRoundItemsChairs_N.png"
-    },
     "GameScene": {
         "name": "GameScene",
         "type": "GameScene",
@@ -34,10 +6,10 @@
             {
                 "type": "Player",
                 "id": "player",
-                "width": 180, "height": 180,
                 "position": { "x": 500.0, "y": 500.0, "width": 250, "height": 250 },
                 "CollisionComponent": { "width": 90, "height": 90 },
-                "sprite": {
+                "spriteComponent": {
+                    "width": 180, "height": 180,
                     "animations": {
                         "run" : [ "lady_run_top", "lady_run_right", "lady_run_left", "lady_run_bottom"],
                         "walk" : [ "lady_top", "lady_right", "lady_left", "lady_back" ],
@@ -85,13 +57,25 @@
                 "position": { "x": 399.0, "y": 607.0, "width": 32, "height": 32 }
             },
             {
-            
                 "type": "TileMap",
                 "id": "tilemap_0",
                 "layer": 0,
                 "fillType": "random",
                 "elements": ["stone_e", "stone_n", "stone_s", "stone_w"],
                 "dimension": 15
+            },
+            {
+                "id": "button111",
+                "type": "GUIProgressBar",
+                "position": { "x": 10.0, "y": 30.0 },
+                "spriteComponent": {
+                    "scale": 0.7,
+                    "width": 400,
+                    "height": 53,
+                    "states": {
+                        "idle" : "progressBar"
+                    }
+                }
             }
         ]
     }
