@@ -32,6 +32,10 @@
     },
     "TileMap": {
     },
+    "GUIButton": {
+    },
+    "GUIProgressBar": {
+    },
     "ScrollableText": {
         "zOrder": 1,
         "width": 768, "height": 256,
