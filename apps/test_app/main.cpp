@@ -40,6 +40,7 @@ int main(int argc, char *argv[])
     NonPlayable::registerWithFactory();
     MenuButton::registerWithFactory();
     TextButton::registerWithFactory();
+    GUIProgressBar::registerWithFactory();
     Stationary::registerWithFactory();
 
     app->addInitCallback([]{
