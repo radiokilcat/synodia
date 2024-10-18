@@ -13,10 +13,19 @@ void GameSceneWidget::draw() {
     if (ImGui::BeginTable("##split", 2, ImGuiTableFlags_BordersOuter | ImGuiTableFlags_Resizable |
                                         ImGuiTableFlags_ScrollY)) {
         ImGui::TableSetupScrollFreeze(0, 1);
-        ImGui::TableSetupColumn("Object");
-        ImGui::TableSetupColumn("Contents");
+        ImGui::TableSetupColumn("Nodes tree");
+        ImGui::TableSetupColumn("Properties");
+            // ImGui::TableSetupColumn("Node Tree", ImGuiTableColumnFlags_WidthFixed, 200.0f);  // Fixed width for the tree
+            // ImGui::TableSetupColumn("Properties", ImGuiTableColumnFlags_WidthStretch);  // Stretch the properties column
         ImGui::TableHeadersRow();
+        ImGui::TableNextColumn();
         drawNode(scene);
+        ImGui::TableNextColumn();
+        if (currentObj) {
+            drawPropertiesWidget(currentObj);
+        } else {
+            ImGui::Text("No node selected.");
+        }
         ImGui::EndTable();
     }
     ImGui::End();
@@ -73,9 +82,8 @@ void GameSceneWidget::drawPropertiesWidget(std::shared_ptr<GameObject> node) {
         if (!transform)
             return;
         
-        float x, y = 0.f;
-        x = transform->getX();
-        y = transform->getY();
+        float x = transform->getX();
+        float y = transform->getY();
         ImGui::PushItemWidth(200);
         if (ImGui::InputFloat("x    ", &x, 10.f, 10.f)) {
             transform->setX(x);
@@ -84,14 +92,13 @@ void GameSceneWidget::drawPropertiesWidget(std::shared_ptr<GameObject> node) {
         if (ImGui::InputFloat("y", &y, 10.f, 10.f)) {
             transform->setY(y);
         }
-        float width, height = 0.f;
-        width = transform->getWidth();
-        height = transform->getHeight();
-        if (ImGui::InputFloat("width", &width, 10.f, 10.f)) {
+        float width = transform->getWidth();
+        float height = transform->getHeight();
+        if (ImGui::InputFloat("width##transform", &width, 10.f, 10.f)) {
             transform->setWidth(width);
         }
         ImGui::SameLine();
-        if (ImGui::InputFloat("height", &height, 10.f, 10.f)) {
+        if (ImGui::InputFloat("height##transform", &height, 10.f, 10.f)) {
             transform->setHeight(height);
         }
     }
@@ -101,15 +108,18 @@ void GameSceneWidget::drawPropertiesWidget(std::shared_ptr<GameObject> node) {
         auto sprite = node->getComponent<Sprite2DComponent>();
         if (!sprite)
             return;
-        float width, height = 0.f;
-        width = sprite->width();
-        height = sprite->height();
-        if (ImGui::InputFloat("width", &width, 10.f, 10.f)) {
-            sprite->setWidth(width);
+        float width = sprite->width();
+        float height = sprite->height();
+        if (ImGui::InputFloat("width##sprite", &width, 10.f, 10.f)) {
+            ImguiSystem::Instance()->addUpdateTask([sprite, width]() {
+                sprite->setWidth(width);
+            });
         }
         ImGui::SameLine();
-        if (ImGui::InputFloat("height", &height, 10.f, 10.f)) {
-            sprite->setHeight(height);
+        if (ImGui::InputFloat("height##sprite", &height, 10.f, 10.f)) {
+            ImguiSystem::Instance()->addUpdateTask([sprite, height]() {
+                sprite->setHeight(height);
+            });
         }
         int row = sprite->getCurrentRow();
         int frame = sprite->getCurrentFrame();
@@ -132,42 +142,22 @@ void GameSceneWidget::drawPropertiesWidget(std::shared_ptr<GameObject> node) {
     }
 }
 
-void GameSceneWidget::drawSingleNode(std::shared_ptr<GameObject> node) {
+    void GameSceneWidget::drawSingleNode(std::shared_ptr<GameObject> node) {
     ImGui::PushID(node->getId().c_str());
-    ImGui::TableNextRow();
-    ImGui::TableSetColumnIndex(0);
-    ImGui::AlignTextToFramePadding();
-    bool node_open = ImGui::TreeNode("Object", "%s", node->getId().c_str());
+    bool node_open = ImGui::TreeNodeEx(node->getId().c_str(), ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanFullWidth);
 
-    if (node_open)
-    {
+    if (ImGui::IsItemClicked()) {
+        currentObj = node;
+    }
+
+    if (node_open) {
         auto children = node->getChildren();
-        if ( children.size() == 0 )
-        {
-            ImGui::Text(node->getId().c_str());
-            ImGui::NextColumn();
-
-            ImGui::Button(node->getId().c_str());
-            ImGui::NextColumn();
-        }
-        else {
-            for (auto i: children) {
-                auto obj = std::dynamic_pointer_cast<GameObject>(i);
-                ImGui::PushID(obj->getId().c_str()); // Use field index as identifier.
-                ImGui::TableNextRow();
-                ImGui::TableSetColumnIndex(0);
-                ImGui::AlignTextToFramePadding();
-                ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen ;
-                if (ImGui::TreeNodeEx(obj->getId().c_str(), flags)) {
-                    if (ImGui::IsItemClicked()) {
-                        currentObj = obj;
-                    }
-                }
-                ImGui::PopID();
+        for (auto& child : children) {
+            auto childNode = std::dynamic_pointer_cast<GameObject>(child);
+            if (childNode) {
+                drawSingleNode(childNode);
             }
         }
-        ImGui::TableSetColumnIndex(1);
-        drawPropertiesWidget(currentObj);
         ImGui::TreePop();
     }
     ImGui::PopID();
