@@ -2,6 +2,7 @@
 
 #include "anvil.h"
 #include "playstate.h"
+#include "../gameobjects/gamescene.h"
 
 #include "texturemanager.h"
 #include "components/MovementIsoComponent.h"
@@ -15,7 +16,7 @@ bool PlayState::onEnter() {
     anvil::StateLoader::loadAudio(m_id);
     m_textureIds = anvil::StateLoader::loadTextures(m_id);
     m_scene = anvil::StateLoader::loadGameObjects(m_id);
-    auto rootScene = std::dynamic_pointer_cast<anvil::GameObject>(m_scene);
+    auto rootScene = std::dynamic_pointer_cast<GameScene>(m_scene);
     anvil::ImguiSystem::Instance()->setScene(rootScene);
     rootScene->baseInit();
     std::cout << "Enter Play state" << std::endl;

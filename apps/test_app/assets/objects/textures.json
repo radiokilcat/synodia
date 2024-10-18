@@ -30,7 +30,11 @@
         "button_02": "Button04.png",
         "button_03": "Button05.png",
         "progressBar": "ProgressBarBorder.png",
-        "progress": "ProgressBar04.png"
+        "progress01": "ProgressBar01.png",
+        "progress02": "ProgressBar02.png",
+        "progress03": "ProgressBar03.png",
+        "progress04": "ProgressBar04.png",
+        "progress05": "ProgressBar05.png"
     },
     "pause": {
         "playbutton": "button.png",

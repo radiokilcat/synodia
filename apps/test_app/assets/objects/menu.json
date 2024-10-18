@@ -1,13 +1,4 @@
 {
-    "textures": {
-        "playbutton": "button.png",
-        "exitbutton": "exit.png",
-        "empty_button": "empty_button.png",
-        "background":  "menubackground.png"
-    },
-    "audio": {
-        "theme": "spooky_6.wav"
-    },
     "GameScene": {
         "id": "GameMenu",
         "type": "GameScene",
@@ -19,7 +10,7 @@
                 "width": 400,
                 "height": 100,
                 "textColor": [255, 255, 255, 0],
-                "position": { "x": 399.0, "y": 200.0 }
+                "TransformComponent": { "x": 399.0, "y": 200.0 }
             },
             {
                 "id": "button1",
@@ -27,7 +18,7 @@
                 "text": "Play Game",
                 "width": 400,
                 "height": 100,
-                "position": { "x": 399.0, "y": 300.0 },
+                "TransformComponent": { "x": 399.0, "y": 300.0 },
                 "textColor": [255, 255, 255, 0],
                 "image":  "empty_button"
             },
@@ -37,7 +28,7 @@
                 "text": "Load Game",
                 "width": 400,
                 "height": 100,
-                "position": { "x": 399.0, "y": 400.0 },
+                "TransformComponent": { "x": 399.0, "y": 400.0 },
                 "textColor": [255, 255, 255, 0],
                 "image":  "empty_button"
             },
@@ -47,7 +38,7 @@
                 "text": "Exit Game",
                 "width": 400,
                 "height": 100,
-                "position": { "x": 399.0, "y": 500.0 },
+                "TransformComponent": { "x": 399.0, "y": 500.0 },
                 "textColor": [255, 255, 255, 0],
                 "image":  "empty_button"
             }

@@ -56,7 +56,6 @@ std::filesystem::path StateLoader::getStateConfigFile(const std::string& stateId
 }
 
 
-// to be removed    
 std::filesystem::path StateLoader::getAudioConfigFile() {
     std::filesystem::current_path(getExecutableDir());
     auto resPath = std::filesystem::current_path() / "assets" / "objects" / "audio.json";
@@ -91,57 +90,85 @@ std::shared_ptr<IGameObject> StateLoader::loadGameObjects(const std::string& sta
         return {};
     }
 
-    return loadObjectAndChildren(data.at("GameScene"));
+    auto scene = loadObject(data.at("GameScene"));
+    loadUI(scene);
+    return scene;
+    // return loadObjectAndChildren(data.at("GameScene"));
 }
 
-nlohmann::json StateLoader::loadObjectTemplate(std::shared_ptr<IGameObject>& object, const nlohmann::json& data) {
+    nlohmann::json StateLoader::loadObjectTemplate(std::shared_ptr<IGameObject>& object, const nlohmann::json& data) {
     std::filesystem::current_path(getExecutableDir());
     auto resPath = std::filesystem::current_path() / "assets" / "objects" / fmt::format("objects_templates.json");
-    
+
     std::ifstream file(resPath);
-    
     if (!file.is_open()) {
-        std::cerr << "Failed to open file" << std::endl;
+        std::cerr << "Failed to open template file" << std::endl;
+        return data;
     }
-    
-    nlohmann::json templateData = nlohmann::json::parse(file);
+
+    nlohmann::json templateData;
+    try {
+        templateData = nlohmann::json::parse(file);
+    } catch (const std::exception& e) {
+        std::cerr << "Failed to parse JSON: " << e.what() << std::endl;
+        return data;
+    }
+
+    if (templateData.contains(data.at("type"))) {
+        auto defaultVal = templateData.at(data.at("type"));
+
+        for (auto& [key, val] : data.items()) {
+            defaultVal[key] = val;
+        }
+        return defaultVal;
+    }
+
+    return data;
+}
+
+void StateLoader::loadUI(const std::shared_ptr<IGameObject>& root) {
+    std::filesystem::current_path(getExecutableDir());
+    auto resPath = std::filesystem::current_path() / "assets" / "objects" / "GUIHolder.json";
+    std::ifstream file(resPath);
+
+    if (!file.is_open()) {
+        std::cerr << "Failed to open file " << resPath<< std::endl;
+    }
+    nlohmann::json data = nlohmann::json::parse(file);
 
     if (data.is_discarded()) {
         std::cerr << "Failed to parse JSON" << std::endl;
     }
 
-    auto defaultVal = templateData.at(data.at("type"));
-    for (auto& [key, val] : data.items()) {
-        defaultVal[key] = val;
-    }
-    return defaultVal;
+    auto GUIHolder = GameObjectFactory::instance().createGameObject("VisualNode");
+    loadChildObjects(GUIHolder, data);
+    root->addChild(GUIHolder);
 }
-
-void StateLoader::loadUI(const std::shared_ptr<IGameObject>& root, const json& data) {
-    if (data.find("UI") != data.end()) {
-        // root->addChild()
-    }
-}
-
 
 // main load function
-std::shared_ptr<IGameObject> StateLoader::loadObjectAndChildren(const json& rootData) {
+std::shared_ptr<IGameObject> StateLoader::loadObject(const json& rootData) {
     auto root = GameObjectFactory::instance().createGameObject(rootData.at("type"));
     auto newData = loadObjectTemplate(root, rootData);
-    // loadUI(root, newData);
     
     addTransformComponent(root, newData);
     addMovementComponent(root, newData);
     addSpriteComponent(root, newData);
     addTextComponent(root, newData);
     addCollisionComponent(root, newData);
-    
     loadChildObjects(root, newData);
 
     root->from_json(newData);
     return root;
 }
 
+void StateLoader::loadChildObjects(std::shared_ptr<IGameObject>& root, const json& data) {
+    if (data.find("childs") != data.end() && data.at("childs").is_array()) {
+        for (const auto& childJson : data.at("childs")) {
+            root->addChild(loadObject(childJson));
+        }
+    }
+}
+    
 std::vector<std::string> StateLoader::loadTextures(const std::string& stateId) {
     auto resPath = getTexturesConfigFile();
 
@@ -196,8 +223,8 @@ void StateLoader::loadAudio(const std::string& stateId) {
 }
 
 void StateLoader::addTransformComponent(std::shared_ptr<IGameObject>& root, const json& data) {
-    if (data.find("position") != data.end()) {
-        root->addComponent(std::make_shared<Transform2DComponent>(data["position"]));
+    if (data.find("TransformComponent") != data.end()) {
+        root->addComponent(std::make_shared<Transform2DComponent>(data["TransformComponent"]));
     }
 }
 
@@ -252,14 +279,5 @@ void StateLoader::addCollisionComponent(std::shared_ptr<IGameObject>& root, cons
         collider->setOwner(root);
     }
 }
-    
-void StateLoader::loadChildObjects(std::shared_ptr<IGameObject>& root, const json& data) {
-    if (data.find("childs") != data.end() && data.at("childs").is_array()) {
-        for (const auto& childJson : data.at("childs")) {
-            root->addChild(loadObjectAndChildren(childJson));
-        }
-    }
-}
-    
 }
 
