@@ -20,7 +20,6 @@ void GameScene::draw(std::shared_ptr<anvil::Renderer> renderer)
 
 void GameScene::update(Uint64 deltaTime)
 {
-//    m_tileMap->setTileOutline(p_x, p_y);
     m_player->setInverseMove(false);
 
     if (_dialogState)
@@ -109,5 +108,4 @@ float GameScene::distance(float x1, float y1, float x2, float y2) {
     float dy = y2 - y1;
 
     return std::sqrt(dx * dx + dy * dy);
-
 }

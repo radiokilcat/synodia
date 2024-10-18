@@ -1,6 +1,7 @@
 #include "components/Sprite2DComponent.h"
 
 #include "components/Transform2DComponent.h"
+#include <iostream>
 
 
 namespace anvil {
@@ -26,23 +27,28 @@ namespace anvil {
 	}
 	
 	Sprite2DComponent::Sprite2DComponent(const nlohmann::json& data) {
-
 		if (data.contains("image")) {
 			const auto& images = data["image"];
 			textureId_ = data["image"];
 		}
-		else if (data.contains("sprite")) {
-			for (const auto& [key, value]: data["sprite"]["animations"].items() ) {
+		if (data.contains("animations")) {
+			for (const auto& [key, value]: data["animations"].items() ) {
 				std::unordered_map<Direction, std::string> animation;
 				for (const auto& anim: value.items()) {
 					animation[getAnimationDirection(anim.value())] = anim.value();
 				}
 				animations_[key] = animation;
 			}
-			
 		}
+		else if (data.contains("states")) {
+			for (const auto& [key, value]: data["states"].items() ) {
+				states_[key] = value;
+			}
+		}
+		
 		frameWidth_ = data.value("width", 0.0);
 		frameHeight_ = data.value("height", 0.0);
+		scale = data.value("scale", 1.f);
 	}
 
 	void Sprite2DComponent::draw_sheet(std::shared_ptr<Renderer> renderer) {
@@ -64,11 +70,15 @@ namespace anvil {
 	}
 
 	void Sprite2DComponent::drawScaled(float x, float y, std::shared_ptr<Renderer> renderer) {
-		TextureManager::instance()->drawFrameScaled(textureId_, 1, x, y, frameWidth_, frameHeight_,
+		TextureManager::instance()->drawFrameScaled(textureId_, scale, x, y, frameWidth_, frameHeight_,
 													currentRow_, currentFrame_,
 													renderer->getRenderer());
 	}
-	
+
+	void Sprite2DComponent::setState(std::string state) {
+		textureId_ = states_[state];
+	}
+
 	void Sprite2DComponent::addAnimation(std::string name, std::unordered_map<Direction, std::string> animation) {
 		animations_[name] = animation;
 	}

@@ -13,13 +13,16 @@ set(SOURCES
   src/fontloader.cpp
   src/json_serializer.cpp
   src/stateloader.cpp
+  src/ui/scrollable_text.cpp
+  src/audio_manager.cpp
+
+  ## GameObjects
   src/game_objects/gameobject.cpp
   src/game_objects/tilemap.cpp
   src/game_objects/isogameobject.cpp
   src/game_objects/textlabel.cpp
   src/game_objects/GameObjectsFactory.cpp
-  src/ui/scrollable_text.cpp
-  src/audio_manager.cpp
+  src/game_objects/visualNode.cpp
   
   ## ImGui system
   src/AnvilImgui/ImguiSystem.cpp
@@ -27,8 +30,10 @@ set(SOURCES
   src/AnvilImgui/MenuBar.cpp
   src/AnvilImgui/EditorBar.cpp
 
+  ## Components
   src/components/MovementIsoComponent.cpp
   src/components/Sprite2DComponent.cpp
+  #src/components/ImageComponent.cpp
   src/components/Transform2DComponent.cpp
   src/components/TextComponent.cpp
 
@@ -56,27 +61,34 @@ set(HEADERS
   include/json_serializer/json_serializer.h
   include/json_serializer/serializable_base.h
   include/json_serializer/stateloader.h
+  include/ui/scrollable_text.h
+  include/audio_manager.h
+  include/logger.h
+  include/observer.h
+
+  ## VisualNode
   include/game_objects/IGameObject.h
   include/game_objects/isogameobject.h
   include/game_objects/textlabel.h
   include/game_objects/gameobject.h
   include/game_objects/tilemap.h
   include/game_objects/GameObjectsFactory.h
-  include/ui/scrollable_text.h
-  include/audio_manager.h
-  include/logger.h
+  include/game_objects/visualNode.h
 
+  ## ImGui
   include/AnvilImgui/ImguiSystem.h
   include/AnvilImgui/SceneWidget.h
   include/AnvilImgui/MenuBar.h
   include/AnvilImgui/EditorBar.h
 
-  include/observer.h
+
+  ## Components
   include/components/IComponent.h
   include/components/TransformComponent.h
   include/components/Collision2DComponent.h
   include/components/MovementIsoComponent.h
   include/components/Sprite2DComponent.h
+  #include/components/ImageComponent.h
   include/components/Transform2DComponent.h
   include/components/TextComponent.h
 )

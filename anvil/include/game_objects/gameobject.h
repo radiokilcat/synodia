@@ -18,6 +18,7 @@ class GameObject : public IGameObject
 {
 public:
     GameObject() {};
+    GameObject(int layer, bool outline) { layer_ = layer; outline_ = outline; };
     ~GameObject() {};
 
     void draw(std::shared_ptr<Renderer> renderer) override;

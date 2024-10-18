@@ -1,0 +1,57 @@
+{
+    "type": "VisualNode",
+    "id": "playGUIHolder",
+    "childs": [
+        {
+            "type": "GUIProgressBar",
+            "id": "ProgressBar",
+            "childs": [
+                {
+                    "id": "ProgressBorder",
+                    "type": "VisualNode",
+                    "TransformComponent": {
+                        "x": 10.0, "y": 30.0
+                    },
+                    "spriteComponent": {
+                        "scale": 0.7,
+                        "width": 400,
+                        "height": 53,
+                        "states": {
+                            "idle" : "progressBar"
+                        }
+                    }
+                },
+                {
+                    "id": "ProgressGreen",
+                    "type": "VisualNode",
+                    "TransformComponent": {
+                        "x": 10.0, "y": 30.0
+                    },
+                    "spriteComponent": {
+                        "scale": 0.7,
+                        "width": 400,
+                        "height": 53,
+                        "states": {
+                            "idle" : "progress04"
+                        }
+                    }
+                },
+                {
+                    "id": "ProgressBackground",
+                    "type": "VisualNode",
+                    "TransformComponent": {
+                        "x": 10.0, "y": 30.0
+                    },
+                    "spriteComponent": {
+                        "scale": 0.7,
+                        "width": 400,
+                        "height": 53,
+                        "states": {
+                            "idle" : "progress05"
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

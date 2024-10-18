@@ -13,6 +13,8 @@ add_executable(test_app
     gui/menubutton.cpp
     gui/textbutton.h
     gui/textbutton.cpp
+    gui/progressBar.h
+    gui/progressBar.cpp
 
     gameobjects/gamescene.h
     gameobjects/gamescene.cpp

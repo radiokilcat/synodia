@@ -12,15 +12,7 @@ public:
     void draw(std::shared_ptr<anvil::Renderer> renderer) override;
     void update(Uint64 deltaTime) override;
     void clean() override;
-    void init() {};
-
-    // for now we can load gameScene via load / from_json
-    // TODO: probably need to leave one way
     void load();
-
-    // void to_json(nlohmann::json& j) override;
-    // void from_json(const nlohmann::json& j) override;
-
     static bool registerWithFactory();
 
     void addChild(std::shared_ptr<IGameObject> gameObject) override;

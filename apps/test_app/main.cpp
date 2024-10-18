@@ -9,6 +9,7 @@
 #include "gameobjects/stationary.h"
 #include "gui/menubutton.h"
 #include "gui/textbutton.h"
+#include "gui/progressBar.h"
 
 #include "states/pausestate.h"
 #include "states/playstate.h"
@@ -32,12 +33,13 @@ int main(int argc, char *argv[])
     auto app = anvil::Application::Instance();
 
     anvil::TileMap::registerWithFactory();
+    anvil::TextLabel::registerWithFactory();
+    anvil::VisualNode::registerWithFactory();
     GameScene::registerWithFactory();
     Player::registerWithFactory();
     NonPlayable::registerWithFactory();
     MenuButton::registerWithFactory();
     TextButton::registerWithFactory();
-    anvil::TextLabel::registerWithFactory();
     Stationary::registerWithFactory();
 
     app->addInitCallback([]{

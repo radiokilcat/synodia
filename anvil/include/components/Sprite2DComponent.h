@@ -3,6 +3,7 @@
 #include "IComponent.h"
 #include "nlohmann/json.hpp"
 #include "texturemanager.h"
+#include "fmt/format.h"
 #include "game_objects/gameobject.h"
 
 namespace anvil {
@@ -34,6 +35,7 @@ public:
 
 	void setWidth(float width) { frameWidth_ = width; }
 	void setHeight(float height) { frameHeight_ = height; }
+	void setState(std::string state);
 	
 private:
 	void addAnimation(std::string name, std::unordered_map<anvil::Direction, std::string> animation);
@@ -50,6 +52,8 @@ private:
 	int currentFrame_ = 0;
 	int currentRow_ = 1;
 	float elapsedTime_ = 0.f;
+	float scale;
+	std::unordered_map<std::string, std::string> states_;
 };
 
 }
