@@ -123,7 +123,7 @@ void Player::init() {
     if (!movement_) {
         movement_ = getComponent<anvil::MovementIsoComponent>();
     }
-    sprite_->setCurrentSheet("lady_idle");
+    sprite_->setCurrentAnimation("idle", anvil::Direction::Down);
     sprite_->setCurrentFrame(0);
     sprite_->setCurrentRow(1);
 }
