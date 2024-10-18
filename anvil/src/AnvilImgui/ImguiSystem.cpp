@@ -1,6 +1,5 @@
 #include "AnvilImgui/ImguiSystem.h"
 #include "application.h"
-#include "../../../apps/test_app/gameobjects/gamescene.h"
 #include <imgui.h>
 
 #include "AnvilImgui/MenuBar.h"
@@ -52,6 +51,14 @@ namespace anvil {
         ImGui_ImplSDLRenderer3_RenderDrawData(ImGui::GetDrawData());
     }
 
+    void ImguiSystem::update() {
+        for (const auto& task : updateTasks) {
+            task();
+        }
+        updateTasks.clear();
+
+    }
+
     void ImguiSystem::shutDown() {
         ImGui_ImplSDLRenderer3_Shutdown();
         ImGui_ImplSDL3_Shutdown();
@@ -75,6 +82,10 @@ namespace anvil {
         if (widgetVisibility.find(name) != widgetVisibility.end()) {
             widgetVisibility[name] = false;
         }
+    }
+
+    void ImguiSystem::addUpdateTask(std::function<void()> task) {
+        updateTasks.push_back(task);
     }
 
     void ImguiSystem::setScene(std::shared_ptr<GameObject> scene) {
