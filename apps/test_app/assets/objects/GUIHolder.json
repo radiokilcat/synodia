@@ -7,17 +7,17 @@
             "id": "ProgressBar",
             "childs": [
                 {
-                    "id": "ProgressBorder",
+                    "id": "ProgressBackground",
                     "type": "VisualNode",
                     "TransformComponent": {
-                        "x": 10.0, "y": 30.0
+                        "x": 7.0, "y": 26.0
                     },
                     "spriteComponent": {
                         "scale": 0.7,
                         "width": 400,
                         "height": 53,
                         "states": {
-                            "idle" : "progressBar"
+                            "idle" : "progress05"
                         }
                     }
                 },
@@ -25,7 +25,7 @@
                     "id": "ProgressGreen",
                     "type": "VisualNode",
                     "TransformComponent": {
-                        "x": 10.0, "y": 30.0
+                        "x": 7.0, "y": 26.0
                     },
                     "spriteComponent": {
                         "scale": 0.7,
@@ -37,7 +37,7 @@
                     }
                 },
                 {
-                    "id": "ProgressBackground",
+                    "id": "ProgressBorder",
                     "type": "VisualNode",
                     "TransformComponent": {
                         "x": 10.0, "y": 30.0
@@ -47,7 +47,7 @@
                         "width": 400,
                         "height": 53,
                         "states": {
-                            "idle" : "progress05"
+                            "idle" : "progressBar"
                         }
                     }
                 }
