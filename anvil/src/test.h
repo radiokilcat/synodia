@@ -1,5 +1,4 @@
-#ifndef TEST_H
-#define TEST_H
+#pragma once
 
 #include <iostream>
 //#include <SDL3/SDL.h>
@@ -16,4 +15,3 @@ namespace anvil {
 
     void print1() { std::cout << "finally, we are here" << std::endl; };
 }
-#endif // TEST_H

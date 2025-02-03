@@ -1,9 +1,9 @@
-#include "AnvilImgui/ImguiSystem.h"
+#include "ImguiSystem.h"
 #include "application.h"
 #include <imgui.h>
 
-#include "AnvilImgui/MenuBar.h"
-#include "AnvilImgui/SceneWidget.h"
+#include "MenuBar.h"
+#include "SceneWidget.h"
 #include "backends/imgui_impl_sdlrenderer3.h"
 #include "backends/imgui_impl_sdl3.h"
 #include "components/Sprite2DComponent.h"

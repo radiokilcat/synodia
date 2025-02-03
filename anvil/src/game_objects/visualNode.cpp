@@ -1,4 +1,4 @@
-#include "game_objects/visualNode.h"
+#include "visualNode.h"
 #include "nlohmann/json.hpp"
 
 namespace anvil

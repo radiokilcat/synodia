@@ -1,7 +1,7 @@
 add_subdirectory(third_party)
 
 if(WIN32)
- set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 endif()
 
 include(sources.cmake)
@@ -14,35 +14,35 @@ target_include_directories(anvil
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
     PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
 )
 
 if(BUILD_SHARED_LIBS)
- target_link_libraries(anvil 
-    PUBLIC
-      SDL3::SDL3
-      SDL3_image::SDL3_image
-      SDL3_ttf::SDL3_ttf
-      SDL3_mixer::SDL3_mixer
-      fmt::fmt
- )
+    target_link_libraries(anvil 
+        PUBLIC
+            SDL3::SDL3
+            SDL3_image::SDL3_image
+            SDL3_ttf::SDL3_ttf
+            SDL3_mixer::SDL3_mixer
+            fmt::fmt
+    )
 else()
- target_link_libraries(anvil
-    PUBLIC
-      SDL3::SDL3-static
-      SDL3_image::SDL3_image-static
-      SDL3_ttf::SDL3_ttf-static
-      SDL3_mixer::SDL3_mixer-static
-      fmt::fmt
- )
+    target_link_libraries(anvil
+        PUBLIC
+            SDL3::SDL3-static
+            SDL3_image::SDL3_image-static
+            SDL3_ttf::SDL3_ttf-static
+            SDL3_mixer::SDL3_mixer-static
+            fmt::fmt
+    )
 endif()
+
 target_link_libraries(anvil
     PRIVATE 
-      inipp
+        inipp
     PUBLIC
-      nlohmann_json
-      imgui
+        nlohmann_json
+        imgui
 )
-
 
 add_subdirectory(tests)

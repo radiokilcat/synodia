@@ -3,12 +3,12 @@
 #include <string>
 
 #include "renderer.h"
-#include "game_objects/textlabel.h"
+#include "textlabel.h"
 
 #include "components/Transform2DComponent.h"
 #include "components/Sprite2DComponent.h"
 #include "components/TextComponent.h"
-#include "game_objects/GameObjectsFactory.h"
+#include "GameObjectsFactory.h"
 
 namespace anvil {
 

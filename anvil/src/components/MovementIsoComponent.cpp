@@ -1,5 +1,5 @@
-#include "components/MovementIsoComponent.h"
-#include "components/Transform2DComponent.h"
+#include "MovementIsoComponent.h"
+#include "Transform2DComponent.h"
 
 namespace anvil {
 	void MovementIsoComponent::update(Uint64 deltaTime) {

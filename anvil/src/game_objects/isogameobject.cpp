@@ -1,5 +1,5 @@
-#include "game_objects/isogameobject.h"
-#include "game_objects/textlabel.h"
+#include "isogameobject.h"
+#include "textlabel.h"
 #include <fmt/format.h>
 #include "logger.h"
 

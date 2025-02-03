@@ -1,6 +1,6 @@
-#include "components/Sprite2DComponent.h"
+#include "Sprite2DComponent.h"
 
-#include "components/Transform2DComponent.h"
+#include "Transform2DComponent.h"
 #include <iostream>
 
 
