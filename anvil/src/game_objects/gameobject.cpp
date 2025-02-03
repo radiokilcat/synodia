@@ -1,6 +1,6 @@
 #pragma once
 
-#include "game_objects/gameobject.h"
+#include "gameobject.h"
 
 #include <string>
 #include <nlohmann/json.hpp>

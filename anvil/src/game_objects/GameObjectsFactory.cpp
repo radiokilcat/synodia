@@ -1,8 +1,8 @@
-#include "game_objects/GameObjectsFactory.h"
+#include "GameObjectsFactory.h"
 
 #include <iostream>
 
-#include "game_objects/gameobject.h"
+#include "gameobject.h"
 
 namespace anvil {
 

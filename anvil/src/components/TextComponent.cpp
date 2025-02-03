@@ -1,7 +1,7 @@
-#include "components/TextComponent.h"
+#include "TextComponent.h"
 
 #include "fontloader.h"
-#include "components/Transform2DComponent.h"
+#include "Transform2DComponent.h"
 
 namespace anvil {
 	

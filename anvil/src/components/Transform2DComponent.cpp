@@ -1,4 +1,4 @@
-#include "components/Transform2DComponent.h"
+#include "Transform2DComponent.h"
 
 
 void anvil::Transform2DComponent::setPosition(const Vector2D& position) {

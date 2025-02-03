@@ -1,10 +1,10 @@
-#include "game_objects/tilemap.h"
+#include "tilemap.h"
 #include "renderer.h"
 #include "application.h"
 #include  <random>
 
 #include "texturemanager.h"
-#include "game_objects/GameObjectsFactory.h"
+#include "GameObjectsFactory.h"
 
 
 const int MAX_TILE_HEIGHT = 90;
