@@ -14,7 +14,7 @@
 #include <ui/scrollable_text.h>
 #include <AnvilImgui/ImguiSystem.h>
 
-#include "logger.h"
+#include "Logger/Logger.h"
 
 SDL_Texture* createBlankTexture(SDL_Renderer* renderer, int width, int height)
 {

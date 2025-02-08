@@ -1,7 +1,7 @@
 #include "isogameobject.h"
 #include "textlabel.h"
 #include <fmt/format.h>
-#include "logger.h"
+#include "Logger/Logger.h"
 
 namespace anvil {
 

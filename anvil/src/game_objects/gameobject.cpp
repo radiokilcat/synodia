@@ -5,7 +5,7 @@
 #include <string>
 #include <nlohmann/json.hpp>
 #include "renderer.h"
-#include "logger.h"
+#include "Logger/Logger.h"
 #include <fmt/format.h>
 
 #include "components/IComponent.h"
