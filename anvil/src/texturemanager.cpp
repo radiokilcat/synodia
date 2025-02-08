@@ -3,7 +3,7 @@
 #include "texturemanager.h"
 #include <iostream>
 #include <vector2d.h>
-#include "logger.h"
+#include "Logger/logger.h"
 #include <fmt/format.h>
 
 static anvil::TextureManager* instance_;

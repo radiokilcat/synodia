@@ -12,7 +12,9 @@ class Renderer
 public:
     static std::shared_ptr<Renderer> create(std::unique_ptr<Window>& window);
 
-    Renderer(std::unique_ptr<Window>& window);
+    static std::shared_ptr<Renderer> create(SDL_Window *window);
+
+    Renderer(SDL_Window* window);
     ~Renderer();
 
     [[nodiscard]] auto getRenderer() const noexcept -> SDL_Renderer* { return m_renderer.get(); }

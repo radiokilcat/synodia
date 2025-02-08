@@ -11,13 +11,13 @@
 
 namespace anvil {
 
-    void ImguiSystem::init(std::unique_ptr<Window> &window, SDL_Renderer *renderer) {
+    void ImguiSystem::init(SDL_Window* window, SDL_Renderer *renderer) {
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImGuiIO &io{ImGui::GetIO()};
 
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-        ImGui_ImplSDL3_InitForSDLRenderer(window->getWindow(), renderer);
+        ImGui_ImplSDL3_InitForSDLRenderer(window, renderer);
         ImGui_ImplSDLRenderer3_Init(renderer);
 
         RegisterWidget("MenuBar", std::make_shared<MenuBar>());

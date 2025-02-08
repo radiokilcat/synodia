@@ -1,20 +1,19 @@
-#include "IComponent.h"
-#include "nlohmann/json.hpp"
+#pragma once
+
+#include <glm/glm.hpp>
 
 namespace anvil {
 
-class TransformComponent  {
-public:	
-    TransformComponent(const nlohmann::json& data) {
-        x_ = data.value("position", nlohmann::json::object()).value("x", 0.0f);
-        y_ = data.value("position", nlohmann::json::object()).value("y", 0.0f);
-        
-    };
-    
-private:
-    float getX() const          { return x_; }
-    float getY() const          { return y_; }
-    float x_, y_;
+struct TransformComponent {
+    glm::vec2 position;
+    glm::vec2 scale;
+    double rotation;
+
+    TransformComponent(glm::vec2 position = glm::vec2(0, 0), glm::vec2 scale = glm::vec2(1, 1), double rotation = 0.0) {
+        this->position = position;
+        this->scale = scale;
+        this->rotation = rotation;
+    }
 };
-    
+
 }

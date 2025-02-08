@@ -4,7 +4,7 @@
 #include "nonplayable.h"
 #include "../states/losestate.h"
 #include "../states/winstate.h"
-#include "logger.h"
+#include "Logger/Logger.h"
 #include "components/MovementIsoComponent.h"
 #include "components/Sprite2DComponent.h"
 

@@ -7,7 +7,7 @@
 
 namespace anvil {
     
-class CollisionComponent: public IComponent {
+class CollisionComponent: public IOLDComponent {
 public:
     CollisionComponent(float width, float height) : width_(width), height_(height) {}
 

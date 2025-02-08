@@ -8,7 +8,7 @@
 
 namespace anvil {
 	
-class Sprite2DComponent : public IComponent {
+class Sprite2DComponent : public IOLDComponent {
 public:
 	Sprite2DComponent(const nlohmann::json& data);
 	~Sprite2DComponent() = default;

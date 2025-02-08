@@ -19,7 +19,7 @@ public:
     ImguiSystem() = default;
     ~ImguiSystem() = default;
 
-    void init(std::unique_ptr<anvil::Window>& window, SDL_Renderer* renderer);
+    void init(SDL_Window* window, SDL_Renderer* renderer);
     static ImguiSystem* Instance();
 
     void render();
