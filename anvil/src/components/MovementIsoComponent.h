@@ -8,7 +8,7 @@
 namespace anvil {
 	class Transform2DComponent;
 	
-	class MovementIsoComponent : public IComponent {
+	class MovementIsoComponent : public IOLDComponent {
 	public:
 		MovementIsoComponent(const nlohmann::json& data): velocity_(0.0f, 0.0f), acceleration_(0.0f, 0.0f) { };
 

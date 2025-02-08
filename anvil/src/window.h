@@ -25,8 +25,12 @@ public:
 
     [[nodiscard]] auto getWindow() const noexcept -> SDL_Window* { return m_window.get(); }
     std::optional<SDL_Event> pollEvents();
+    int getWidth() const;
+    int getHeight() const;
 
 private:
+    int width;
+    int height;
 
     void quit();
     std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> m_window;

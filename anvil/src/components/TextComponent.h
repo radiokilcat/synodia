@@ -14,7 +14,7 @@ struct Color {
     uint8_t B;
 };
 
-class TextComponent: public IComponent {
+class TextComponent: public IOLDComponent {
 public:
     TextComponent(std::string text, Color color, TTF_Font* font = FontLoader::instance()->getDefaultFont());
     TextComponent(const nlohmann::json& data);

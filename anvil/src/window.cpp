@@ -1,6 +1,7 @@
 #include <stdexcept>
 
 #include "window.h"
+#include "Logger/Logger.h"
 
 namespace anvil {
 
@@ -9,6 +10,7 @@ std::unique_ptr<Window> Window::create(const std::string &title,
                                        int height,
                                        SDL_WindowFlags flags)
 {
+    Logger::Log("Window created with title: " + title + " width: " + std::to_string(width) + " height: " + std::to_string(height));
     return std::make_unique<Window>(title, width, height, flags);
 }
 
@@ -26,12 +28,24 @@ Window::Window(const std::string &title, int width, int height, SDL_WindowFlags 
             SDL_Log("Display %" SDL_PRIu32 " mode %d: %dx%d@%gx %gHz\n",
                     display, mode->w, mode->h, mode->pixel_density, mode->refresh_rate);
         }
-
+        // width = mode->w;
+        // height = mode->h;
     }
 }
 
-Window::~Window()
-{
+int Window::getWidth() const {
+    // int w, h;
+    // window->getSize(&w, &h);
+    return 0;
+}
+
+int Window::getHeight() const {
+    // int w, h;
+    // window->getSize(&w, &h);
+    return 0;
+}
+
+Window::~Window() {
     quit();
 }
 
@@ -59,6 +73,7 @@ std::pair<int, int> Window::getWindowSize()
     int width = 0;
     int height = 0;
     int result = SDL_GetWindowSize(getWindow(), &width, &height);
+
     if (result != 0)
         SDL_LogCritical(SDL_LogCategory::SDL_LOG_CATEGORY_ERROR, SDL_GetError());
 

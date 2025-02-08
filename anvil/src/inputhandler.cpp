@@ -3,6 +3,7 @@
 
 #include "inputhandler.h"
 #include "application.h"
+#include "Systems/KeyboardControlSystem.h"
 
 
 namespace anvil {
@@ -68,6 +69,9 @@ void InputHandler::handleEvents()
 
         if (event.type == SDL_EVENT_QUIT) {
             Application::Instance()->quit();
+        }
+        if (event.type == SDL_EVENT_KEY_DOWN) {
+            eventBus->EmitEvent<KeyPressedEvent>(event.key.keysym.sym);
         }
         if (event.type == SDL_EVENT_KEY_UP) {
             m_releasedKeys[event.key.keysym.scancode] = 1;

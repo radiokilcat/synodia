@@ -7,9 +7,9 @@
 namespace anvil {
 	class IGameObject;
 
-	class IComponent {
+	class IOLDComponent {
 public:
-	virtual ~IComponent() = default;
+	virtual ~IOLDComponent() = default;
 	virtual void init() = 0;
 	virtual void update(Uint64 deltaTime) = 0;
 	virtual void from_json(const nlohmann::json& j) = 0;

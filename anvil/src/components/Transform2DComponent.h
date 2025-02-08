@@ -6,7 +6,7 @@
 
 namespace anvil {
 
-class Transform2DComponent: public IComponent {
+class Transform2DComponent: public IOLDComponent {
 public:	
     Transform2DComponent(const nlohmann::json& data) {
         x_ = data.value("x", 0.0f);

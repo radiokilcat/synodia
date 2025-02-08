@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "vector2d.h"
+#include "EventBus/EventBus.h"
 
 namespace anvil {
 
@@ -52,6 +53,7 @@ private:
     const Uint8* m_keyState;
     std::vector<Uint8> m_releasedKeys;
     bool anyKeyPressed_ = false;
+    std::unique_ptr<EventBus> eventBus;
 };
 
 

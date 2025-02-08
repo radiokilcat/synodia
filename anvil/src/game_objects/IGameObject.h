@@ -8,7 +8,7 @@
 #include "components/IComponent.h"
 
 namespace anvil {
-class IComponent;
+class IOLDComponent;
 
 class IGameObject
 {
@@ -81,7 +81,7 @@ public:
     
 protected:
     std::string id_;
-    std::unordered_map<std::type_index, std::shared_ptr<IComponent>> components_;
+    std::unordered_map<std::type_index, std::shared_ptr<IOLDComponent>> components_;
     std::vector<std::shared_ptr<anvil::IGameObject>> m_children;
 };
 

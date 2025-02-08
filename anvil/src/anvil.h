@@ -2,7 +2,6 @@
 
 #include "utils.h"
 #include "application.h"
-#include "logger.h"
 #include "window.h"
 #include "renderer.h"
 #include "inputhandler.h"
@@ -19,6 +18,7 @@
 #include "game_objects/IGameObject.h"
 #include "game_objects/GameObjectsFactory.h"
 #include "game_objects/visualNode.h"
+#include "Logger/Logger.h"
 #include "components/IComponent.h"
 #include "components/Transform2DComponent.h"
 #include "ui/scrollable_text.h"

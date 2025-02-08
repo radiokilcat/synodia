@@ -167,8 +167,8 @@ void GameSceneWidget::drawNode(std::weak_ptr<GameObject> node) {
     if (auto root = node.lock()) {
         drawSingleNode(root);
     }
-    else {
-        std::cout << "cannot lock the object" << std::endl;
+    // else {
+        // std::cout << "cannot lock the object" << std::endl;
     }
-}
+
 }
