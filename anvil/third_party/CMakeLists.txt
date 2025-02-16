@@ -1,3 +1,6 @@
+### THIRD PARTY LIBRARIES
+set(CMAKE_WARN_DEPRECATED OFF)
+
 ### SDL
 if (NOT BUILD_SHARED_LIBS)
   set(SDL_SHARED_ENABLED_BY_DEFAULT OFF CACHE BOOL "Don't build SDL as shared lib")
@@ -63,7 +66,7 @@ set_target_properties(SDL3_mixer PROPERTIES
 ## inipp 
 add_subdirectory(inipp)
 
-## nlochmann json
+## nlohmann json
 add_subdirectory(json)
 
 ## fmtlib
@@ -92,3 +95,12 @@ add_library(imgui STATIC
 target_include_directories(imgui PUBLIC ${imgui_SOURCE_DIR})
 target_link_libraries(imgui PUBLIC SDL3::SDL3)
 
+### GLM
+set(GLM_DIR ${CMAKE_CURRENT_SOURCE_DIR}/glm)
+set(GLM_BUILD_TESTS OFF CACHE BOOL "Build GLM tests")
+set(GLM_BUILD_LIBRARY OFF CACHE BOOL "Build libraries off")
+add_subdirectory(glm)
+
+
+### END OF THIRD PARTY LIBRARIES
+set(CMAKE_WARN_DEPRECATED ON)
