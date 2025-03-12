@@ -29,3 +29,9 @@
 [submodule "anvil/third_party/glm"]
 	path = anvil/third_party/glm
 	url = https://github.com/g-truc/glm.git
+[submodule "anvil/third_party/sol2"]
+	path = anvil/third_party/sol2
+	url = https://github.com/ThePhD/sol2.git
+[submodule "anvil/third_party/lua"]
+	path = anvil/third_party/lua
+	url = https://github.com/lua/lua.git

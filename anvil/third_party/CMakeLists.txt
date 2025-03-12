@@ -101,6 +101,18 @@ set(GLM_BUILD_TESTS OFF CACHE BOOL "Build GLM tests")
 set(GLM_BUILD_LIBRARY OFF CACHE BOOL "Build libraries off")
 add_subdirectory(glm)
 
+### Lua
+file(GLOB LUA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/lua/*.c)
+add_library(lua STATIC ${LUA_SOURCES})
+target_include_directories(lua PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/lua/src)
+
+### Sol2
+add_library(sol2 INTERFACE)
+target_include_directories(sol2 INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/sol2/include)
+target_link_libraries(sol2 INTERFACE lua)
+
+
 
 ### END OF THIRD PARTY LIBRARIES
 set(CMAKE_WARN_DEPRECATED ON)
+
