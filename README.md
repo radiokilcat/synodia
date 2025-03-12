@@ -10,7 +10,6 @@ mkdir build
 cd build
 cmake .. # add -DBUILD_SHARED_LIBS=OFF to link statically
 cmake --build . --target 
-./build/bin/release/test_app
 ```
 
 Project doc: 
