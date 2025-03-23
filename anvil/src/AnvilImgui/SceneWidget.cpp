@@ -1,174 +1,229 @@
 #include "SceneWidget.h"
 
-#include <iostream>
-
 #include "imgui.h"
-#include "components/Sprite2DComponent.h"
-#include "components/Transform2DComponent.h"
+#include "../ECS/ECS.h"
+#include "../components/TransformComponent.h"
+#include "../components/SpriteComponent.h"
+#include "../components/RigidBodyComponent.h"
+#include "../components/HealthComponent.h"
+#include "../components/ProjectileEmitterComponent.h"
+#include "../components/KeyboardControlledComponent.h"
 
 namespace anvil {
-	
+
 void GameSceneWidget::draw() {
+    if (registry_)
+        propertyWindow(true);
+}
+
+void GameSceneWidget::propertyWindow(bool p_open) {
     ImGui::Begin("test", NULL, ImGuiWindowFlags_None);
     if (ImGui::BeginTable("##split", 2, ImGuiTableFlags_BordersOuter | ImGuiTableFlags_Resizable |
                                         ImGuiTableFlags_ScrollY)) {
         ImGui::TableSetupScrollFreeze(0, 1);
-        ImGui::TableSetupColumn("Nodes tree");
+        ImGui::TableSetupColumn("Entities");
         ImGui::TableSetupColumn("Properties");
-            // ImGui::TableSetupColumn("Node Tree", ImGuiTableColumnFlags_WidthFixed, 200.0f);  // Fixed width for the tree
-            // ImGui::TableSetupColumn("Properties", ImGuiTableColumnFlags_WidthStretch);  // Stretch the properties column
         ImGui::TableHeadersRow();
         ImGui::TableNextColumn();
-        drawNode(scene);
+
+        const auto& entities = registry_->GetEntities();
+        for (const auto& e : entities) {
+            listEntity(e);
+        }
+
         ImGui::TableNextColumn();
-        if (currentObj) {
-            drawPropertiesWidget(currentObj);
-        } else {
-            ImGui::Text("No node selected.");
+        if (m_openEntityId != -1) {
+            for (const auto& e : entities) {
+                if (e.GetId() == m_openEntityId) {
+                    componentsProperties(e);
+                }
+            }
         }
         ImGui::EndTable();
     }
     ImGui::End();
 }
-	
-void GameSceneWidget::drawWidgets() {
-    ImGui::SetNextWindowPos(ImVec2(200, 200), ImGuiCond_FirstUseEver);
-    ImGui::Begin("My First Tool", NULL, ImGuiWindowFlags_MenuBar);
-    if (ImGui::BeginMenuBar()) {
-        if (ImGui::BeginMenu("File")) {
-            if (ImGui::MenuItem("Open..", "Ctrl+O")) {}
-            if (ImGui::MenuItem("Save", "Ctrl+S")) {}
-            if (ImGui::MenuItem("Close", "Ctrl+W")) {}
-            ImGui::EndMenu();
+
+void GameSceneWidget::listEntity(const Entity& entity) {
+    {
+        ImGui::PushID(entity.GetId());
+        std::string label = "entity_" + std::to_string(entity.GetId());
+
+        bool isOpen = false;
+
+        if (entity.GetId() == m_openEntityId) {
+            isOpen = true;
         }
-        ImGui::EndMenuBar();
-    }
-    float my_color[] = {0, 0, 255.f};
-
-    // Edit a color stored as 4 floats
-    ImGui::ColorEdit4("Color", my_color);
-
-    // Generate samples and plot them
-    float samples[100];
-    for (int n = 0; n < 100; n++)
-        samples[n] = sinf(n * 0.2f + ImGui::GetTime() * 1.5f);
-    ImGui::PlotLines("Samples", samples, 100);
-
-    // Display contents in a scrolling region
-    ImGui::TextColored(ImVec4(1, 1, 0, 1), "Important Stuff");
-    ImGui::BeginChild("Scrolling");
-    for (int n = 0; n < 50; n++)
-        ImGui::Text("%04d: Some text", n);
-    ImGui::EndChild();
-    ImGui::End();
-}
+        ImGui::SetNextItemOpen(isOpen, ImGuiCond_Always);
     
-void GameSceneWidget::addGameObject(GameObject* obj) {
-    objects.push_back(obj);
+        bool node_open = ImGui::TreeNodeEx(
+            label.c_str(),
+            ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanFullWidth
+        );
+
+        // bool isOpen = (entity.GetId() == m_openEntityId);
+        if (ImGui::IsItemClicked()) {
+            m_openEntityId = entity.GetId();
+        }
+    
+        if (node_open) {
+            ImGui::TreePop();
+        }
+        ImGui::PopID();
+    }
+    
 }
 
-void GameSceneWidget::setRootNode(std::shared_ptr<GameObject> node) {
-    scene = node;
-}
-
-void GameSceneWidget::drawPropertiesWidget(std::shared_ptr<GameObject> node) {
+void GameSceneWidget::componentsProperties(const Entity& entity) {
     ImGui::SetCursorPosY(ImGui::GetTextLineHeight() * 2);
-    if (!node.get())
-        return;
-    // Transform
-    {
-        ImGui::SeparatorText("TransformComponent");
-        auto transform = node->getComponent<Transform2DComponent>();
-        if (!transform)
-            return;
-        
-        float x = transform->getX();
-        float y = transform->getY();
-        ImGui::PushItemWidth(200);
-        if (ImGui::InputFloat("x    ", &x, 10.f, 10.f)) {
-            transform->setX(x);
-        }
-        ImGui::SameLine();
-        if (ImGui::InputFloat("y", &y, 10.f, 10.f)) {
-            transform->setY(y);
-        }
-        float width = transform->getWidth();
-        float height = transform->getHeight();
-        if (ImGui::InputFloat("width##transform", &width, 10.f, 10.f)) {
-            transform->setWidth(width);
-        }
-        ImGui::SameLine();
-        if (ImGui::InputFloat("height##transform", &height, 10.f, 10.f)) {
-            transform->setHeight(height);
-        }
-    }
-    //Sprite
-    {
-        ImGui::SeparatorText("Sprite");
-        auto sprite = node->getComponent<Sprite2DComponent>();
-        if (!sprite)
-            return;
-        float width = sprite->width();
-        float height = sprite->height();
-        if (ImGui::InputFloat("width##sprite", &width, 10.f, 10.f)) {
-            ImguiSystem::Instance()->addUpdateTask([sprite, width]() {
-                sprite->setWidth(width);
-            });
-        }
-        ImGui::SameLine();
-        if (ImGui::InputFloat("height##sprite", &height, 10.f, 10.f)) {
-            ImguiSystem::Instance()->addUpdateTask([sprite, height]() {
-                sprite->setHeight(height);
-            });
-        }
-        int row = sprite->getCurrentRow();
-        int frame = sprite->getCurrentFrame();
-        if (ImGui::InputInt("currentrow", &row, 1)) {
-            sprite->setCurrentRow(row);
-        }
-        if (ImGui::InputInt("currentframe", &frame, 1)) {
-            sprite->setCurrentFrame(row);
-        }
-        //
 
-       constexpr size_t bufferSize = 256;
-       char buffer[bufferSize];
-       std::string str0 = sprite->getTextureId();
-       std::strncpy(buffer, str0.c_str(), bufferSize);
-       buffer[bufferSize - 1] = '\0';
-       if (ImGui::InputText("current sheet", buffer, bufferSize)) {
-           sprite->setCurrentSheet(std::string(buffer)); 
-       }
+    if (entity.HasComponent<TransformComponent>()) {
+        drawTransformComponent(entity.GetComponent<TransformComponent>());
+    }
+
+    if (entity.HasComponent<SpriteComponent>()) {
+        drawSpriteComponent(entity.GetComponent<SpriteComponent>());
+    }
+
+    if (entity.HasComponent<AnimationComponent>()) {
+        drawAnimationComponent(entity.GetComponent<AnimationComponent>());
+    }
+
+    if (entity.HasComponent<RigidBodyComponent>()) {
+        drawRigidBodyComponent(entity.GetComponent<RigidBodyComponent>());
+    }
+
+    if (entity.HasComponent<HealthComponent>()) {
+        drawHealthComponent(entity.GetComponent<HealthComponent>());
+    }
+
+    if (entity.HasComponent<ProjectileEmitterComponent>()) {
+        drawProjectileEmitterComponent(entity.GetComponent<ProjectileEmitterComponent>());
+    }
+
+    if (entity.HasComponent<KeyboardControlledComponent>()) {
+        drawKeyboardControlledComponent(entity.GetComponent<KeyboardControlledComponent>());
+    }
+
+    if (entity.HasComponent<TextLabelComponent>()) {
+        drawTextComponent(entity.GetComponent<TextLabelComponent>());
     }
 }
 
-    void GameSceneWidget::drawSingleNode(std::shared_ptr<GameObject> node) {
-    ImGui::PushID(node->getId().c_str());
-    bool node_open = ImGui::TreeNodeEx(node->getId().c_str(), ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanFullWidth);
+void GameSceneWidget::drawTransformComponent(TransformComponent& transform) {
+    ImGui::SeparatorText("TransformComponent");
+    float position[2] = {transform.position.x, transform.position.y};
+    float scale[2] = {transform.scale.x, transform.scale.y};
+    double rotation = transform.rotation;
 
-    if (ImGui::IsItemClicked()) {
-        currentObj = node;
+    if (ImGui::InputFloat2("Position", position)) {
+        // transform.position.x = x;
     }
+    if (ImGui::InputFloat("Scale", scale)) {
+        // transform.scale.x = scaleX;
+    }
+    if (ImGui::InputDouble("Rotation", &rotation)) {
+        transform.rotation = rotation;
+    }
+}
 
-    if (node_open) {
-        auto children = node->getChildren();
-        for (auto& child : children) {
-            auto childNode = std::dynamic_pointer_cast<GameObject>(child);
-            if (childNode) {
-                drawSingleNode(childNode);
-            }
+void GameSceneWidget::drawSpriteComponent(SpriteComponent& sprite) {
+    ImGui::SeparatorText("SpriteComponent");
+    int size[2] = {sprite.width, sprite.height};
+    std::string assetId = sprite.assetId;
+
+    if (ImGui::InputInt2("Width", size)) {
+        // sprite.width = width;
+    }
+    char buffer[256];
+    std::strncpy(buffer, assetId.c_str(), sizeof(buffer));
+    if (ImGui::InputText("Asset ID", buffer, sizeof(buffer))) {
+        sprite.assetId = std::string(buffer);
+    }
+}
+
+void GameSceneWidget::drawAnimationComponent(AnimationComponent &animation) {
+    ImGui::SeparatorText("AnimationComponent");
+    int frameSpeedRate = animation.frameSpeedRate;
+    bool isLoop = animation.isLoop;
+    int currentFrame = animation.currentFrame;
+    if (ImGui::InputInt("Frame Speed Rate", &frameSpeedRate)) {
+        // animation.frameSpeedRate = frameSpeedRate;
+    }
+    if (ImGui::Checkbox("Is Loop", &isLoop)) {
+        // animation.isLoop = isLoop;
+    }
+    if (ImGui::InputInt("Current Frame", &currentFrame)) {
+        // animation.framesInRow = framesInRow;
+    }
+    int framePos[2] = {animation.frameX, animation.frameY};
+    if (ImGui::InputInt2("srcPos", framePos)) {
+        // animation.framesInRow = framesInRow;
+    }
+}
+
+void GameSceneWidget::drawRigidBodyComponent(RigidBodyComponent& rigidBody) {
+    ImGui::SeparatorText("RigidBodyComponent");
+    float velocity[2] = {rigidBody.velocity.x, rigidBody.velocity.y};
+    if (ImGui::InputFloat2("Velocity X", velocity)) {
+        // rigidBody.velocity.x = velocityX;
+    }
+}
+
+void GameSceneWidget::drawHealthComponent(HealthComponent& health) {
+    ImGui::SeparatorText("HealthComponent");
+    int healthPercentage = health.healthPercentage;
+
+    if (ImGui::InputInt("Health Percentage", &healthPercentage)) {
+        health.healthPercentage = healthPercentage;
+    }
+}
+
+void GameSceneWidget::drawProjectileEmitterComponent(ProjectileEmitterComponent& emitter) {
+    ImGui::SeparatorText("ProjectileEmitterComponent");
+    float velocity[2] = {emitter.projectileVelocity.x, emitter.projectileVelocity.y};
+    int repeatFrequency = emitter.repeatFrequency;
+    int duration = emitter.projectileDuration;
+    int damage = emitter.hitPercentDamage;
+
+    if (ImGui::InputFloat2("Velocity X", velocity)) {
+        // emitter.projectileVelocity.x = velocityX;
+    }
+    if (ImGui::InputInt("Repeat Frequency", &repeatFrequency)) {
+        emitter.repeatFrequency = repeatFrequency;
+    }
+    if (ImGui::InputInt("Duration", &duration)) {
+        emitter.projectileDuration = duration;
+    }
+    if (ImGui::InputInt("Damage", &damage)) {
+        emitter.hitPercentDamage = damage;
+    }
+}
+
+void GameSceneWidget::drawKeyboardControlledComponent(KeyboardControlledComponent& keyboard) {
+    ImGui::SeparatorText("KeyboardControlledComponent");
+
+    glm::vec2 velocities[] = {keyboard.upVelocity, keyboard.rightVelocity, keyboard.downVelocity, keyboard.leftVelocity};
+    const char* directions[] = {"Up", "Right", "Down", "Left"};
+
+    for (int i = 0; i < 4; i++) {
+        float vel[2] = {velocities[i].x, velocities[i].y};
+        if (ImGui::InputFloat2(directions[i], vel, "%.2f")) {
+            // velocities[i].x = x;
         }
-        ImGui::TreePop();
     }
-    ImGui::PopID();
 }
 
-void GameSceneWidget::drawNode(std::weak_ptr<GameObject> node) {
-    if (auto root = node.lock()) {
-        drawSingleNode(root);
-    }
-    // else {
-        // std::cout << "cannot lock the object" << std::endl;
-    }
+void GameSceneWidget::drawTextComponent(TextLabelComponent& text) {
+    ImGui::SeparatorText("TextLabelComponent");
+    std::string textStr = text.text;
+    float x = text.position.x;
+    float y = text.position.y;
+    std::string assetId = text.assetId;
+    SDL_Color color = text.color;
+    bool isFixed = text.isFixed;
+    bool isNested = text.isNested;
 
 }
+
+} // namespace anvil

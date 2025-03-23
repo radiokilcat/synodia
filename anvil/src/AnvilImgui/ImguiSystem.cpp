@@ -6,7 +6,6 @@
 #include "SceneWidget.h"
 #include "backends/imgui_impl_sdlrenderer3.h"
 #include "backends/imgui_impl_sdl3.h"
-#include "components/Sprite2DComponent.h"
 #include "states/editstate.h"
 
 namespace anvil {
@@ -21,11 +20,6 @@ namespace anvil {
         ImGui_ImplSDLRenderer3_Init(renderer);
 
         RegisterWidget("MenuBar", std::make_shared<MenuBar>());
-        auto sceneWidget = std::make_shared<GameSceneWidget>();
-        RegisterWidget("SceneWidget", sceneWidget);
-        if (scene_) {
-            sceneWidget->setRootNode(scene_);
-        }
     }
 
     static ImguiSystem *m_instance = nullptr;
@@ -88,15 +82,4 @@ namespace anvil {
         updateTasks.push_back(task);
     }
 
-    void ImguiSystem::setScene(std::shared_ptr<GameObject> scene) {
-        auto it = widgets.find("SceneWidget");
-        if (it != widgets.end()) {
-            auto sceneWidget = std::dynamic_pointer_cast<GameSceneWidget>(it->second);
-            sceneWidget->setRootNode(scene);
-        }
-    }
-
-    std::shared_ptr<GameObject> ImguiSystem::getScene() {
-        return scene_;
-    }
 }
