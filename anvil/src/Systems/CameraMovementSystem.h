@@ -4,6 +4,7 @@
 #include "../Components/CameraFollowComponent.h"
 #include "../Components/TransformComponent.h"
 #include <SDL3/SDL.h>
+#include "../Application.h"
 
 namespace anvil {
 

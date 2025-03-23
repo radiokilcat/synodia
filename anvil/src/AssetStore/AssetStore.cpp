@@ -5,6 +5,16 @@
 
 namespace anvil {
 
+static AssetStore* instance_;
+
+AssetStore* AssetStore::instance() {
+    if(instance_ == 0) {
+        instance_ = new AssetStore;
+        return instance_;
+    }
+    return instance_;
+}
+
 AssetStore::AssetStore() {
     Logger::Log("AssetStore constructor called!");
 }

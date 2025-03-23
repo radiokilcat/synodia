@@ -41,9 +41,20 @@ class RenderTextSystem: public System {
 
                 SDL_QueryTexture(texture, NULL, NULL, &labelWidth, &labelHeight);
 
+                float x_ = textlabel.position.x;
+                float y_ =  textlabel.position.y;
+
+                if (textlabel.isNested && entity.HasComponent<TransformComponent>()) {
+                    const auto transform = entity.GetComponent<TransformComponent>();
+                    labelWidth *= transform.scale.x;
+                    labelHeight *= transform.scale.y;
+                    x_ += transform.position.x;
+                    y_ += transform.position.y;
+                }
+
                 SDL_FRect dstRect = {
-                    textlabel.position.x - (textlabel.isFixed ? 0 : camera.x),
-                    textlabel.position.y - (textlabel.isFixed ? 0 : camera.y),
+                    x_ - (textlabel.isFixed ? 0 : camera.x),
+                    y_ - (textlabel.isFixed ? 0 : camera.y),
                     static_cast<float>(labelWidth),
                     static_cast<float>(labelHeight)
                 };

@@ -3,14 +3,16 @@
 #include <SDL3/SDL.h>
 
 struct AnimationComponent {
-    int numFrames;
-    int currentFrame;
     int frameSpeedRate;
     bool isLoop;
-    int startTime;
+    int currentFrame;
+    int frameX = 0;
+    int frameY = 0;
+    uint8_t startTime;
 
-    AnimationComponent(int numFrames = 1, int frameSpeedRate = 1, bool isLoop = true) {
-        this->numFrames = numFrames;
+    AnimationComponent(int frameSpeedRate = 1,
+                       bool isLoop = true)
+                        {
         this->currentFrame = 1;
         this->frameSpeedRate = frameSpeedRate;
         this->isLoop = isLoop;

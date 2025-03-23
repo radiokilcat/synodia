@@ -6,14 +6,6 @@
 #include "../AssetStore/AssetStore.h"
 #include <SDL3/SDL.h>
 
-#include <cmath>
-
-bool approximatelyEqual(float a, float b, float relativeEpsilon = 1e-5f) {
-    if (std::fabs(a) < relativeEpsilon || std::fabs(b) < relativeEpsilon)
-        return std::fabs(a - b) < relativeEpsilon;
-    return std::fabs(a - b) / std::max(std::fabs(a), std::fabs(b)) < relativeEpsilon;
-}
-
 namespace anvil {
 
 class RenderSystem: public System {
@@ -65,6 +57,11 @@ class RenderSystem: public System {
                     static_cast<float>(sprite.width) * transform.scale.x,
                     static_cast<float>(sprite.height) * transform.scale.y
                 };
+
+                // Draw green outline
+                // SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+                // SDL_RenderRect(renderer, &dstRect);
+                // SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
                 SDL_RenderTextureRotated(
                     renderer,

@@ -14,6 +14,7 @@ class AssetStore {
         // TODO: create a map for audio
 
     public:
+        static AssetStore* instance();
         AssetStore();
         ~AssetStore();
 

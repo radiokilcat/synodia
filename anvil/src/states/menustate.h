@@ -2,32 +2,37 @@
 
 #include <string>
 #include <vector>
+
 #include "gamestate.h"
-#include "stateLoader.hpp"
 #include "../ECS/ECS.h"
+#include "stateLoader.hpp"
+#include "../AssetStore/AssetStore.h"
+#include "../EventBus/EventBus.h"
 
 namespace anvil {
 
-class EditState : public GameState
+class MenuState : public GameState
 {
 public:
-    EditState() {}
+    MenuState();
     bool onEnter() override;
     bool onExit() override;
 
     void update(double deltaTime) override;
     void render(SDL_Renderer* renderer) override;
     void handleInput(SDL_Event& event) override;
-
     std::string getID() override { return m_id; };
-    void setDebug(bool debug) override { isDebug = debug; }
+    void setDebug(bool debug) { isDebug = debug; }
 
 private:
+    bool isDebug = false;
+    SDL_Rect camera;
     std::unique_ptr<Registry> registry;
     std::unique_ptr<StateLoader> stateLoader;
-    const std::string m_id = "EDIT";
+    const std::string m_id = "menu";
     std::vector<std::string> m_textureIds;
-    bool isDebug = false;
+    std::unique_ptr<AssetStore> assetStore;
+    std::unique_ptr<EventBus> eventBus;
 };
 
 }
