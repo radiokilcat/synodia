@@ -57,16 +57,10 @@ class EventBus {
             Logger::Log("EventBus destructor called!");
         }
 
-        // Clears the subscribers list
         void Reset() {
             subscribers.clear();
         }
 
-        /////////////////////////////////////////////////////////////////////// 
-        // Subscribe to an event type <T>
-        // In our implementation, a listener subscribes to an event
-        // Example: eventBus->SubscribeToEvent<CollisionEvent>(this, &Game::onCollision);
-        /////////////////////////////////////////////////////////////////////// 
         template <typename TEvent, typename TOwner>
         void SubscribeToEvent(TOwner* ownerInstance, void (TOwner::*callbackFunction)(TEvent&)) {
             if (!subscribers[typeid(TEvent)].get()) {

@@ -54,16 +54,21 @@ void GameStateMachine::changeState(GameState* state)
     state->onEnter();
 }
 
-void GameStateMachine::update(Uint64 deltaTime)
-{
+void GameStateMachine::update(double deltaTime) {
     if (!states_.empty())
         states_.back()->update(deltaTime);
 }
 
-void GameStateMachine::render()
+void GameStateMachine::render(SDL_Renderer* renderer)
 {
     if (!states_.empty())
-        states_.back()->render();
+        states_.back()->render(renderer);
+}
+
+GameState* GameStateMachine::getActiveState() const {
+    if (states_.empty())
+        return nullptr;
+    return states_.back();
 }
 
 }

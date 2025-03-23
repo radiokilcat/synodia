@@ -3,8 +3,10 @@
 #include "../ECS/ECS.h"
 #include "../components/TransformComponent.h"
 #include "../components/RigidBodyComponent.h"
+#include "../components/SpriteComponent.h"
 #include "../EventBus/EventBus.h"
 #include "../Events/CollisionEvent.h"
+#include "../Application.h"
 
 namespace anvil {
 
@@ -25,11 +27,11 @@ class MovementSystem: public System {
             Logger::Log("Collision event emitted: " + std::to_string(a.GetId()) + " and " + std::to_string(b.GetId()));
         
             if (a.BelongsToGroup("enemies") && b.BelongsToGroup("obstacles")) {
-                OnEnemyHitsObstacle(a, b); // "a" is the enemy, "b" is the obstacle
+                OnEnemyHitsObstacle(a, b);
             }
             
             if (a.BelongsToGroup("obstacles") && b.BelongsToGroup("enemies")) {
-                OnEnemyHitsObstacle(b, a); // "b" is the enemy, "a" is the obstacle
+                OnEnemyHitsObstacle(b, a);
             }
         }
 

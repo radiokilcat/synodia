@@ -13,17 +13,17 @@
 
 namespace anvil {
 
-class RenderGUISystem: public System {
+class RenderImGUISystem: public System {
     public:
-        RenderGUISystem() = default;
+        RenderImGUISystem() = default;
 
         void Update(const std::unique_ptr<Registry>& registry, const SDL_Rect& camera) {
             ImGui_ImplSDLRenderer3_NewFrame();
             ImGui_ImplSDL3_NewFrame();
             ImGui::NewFrame();
 
-            // Display a window to customize and create new enemies
-            if (ImGui::Begin("Spawn enemies")) {
+            // Use a collapsible header for enemy spawning
+            if (ImGui::CollapsingHeader("Spawn enemies", ImGuiTreeNodeFlags_DefaultOpen)) {
                 // Static variables to hold input values
                 static int posX = 0;
                 static int posY = 0;
@@ -32,9 +32,9 @@ class RenderGUISystem: public System {
                 static int velX = 0;
                 static int velY = 0;
                 static int health = 100;
-                static float rotation = 0.0;
-                static float projAngle = 0.0;
-                static float projSpeed = 100.0;
+                static float rotation = 0.0f;
+                static float projAngle = 0.0f;
+                static float projSpeed = 100.0f;
                 static int projRepeat = 10;
                 static int projDuration = 10;
                 const char* sprites[] = {"tank-image", "truck-image"};
@@ -81,7 +81,6 @@ class RenderGUISystem: public System {
                 ImGui::Separator();
                 ImGui::Spacing();
 
-                // Enemy creation button
                 if (ImGui::Button("Spawn new enemy")) {
                     Entity enemy = registry->CreateEntity();
                     enemy.Group("enemies");
@@ -94,26 +93,74 @@ class RenderGUISystem: public System {
                     enemy.AddComponent<ProjectileEmitterComponent>(glm::vec2(projVelX, projVelY), projRepeat * 1000, projDuration * 1000, 10, false);
                     enemy.AddComponent<HealthComponent>(health);
 
-                    // Reset all input values after we create a new enemy
-                    posX = posY = rotation = projAngle = 0;
+                    posX = posY = 0;
+                    rotation = projAngle = 0.0f;
                     scaleX = scaleY = 1;
                     projRepeat = projDuration = 10;
-                    projSpeed = 100;
+                    projSpeed = 100.0f;
                     health = 100;
+                }
+            }
+
+            if (ImGui::Begin("Entities and Components")) {
+                for (auto& entity : registry->GetEntities()) {
+                    ImGui::Text("Entity ID: %d", entity.GetId());
+                    
+                    if (entity.HasComponent<TransformComponent>()) {
+                        auto& transform = entity.GetComponent<TransformComponent>();
+                        ImGui::BulletText("Transform: pos(%.1f, %.1f), scale(%.1f, %.1f), rotation(%.1f)",
+                            transform.position.x, transform.position.y,
+                            transform.scale.x, transform.scale.y,
+                            transform.rotation);
+                    }
+                    if (entity.HasComponent<RigidBodyComponent>()) {
+                        auto& rigidBody = entity.GetComponent<RigidBodyComponent>();
+                        ImGui::BulletText("RigidBody: velocity(%.1f, %.1f)",
+                            rigidBody.velocity.x, rigidBody.velocity.y);
+                    }
+                    if (entity.HasComponent<SpriteComponent>()) {
+                        auto& sprite = entity.GetComponent<SpriteComponent>();
+                        ImGui::BulletText("Sprite: texture id: %s", sprite.assetId.c_str());
+                    }
+                    if (entity.HasComponent<BoxColliderComponent>()) {
+                        auto& boxCollider = entity.GetComponent<BoxColliderComponent>();
+                        ImGui::BulletText("BoxCollider: width: %d, height: %d", boxCollider.width, boxCollider.height);
+                    }
+                    // if (entity.HasComponent<ProjectileEmitterComponent>()) {
+                    //     auto& projEmitter = entity.GetComponent<ProjectileEmitterComponent>();
+                    //     ImGui::BulletText("ProjectileEmitter: velocity(%.1f, %.1f)",
+                    //         projEmitter.velocity.x, projEmitter.velocity.y);
+                    // }
+                    if (entity.HasComponent<HealthComponent>()) {
+                        auto& healthComp = entity.GetComponent<HealthComponent>();
+                        ImGui::BulletText("Health: %d", healthComp.healthPercentage);
+                    }
+                    if (entity.HasComponent<CameraFollowComponent>()) {
+                        ImGui::BulletText("Camera follow: true");
+                    }
+                    if (entity.HasComponent<KeyboardControlledComponent>()) {
+                        ImGui::BulletText("KeyboardController: upVelocity: %d, %d, rightVelocity: %d, %d, downVelocity: %d, %d, leftVelocity: %d, %d",
+                            entity.GetComponent<KeyboardControlledComponent>().upVelocity.x,
+                            entity.GetComponent<KeyboardControlledComponent>().upVelocity.y,
+                            entity.GetComponent<KeyboardControlledComponent>().rightVelocity.x,
+                            entity.GetComponent<KeyboardControlledComponent>().rightVelocity.y,
+                            entity.GetComponent<KeyboardControlledComponent>().downVelocity.x,
+                            entity.GetComponent<KeyboardControlledComponent>().downVelocity.y,
+                            entity.GetComponent<KeyboardControlledComponent>().leftVelocity.x,
+                            entity.GetComponent<KeyboardControlledComponent>().leftVelocity.y);
+                    }
+                    ImGui::Separator();
                 }
             }
             ImGui::End();
 
-            // Display a small overlay window to display the map position using the mouse
             ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoNav;
             ImGui::SetNextWindowPos(ImVec2(10, 10), ImGuiCond_Always, ImVec2(0, 0));
             ImGui::SetNextWindowBgAlpha(0.9f);
             if (ImGui::Begin("Map coordinates", NULL, windowFlags)) {
-                ImGui::Text(
-                    "Map coordinates (x=%.1f, y=%.1f)",
+                ImGui::Text("Map coordinates (x=%.1f, y=%.1f)",
                     ImGui::GetIO().MousePos.x + camera.x,
-                    ImGui::GetIO().MousePos.y + camera.y
-                );
+                    ImGui::GetIO().MousePos.y + camera.y);
             }
             ImGui::End();
 

@@ -13,8 +13,10 @@ public:
     void popState();
     void changeState(GameState* state);
     GameState* findState(std::string id);
-    void update(Uint64 deltaTime);
-    void render();
+    void update(double deltaTime);
+    void render(SDL_Renderer* renderer);
+    GameState* getActiveState() const;
+
 private:
     std::vector<GameState*> states_;
 };

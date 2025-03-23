@@ -8,10 +8,9 @@
 
 namespace anvil {
 
-class EditState : public GameState
-{
+class LoseState : public GameState {
 public:
-    EditState() {}
+    LoseState() { }
     bool onEnter() override;
     bool onExit() override;
 
@@ -19,13 +18,14 @@ public:
     void render(SDL_Renderer* renderer) override;
     void handleInput(SDL_Event& event) override;
 
-    std::string getID() override { return m_id; };
     void setDebug(bool debug) override { isDebug = debug; }
+
+    std::string getID() override { return m_id; };
 
 private:
     std::unique_ptr<Registry> registry;
     std::unique_ptr<StateLoader> stateLoader;
-    const std::string m_id = "EDIT";
+    const std::string m_id = "LOSE";
     std::vector<std::string> m_textureIds;
     bool isDebug = false;
 };

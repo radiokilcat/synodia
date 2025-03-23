@@ -1,17 +1,18 @@
-#ifndef SPRITECOMPONENT_H
-#define SPRITECOMPONENT_H
+#pragma once
 
 #include <string>
-#include <SDL2/SDL.h>
+#include <SDL3/SDL.h>
 
-struct SpriteComponent {
+namespace anvil {
+
+struct TileComponent {
     std::string assetId;
     int width;
     int height;
     int zIndex;
     SDL_Rect srcRect;
     
-    SpriteComponent(std::string assetId = "", int width = 0, int height = 0, int zIndex = 0, int srcRectX = 0, int srcRectY = 0) {
+    TileComponent(std::string assetId = "", int width = 0, int height = 0, int zIndex = 0, int srcRectX = 0, int srcRectY = 0) {
         this->assetId = assetId;
         this->width = width;
         this->height = height;
@@ -20,4 +21,5 @@ struct SpriteComponent {
     }
 };
 
-#endif
+
+}

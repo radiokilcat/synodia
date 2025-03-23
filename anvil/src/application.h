@@ -46,7 +46,7 @@ public:
     void run();
     void quit();
 
-    std::shared_ptr<Renderer> getRenderer() const;
+    SDL_Renderer* getRenderer() const;
     int getScreenWidth();
     int getScreenHeight();
     int getLogicalWidth();
@@ -56,7 +56,6 @@ public:
 
     Uint64 getTicks();
 
-    void LoadLevel(int level);
     void Setup();
 
 void ProcessInput();
