@@ -2,8 +2,9 @@
 
 #include <vector>
 #include <queue>
+#include <functional>
+#include <unordered_map>
 #include "window.h"
-#include "game_objects/gameobject.h"
 
 namespace anvil {
     class GameObject;

@@ -1,6 +1,15 @@
 #pragma once
 
 #include "ImguiSystem.h"
+#include "../components/TransformComponent.h"
+#include "../components/SpriteComponent.h"
+#include "../components/RigidBodyComponent.h"
+#include "../components/HealthComponent.h"
+#include "../components/ProjectileEmitterComponent.h"
+#include "../components/KeyboardControlledComponent.h"
+#include "../components/TextLabelComponent.h"
+#include "../components/AnimationComponent.h"
+#include "../ECS/ECS.h"
 
 
 namespace anvil {
@@ -9,22 +18,27 @@ namespace anvil {
 	
 	class GameSceneWidget : public IWidget {
 	public:
+		GameSceneWidget(const std::unique_ptr<Registry>& registry) : registry_(registry) {};
 		void draw() override;
-		void drawWidgets();
-		void shutDown();
-		void addGameObject(GameObject* obj);
-		void setRootNode(std::shared_ptr<GameObject> node);
-		void drawPropertiesWidget(std::shared_ptr<GameObject> node);
+        void propertyWindow(bool p_open);
+		void listEntity(const Entity& entity);
+        void componentsProperties(const Entity& entity);
 
-		void drawSingleNode(std::shared_ptr<GameObject> node);
-		void drawNode(std::weak_ptr<GameObject> node);
+        void drawTransformComponent(TransformComponent& transform);
+        void drawSpriteComponent(SpriteComponent& sprite);
+        void drawAnimationComponent(AnimationComponent& animation);
+        void drawRigidBodyComponent(RigidBodyComponent& rigidBody);
+        void drawHealthComponent(HealthComponent& health);
+        void drawProjectileEmitterComponent(ProjectileEmitterComponent& emitter);
+        void drawKeyboardControlledComponent(KeyboardControlledComponent& keyboard);
+        void drawTextComponent(TextLabelComponent& text);
 
-	private:
+    private:
+		const std::unique_ptr<Registry>& registry_;
+		int m_openEntityId = -1;
+		bool showProperties = true;
 		bool showInspector = true;
-		std::vector<GameObject*> objects;
 		std::queue<std::function<void()>> callbacks;
-		std::shared_ptr<GameObject> scene;
-		std::shared_ptr<GameObject> currentObj;
 		bool show_demo_window = false;
 	};
 }
