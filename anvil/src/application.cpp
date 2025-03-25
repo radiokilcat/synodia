@@ -12,10 +12,8 @@
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
 #include <cassert>
-#include <iostream>
-#include <ui/scrollable_text.h>
 #include <AnvilImgui/ImguiSystem.h>
-#include <AnvilImgui/SceneWidget_v2.h>
+#include <AnvilImgui/SceneWidget.h>
 
 #include "Logger/Logger.h"
 
@@ -152,7 +150,7 @@ void Application::run() {
 void Application::Setup() {
     m_stateMachine = new GameStateMachine();
     m_stateMachine->changeState(new PlayState());
-    auto sceneWidget = std::make_shared<GameSceneWidget_v2>(m_stateMachine->getActiveState()->getRegistry());
+    auto sceneWidget = std::make_shared<GameSceneWidget>(m_stateMachine->getActiveState()->getRegistry());
     ImguiSystem::Instance()->RegisterWidget("SceneWidget", sceneWidget);
 }
 
