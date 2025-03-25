@@ -1,0 +1,139 @@
+[
+    {
+        "group": "player",
+        "tags": "player",
+        "components": {
+            "sprite": {
+                "width": 180,
+                "height": 180,
+                "zIndex": 1,
+                "assetId": "lady_run_bow_body_000"
+            },
+            "animation": {
+                "frameRate": 10,
+                "loop": true
+            },
+            "transform": {
+                "position": { "x": 100.0, "y": 200.0 },
+                "scale": { "x": 1.0, "y": 1.0 }
+            },
+            "collision": {
+                "width": 90,
+                "height": 90
+            },
+            "cameraFollow": {},
+            "keyboardControlled": {
+                "upVelocity": { "x": 0.0, "y": -100.0 },
+                "rightVelocity": { "x": 100.0, "y": 0.0 },
+                "downVelocity": { "x": 0.0, "y": 100.0 },
+                "leftVelocity": { "x": -100.0, "y": 0.0 }
+            },
+            "rigidBody": {
+                "velocity": { "x": 0.0, "y": 0.0 }
+            }
+        }
+    },
+    {
+        "group": "stationary",
+        "tags": "table",
+        "components": {
+            "sprite": {
+                "assetId": "table",
+                "width": 128,
+                "height": 128,
+                "zIndex": 1
+            },
+            "transform": {
+                "position": { "x": 306.0, "y": 387.0 }
+            },
+            "collision": { "width": 64, "height": 64 }
+        }
+    },
+    {
+        "group": "npc",
+        "tags": "npc_1",
+        "components": {
+            "sprite": {
+                "assetId": "evil",
+                "width": 32,
+                "height": 32,
+                "zIndex": 1
+            },
+            "transform": { "position": { "x": 306.0, "y": 387.0 } }
+        }
+    },
+    {
+        "group": "npc",
+        "tags": "npc_2",
+        "components": {
+            "sprite": {
+                "assetId": "evil",
+                "width": 32,
+                "height": 32,
+                "zIndex": 1
+            },
+            "transform": {
+                "position": { "x": 306.0, "y": 387.0 }
+            }
+        }
+    },
+    {
+        "group": "npc",
+        "tags": "npc_3",
+        "components": {
+            "sprite": {
+                "assetId": "evil",
+                "width": 32,
+                "height": 32,
+                "zIndex": 1
+            },
+            "transform": {
+                "position": { "x": 797.0, "y": 523.0 }
+            }
+        }
+    },
+    {
+        "group": "npc",
+        "tags": "npc_4",
+        "components": {
+            "sprite": {
+                "assetId": "evil",
+                "width": 32,
+                "height": 32,
+                "zIndex": 1
+            },
+            "transform": {
+                "position": { "x": 399.0, "y": 607.0 }
+            }
+        }
+    },
+    {
+        "type": "tilemap",
+        "dimension": 15,
+        "tileWidth": 256,
+        "tileHeight": 128,
+        "tileScale": 1.0,
+        "mapNumCols": 15,
+        "mapNumRows": 15,
+        "zIndex": 0,
+        "tileset": "./assets/objects/tileset.json",
+        "startPosition": { "x": 0, "y": -700 },
+        "data": [
+            "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3",
+            "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3",
+            "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3",
+            "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3",
+            "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3",
+            "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3",
+            "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3",
+            "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3",
+            "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3",
+            "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3",
+            "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3",
+            "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3",
+            "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3",
+            "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3",
+            "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3", "4", "1", "2", "3"
+        ]
+    }
+]

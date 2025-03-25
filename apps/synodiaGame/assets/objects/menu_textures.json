@@ -1,0 +1,11 @@
+{
+    "textures": {
+        "playbutton": "./assets/images/gui/button.png",
+        "exitbutton": "./assets/images/gui/exit.png",
+        "empty_button": "./assets/images/gui/empty_button.png",
+        "background": "./assets/images/gui/menubackground.png"
+    },
+    "fonts": {
+        "arial": "./assets/fonts/arial.ttf"
+    }
+}
