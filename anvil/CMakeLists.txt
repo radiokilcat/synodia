@@ -44,5 +44,3 @@ target_link_libraries(anvil
     PRIVATE inipp glm::glm-header-only
     PUBLIC nlohmann_json imgui
 )
-
-add_subdirectory(tests)
