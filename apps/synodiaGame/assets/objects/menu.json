@@ -1,0 +1,91 @@
+[
+    {
+        "group": "ui",
+        "components": {
+            "sprite": {
+                "assetId": "empty_button",
+                "width": 400,
+                "height": 100,
+                "zIndex": 1,
+                "isFixed": true
+            },
+            "textLabel": {
+                "assetId": "arial",
+                "text": "Stories of Anvil",
+                "color": [255, 255, 255, 0],
+                "isNested": true,
+                "position": { "x": 10.0, "y": 0.0 }
+            },
+            "transform": {
+                "position": { "x": "center", "y": 100.0 }
+            }
+        }
+    },
+    {
+        "group": "ui",
+        "tags": ["play-button"],
+        "components": {
+            "sprite": {
+                "assetId": "empty_button",
+                "width": 400,
+                "height": 100,
+                "zIndex": 1,
+                "isFixed": true
+            },
+            "textLabel": {
+                "assetId": "arial",
+                "text": "Play Game",
+                "color": [255, 255, 255, 0],
+                "isNested": true,
+                "position": { "x": 10.0, "y": 0.0 }
+            },
+            "transform": {
+                "position": { "x": "center", "y": 200.0 }
+            }
+        }
+    },
+    {
+        "group": "ui",
+        "components": {
+            "sprite": {
+                "assetId": "empty_button",
+                "width": 400,
+                "height": 100,
+                "zIndex": 1,
+                "isFixed": true
+            },
+            "textLabel": {
+                "assetId": "arial",
+                "text": "Load Game",
+                "color": [255, 255, 255, 0],
+                "isNested": true,
+                "position": { "x": 10.0, "y": 0.0 }
+            },
+            "transform": {
+                "position": { "x": "center", "y": 300.0 }
+            }
+        }
+    },
+    {
+        "group": "ui",
+        "components": {
+            "sprite": {
+                "assetId": "empty_button",
+                "width": 400,
+                "height": 100,
+                "zIndex": 1,
+                "isFixed": true
+            },
+            "textLabel": {
+                "assetId": "arial",
+                "text": "Exit Game",
+                "color": [255, 255, 255, 0],
+                "isNested": true,
+                "position": { "x": 10.0, "y": 0.0 }
+            },
+            "transform": {
+                "position": { "x": "center", "y": 400.0 }
+            }
+        }
+    }
+]

@@ -1,0 +1,10 @@
+{
+    "tilemap": {
+        "layers": [
+            {
+                "name": "floor",
+                "data": []
+            }
+        ]
+    }
+}

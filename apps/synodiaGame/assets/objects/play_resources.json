@@ -1,0 +1,28 @@
+{
+    "textures": {
+        "test": "./assets/images/synodia/adventurer.png",
+        "player": "./assets/images/synodia/player_1.png",
+        "player_2": "./assets/images/synodia/player_2.png",
+        "evil": "./assets/images/synodia/evil_1.png",
+        "speech": "./assets/images/synodia/speech.png",
+
+        "stone_e": "./assets/images/synodia/tiles_1/stone_E.png",
+        "stone_n": "./assets/images/synodia/tiles_1/stone_N.png",
+        "stone_s": "./assets/images/synodia/tiles_1/stone_S.png",
+        "stone_w": "./assets/images/synodia/tiles_1/stone_W.png",
+
+        "table": "./assets/images/synodia/tiles_1/tableRoundItemsChairs_N.png",
+        "button_01": "./assets/images/synodia/Button03.png",
+        "button_02": "./assets/images/synodia/Button04.png",
+        "button_03": "./assets/images/synodia/Button05.png",
+        "progressBar": "./assets/images/synodia/ProgressBarBorder.png",
+        "progress01": "./assets/images/synodia/ProgressBar01.png",
+        "progress02": "./assets/images/synodia/ProgressBar02.png",
+        "progress03": "./assets/images/synodia/ProgressBar03.png",
+        "progress04": "./assets/images/synodia/ProgressBar04.png",
+        "progress05": "./assets/images/synodia/ProgressBar05.png"
+    },
+    "fonts": {
+        "arial": "./assets/fonts/arial.ttf"
+    }
+}
