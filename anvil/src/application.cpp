@@ -1,4 +1,5 @@
 #include "application.h"
+#include "AppSettings.hpp"
 #include "window.h"
 #include "renderer.h"
 #include "inputhandler.h"
@@ -46,12 +47,6 @@
 
 namespace anvil {
 
-void GameSettings::validate() {
-    assert(screenWidth > 0);
-    assert(screenHeight > 0);
-    assert(screenScale > 0);
-}
-
 static Application* m_instance = nullptr;
 
 Application* Application::Instance() {
@@ -77,7 +72,7 @@ Application::~Application() {
     Logger::Log("Game destructor called!");   
 }
 
-void Application::init(const GameSettings& settings) {
+void Application::init(AppSettings settings) {
     m_settings = settings;
 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) < 0) {

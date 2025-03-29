@@ -11,6 +11,7 @@
 #include "EventBus/EventBus.h"
 #include "ECS/ECS.h"
 #include "AnvilImgui/ImguiSystem.h"
+#include "AppSettings.hpp"
 
 namespace anvil {
 
@@ -23,26 +24,14 @@ class TextureManager;
 class GameObject;
 class GameStateMachine;
 class Logger;
-
-struct GameSettings {
-
-    void validate();
-
-    int screenWidth = 256;
-    int screenHeight = 224;
-    int screenScale = 3;
-    int FPS = 60;
-
-    std::string windowTitle = "Game";
-};
-
+class AppSettings;
 
 class Application
 {
 public:
     static Application* Instance();
 
-    void init(const GameSettings& settings);
+    void init(AppSettings settings);
     void run();
     void quit();
 
@@ -83,7 +72,7 @@ private:
     GameStateMachine* m_stateMachine;
     SDL_Rect camera;
 
-    GameSettings m_settings;
+    AppSettings m_settings;
     std::filesystem::path m_resPath;
 
     bool isRunning;
