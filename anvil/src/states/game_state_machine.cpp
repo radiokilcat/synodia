@@ -59,7 +59,7 @@ void GameStateMachine::update(double deltaTime) {
         states_.back()->update(deltaTime);
 }
 
-void GameStateMachine::render(SDL_Renderer* renderer) {
+void GameStateMachine::render(std::shared_ptr<IRenderer> renderer) {
     if (!states_.empty())
         states_.back()->render(renderer);
 }

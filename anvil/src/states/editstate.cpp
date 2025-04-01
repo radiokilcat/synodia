@@ -9,7 +9,7 @@ bool EditState::onEnter() {
     return stateLoader->loadFromFile("assets/states/edit_state.json");
 }
 
-void EditState::render(SDL_Renderer* renderer) {
+void EditState::render(std::shared_ptr<IRenderer> renderer) {
 }
 
 bool EditState::onExit() {

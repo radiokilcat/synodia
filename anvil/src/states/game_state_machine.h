@@ -2,6 +2,7 @@
 
 #include <vector>
 #include "gamestate.h"
+#include "Render/IRenderer.hpp"
 
 
 namespace anvil {
@@ -14,7 +15,7 @@ public:
     void changeState(GameState* state);
     GameState* findState(std::string id);
     void update(double deltaTime);
-    void render(SDL_Renderer* renderer);
+    void render(std::shared_ptr<IRenderer> renderer);
     GameState* getActiveState() const;
 
 private:

@@ -19,7 +19,7 @@ const int FPS = 60;
 const int MILLISECS_PER_FRAME = 1000 / FPS;
 
 class Window;
-class Renderer;
+class IRenderer;
 class TextureManager;
 class GameObject;
 class GameStateMachine;
@@ -35,7 +35,7 @@ public:
     void run();
     void quit();
 
-    SDL_Renderer* getRenderer() const;
+    std::shared_ptr<IRenderer> getRenderer() const;
     int getScreenWidth();
     int getScreenHeight();
     int getLogicalWidth();
@@ -64,9 +64,8 @@ private:
     void cleanup();
 
     SDL_Window* window = nullptr;
-    SDL_Renderer* renderer = nullptr;
+    std::shared_ptr<IRenderer> renderer = nullptr;
     std::unique_ptr<Window> m_window = nullptr;
-    std::shared_ptr<Renderer> m_renderer = nullptr;
 
     SDL_Texture* screenTexture = nullptr;
     GameStateMachine* m_stateMachine;

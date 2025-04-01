@@ -4,6 +4,7 @@
 #include "../Components/TransformComponent.h"
 #include "../Components/SpriteComponent.h"
 #include "../AssetStore/AssetStore.h"
+#include "../Render/IRenderer.hpp"
 #include <SDL3/SDL.h>
 
 namespace anvil {
@@ -15,7 +16,7 @@ class RenderSystem: public System {
             RequireComponent<SpriteComponent>();
         }
 
-        void Update(SDL_Renderer* renderer, std::unique_ptr<AssetStore>& assetStore, SDL_Rect& camera) {
+        void Update(std::shared_ptr<IRenderer> renderer, std::unique_ptr<AssetStore>& assetStore, SDL_Rect& camera) {
             struct RenderableEntity {
                 TransformComponent transformComponent;
                 SpriteComponent spriteComponent;
@@ -62,16 +63,20 @@ class RenderSystem: public System {
                 // SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
                 // SDL_RenderRect(renderer, &dstRect);
                 // SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+                auto texture = assetStore->GetTexture(sprite.assetId);
 
-                SDL_RenderTextureRotated(
-                    renderer,
-                    assetStore->GetTexture(sprite.assetId),
-                    &srcRect,
-                    &dstRect,
-                    transform.rotation,
-                    NULL,
-                    sprite.flip
-                );
+                // renderer->renderTextureRotated(
+                //     texture.get(), &srcRect, &dstRect, transform.rotation, nullptr, sprite.flip
+                // );
+
+                // renderer->RenderTextureRotated(
+                //     assetStore->GetTexture(sprite.assetId),
+                //     &srcRect,
+                //     &dstRect,
+                //     transform.rotation,
+                //     NULL,
+                //     sprite.flip
+                // );
             }
         }
 };

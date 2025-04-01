@@ -30,6 +30,9 @@
 #include "../Systems/RenderImGUISystem.h"
 #include "../Systems/ButtonSystem.h"
 
+#include "../Render/IRenderer.hpp"
+#include "../Render/ITexture.hpp"
+
 using json = nlohmann::json;
 
 namespace anvil {
@@ -91,7 +94,7 @@ StateLoader::StateLoader(const std::unique_ptr<Registry>& reg) : registry(reg) {
 bool StateLoader::loadFromFile(const std::string& filename) {
     std::ifstream file(filename);
     if (!file.is_open()) {
-        Logger::Err("Failed to open state file: " + filename);
+        Logger::Err("Failed to open state file: {}", filename);
         return false;
     }
 
@@ -99,7 +102,7 @@ bool StateLoader::loadFromFile(const std::string& filename) {
     try {
         file >> stateJson;
     } catch (json::parse_error& e) {
-        Logger::Err("JSON parse error: " + std::string(e.what()));
+        Logger::Err("JSON parse error: {}", std::string(e.what()));
         return false;
     }
 
@@ -108,10 +111,10 @@ bool StateLoader::loadFromFile(const std::string& filename) {
     return true;
 }
 
-void StateLoader::loadResources(SDL_Renderer* renderer, const std::string& filename, const std::unique_ptr<AssetStore>& assetStore) {
+void StateLoader::loadResources(std::shared_ptr<IRenderer> renderer, const std::string& filename, const std::unique_ptr<AssetStore>& assetStore) {
     std::ifstream file(filename);
     if (!file.is_open()) {
-        Logger::Err("Failed to open asset file: " + filename);
+        Logger::Err("Failed to open asset file: {}", filename);
         return;
     }
 
@@ -119,7 +122,7 @@ void StateLoader::loadResources(SDL_Renderer* renderer, const std::string& filen
     try {
         file >> assetJson;
     } catch (json::parse_error& e) {
-        Logger::Err("JSON parse error: " + std::string(e.what()));
+        Logger::Err("JSON parse error: {}", std::string(e.what()));
         return;
     }
 

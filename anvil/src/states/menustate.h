@@ -8,6 +8,7 @@
 #include "stateLoader.hpp"
 #include "../AssetStore/AssetStore.h"
 #include "../EventBus/EventBus.h"
+#include "../Render/IRenderer.hpp"
 
 namespace anvil {
 
@@ -19,10 +20,12 @@ public:
     bool onExit() override;
 
     void update(double deltaTime) override;
-    void render(SDL_Renderer* renderer) override;
+    void render(std::shared_ptr<IRenderer> renderer) override;
     void handleInput(SDL_Event& event) override;
     std::string getID() override { return m_id; };
     void setDebug(bool debug) { isDebug = debug; }
+    
+    std::unique_ptr<Registry>& getRegistry() { return registry; };
 
 private:
     bool isDebug = false;

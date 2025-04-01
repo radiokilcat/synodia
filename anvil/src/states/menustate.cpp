@@ -49,7 +49,7 @@ bool MenuState::onEnter() {
     return true;
 }
 
-void MenuState::render(SDL_Renderer* renderer) {
+void MenuState::render(std::shared_ptr<IRenderer> renderer) {
     registry->GetSystem<RenderSystem>().Update(renderer, assetStore, camera);
     registry->GetSystem<RenderTextSystem>().Update(renderer, assetStore, camera);
     if (isDebug) {

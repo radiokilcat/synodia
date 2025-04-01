@@ -1,7 +1,9 @@
 #include "application.h"
 #include "AppSettings.hpp"
 #include "window.h"
-#include "renderer.h"
+#include "Render/IRenderer.hpp"
+#include "Render/SDL/SDL_Renderer.hpp" // Ensure SDLRenderer is fully defined
+#include "Render/OpenGL/OpenGLRenderer.hpp"
 #include "inputhandler.h"
 #include "states/game_state_machine.h"
 #include "states/menustate.h"
@@ -15,34 +17,10 @@
 #include <cassert>
 #include <AnvilImgui/ImguiSystem.h>
 #include <AnvilImgui/SceneWidget.h>
+#include "backends/imgui_impl_sdlrenderer3.h"
+#include "backends/imgui_impl_sdl3.h"
 
 #include "Logger/Logger.h"
-
-#include "components/TransformComponent.h"
-#include "components/RigidBodyComponent.h"
-#include "components/SpriteComponent.h"
-#include "components/AnimationComponent.h"
-#include "components/BoxColliderComponent.h"
-#include "components/KeyboardControlledComponent.h"
-#include "components/CameraFollowComponent.h"
-#include "components/ProjectileEmitterComponent.h"
-#include "components/ProjectileComponent.h"
-#include "components/HealthComponent.h"
-#include "components/TextLabelComponent.h"
-
-#include "Systems/MovementSystem.h"
-#include "Systems/RenderSystem.h"
-#include "Systems/AnimationSystem.h"
-#include "Systems/CollisionSystem.h"
-#include "Systems/RenderColliderSystem.h"
-#include "Systems/DamageSystem.h"
-#include "Systems/KeyboardControlSystem.h"
-#include "Systems/CameraMovementSystem.h"
-#include "Systems/ProjectileEmitSystem.h"
-#include "Systems/ProjectileLifecycleSystem.h"
-#include "Systems/RenderHealthBarSystem.h"
-#include "Systems/RenderTextSystem.h"
-#include "Systems/RenderImGUISystem.h"
 
 
 namespace anvil {
@@ -50,8 +28,7 @@ namespace anvil {
 static Application* m_instance = nullptr;
 
 Application* Application::Instance() {
-    if(m_instance == nullptr)
-    {
+    if(m_instance == nullptr) {
         m_instance = new Application();
         return m_instance;
     }
@@ -107,17 +84,15 @@ void Application::init(AppSettings settings) {
             SDL_Log("Display %" SDL_PRIu32 " mode %d: %dx%d@%gx %gHz\n",
                     display, mode->w, mode->h, mode->pixel_density, mode->refresh_rate);
         }
-        renderer = SDL_CreateRenderer(window, NULL, SDL_RENDERER_ACCELERATED);
-        SDL_SetRenderLogicalPresentation(renderer,
-            m_settings.screenWidth,
-            m_settings.screenHeight,
-            SDL_LOGICAL_PRESENTATION_STRETCH,
-            SDL_SCALEMODE_LINEAR
-        );
-        if (SDL_SetRenderVSync(renderer, SDL_TRUE) != 0) {
-            SDL_Log("Warning: VSync could not be enabled! SDL_Error: %s", SDL_GetError());
-        }
+    }
 
+    {
+        if (m_settings.rendererType == RendererType::SDL) {
+            renderer = std::make_shared<SDLRenderer>();
+        } else if (m_settings.rendererType == RendererType::OpenGL) {
+            renderer = std::make_shared<OpenGLRenderer>();
+        }
+        renderer->init(window, m_settings.screenWidth, m_settings.screenHeight);
     }
 
     mapWidth = 1920;
@@ -125,11 +100,9 @@ void Application::init(AppSettings settings) {
 
 
 #ifndef NDEBUG
-    ImguiSystem::Instance()->init(window, renderer);
+    auto sdlRenderer = dynamic_cast<SDLRenderer*>(renderer.get());
+    // ImguiSystem::Instance()->init(window, sdlRenderer->getRawRenderer());
 #endif
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-    // bg color
-    SDL_SetRenderDrawColor(renderer, 100, 149, 237, SDL_ALPHA_OPAQUE);
     isRunning = true;
 }
 
@@ -144,12 +117,12 @@ void Application::run() {
 
 void Application::Setup() {
     m_stateMachine = new GameStateMachine();
-    m_stateMachine->changeState(new PlayState());
-    auto sceneWidget = std::make_shared<GameSceneWidget>(m_stateMachine->getActiveState()->getRegistry());
-    ImguiSystem::Instance()->RegisterWidget("SceneWidget", sceneWidget);
+    m_stateMachine->changeState(new MenuState());
+    // auto sceneWidget = std::make_shared<GameSceneWidget>(m_stateMachine->getActiveState()->getRegistry());
+    // ImguiSystem::Instance()->RegisterWidget("SceneWidget", sceneWidget);
 }
 
-SDL_Renderer* Application::getRenderer() const {
+std::shared_ptr<IRenderer> Application::getRenderer() const {
     return renderer;
 }
 
@@ -189,14 +162,15 @@ void Application::ProcessInput() {
     SDL_Event sdlEvent;
 
     while (SDL_PollEvent(&sdlEvent)) {
-
-        ImGui_ImplSDL3_ProcessEvent(&sdlEvent);
-        ImGuiIO& io = ImGui::GetIO();
+    #ifndef NDEBUG
+        // ImGui_ImplSDL3_ProcessEvent(&sdlEvent);
+        // ImGuiIO& io = ImGui::GetIO();
         float mouseX, mouseY;
         const int buttons = SDL_GetMouseState(&mouseX, &mouseY);
-        io.MousePos = ImVec2(mouseX, mouseY);
-        io.MouseDown[0] = buttons & SDL_BUTTON(SDL_BUTTON_LEFT);
-        io.MouseDown[1] = buttons & SDL_BUTTON(SDL_BUTTON_RIGHT);
+        // io.MousePos = ImVec2(mouseX, mouseY);
+        // io.MouseDown[0] = buttons & SDL_BUTTON(SDL_BUTTON_LEFT);
+        // io.MouseDown[1] = buttons & SDL_BUTTON(SDL_BUTTON_RIGHT);
+    #endif
 
         switch (sdlEvent.type) {
             case SDL_EVENT_QUIT:
@@ -229,26 +203,23 @@ void Application::update() {
 }
 
 void Application::render() {
-    SDL_RenderClear(renderer);
-    SDL_SetRenderTarget(renderer, nullptr);
-
+    renderer->clear();
     m_stateMachine->render(renderer);
 
 #ifndef NDEBUG
-    ImguiSystem::Instance()->ShowWidget("MenuBar");
-    ImguiSystem::Instance()->render();
+    // ImguiSystem::Instance()->ShowWidget("MenuBar");
+    // ImguiSystem::Instance()->render();
 #endif
     // }
 
-
-    SDL_RenderPresent(renderer);
+    renderer->present();
 }
 
 void Application::cleanup() {
     // InputHandler::instance()->clean();
     // AudioManager::instance().cleanup();
 #ifndef NDEBUG
-    ImguiSystem::Instance()->shutDown();
+    // ImguiSystem::Instance()->shutDown();
 #endif
 
     SDL_Quit();
