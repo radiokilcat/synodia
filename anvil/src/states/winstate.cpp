@@ -9,7 +9,7 @@ bool WinState::onEnter() {
     return stateLoader->loadFromFile("assets/states/win_state.json");
 }
 
-void WinState::render(SDL_Renderer* renderer) {
+void WinState::render(std::shared_ptr<IRenderer> renderer) {
 }
 
 bool WinState::onExit() {

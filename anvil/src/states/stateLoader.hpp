@@ -15,7 +15,7 @@ public:
 
     StateLoader(const std::unique_ptr<Registry>& reg);
     bool loadFromFile(const std::string& filename);
-    void loadResources(SDL_Renderer *renderer, const std::string &filename, const std::unique_ptr<AssetStore> &assetStore);
+    void loadResources(std::shared_ptr<IRenderer> renderer, const std::string &filename, const std::unique_ptr<AssetStore> &assetStore);
 
 private:
     void loadTransformComponent(Entity& entity, const json& components);

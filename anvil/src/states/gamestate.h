@@ -4,6 +4,7 @@
 #include <vector>
 #include <SDL3/SDL.h>
 #include "../ECS/ECS.h"
+#include "../Render/IRenderer.hpp"
 
 
 namespace anvil {
@@ -15,7 +16,7 @@ public:
     virtual bool onExit() = 0;
 
     virtual void update(double deltaTime) = 0;
-    virtual void render(SDL_Renderer* renderer) = 0;
+    virtual void render(std::shared_ptr<IRenderer> renderer) = 0;
     virtual void handleInput(SDL_Event& event) = 0;
     virtual void setDebug(bool debug) = 0;
     

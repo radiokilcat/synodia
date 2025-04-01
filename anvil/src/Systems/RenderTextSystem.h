@@ -14,7 +14,7 @@ class RenderTextSystem: public System {
             RequireComponent<TextLabelComponent>();
         }
 
-        void Update(SDL_Renderer* renderer, std::unique_ptr<AssetStore>& assetStore, const SDL_Rect& camera) {
+        void Update(std::shared_ptr<IRenderer> renderer, std::unique_ptr<AssetStore>& assetStore, const SDL_Rect& camera) {
             for (auto entity: GetSystemEntities()) {
                 const auto textlabel = entity.GetComponent<TextLabelComponent>();
                 
@@ -28,40 +28,40 @@ class RenderTextSystem: public System {
                     throw std::runtime_error("Failed to create surface for text label: " + textlabel.text);
                     continue;
                 }
-                SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-                if (!texture) {
-                    Logger::Err("Failed to create texture for text label: " + textlabel.text);
-                    throw std::runtime_error("Failed to create texture for text label: " + textlabel.text);
-                    continue;
-                }
-                SDL_DestroySurface(surface);
+                // SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+                // if (!texture) {
+                //     Logger::Err("Failed to create texture for text label: " + textlabel.text);
+                //     throw std::runtime_error("Failed to create texture for text label: " + textlabel.text);
+                //     continue;
+                // }
+                // SDL_DestroySurface(surface);
 
-                int labelWidth = 0;
-                int labelHeight = 0;
+                // int labelWidth = 0;
+                // int labelHeight = 0;
 
-                SDL_QueryTexture(texture, NULL, NULL, &labelWidth, &labelHeight);
+                // SDL_QueryTexture(texture, NULL, NULL, &labelWidth, &labelHeight);
 
-                float x_ = textlabel.position.x;
-                float y_ =  textlabel.position.y;
+                // float x_ = textlabel.position.x;
+                // float y_ =  textlabel.position.y;
 
-                if (textlabel.isNested && entity.HasComponent<TransformComponent>()) {
-                    const auto transform = entity.GetComponent<TransformComponent>();
-                    labelWidth *= transform.scale.x;
-                    labelHeight *= transform.scale.y;
-                    x_ += transform.position.x;
-                    y_ += transform.position.y;
-                }
+                // if (textlabel.isNested && entity.HasComponent<TransformComponent>()) {
+                //     const auto transform = entity.GetComponent<TransformComponent>();
+                //     labelWidth *= transform.scale.x;
+                //     labelHeight *= transform.scale.y;
+                //     x_ += transform.position.x;
+                //     y_ += transform.position.y;
+                // }
 
-                SDL_FRect dstRect = {
-                    x_ - (textlabel.isFixed ? 0 : camera.x),
-                    y_ - (textlabel.isFixed ? 0 : camera.y),
-                    static_cast<float>(labelWidth),
-                    static_cast<float>(labelHeight)
-                };
+                // SDL_FRect dstRect = {
+                //     x_ - (textlabel.isFixed ? 0 : camera.x),
+                //     y_ - (textlabel.isFixed ? 0 : camera.y),
+                //     static_cast<float>(labelWidth),
+                //     static_cast<float>(labelHeight)
+                // };
 
-                SDL_RenderTexture(renderer, texture, NULL, &dstRect);
+                // SDL_RenderTexture(renderer, texture, NULL, &dstRect);
 
-                SDL_DestroyTexture(texture);
+                // SDL_DestroyTexture(texture);
             }
         }
 };

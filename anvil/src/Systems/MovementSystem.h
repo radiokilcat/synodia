@@ -24,7 +24,7 @@ class MovementSystem: public System {
         void OnCollision(CollisionEvent& event) {
             Entity a = event.a;
             Entity b = event.b;
-            Logger::Log("Collision event emitted: " + std::to_string(a.GetId()) + " and " + std::to_string(b.GetId()));
+            Logger::Log("Collision event emitted: {} and {}", std::to_string(a.GetId()), std::to_string(b.GetId()));
         
             if (a.BelongsToGroup("enemies") && b.BelongsToGroup("obstacles")) {
                 OnEnemyHitsObstacle(a, b);

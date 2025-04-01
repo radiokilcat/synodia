@@ -10,7 +10,7 @@ bool LoseState::onEnter() {
     return stateLoader->loadFromFile("assets/states/lose_state.json");
 }
 
-void LoseState::render(SDL_Renderer* renderer) {
+void LoseState::render(std::shared_ptr<IRenderer> renderer) {
 }
 
 bool LoseState::onExit() {

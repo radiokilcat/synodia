@@ -35,14 +35,14 @@ class ProjectileEmitSystem: public System {
                         const auto rigidbody = entity.GetComponent<RigidBodyComponent>();
 
                         glm::vec2 projectilePosition = transform.position;
-                        Logger::Log("Player position: " + std::to_string(projectilePosition.x) + ", " + std::to_string(projectilePosition.y));
+                        Logger::Log("Player position: {}", std::to_string(projectilePosition.x) + ", " + std::to_string(projectilePosition.y));
 
                         if (entity.HasComponent<SpriteComponent>()) {
                             auto sprite = entity.GetComponent<SpriteComponent>();
                             projectilePosition.x += (transform.scale.x * sprite.width / 2);
                             projectilePosition.y += (transform.scale.y * sprite.height / 2);
                         }
-                        Logger::Log("Projectile position: " + std::to_string(projectilePosition.x) + ", " + std::to_string(projectilePosition.y));
+                        Logger::Log("Projectile position: {}, {}", projectilePosition.x, projectilePosition.y);
 
                         glm::vec2 projectileVelocity = projectileEmitter.projectileVelocity;
                         int directionX = 0;

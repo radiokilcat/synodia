@@ -14,7 +14,7 @@ class RenderColliderSystem: public System {
             RequireComponent<BoxColliderComponent>();
         }
 
-        void Update(SDL_Renderer* renderer, SDL_Rect& camera) {
+        void Update(std::shared_ptr<IRenderer> renderer, SDL_Rect& camera) {
             for (auto entity: GetSystemEntities()) {
                 const auto transform = entity.GetComponent<TransformComponent>();
                 const auto collider = entity.GetComponent<BoxColliderComponent>();
@@ -25,8 +25,8 @@ class RenderColliderSystem: public System {
                     static_cast<float>(collider.width) * transform.scale.x,
                     static_cast<float>(collider.height) * transform.scale.y
                 };
-                SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-                SDL_RenderRect(renderer, &colliderRect);
+                // SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+                // SDL_RenderRect(renderer, &colliderRect);
             }
         }
 };

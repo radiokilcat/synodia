@@ -45,7 +45,7 @@ class DamageSystem: public System {
             if (!projectileComponent.isFriendly) {
                 auto& health = player.GetComponent<HealthComponent>();
                 health.healthPercentage -= projectileComponent.hitPercentDamage;
-                Logger::Log("Player health: " + std::to_string(health.healthPercentage));
+                Logger::Log("Player health: {}", std::to_string(health.healthPercentage));
                 if (health.healthPercentage <= 0) {
                     player.Kill();
                 }
@@ -60,7 +60,7 @@ class DamageSystem: public System {
                 auto& health = enemy.GetComponent<HealthComponent>();
 
                 health.healthPercentage -= projectileComponent.hitPercentDamage;
-                Logger::Log("Enemy health: " + std::to_string(health.healthPercentage));
+                Logger::Log("Enemy health: {}", std::to_string(health.healthPercentage));
 
                 if (health.healthPercentage <= 0) {
                     enemy.Kill();

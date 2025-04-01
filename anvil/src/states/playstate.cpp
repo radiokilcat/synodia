@@ -87,7 +87,7 @@ void PlayState::update(double deltaTime) {
     registry->Update();
 }
 
-void PlayState::render(SDL_Renderer* renderer) {
+void PlayState::render(std::shared_ptr<IRenderer> renderer) {
     registry->GetSystem<RenderTileMapSystem>().Update(renderer, assetStore, camera);
     registry->GetSystem<RenderSystem>().Update(renderer, assetStore, camera);
     registry->GetSystem<RenderTextSystem>().Update(renderer, assetStore, camera);

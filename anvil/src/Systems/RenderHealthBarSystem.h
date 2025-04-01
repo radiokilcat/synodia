@@ -17,7 +17,7 @@ class RenderHealthBarSystem: public System {
             RequireComponent<HealthComponent>();
         }
 
-        void Update(SDL_Renderer* renderer, const std::unique_ptr<AssetStore>& assetStore, const SDL_Rect& camera) {
+        void Update(std::shared_ptr<IRenderer> renderer, const std::unique_ptr<AssetStore>& assetStore, const SDL_Rect& camera) {
             for (auto entity: GetSystemEntities()) {
                 const auto transform = entity.GetComponent<TransformComponent>();
                 const auto sprite = entity.GetComponent<SpriteComponent>();
@@ -51,18 +51,18 @@ class RenderHealthBarSystem: public System {
                     healthBarWidth * (health.healthPercentage / 100.0),
                     healthBarHeight
                 };
-                SDL_SetRenderDrawColor(renderer, healthBarColor.r, healthBarColor.g, healthBarColor.b, 255);
-                SDL_RenderFillRect(renderer, &healthBarRectangle);
+                // SDL_SetRenderDrawColor(renderer, healthBarColor.r, healthBarColor.g, healthBarColor.b, 255);
+                // SDL_RenderFillRect(renderer, &healthBarRectangle);
 
                 // Render the health percentage text label indicator
                 std::string healthText = std::to_string(health.healthPercentage);
                 SDL_Surface* surface = TTF_RenderText_Blended(assetStore->GetFont("pico8-font-5"), healthText.c_str(), healthBarColor);
-                SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+                // SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
                 SDL_DestroySurface(surface);
 
                 int labelWidth = 0;
                 int labelHeight = 0;
-                SDL_QueryTexture(texture, NULL, NULL, &labelWidth, &labelHeight);
+                // SDL_QueryTexture(texture, NULL, NULL, &labelWidth, &labelHeight);
                 SDL_FRect healthBarTextRectangle = {
                     healthBarPosX,
                     healthBarPosY + 5,
@@ -70,9 +70,9 @@ class RenderHealthBarSystem: public System {
                     labelHeight
                 };
                 
-                SDL_RenderTexture(renderer, texture, NULL, &healthBarTextRectangle);
+                // SDL_RenderTexture(renderer, texture, NULL, &healthBarTextRectangle);
 
-                SDL_DestroyTexture(texture);
+                // SDL_DestroyTexture(texture);
             }
         }
 };

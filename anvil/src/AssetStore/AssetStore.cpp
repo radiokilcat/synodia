@@ -2,6 +2,9 @@
 #include "../Logger/Logger.h"
 #include <SDL_image.h>
 #include <stdexcept>
+#include "../Render/IRenderer.hpp"
+#include "../Render/ITexture.hpp"
+
 
 namespace anvil {
 
@@ -25,42 +28,54 @@ AssetStore::~AssetStore() {
 }
 
 void AssetStore::ClearAssets() {
-    for (auto texture: textures) {
-        SDL_DestroyTexture(texture.second);
-    }
     textures.clear();
-    for (auto font: fonts) {
-        TTF_CloseFont(font.second);
+
+    for (auto& [_, font] : fonts) {
+        TTF_CloseFont(font);
     }
     fonts.clear();
 }
 
-void AssetStore::AddTexture(SDL_Renderer* renderer, const std::string& assetId, const std::string& filePath) {
-    SDL_Texture* texture = IMG_LoadTexture(renderer, filePath.c_str());
-    if (!texture) {
-        Logger::Log("Failed to load texture: " + filePath);
+void AssetStore::AddTexture(std::shared_ptr<IRenderer> renderer, const std::string& assetId, const std::string& filePath) {
+    if (textures.find(assetId) != textures.end()) {
+        Logger::Log("AssetStore: Texture with id {} already exists", assetId.c_str());
         return;
     }
 
-    textures.emplace(assetId, texture);
-    Logger::Log("Texture added to the AssetStore with id " + assetId);
+    auto texture = renderer->loadTextureFromFile(filePath);
+    if (texture) {
+        textures[assetId] = texture;
+    } else {
+        Logger::Log("AssetStore: Failed to load texture from {}", filePath.c_str());
+    }
 }
 
-SDL_Texture* AssetStore::GetTexture(const std::string& assetId) {
-    return textures[assetId];
+std::shared_ptr<ITexture> AssetStore::GetTexture(const std::string& assetId) {
+    if (textures.find(assetId) != textures.end()) {
+        return textures[assetId];
+    }
+    return nullptr;
 }
+
 
 void AssetStore::AddFont(const std::string& assetId, const std::string& filePath, int fontSize) {
+    if (fonts.find(assetId) != fonts.end()) {
+        Logger::Log("AssetStore: Font with id {} already exists", assetId.c_str());
+        return;
+    }
     TTF_Font* font = TTF_OpenFontDPI(filePath.c_str(), fontSize, 2000, 2000);
     if (font == nullptr) {
-        Logger::Log("Failed to load font: " + filePath);
+        Logger::Log("Failed to load font: {}", filePath);
         throw std::runtime_error("Failed to load font: " + filePath);
     }
     fonts.emplace(assetId, TTF_OpenFont(filePath.c_str(), fontSize));
 }
 
 TTF_Font* AssetStore::GetFont(const std::string& assetId) {
-    return fonts[assetId];
+    if (fonts.find(assetId) != fonts.end()) {
+        return fonts[assetId];
+    }
+    return nullptr;
 }
 
 }

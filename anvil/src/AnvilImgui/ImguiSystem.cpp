@@ -10,7 +10,7 @@
 
 namespace anvil {
 
-    void ImguiSystem::init(SDL_Window* window, SDL_Renderer *renderer) {
+    void ImguiSystem::init(SDL_Window* window, SDL_Renderer* renderer) {
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImGuiIO &io{ImGui::GetIO()};

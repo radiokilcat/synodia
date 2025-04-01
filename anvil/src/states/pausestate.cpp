@@ -18,7 +18,7 @@ bool PauseState::onExit() {
 void PauseState::update(double deltaTime) {
 }
 
-void PauseState::render(SDL_Renderer* renderer) {
+void PauseState::render(std::shared_ptr<IRenderer> renderer) {
 }
 
 void PauseState::handleInput(SDL_Event& event) {
