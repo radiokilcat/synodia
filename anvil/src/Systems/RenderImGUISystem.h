@@ -12,6 +12,7 @@
 #include "backends/imgui_impl_sdl3.h"
 
 namespace anvil {
+    // Deprecated; use ImGuiSystem instead
 
 class RenderImGUISystem: public System {
     public:

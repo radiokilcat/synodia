@@ -29,42 +29,35 @@ class RenderTileMapSystem: public System {
         int gridFloor = 0;
         int tileMargin = 10;
         std::string assetId = "stone_e";
-        int w_, h_;
-        // SDL_QueryTexture(assetStore->GetTexture(assetId), NULL, NULL, &w_, &h_);
+        int w_ = assetStore->GetTexture(assetId)->getWidth();
+        int h_ = assetStore->GetTexture(assetId)->getHeight();
 
-        // for (int y = 0; y < mapNumRows; y++) {
-        //     for (int x = 0; x < mapNumCols; x++) {
-        //         auto tileX = startX + (x - y) * tileWidth / 2;
-        //         auto tileY = startY + (x + y) * tileHeight / 2;
+        for (int y = 0; y < mapNumRows; y++) {
+            for (int x = 0; x < mapNumCols; x++) {
+                auto tileX = startX + (x - y) * tileWidth / 2;
+                auto tileY = startY + (x + y) * tileHeight / 2;
 
-        //         SDL_FRect destRect;
-        //         SDL_FRect srcRect;
-        //         srcRect.w = (float)w_;
-        //         srcRect.h = (float)h_;
-        //         srcRect.x = 0;
-        //         srcRect.y = 0;
+                SDL_FRect destRect;
+                SDL_FRect srcRect;
+                srcRect.w = (float)w_;
+                srcRect.h = (float)h_;
+                srcRect.x = 0;
+                srcRect.y = 0;
 
-        //         int scaleFactor = srcRect.w / tileWidth;
-        //         destRect.w = tileWidth;
-        //         destRect.h = srcRect.h / scaleFactor;
+                int scaleFactor = srcRect.w / tileWidth;
+                destRect.w = tileWidth;
+                destRect.h = srcRect.h / scaleFactor;
 
-        //         destRect.x = (float)tileX;
-        //         destRect.y = (float)tileY - srcRect.h / scaleFactor + tileHeight + tileMargin;
-
-
-        //         SDL_RenderTextureRotated(
-        //             renderer,
-        //             assetStore->GetTexture(assetId),
-        //             &srcRect,
-        //             &destRect,
-        //             NULL,
-        //             NULL,
-        //             SDL_FLIP_NONE
-        //         );
-
-        //     }
-        // }
-
+                destRect.x = (float)tileX;
+                destRect.y = (float)tileY - srcRect.h / scaleFactor + tileHeight + tileMargin;
+                renderer->renderTextureRotated(
+                    assetStore->GetTexture(assetId).get(),
+                    &srcRect,
+                    &destRect,
+                    0.0,
+                    nullptr,
+                    SDL_FLIP_NONE
+                );
         // for (int y = 0; y < mapNumRows; y++) {
         //     for (int x = 0; x < mapNumCols; x++) {
         //         auto tileX = startX + (x - y) * tileWidth / 2;
@@ -81,8 +74,8 @@ class RenderTileMapSystem: public System {
         //         SDL_RenderLines(renderer, points, 5);
 
         //         SDL_SetRenderDrawColor(renderer, 100, 149, 237, 255);
-        //     }
-        // }
+            }
+        }
     }
 };
 

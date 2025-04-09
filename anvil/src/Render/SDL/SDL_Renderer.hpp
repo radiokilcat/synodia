@@ -13,7 +13,15 @@ public:
     void present() override;
     void drawTexture(/* your params */) override;
     SDL_Renderer* getRawRenderer() const;
+    void renderTextureRotated(
+        ITexture* texture,
+        const SDL_FRect* srcRect,
+        const SDL_FRect* dstRect,
+        double angle,
+        const SDL_FPoint* center,
+        SDL_RendererFlip flip) override;
     std::shared_ptr<ITexture> loadTextureFromFile(const std::string &filePath);
+    std::shared_ptr<ITexture> createTextTexture(const std::string &text, TTF_Font *font, SDL_Color color);
     void setLogicalSize(int width, int height) override;
 
 private:
