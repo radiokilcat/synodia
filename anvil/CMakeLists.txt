@@ -42,5 +42,6 @@ endif()
 
 target_link_libraries(anvil
     PRIVATE inipp glm::glm-header-only
+    PRIVATE lua sol2 glad
     PUBLIC nlohmann_json imgui
 )

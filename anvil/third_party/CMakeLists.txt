@@ -111,8 +111,10 @@ add_library(sol2 INTERFACE)
 target_include_directories(sol2 INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/sol2/include)
 target_link_libraries(sol2 INTERFACE lua)
 
-### END OF THIRD PARTY LIBRARIES
-set(CMAKE_WARN_DEPRECATED ON)
+### Glad
+add_subdirectory(glad)
+target_include_directories(glad PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/glad/include)
+
 
 ### END OF THIRD PARTY LIBRARIES
 set(CMAKE_WARN_DEPRECATED ON)
