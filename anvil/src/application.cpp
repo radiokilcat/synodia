@@ -75,8 +75,18 @@ void Application::init(AppSettings settings) {
     }
 
     {
+        Uint32 windowFlags = SDL_WINDOW_BORDERLESS;
+        
+        if (m_settings.rendererType == RendererType::OpenGL) {
+            windowFlags |= SDL_WINDOW_OPENGL;
+        }
+
+        #ifndef NDEBUG
+            windowFlags |= SDL_WINDOW_RESIZABLE;
+        #endif
+
         window = SDL_CreateWindow(m_settings.windowTitle.c_str(), m_settings.screenWidth,
-        m_settings.screenHeight, SDL_WINDOW_BORDERLESS);
+        m_settings.screenHeight, windowFlags);
         SDL_DisplayID display = SDL_GetPrimaryDisplay();
         const SDL_DisplayMode* mode = SDL_GetCurrentDisplayMode(display);
 
@@ -100,7 +110,7 @@ void Application::init(AppSettings settings) {
 
 
 #ifndef NDEBUG
-    auto sdlRenderer = dynamic_cast<SDLRenderer*>(renderer.get());
+    // auto sdlRenderer = dynamic_cast<SDLRenderer*>(renderer.get());
     // ImguiSystem::Instance()->init(window, sdlRenderer->getRawRenderer());
 #endif
     isRunning = true;

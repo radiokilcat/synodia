@@ -5,6 +5,7 @@
 #include "../components/AnimationComponent.h"
 #include "../Logger/Logger.h"
 #include "../AssetStore/AssetStore.h"
+#include "../Render/ITexture.hpp"
 #include <SDL3/SDL.h>
 
 namespace anvil {
@@ -20,15 +21,11 @@ class AnimationSystem: public System {
             for (auto entity: GetSystemEntities()) {
                 auto& animation = entity.GetComponent<AnimationComponent>();
                 auto& sprite = entity.GetComponent<SpriteComponent>();
-
-                int imageWidth;
-                int imageHeight;
-                // SDL_Texture* texture = assetStore->GetTexture(sprite.assetId);
-                // SDL_QueryTexture(texture, NULL, NULL, &imageWidth, &imageHeight);
+                auto texture = assetStore->GetTexture(sprite.assetId);
 
 
-                int columns = imageWidth / sprite.width;
-                int rows = imageHeight / sprite.height;
+                int columns = texture->getWidth() / sprite.width;
+                int rows = texture->getHeight() / sprite.height;
                 int totalFrames = columns * rows; 
 
                 animation.currentFrame = ((SDL_GetTicks() - animation.startTime) * animation.frameSpeedRate / 1000) % totalFrames;

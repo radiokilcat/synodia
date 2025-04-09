@@ -5,6 +5,7 @@
 #include "../Components/SpriteComponent.h"
 #include "../AssetStore/AssetStore.h"
 #include "../Render/IRenderer.hpp"
+#include <algorithm>
 #include <SDL3/SDL.h>
 
 namespace anvil {
@@ -65,18 +66,9 @@ class RenderSystem: public System {
                 // SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
                 auto texture = assetStore->GetTexture(sprite.assetId);
 
-                // renderer->renderTextureRotated(
-                //     texture.get(), &srcRect, &dstRect, transform.rotation, nullptr, sprite.flip
-                // );
-
-                // renderer->RenderTextureRotated(
-                //     assetStore->GetTexture(sprite.assetId),
-                //     &srcRect,
-                //     &dstRect,
-                //     transform.rotation,
-                //     NULL,
-                //     sprite.flip
-                // );
+                renderer->renderTextureRotated(
+                    texture.get(), &srcRect, &dstRect, transform.rotation, nullptr, sprite.flip
+                );
             }
         }
 };

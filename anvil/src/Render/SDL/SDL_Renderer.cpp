@@ -55,6 +55,25 @@ SDL_Renderer* SDLRenderer::getRawRenderer() const {
     return m_renderer;
 }
 
+void SDLRenderer::renderTextureRotated(ITexture *texture, const SDL_FRect *srcRect, const SDL_FRect *dstRect, double angle, const SDL_FPoint *center, SDL_RendererFlip flip)
+{
+    SDLTexture* sdlTex = dynamic_cast<SDLTexture*>(texture);
+    if (!sdlTex || !m_renderer) {
+        SDL_Log("SDLRenderer::renderTextureRotated: Invalid texture or renderer");
+        return;
+    }
+
+    SDL_RenderTextureRotated(
+        m_renderer,
+        sdlTex->getSDLTexture(),
+        srcRect,
+        dstRect,
+        angle,
+        center,
+        flip
+    );
+}
+
 std::shared_ptr<ITexture> SDLRenderer::loadTextureFromFile(const std::string& filePath) {
     SDL_Surface* surface = IMG_Load(filePath.c_str());
     if (!surface) {
@@ -72,6 +91,25 @@ std::shared_ptr<ITexture> SDLRenderer::loadTextureFromFile(const std::string& fi
 
     return std::make_shared<SDLTexture>(sdlTex);
 }
+
+std::shared_ptr<ITexture> SDLRenderer::createTextTexture(const std::string& text, TTF_Font* font, SDL_Color color) {
+    SDL_Surface* surface = TTF_RenderUTF8_Blended(font, text.c_str(), color);
+    if (!surface) {
+        Logger::Log("TTF_RenderUTF8_Blended failed: {}", TTF_GetError());
+        return nullptr;
+    }
+
+    SDL_Texture* sdlTex = SDL_CreateTextureFromSurface(m_renderer, surface);
+    SDL_DestroySurface(surface);
+
+    if (!sdlTex) {
+        Logger::Log("Failed to create SDL_Texture from surface");
+        return nullptr;
+    }
+
+    return std::make_shared<SDLTexture>(sdlTex);
+}
+
 
 
 }
