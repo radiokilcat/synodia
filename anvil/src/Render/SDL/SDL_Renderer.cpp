@@ -46,6 +46,11 @@ void SDLRenderer::setLogicalSize(int width, int height) {
     }
 }
 
+void SDLRenderer::fillRect(const SDL_FRect &rect, SDL_Color color) {
+    SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
+    SDL_RenderFillRect(m_renderer, &rect);
+}
+
 void SDLRenderer::drawTexture(/* your parameters */) {
     // Placeholder for future implementation
     // You might accept SDL_Texture*, source & destination rects, rotation, flip, etc.

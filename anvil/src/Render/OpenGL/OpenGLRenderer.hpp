@@ -29,6 +29,8 @@ public:
     ) override;
     std::shared_ptr<ITexture> loadTextureFromFile(const std::string& path);
     std::shared_ptr<ITexture> createTextTexture(const std::string& text, TTF_Font* font, SDL_Color color);
+    void fillRect(const SDL_FRect& rect, SDL_Color color) override;
+
 
 private:
     SDL_Window* m_window = nullptr;

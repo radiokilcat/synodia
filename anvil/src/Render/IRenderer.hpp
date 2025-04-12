@@ -25,6 +25,7 @@ public:
         SDL_RendererFlip flip) = 0;
     virtual std::shared_ptr<ITexture> loadTextureFromFile(const std::string& path) = 0;
     virtual std::shared_ptr<ITexture> createTextTexture(const std::string& text, TTF_Font* font, SDL_Color color) = 0;
+    virtual void fillRect(const SDL_FRect& rect, SDL_Color color) = 0;
 
 };
 

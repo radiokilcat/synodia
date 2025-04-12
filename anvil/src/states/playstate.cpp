@@ -94,7 +94,6 @@ void PlayState::render(std::shared_ptr<IRenderer> renderer) {
     registry->GetSystem<RenderHealthBarSystem>().Update(renderer, assetStore, camera);
     if (isDebug) {
         registry->GetSystem<RenderColliderSystem>().Update(renderer, camera);
-        // registry->GetSystem<RenderImGUISystem>().Update(registry, camera);
     }
 }
 
