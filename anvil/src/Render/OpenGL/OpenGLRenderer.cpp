@@ -175,4 +175,6 @@ std::shared_ptr<ITexture> OpenGLRenderer::createTextTexture(const std::string& t
     return texture;
 }
 
+void OpenGLRenderer::fillRect(const SDL_FRect &rect, SDL_Color color) {
+}
 }

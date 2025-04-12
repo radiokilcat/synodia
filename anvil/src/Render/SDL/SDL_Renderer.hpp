@@ -23,6 +23,7 @@ public:
     std::shared_ptr<ITexture> loadTextureFromFile(const std::string &filePath);
     std::shared_ptr<ITexture> createTextTexture(const std::string &text, TTF_Font *font, SDL_Color color);
     void setLogicalSize(int width, int height) override;
+    void fillRect(const SDL_FRect& rect, SDL_Color color) override;
 
 private:
     SDL_Renderer* m_renderer = nullptr;

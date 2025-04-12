@@ -111,6 +111,24 @@ bool StateLoader::loadFromFile(const std::string& filename) {
     return true;
 }
 
+json StateLoader::readJsonContent(const std::string& filename) {
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        Logger::Err("Failed to open JSON file: assets/objects/lady_textures.json");
+        return json();
+    }
+
+    json jsonContent;
+    try {
+        file >> jsonContent;
+    } catch (json::parse_error& e) {
+        Logger::Err("JSON parse error: {}", std::string(e.what()));
+        return json();
+    }
+
+    return jsonContent;
+}
+
 void StateLoader::loadResources(std::shared_ptr<IRenderer> renderer, const std::string& filename, const std::unique_ptr<AssetStore>& assetStore) {
     std::ifstream file(filename);
     if (!file.is_open()) {
