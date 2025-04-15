@@ -86,6 +86,8 @@ private:
     std::unique_ptr<AssetStore> assetStore;
     std::unique_ptr<EventBus> eventBus;
 
+
+    std::vector<std::function<void()>> updateCallbacks;
     std::function<void()> m_updateCallback;
     std::function<void()> m_initCallback;
 };
