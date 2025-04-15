@@ -209,7 +209,9 @@ void Application::update() {
     double deltaTime = (SDL_GetTicks() - millisecsPreviousFrame) / 1000.0;
     millisecsPreviousFrame = SDL_GetTicks();
     m_stateMachine->update(deltaTime);
-   
+    for (auto callback : updateCallbacks) {
+        callback();
+    }
 }
 
 void Application::render() {
@@ -251,7 +253,7 @@ void Application::addInitCallback(std::function<void ()> callback) {
 }
 
 void Application::addUpdateCallback(std::function<void ()> callback) {
-    m_updateCallback = std::move(callback);
+    updateCallbacks.emplace_back(std::move(callback));
 }
 
 }

@@ -9,6 +9,7 @@
 #include "../Application.h"
 #include "../states/game_state_machine.h"
 #include "../states/playstate.h"
+#include "../states/LoadingState.h"
 
 namespace anvil {
 
@@ -47,7 +48,8 @@ class ButtonSystem: public System {
                 if (isMouseOverButton(event.x, event.y, sprite, transform)) {
                     if (entity.HasTag("play-button")) {
                         Logger::Log("Play button clicked");
-                        Application::Instance()->getStateMachine()->changeState(new PlayState());
+                        GameState* LoadState = new LoadingState(new PlayState());
+                        Application::Instance()->getStateMachine()->changeState(LoadState);
                     } else if (entity.HasTag("exit-button")) {
                         Logger::Log("Exit button clicked");
                     }

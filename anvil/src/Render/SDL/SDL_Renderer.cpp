@@ -27,7 +27,11 @@ bool SDLRenderer::init(void* windowPtr, int width, int height) {
         Logger::Err("Warning: Failed to set blend mode! SDL_Error: ", SDL_GetError());
     }
     // Set default background color
-    SDL_SetRenderDrawColor(m_renderer, 100, 149, 237, SDL_ALPHA_OPAQUE);
+    // SDL_Color backgroundColor = {30, 30, 46, 255};
+    // SDL_Color textColor = {255, 255, 255, 255};
+    // SDL_Color barBackgroundColor = {42, 42, 58, 255};
+    // SDL_Color barFillColor = {127, 209, 185, 255};
+    SDL_SetRenderDrawColor(m_renderer, 30, 30, 46, SDL_ALPHA_OPAQUE);
     return true;
 }
 
@@ -47,8 +51,13 @@ void SDLRenderer::setLogicalSize(int width, int height) {
 }
 
 void SDLRenderer::fillRect(const SDL_FRect &rect, SDL_Color color) {
+    Uint8 originalR, originalG, originalB, originalA;
+    SDL_GetRenderDrawColor(m_renderer, &originalR, &originalG, &originalB, &originalA);
+
     SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
     SDL_RenderFillRect(m_renderer, &rect);
+
+    SDL_SetRenderDrawColor(m_renderer, originalR, originalG, originalB, originalA);
 }
 
 void SDLRenderer::drawTexture(/* your parameters */) {
