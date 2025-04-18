@@ -57,7 +57,7 @@ void Application::init(AppSettings settings) {
         std::exit(1);
     }
 
-    int imgFlags = IMG_INIT_PNG;
+    int imgFlags = IMG_INIT_PNG | IMG_INIT_WEBP;
     if (!(IMG_Init(imgFlags) & imgFlags)) {
         printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
         std::exit(1);
