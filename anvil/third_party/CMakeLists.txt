@@ -9,10 +9,8 @@ option(SDL_TEST "Build the SDL3_test library" OFF)
 add_subdirectory(SDL)
 
 ### SDL_image
-# PNG = GOOD
 option(SDL3IMAGE_PNG "Support loading PNG images" ON)
-
-# don't need the rest, lol
+option(SDL3IMAGE_WEBP "Support loading WEBP images" ON)
 option(SDL3IMAGE_SAMPLES "Build the SDL3_image sample program(s)" OFF)
 option(SDL3IMAGE_INSTALL "Enable SDL3_image install target" OFF)
 option(SDL3IMAGE_DEPS_SHARED "Load dependencies dynamically" OFF)
@@ -29,6 +27,10 @@ option(SDL3IMAGE_TGA "Support loading TGA images" OFF)
 option(SDL3IMAGE_XCF "Support loading XCF images" OFF)
 option(SDL3IMAGE_XPM "Support loading XPM images" OFF)
 option(SDL3IMAGE_XV "Support loading XV images" OFF)
+
+set(SDL3IMAGE_WEBP ON CACHE BOOL "Support loading WEBP images")
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 add_subdirectory(SDL_image)
 # To quiet down "target X has PUBLIC_HEADER files but no PUBLIC_HEADER DESTINATION"
