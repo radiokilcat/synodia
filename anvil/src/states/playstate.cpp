@@ -23,42 +23,13 @@
 
 namespace anvil {
 
-PlayState::PlayState()
-        : registry(std::make_unique<Registry>())
-        , assetStore(std::make_unique<AssetStore>())
-        , eventBus(std::make_unique<EventBus>()) {
-
-    stateLoader = std::make_unique<StateLoader>(registry);
-}
-
 bool PlayState::onEnter() {
     Logger::Log("Enter Play state");
-    {
-        registry->AddSystem<MovementSystem>();
-        registry->AddSystem<RenderSystem>();
-        registry->AddSystem<AnimationSystem>();
-        registry->AddSystem<CollisionSystem>();
-        registry->AddSystem<RenderColliderSystem>();
-        registry->AddSystem<DamageSystem>();
-        registry->AddSystem<KeyboardControlSystem>();
-        registry->AddSystem<CameraMovementSystem>();
-        registry->AddSystem<ProjectileEmitSystem>();
-        registry->AddSystem<ProjectileLifecycleSystem>();
-        registry->AddSystem<RenderTextSystem>();
-        registry->AddSystem<RenderHealthBarSystem>();
-        registry->AddSystem<RenderImGUISystem>();
-        registry->AddSystem<ButtonSystem>();
-        registry->AddSystem<RenderTileMapSystem>();
-    }
 
     camera.x = 0;
     camera.y = 0;
     camera.w = Application::Instance()->getLogicalWidth();
     camera.h = Application::Instance()->getLogicalHeight();
-    auto renderer = Application::Instance()->getRenderer();
-    stateLoader->loadResources(renderer, "assets/objects/play_resources.json", assetStore);
-    stateLoader->loadResources(renderer, "assets/objects/lady_textures.json", assetStore);
-    stateLoader->loadFromFile("assets/objects/play.json");
     return true;
 }
 
@@ -83,8 +54,6 @@ void PlayState::update(double deltaTime) {
     registry->GetSystem<ProjectileEmitSystem>().Update(registry);
     registry->GetSystem<CameraMovementSystem>().Update(camera);
     registry->GetSystem<ProjectileLifecycleSystem>().Update();
-    
-    registry->Update();
 }
 
 void PlayState::render(std::shared_ptr<IRenderer> renderer) {
@@ -109,6 +78,60 @@ void PlayState::handleInput(SDL_Event& event) {
             eventBus->EmitEvent<MouseClickedEvent>(event.button.x, event.button.y, event.button.button);
             break;
     }
+}
+
+std::vector<AssetRequest> PlayState::getAssetsToLoad() const {
+    auto resources = stateLoader->readJsonContent("assets/objects/play_resources.json");
+    auto textures = stateLoader->readJsonContent("assets/objects/lady_textures.json");
+    // auto objects = stateLoader->readJsonContent("assets/objects/play.json");
+
+    std::vector<AssetRequest> assetRequests;
+    if (resources.contains("textures")) {
+        for (auto& [key, value] : resources["textures"].items()) {
+            assetRequests.emplace_back(AssetRequest::Type::Texture, key, value.get<std::string>());
+        }
+    }
+
+    if (textures.contains("textures")) {
+        for (auto& [key, value] : textures["textures"].items()) {
+            assetRequests.emplace_back(AssetRequest::Type::Texture, key, value.get<std::string>());
+        }
+    }
+
+    if (textures.contains("fonts")) {
+        for (auto& [key, value] : textures["fonts"].items()) {
+            assetRequests.emplace_back(AssetRequest::Type::Font, key, value.get<std::string>());
+        }
+    }
+
+    return assetRequests;
+}
+
+void PlayState::onAssetsLoaded(AssetStore&& store) {
+    assetStore = std::make_unique<AssetStore>(std::move(store));
+    registry = std::make_unique<Registry>();
+
+    {
+        registry->AddSystem<MovementSystem>();
+        registry->AddSystem<RenderSystem>();
+        registry->AddSystem<AnimationSystem>();
+        registry->AddSystem<CollisionSystem>();
+        registry->AddSystem<RenderColliderSystem>();
+        registry->AddSystem<DamageSystem>();
+        registry->AddSystem<KeyboardControlSystem>();
+        registry->AddSystem<CameraMovementSystem>();
+        registry->AddSystem<ProjectileEmitSystem>();
+        registry->AddSystem<ProjectileLifecycleSystem>();
+        registry->AddSystem<RenderTextSystem>();
+        registry->AddSystem<RenderHealthBarSystem>();
+        registry->AddSystem<RenderImGUISystem>();
+        registry->AddSystem<ButtonSystem>();
+        registry->AddSystem<RenderTileMapSystem>();
+    }
+
+    stateLoader = std::make_unique<StateLoader>(registry);
+    eventBus = std::make_unique<EventBus>();
+    stateLoader->loadFromFile("assets/objects/play.json");
 }
 
 }

@@ -24,10 +24,10 @@
 
 namespace anvil {
 
-LoadingState::LoadingState(GameState *nextState)
+LoadingState::LoadingState(std::unique_ptr<ILoadableState> state)
         : registry(std::make_unique<Registry>())
         , assetStore(std::make_unique<AssetStore>())
-        , nextState(nextState)
+        , stateToLoad(std::move(state))
         , eventBus(std::make_unique<EventBus>()) {
 
     stateLoader = std::make_unique<StateLoader>(registry);
@@ -35,23 +35,25 @@ LoadingState::LoadingState(GameState *nextState)
 
 bool LoadingState::onEnter() {
     Logger::Log("Enter Loading state");
-    registry->AddSystem<RenderTextSystem>();
-    auto renderer = Application::Instance()->getRenderer();
 
-    auto data = stateLoader->readJsonContent("assets/objects/lady_textures.json");
-    for (auto& [key, value] : data["textures"].items()) {
-        textureQueue.push_back({ key, value.get<std::string>() });
-    }
-    // text = renderer->createTextTexture("Loading...", nullptr, {255, 255, 255, 255});
-    assetStore->AddFont("vera", "assets/fonts/VeraMono.ttf", 24);
+    assetsToLoad = stateToLoad->getAssetsToLoad();
+    registry->AddSystem<RenderTextSystem>();
 
     Entity newEntity = registry->CreateEntity();
+    assetStore->AddFont("vera", "assets/fonts/VeraMono.ttf", 24);
     SDL_Color color = { 255, 255, 255, 255 };
-    newEntity.AddComponent<TextLabelComponent>( glm::vec2(50, 50), "Loading...",
+
+    Entity loadingText = registry->CreateEntity();
+    loadingText.AddComponent<TextLabelComponent>( glm::vec2(50, 50), "Loading...",
     "vera", SDL_Color{255, 255, 255, 255}, false, true);
-    Logger::Log("Entity created with ID: {}", newEntity.GetId());
-    Logger::Log("Entity has component: {}", newEntity.HasComponent<TextLabelComponent>());
-    currentIndex = 0;
+    loadingText.Tag("loading-text");
+
+    Entity currentFile = registry->CreateEntity();
+    currentFile.AddComponent<TextLabelComponent>( glm::vec2(50, 90), "",
+    "vera", SDL_Color{255, 255, 255, 255}, false, true);
+    currentFile.Tag("current-file");
+
+    currentAssetIndex = 0;
     progress = 0.0f;
     return true;
 }
@@ -64,15 +66,14 @@ bool LoadingState::onExit() {
 void LoadingState::update(double deltaTime) {
     registry->Update();
     if (progress >= 1.0f) {
-        Application::Instance()->getStateMachine()->changeState(nextState);
+        stateToLoad->onAssetsLoaded(std::move(*assetStore));
+        auto state = stateToLoad.release();
+        auto game_state = dynamic_cast<GameState*>(state);
+        Application::Instance()->getStateMachine()->changeState(game_state);
         return;
     }
 
-    const auto& [key, value] = textureQueue[currentIndex];
-    auto renderer = Application::Instance()->getRenderer();
-    assetStore->AddTexture(renderer, key, value);
-    currentIndex++;
-    progress = static_cast<float>(currentIndex) / textureQueue.size();
+    loadAssetsStepByStep();
 }
 
 void LoadingState::render(std::shared_ptr<IRenderer> renderer) {
@@ -86,5 +87,29 @@ void LoadingState::render(std::shared_ptr<IRenderer> renderer) {
 
 void LoadingState::handleInput(SDL_Event& event) {
 }
+
+void LoadingState::loadAssetsStepByStep() {
+    auto renderer = Application::Instance()->getRenderer();
+
+    if (currentAssetIndex >= assetsToLoad.size()) {
+        loaded = true;
+        return;
+    }
+
+    const auto& req = assetsToLoad[currentAssetIndex];
+    switch (req.type) {
+        case AssetRequest::Type::Texture:
+            assetStore->AddTexture(renderer, req.id, req.path);
+            break;
+        case AssetRequest::Type::Font:
+            assetStore->AddFont(req.id, req.path, 24);
+            break;
+    }
+
+    ++currentAssetIndex;
+    registry->GetEntityByTag("current-file").GetComponent<TextLabelComponent>().text = req.path.c_str();
+    progress = static_cast<float>(currentAssetIndex) / assetsToLoad.size();
+}
+
 
 }

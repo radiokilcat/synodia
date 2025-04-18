@@ -6,13 +6,14 @@
 #include "../AssetStore/AssetStore.h"
 #include "../ECS/ECS.h"
 #include "../Render/IRenderer.hpp"
+#include "ILoadable.hpp"
 
 namespace anvil {
 
-class PlayState : public GameState
+class PlayState : public GameState, public ILoadableState
 {
 public:
-    PlayState();
+    PlayState() = default;
     bool onEnter() override;
     bool onExit() override;
 
@@ -21,6 +22,9 @@ public:
     void handleInput(SDL_Event& event) override;
     std::string getID() { return m_id; };
     void setDebug(bool debug) override { isDebug = debug; }
+
+    std::vector<AssetRequest> getAssetsToLoad() const override;
+    void onAssetsLoaded(AssetStore&& store) override;
 
     std::unique_ptr<Registry>& getRegistry() { return registry; } 
     std::unique_ptr<AssetStore>& getAssetStore() { return assetStore; } 
