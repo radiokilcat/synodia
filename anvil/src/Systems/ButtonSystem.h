@@ -33,6 +33,10 @@ class ButtonSystem: public System {
                             Logger::Log("Mouse over button");
                     }
                 }
+                if (entity.HasTag("start") && isMouseOverButton(event.x, event.y, sprite, entity.GetComponent<TransformComponent>()) ) {
+                    entity.GetComponent<SpriteComponent>().srcRect.x = 200;
+                    Logger::Log("Mouse over button start");
+                }
             }
         }
 
@@ -48,7 +52,7 @@ class ButtonSystem: public System {
                 if (isMouseOverButton(event.x, event.y, sprite, transform)) {
                     if (entity.HasTag("play-button")) {
                         Logger::Log("Play button clicked");
-                        GameState* LoadState = new LoadingState(new PlayState());
+                        GameState* LoadState = new LoadingState(std::make_unique<PlayState>());
                         Application::Instance()->getStateMachine()->changeState(LoadState);
                     } else if (entity.HasTag("exit-button")) {
                         Logger::Log("Exit button clicked");

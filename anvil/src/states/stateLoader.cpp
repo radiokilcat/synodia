@@ -114,7 +114,7 @@ bool StateLoader::loadFromFile(const std::string& filename) {
 json StateLoader::readJsonContent(const std::string& filename) {
     std::ifstream file(filename);
     if (!file.is_open()) {
-        Logger::Err("Failed to open JSON file: assets/objects/lady_textures.json");
+        Logger::Err("Failed to open JSON file: {}", filename);
         return json();
     }
 
