@@ -87,5 +87,22 @@
                 "position": { "x": "center", "y": 400.0 }
             }
         }
+    },
+    {
+        "group": "ui",
+        "components": {
+            "sprite": {
+                "assetId": "start",
+                "width": 200,
+                "height": 50,
+                "srcRectX": 0,
+                "srcRectY": 0,
+                "zIndex": 1,
+                "isFixed": true
+            },
+            "transform": {
+                "position": { "x": 200, "y": 600.0 }
+            }
+        }
     }
 ]
