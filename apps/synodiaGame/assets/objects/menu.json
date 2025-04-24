@@ -2,107 +2,52 @@
     {
         "group": "ui",
         "components": {
-            "sprite": {
-                "assetId": "empty_button",
-                "width": 400,
-                "height": 100,
-                "zIndex": 1,
-                "isFixed": true
+            "UIRow": {
+                "left": {  "hoverAsset": "ui_panel", "clickAsset": "ui_panel_transparent", "src": [0, 0, 12, 48], "width": 12, "height": 48 },
+                "mid": {  "hoverAsset": "ui_panel", "clickAsset": "ui_panel_transparent", "src": [20, 0, 10, 48], "width": 376, "height": 48 },
+                "right": { "hoverAsset": "ui_panel", "clickAsset": "ui_panel_transparent", "src": [36, 0, 12, 48], "width": 12, "height": 48 }
             },
             "textLabel": {
                 "assetId": "arial",
-                "text": "Stories of Anvil",
+                "text": "start",
                 "color": [255, 255, 255, 0],
                 "isNested": true,
-                "position": { "x": 10.0, "y": 0.0 }
+                "position": { "x": 180, "y": 10.0 }
             },
-            "transform": {
-                "position": { "x": "center", "y": 100.0 }
-            }
-        }
-    },
-    {
-        "group": "ui",
-        "tags": ["play-button"],
-        "components": {
-            "sprite": {
-                "assetId": "empty_button",
-                "width": 400,
-                "height": 100,
-                "zIndex": 1,
-                "isFixed": true
-            },
-            "textLabel": {
-                "assetId": "arial",
-                "text": "Play Game",
-                "color": [255, 255, 255, 0],
-                "isNested": true,
-                "position": { "x": 10.0, "y": 0.0 }
-            },
-            "transform": {
-                "position": { "x": "center", "y": 200.0 }
-            }
-        }
+            "transform": { "position": { "x": "center", "y": 150 } } }
     },
     {
         "group": "ui",
         "components": {
-            "sprite": {
-                "assetId": "empty_button",
-                "width": 400,
-                "height": 100,
-                "zIndex": 1,
-                "isFixed": true
+            "UIRow": {
+                "left": {  "hoverAsset": "ui_panel", "clickAsset": "ui_panel_transparent", "src": [0, 0, 12, 48], "width": 12, "height": 48 },
+                "mid": {  "hoverAsset": "ui_panel", "clickAsset": "ui_panel_transparent", "src": [20, 0, 10, 48], "width": 376, "height": 48 },
+                "right": { "hoverAsset": "ui_panel", "clickAsset": "ui_panel_transparent", "src": [36, 0, 12, 48], "width": 12, "height": 48 }
             },
             "textLabel": {
                 "assetId": "arial",
-                "text": "Load Game",
+                "text": "load",
                 "color": [255, 255, 255, 0],
                 "isNested": true,
-                "position": { "x": 10.0, "y": 0.0 }
+                "position": { "x": 180, "y": 10.0 }
             },
-            "transform": {
-                "position": { "x": "center", "y": 300.0 }
-            }
-        }
+            "transform": { "position": { "x": "center", "y": 225 } } }
     },
     {
         "group": "ui",
         "components": {
-            "sprite": {
-                "assetId": "empty_button",
-                "width": 400,
-                "height": 100,
-                "zIndex": 1,
-                "isFixed": true
+            "UIRow": {
+                "left": {  "hoverAsset": "ui_panel", "clickAsset": "ui_panel_transparent", "src": [0, 0, 12, 48], "width": 12, "height": 48 },
+                "mid": {  "hoverAsset": "ui_panel", "clickAsset": "ui_panel_transparent", "src": [20, 0, 10, 48], "width": 376, "height": 48 },
+                "right": { "hoverAsset": "ui_panel", "clickAsset": "ui_panel_transparent", "src": [36, 0, 12, 48], "width": 12, "height": 48 }
             },
             "textLabel": {
                 "assetId": "arial",
-                "text": "Exit Game",
+                "text": "exit",
                 "color": [255, 255, 255, 0],
                 "isNested": true,
-                "position": { "x": 10.0, "y": 0.0 }
+                "position": { "x": 180, "y": 10.0 }
             },
-            "transform": {
-                "position": { "x": "center", "y": 400.0 }
-            }
-        }
-    },
-    {
-        "group": "ui",
-        "components": {
-            "sprite": {
-                "assetId": "start",
-                "width": 200,
-                "height": 50,
-                "srcRectX": 0,
-                "srcRectY": 0,
-                "zIndex": 1,
-                "isFixed": true
-            },
-            "transform": {
-                "position": { "x": 200, "y": 600.0 }
-            }
-        }
+            "transform": { "position": { "x": "center", "y": 300 } } }
     }
 ]

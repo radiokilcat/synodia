@@ -15,6 +15,7 @@
 #include "../Systems/RenderHealthBarSystem.h"
 #include "../Systems/RenderImGUISystem.h"
 #include "../Systems/ButtonSystem.h"
+#include "../Systems/ComposedUIRenderSystem.h"
 #include "../Events/KeyPressedEvent.h"
 #include "../Events/MouseEvents.h"
 
@@ -38,6 +39,7 @@ bool MenuState::onEnter() {
     registry->AddSystem<RenderTextSystem>();
     registry->AddSystem<RenderImGUISystem>();
     registry->AddSystem<ButtonSystem>();
+    registry->AddSystem<ComposedUIRenderSystem>();
 
     camera.x = 0;
     camera.y = 0;
@@ -52,6 +54,7 @@ bool MenuState::onEnter() {
 void MenuState::render(std::shared_ptr<IRenderer> renderer) {
     registry->GetSystem<RenderSystem>().Update(renderer, assetStore, camera);
     registry->GetSystem<RenderTextSystem>().Update(renderer, assetStore, camera);
+    registry->GetSystem<ComposedUIRenderSystem>().Update(renderer, assetStore);
     if (isDebug) {
         registry->GetSystem<RenderColliderSystem>().Update(renderer, camera);
     }
@@ -65,6 +68,7 @@ bool MenuState::onExit() {
 void MenuState::update(double deltaTime) {
     eventBus->Reset();
     registry->GetSystem<ButtonSystem>().SubscribeToEvents(eventBus);
+    registry->GetSystem<ComposedUIRenderSystem>().SubscribeToEvents(eventBus);
     registry->Update();
     registry->GetSystem<AnimationSystem>().Update(assetStore);
 }

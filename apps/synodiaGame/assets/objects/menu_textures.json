@@ -5,7 +5,9 @@
         "empty_button": "./assets/images/gui/empty_button.webp",
         "background": "./assets/images/gui/menubackground.webp",
         "test": "./assets/images/gui/Btn01.webp",
-        "start": "./assets/images/gui/start_button.webp"
+        "start": "./assets/images/gui/cropped.png",
+        "ui_panel": "assets/images/gui/Default/Border/panel-border-000.png",
+        "ui_panel_transparent": "assets/images/gui/Default/Transparent border/panel-transparent-border-000.png"
     },
     "fonts": {
         "arial": "./assets/fonts/arial.ttf"

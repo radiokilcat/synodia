@@ -15,6 +15,7 @@
 #include "../components/ProjectileEmitterComponent.h"
 #include "../components/KeyboardControlledComponent.h"
 #include "../components/CameraFollowComponent.h"
+#include "../components/ComposedUIComponent.h"
 #include "../Systems/MovementSystem.h"
 #include "../Systems/RenderSystem.h"
 #include "../Systems/AnimationSystem.h"
@@ -51,14 +52,52 @@ json mergeJson(const json& base, const json& override) {
     return merged;
 }
 
-glm::vec2 parsePosition(const json& j, int spriteW = 0, int spriteH = 0) {
+void StateLoader::loadEntities(const json& stateJson) {
+    for (const auto& entityDef : stateJson) {
+        if (entityDef.contains("type") && entityDef["type"] == "tilemap") {
+            loadTileMap(entityDef);
+            continue;
+        }
+        Entity newEntity = registry->CreateEntity();
+        
+        if (entityDef.contains("tags")) {
+            for (const auto& tag : entityDef["tags"]) {
+                registry->TagEntity(newEntity, tag);
+            }
+        }
+
+        if (entityDef.contains("groups")) {
+            for (const auto& group : entityDef["groups"]) {
+                registry->GroupEntity(newEntity, group);
+            }
+        }
+
+        auto& components = entityDef["components"];
+
+        loadTransformComponent(newEntity, components);
+        loadSpriteComponent(newEntity, components);
+        loadAnimationComponent(newEntity, components);
+        loadBoxColliderComponent(newEntity, components);
+        loadHealthComponent(newEntity, components);
+        loadRigidBodyComponent(newEntity, components);
+        loadTextLabelComponent(newEntity, components);
+        loadProjectileComponent(newEntity, components);
+        loadProjectileEmitterComponent(newEntity, components);
+        loadKeyboardControlledComponent(newEntity, components);
+        loadCameraFollowComponent(newEntity, components);
+        loadRowUIComponent(newEntity, components);
+    }
+}
+
+
+glm::vec2 parsePosition(const json& j, int w = 0, int h = 0) {
     if (j.contains("position")) {
         if (j["position"].is_string()) {
             std::string pos = j["position"];
             if (pos == "center") {
                 int screenW = Application::Instance()->getScreenWidth();
                 int screenH = Application::Instance()->getScreenHeight();
-                return glm::vec2(screenW / 2, screenH / 2);
+                return glm::vec2((screenW - w) / 2, (screenH - h) / 2);
             }
         }
 
@@ -68,14 +107,14 @@ glm::vec2 parsePosition(const json& j, int spriteW = 0, int spriteH = 0) {
             std::string x = j["position"]["x"];
             if (x == "center") {
                 int screenW = Application::Instance()->getScreenWidth();
-                position.x = (screenW / 2) - (spriteW / 2);
+                position.x = (screenW - w) / 2;
             }
         }
         if (j["position"]["y"].is_string()) {
             std::string y = j["position"]["y"];
             if (y == "center") {
                 int screenH = Application::Instance()->getScreenHeight();
-                position.y = (screenH / 2) - (spriteH / 2);
+                position.y = (screenH - h) / 2;
             }
         }
         if (j["position"]["x"].is_number()) {
@@ -157,41 +196,6 @@ void StateLoader::loadResources(std::shared_ptr<IRenderer> renderer, const std::
     }
 }
 
-void StateLoader::loadEntities(const json& stateJson) {
-    for (const auto& entityDef : stateJson) {
-        if (entityDef.contains("type") && entityDef["type"] == "tilemap") {
-            loadTileMap(entityDef);
-            continue;
-        }
-        Entity newEntity = registry->CreateEntity();
-        
-        if (entityDef.contains("tags")) {
-            for (const auto& tag : entityDef["tags"]) {
-                registry->TagEntity(newEntity, tag);
-            }
-        }
-
-        if (entityDef.contains("groups")) {
-            for (const auto& group : entityDef["groups"]) {
-                registry->GroupEntity(newEntity, group);
-            }
-        }
-
-        auto& components = entityDef["components"];
-
-        loadTransformComponent(newEntity, components);
-        loadSpriteComponent(newEntity, components);
-        loadAnimationComponent(newEntity, components);
-        loadBoxColliderComponent(newEntity, components);
-        loadHealthComponent(newEntity, components);
-        loadRigidBodyComponent(newEntity, components);
-        loadTextLabelComponent(newEntity, components);
-        loadProjectileComponent(newEntity, components);
-        loadProjectileEmitterComponent(newEntity, components);
-        loadKeyboardControlledComponent(newEntity, components);
-        loadCameraFollowComponent(newEntity, components);
-    }
-}
 
 void StateLoader::loadTransformComponent(Entity& entity, const json& components) {
     if (components.contains("transform")) {
@@ -209,6 +213,37 @@ void StateLoader::loadTransformComponent(Entity& entity, const json& components)
                 ),
                 transform.contains("rotation") ? transform["rotation"].get<double>() : 0.0
             );
+            return;
+        }
+        else if (components.contains("UIRow")) {
+            auto UIRowW1 = components["UIRow"]["left"]["width"].get<int>();
+            auto UIRowW2 = components["UIRow"]["mid"]["width"].get<int>();
+            auto UIRowW3 = components["UIRow"]["right"]["width"].get<int>();
+            auto UIRowH = components["UIRow"]["left"]["height"].get<int>();
+            auto UIRowW = UIRowW1 + UIRowW2 + UIRowW3;
+            entity.AddComponent<TransformComponent>(
+                parsePosition(transform, UIRowW, UIRowH),
+                glm::vec2(
+                    transform.contains("scale") ? transform["scale"]["x"].get<float>() : 1.0f,
+                    transform.contains("scale") ? transform["scale"]["y"].get<float>() : 1.0f
+                ),
+                transform.contains("rotation") ? transform["rotation"].get<double>() : 0.0
+            );
+            return;
+        }
+        else if (components.contains("textLabel")
+        && components["textLabel"].contains("width")) {
+            auto textLabelW = components["textLabel"]["width"].get<int>();
+            auto textLabelH = components["textLabel"]["height"].get<int>();
+            entity.AddComponent<TransformComponent>(
+                parsePosition(transform, textLabelW, textLabelH),
+                glm::vec2(
+                    transform.contains("scale") ? transform["scale"]["x"].get<float>() : 1.0f,
+                    transform.contains("scale") ? transform["scale"]["y"].get<float>() : 1.0f
+                ),
+                transform.contains("rotation") ? transform["rotation"].get<double>() : 0.0
+            );
+            return;
         }
         else {
             entity.AddComponent<TransformComponent>(
@@ -219,6 +254,7 @@ void StateLoader::loadTransformComponent(Entity& entity, const json& components)
                 ),
                 transform.contains("rotation") ? transform["rotation"].get<double>() : 0.0
             );
+            return;
         }
     }
 }
@@ -292,14 +328,48 @@ void StateLoader::loadTextLabelComponent(Entity& entity, const json& components)
             static_cast<Uint8>(label.contains("color") ? label["color"][2].get<int>() : 0),
             static_cast<Uint8>(label.contains("color") ? label["color"][3].get<int>() : 255)
         };
-        entity.AddComponent<TextLabelComponent>(
-            parsePosition(label),
-            label["text"],
-            label["assetId"],
-            color,
-            label.contains("isNested") ? label["isNested"].get<bool>() : false,
-            label.contains("isFixed") ? label["isFixed"].get<bool>() : true
-        );
+        if (components.contains("sprite")
+        && components["sprite"].contains("width")
+        && components["sprite"].contains("height")) {
+            auto spriteW = components["sprite"]["width"].get<int>();
+            auto spriteH = components["sprite"]["height"].get<int>();
+            entity.AddComponent<TextLabelComponent>(
+                parsePosition(label, spriteW, spriteH),
+                label["text"],
+                label["assetId"],
+                color,
+                label.contains("isNested") ? label["isNested"].get<bool>() : false,
+                label.contains("isFixed") ? label["isFixed"].get<bool>() : true
+            );
+            return;
+        }
+        else if (components.contains("UIRow")) {
+            auto UIRowW1 = components["UIRow"]["left"]["width"].get<int>();
+            auto UIRowW2 = components["UIRow"]["mid"]["width"].get<int>();
+            auto UIRowW3 = components["UIRow"]["right"]["width"].get<int>();
+            auto UIRowH = components["UIRow"]["left"]["height"].get<int>();
+            auto UIRowW = UIRowW1 + UIRowW2 + UIRowW3;
+            entity.AddComponent<TextLabelComponent>(
+                parsePosition(label, UIRowW, UIRowH),
+                label["text"],
+                label["assetId"],
+                color,
+                label.contains("isNested") ? label["isNested"].get<bool>() : false,
+                label.contains("isFixed") ? label["isFixed"].get<bool>() : true
+            );
+            return;
+        }
+        else {
+            entity.AddComponent<TextLabelComponent>(
+                parsePosition(label),
+                label["text"],
+                label["assetId"],
+                color,
+                label.contains("isNested") ? label["isNested"].get<bool>() : false,
+                label.contains("isFixed") ? label["isFixed"].get<bool>() : true
+            );
+            return;
+        }
     }
 }
 
@@ -382,5 +452,41 @@ void StateLoader::loadTileMap(const json& element) {
         // }
     }
 
+}
+
+void StateLoader::loadRowUIComponent(Entity& entity, const json& components) {
+    if (components.contains("UIRow")) {
+        auto& row = components["UIRow"];
+        RowUIComponent UIRow;
+        for (auto& [key, value] : row.items()) {
+            CellUIComponent cell;
+            if (value.contains("defaultAsset")) {
+                cell.defaultAsset = value["defaultAsset"];
+            }
+            if (value.contains("hoverAsset")) {
+                cell.hoverAsset = value["hoverAsset"];
+            }
+            if (value.contains("clickAsset")) {
+                cell.clickAsset = value["clickAsset"];
+            }
+            cell.srcRect = {
+                value["src"][0],
+                value["src"][1],
+                value["src"][2],
+                value["src"][3]
+            };
+            cell.width = value["width"];
+            cell.height = value["height"];
+
+            if (key == "left") {
+                UIRow.left = cell;
+            } else if (key == "mid") {
+                UIRow.mid = cell;
+            } else if (key == "right") {
+                UIRow.right = cell;
+            }
+        }
+        entity.AddComponent<RowUIComponent>(UIRow);
+    }
 }
 }

@@ -31,6 +31,7 @@ private:
     void loadKeyboardControlledComponent(Entity& entity, const json& components);
     void loadCameraFollowComponent(Entity& entity, const json& components);
     void loadTileMap(const json& components);
+    void loadRowUIComponent(Entity &entity, const json &components);
 
     const std::unique_ptr<Registry>& registry;
     void loadEntities(const json& stateJson);
