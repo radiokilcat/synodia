@@ -6,6 +6,7 @@
 #include "../Events/MouseEvents.h"
 #include "../components/ComposedUIComponent.h"
 #include "../components/TransformComponent.h"
+#include "../components/TextLabelComponent.h"
 #include "../Logger/Logger.h"
 #include "../Application.h"
 #include "../states/game_state_machine.h"
@@ -44,9 +45,17 @@ class ComposedUIRenderSystem: public System {
                 auto& row = entity.GetComponent<RowUIComponent>();
                 if (isMouseOverButton(event.x, event.y, row, entity.GetComponent<TransformComponent>())) {
                     row.state = State::HOVER;
+                    if (entity.HasComponent<TextLabelComponent>()) {
+                        auto& textComp = entity.GetComponent<TextLabelComponent>();
+                        textComp.color = {255, 255, 255, 255};
+                    }
                 }
                 else {
                     row.state = State::DEFAULT;
+                    if (entity.HasComponent<TextLabelComponent>()) {
+                        auto& textComp = entity.GetComponent<TextLabelComponent>();
+                        textComp.color = {160, 170, 210};
+                    }
                 }
             }
         }
@@ -57,6 +66,10 @@ class ComposedUIRenderSystem: public System {
                 auto& transform = entity.GetComponent<TransformComponent>();
                 if (isMouseOverButton(event.x, event.y, row, transform)) {
                     row.state = State::CLICK;
+                    if (entity.HasComponent<TextLabelComponent>()) {
+                        auto& textComp = entity.GetComponent<TextLabelComponent>();
+                        textComp.color = {30, 30, 46, 255};
+                    }
                 }
             }
         }
@@ -103,9 +116,7 @@ class ComposedUIRenderSystem: public System {
                 RenderableEntity renderableEntity;
                 renderableEntity.rowUIComponent = entity.GetComponent<RowUIComponent>();
                 renderableEntity.transformComponent = entity.GetComponent<TransformComponent>();
-
                 renderableEntities.emplace_back(renderableEntity);
-
             }
 
             for (auto entity: renderableEntities) {

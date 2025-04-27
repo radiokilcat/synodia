@@ -10,7 +10,7 @@
             "textLabel": {
                 "assetId": "arial",
                 "text": "start",
-                "color": [255, 255, 255, 0],
+                "color": [160, 170, 210, 0],
                 "isNested": true,
                 "position": { "x": 180, "y": 10.0 }
             },
@@ -27,7 +27,7 @@
             "textLabel": {
                 "assetId": "arial",
                 "text": "load",
-                "color": [255, 255, 255, 0],
+                "color": [160, 170, 210, 0],
                 "isNested": true,
                 "position": { "x": 180, "y": 10.0 }
             },
@@ -44,7 +44,7 @@
             "textLabel": {
                 "assetId": "arial",
                 "text": "exit",
-                "color": [255, 255, 255, 0],
+                "color": [160, 170, 210, 0],
                 "isNested": true,
                 "position": { "x": 180, "y": 10.0 }
             },
