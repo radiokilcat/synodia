@@ -429,7 +429,6 @@ void StateLoader::loadTileMap(const json& element) {
         int m_startX = tilemapObj["startPosition"]["x"].get<int>();
         int m_startY = tilemapObj["startPosition"]["y"].get<int>();
 
-
         // for (int y = 0; y < mapNumRows; y++) {
         //     for (int x = 0; x < mapNumCols; x++) {
         //         auto tileX = m_startX + (x - y) * tileWidth / 2;
@@ -459,6 +458,10 @@ void StateLoader::loadRowUIComponent(Entity& entity, const json& components) {
         auto& row = components["UIRow"];
         RowUIComponent UIRow;
         for (auto& [key, value] : row.items()) {
+            if (key == "callback") {
+                UIRow.callback = value.get<std::string>();
+                return;
+            }
             CellUIComponent cell;
             if (value.contains("defaultAsset")) {
                 cell.defaultAsset = value["defaultAsset"];

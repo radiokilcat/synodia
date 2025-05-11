@@ -60,6 +60,16 @@ void SDLRenderer::fillRect(const SDL_FRect &rect, SDL_Color color) {
     SDL_SetRenderDrawColor(m_renderer, originalR, originalG, originalB, originalA);
 }
 
+void SDLRenderer::DrawGreenOutlineRect(const SDL_FRect &rect, SDL_Color color) {
+    Uint8 originalR, originalG, originalB, originalA;
+    SDL_GetRenderDrawColor(m_renderer, &originalR, &originalG, &originalB, &originalA);
+
+    SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
+    SDL_RenderRect(m_renderer, &rect);
+
+    SDL_SetRenderDrawColor(m_renderer, originalR, originalG, originalB, originalA);
+}
+
 void SDLRenderer::drawTexture(/* your parameters */) {
     // Placeholder for future implementation
     // You might accept SDL_Texture*, source & destination rects, rotation, flip, etc.

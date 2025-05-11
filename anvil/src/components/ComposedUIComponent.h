@@ -2,6 +2,8 @@
 
 #include <SDL3/SDL.h>
 #include "../Render/ITexture.hpp"
+#include "../Commands/ICommand.hpp"
+
 #include <string>
 #include <vector>
 #include <optional>
@@ -27,6 +29,7 @@ struct RowUIComponent {
     CellUIComponent left;
     CellUIComponent mid;
     CellUIComponent right;
+    std::optional<std::string> callback;
     State state = State::DEFAULT;
 };
 

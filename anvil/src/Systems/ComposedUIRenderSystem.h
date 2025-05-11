@@ -4,6 +4,7 @@
 #include "../EventBus/EventBus.h"
 #include "../Events/KeyPressedEvent.h"
 #include "../Events/MouseEvents.h"
+#include "../Events/ButtonEvents.h"
 #include "../components/ComposedUIComponent.h"
 #include "../components/TransformComponent.h"
 #include "../components/TextLabelComponent.h"
@@ -12,6 +13,8 @@
 #include "../states/game_state_machine.h"
 #include "../states/playstate.h"
 #include "../states/LoadingState.h"
+#include "../Systems/CommandSystem.h"
+#include "../Commands/SwitchScene.hpp"
 
 namespace anvil {
 
@@ -24,7 +27,20 @@ class ComposedUIRenderSystem: public System {
 
         void SubscribeToEvents(std::unique_ptr<EventBus>& eventBus) {
             eventBus->SubscribeToEvent<MouseMotionEvent>(this, &ComposedUIRenderSystem::onMouseMotion);
-            eventBus->SubscribeToEvent<MouseClickedEvent>(this, &ComposedUIRenderSystem::onMouseClicked);
+            eventBus->SubscribeToEvent<MouseClickedEvent>([this, &eventBus](MouseClickedEvent& event) {
+                for (auto entity: GetSystemEntities()) {
+                    auto& row = entity.GetComponent<RowUIComponent>();
+                    auto& transform = entity.GetComponent<TransformComponent>();
+                    if (isMouseOverButton(event.x, event.y, row, transform)) {
+                        row.state = State::CLICK;
+                        if (entity.HasComponent<TextLabelComponent>()) {
+                            auto& textComp = entity.GetComponent<TextLabelComponent>();
+                            textComp.color = {30, 30, 46, 255};
+                        }
+                        eventBus->EmitEvent<ButtonClickedEvent>(entity);
+                    }
+                }
+            });
         }
 
         unsigned int GetRowWidth(RowUIComponent& ui) {
@@ -98,6 +114,7 @@ class ComposedUIRenderSystem: public System {
                             break;
                         case State::CLICK:
                             texture = assetStore->GetTexture(cell.clickAsset.value_or(""));
+
                             break;
                     }
 

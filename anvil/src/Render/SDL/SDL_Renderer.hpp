@@ -24,6 +24,8 @@ public:
     std::shared_ptr<ITexture> createTextTexture(const std::string &text, TTF_Font *font, SDL_Color color);
     void setLogicalSize(int width, int height) override;
     void fillRect(const SDL_FRect& rect, SDL_Color color) override;
+    void DrawGreenOutlineRect(const SDL_FRect& rect, SDL_Color color);
+    RendererType getType() const override { return RendererType::SDL; }
 
 private:
     SDL_Renderer* m_renderer = nullptr;
