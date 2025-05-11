@@ -11,7 +11,6 @@
 #include "../components/AnimationComponent.h"
 #include "../ECS/ECS.h"
 
-
 namespace anvil {
 	
 	class IWidget;

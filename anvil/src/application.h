@@ -29,6 +29,9 @@ class AppSettings;
 class Application
 {
 public:
+    Application();
+    ~Application();
+
     static Application* Instance();
 
     void init(AppSettings settings);
@@ -36,6 +39,14 @@ public:
     void quit();
 
     std::shared_ptr<IRenderer> getRenderer() const;
+    std::shared_ptr<ImguiSystem> getImguiSystem() const;
+    GameStateMachine* getStateMachine() const;
+    Uint64 getTicks();
+
+    void setStateMachine(GameStateMachine* newStateMachine);
+    void addInitCallback(std::function<void()> callback);
+    void addUpdateCallback(std::function<void()> callback);
+
     int getScreenWidth();
     int getScreenHeight();
     int getLogicalWidth();
@@ -43,29 +54,17 @@ public:
     int getMapWidth();
     int getMapHeight();
 
-    Uint64 getTicks();
-
-    void Setup();
-
-void ProcessInput();
-
-    Application();
-    ~Application();
-
-    GameStateMachine* getStateMachine() const;
-    void setStateMachine(GameStateMachine* newStateMachine);
-    void addInitCallback(std::function<void()> callback);
-    void addUpdateCallback(std::function<void()> callback);
-
-
 private:
     void update();
     void render();
     void cleanup();
+    void Setup();
+    void ProcessInput();
 
     SDL_Window* window = nullptr;
     std::shared_ptr<IRenderer> renderer = nullptr;
     std::unique_ptr<Window> m_window = nullptr;
+    std::shared_ptr<ImguiSystem> imgui = nullptr;
 
     SDL_Texture* screenTexture = nullptr;
     GameStateMachine* m_stateMachine;
@@ -85,7 +84,6 @@ private:
     std::unique_ptr<Registry> registry;
     std::unique_ptr<AssetStore> assetStore;
     std::unique_ptr<EventBus> eventBus;
-
 
     std::vector<std::function<void()>> updateCallbacks;
     std::function<void()> m_updateCallback;

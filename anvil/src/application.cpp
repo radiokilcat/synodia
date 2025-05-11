@@ -2,7 +2,7 @@
 #include "AppSettings.hpp"
 #include "window.h"
 #include "Render/IRenderer.hpp"
-#include "Render/SDL/SDL_Renderer.hpp" // Ensure SDLRenderer is fully defined
+#include "Render/SDL/SDL_Renderer.hpp"
 #include "Render/OpenGL/OpenGLRenderer.hpp"
 #include "inputhandler.h"
 #include "states/game_state_machine.h"
@@ -15,7 +15,7 @@
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
 #include <cassert>
-#include <AnvilImgui/ImguiSystem.h>
+#include <AnvilImgui/ImguiFactory.h>
 #include <AnvilImgui/SceneWidget.h>
 #include "backends/imgui_impl_sdlrenderer3.h"
 #include "backends/imgui_impl_sdl3.h"
@@ -110,8 +110,8 @@ void Application::init(AppSettings settings) {
 
 
 #ifndef NDEBUG
-    // auto sdlRenderer = dynamic_cast<SDLRenderer*>(renderer.get());
-    // ImguiSystem::Instance()->init(window, sdlRenderer->getRawRenderer());
+    imgui = createImGui(m_settings.rendererType);
+    imgui->init(window, renderer);
 #endif
     isRunning = true;
 }
@@ -128,12 +128,18 @@ void Application::run() {
 void Application::Setup() {
     m_stateMachine = new GameStateMachine();
     m_stateMachine->changeState(new MenuState());
-    // auto sceneWidget = std::make_shared<GameSceneWidget>(m_stateMachine->getActiveState()->getRegistry());
-    // ImguiSystem::Instance()->RegisterWidget("SceneWidget", sceneWidget);
+    #ifndef NDEBUG
+        auto sceneWidget = std::make_shared<GameSceneWidget>(m_stateMachine->getActiveState()->getRegistry());
+        imgui->RegisterWidget("SceneWidget", sceneWidget);
+    #endif
 }
 
 std::shared_ptr<IRenderer> Application::getRenderer() const {
     return renderer;
+}
+
+std::shared_ptr<ImguiSystem> Application::getImguiSystem() const {
+    return imgui;
 }
 
 int Application::getScreenWidth() {
@@ -173,13 +179,7 @@ void Application::ProcessInput() {
 
     while (SDL_PollEvent(&sdlEvent)) {
     #ifndef NDEBUG
-        // ImGui_ImplSDL3_ProcessEvent(&sdlEvent);
-        // ImGuiIO& io = ImGui::GetIO();
-        float mouseX, mouseY;
-        const int buttons = SDL_GetMouseState(&mouseX, &mouseY);
-        // io.MousePos = ImVec2(mouseX, mouseY);
-        // io.MouseDown[0] = buttons & SDL_BUTTON(SDL_BUTTON_LEFT);
-        // io.MouseDown[1] = buttons & SDL_BUTTON(SDL_BUTTON_RIGHT);
+        imgui->handleEvent(sdlEvent);
     #endif
 
         switch (sdlEvent.type) {
@@ -219,19 +219,16 @@ void Application::render() {
     m_stateMachine->render(renderer);
 
 #ifndef NDEBUG
-    // ImguiSystem::Instance()->ShowWidget("MenuBar");
-    // ImguiSystem::Instance()->render();
+    imgui->ShowWidget("MenuBar");
+    imgui->render();
 #endif
-    // }
-
     renderer->present();
 }
 
 void Application::cleanup() {
-    // InputHandler::instance()->clean();
     // AudioManager::instance().cleanup();
 #ifndef NDEBUG
-    // ImguiSystem::Instance()->shutDown();
+    imgui->shutDown();
 #endif
 
     SDL_Quit();

@@ -6,13 +6,9 @@
 #include <stdexcept>
 #include <nlohmann/json.hpp>
 #include "Logger/Logger.h"
+#include "Render/IRenderer.hpp"
 
 namespace anvil {
-
-enum class RendererType {
-    SDL,
-    OpenGL
-};
 
 inline RendererType rendererTypeFromString(const std::string& s) {
     if (s == "SDL") return RendererType::SDL;

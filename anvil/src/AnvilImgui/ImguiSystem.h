@@ -5,9 +5,10 @@
 #include <functional>
 #include <unordered_map>
 #include "window.h"
+#include "../Render/IRenderer.hpp"
+#include "../Logger/Logger.h"
 
 namespace anvil {
-    class GameObject;
 
     class IWidget {
     public:
@@ -15,37 +16,19 @@ namespace anvil {
         virtual void draw() = 0;
     };
 
-class ImguiSystem {
-public:
-    ImguiSystem() = default;
-    ~ImguiSystem() = default;
+    class ImguiSystem {
+    public:
+        virtual void init(SDL_Window* window, std::shared_ptr<IRenderer> renderer) = 0;
+        virtual void update() = 0;
+        virtual void render() = 0;
+        virtual void shutDown() = 0;
+        virtual void handleEvent(SDL_Event& event) = 0;
 
-    void init(SDL_Window* window, SDL_Renderer* renderer);
-    static ImguiSystem* Instance();
-
-    void render();
-    void update();
-    void shutDown();
-
-    void RegisterWidget(const std::string& name, std::shared_ptr<IWidget> widget);
-    void UnregisterWidget(const std::string& name);
-    void ShowWidget(const std::string& name);
-    void HideWidget(const std::string& name);
-    void addUpdateTask(std::function<void()> task);
-    
-
-    void setScene(std::shared_ptr<GameObject> scene);
-    std::shared_ptr<GameObject> getScene();
-
-private:
-    std::vector<std::function<void()>> updateTasks;
-    bool showInspector = true;
-    std::vector<GameObject*> objects;
-    std::shared_ptr<GameObject> scene_;
-    std::shared_ptr<GameObject> currentObj;
-    std::unordered_map<std::string, std::shared_ptr<IWidget>> widgets;
-    std::unordered_map<std::string, bool> widgetVisibility;
-    bool show_demo_window = false;
-};
+        virtual void RegisterWidget(const std::string& name, std::shared_ptr<IWidget> widget) = 0;
+        virtual void UnregisterWidget(const std::string& name) = 0;
+        virtual void ShowWidget(const std::string& name) = 0;
+        virtual void HideWidget(const std::string& name) = 0;
+        virtual void addUpdateTask(std::function<void()> task) = 0;
+    };
 
 }

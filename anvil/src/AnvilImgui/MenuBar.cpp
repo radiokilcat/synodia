@@ -25,7 +25,7 @@ namespace anvil {
         if (show_demo_window) {
             ImGui::ShowDemoWindow(&show_demo_window);
         }
-        showInspector ? ImguiSystem::Instance()->ShowWidget("SceneWidget")
-                      : ImguiSystem::Instance()->HideWidget("SceneWidget");
+        showInspector ? Application::Instance()->getImguiSystem()->ShowWidget("SceneWidget")
+                      : Application::Instance()->getImguiSystem()->HideWidget("SceneWidget");
     }
 }
