@@ -1,6 +1,7 @@
 [
     {
         "group": "ui",
+        "tags": "play-button",
         "components": {
             "UIRow": {
                 "left": {  "hoverAsset": "ui_panel", "clickAsset": "ui_panel_transparent", "src": [0, 0, 12, 48], "width": 12, "height": 48 },

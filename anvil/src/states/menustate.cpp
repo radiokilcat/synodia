@@ -16,6 +16,7 @@
 #include "../Systems/RenderImGUISystem.h"
 #include "../Systems/ButtonSystem.h"
 #include "../Systems/ComposedUIRenderSystem.h"
+#include "../Systems/CommandSystem.h"
 #include "../Events/KeyPressedEvent.h"
 #include "../Events/MouseEvents.h"
 
@@ -40,6 +41,7 @@ bool MenuState::onEnter() {
     registry->AddSystem<RenderImGUISystem>();
     registry->AddSystem<ButtonSystem>();
     registry->AddSystem<ComposedUIRenderSystem>();
+    registry->AddSystem<CommandSystem>();
 
     camera.x = 0;
     camera.y = 0;
@@ -53,8 +55,8 @@ bool MenuState::onEnter() {
 
 void MenuState::render(std::shared_ptr<IRenderer> renderer) {
     registry->GetSystem<RenderSystem>().Update(renderer, assetStore, camera);
-    registry->GetSystem<RenderTextSystem>().Update(renderer, assetStore, camera);
     registry->GetSystem<ComposedUIRenderSystem>().Update(renderer, assetStore);
+    registry->GetSystem<RenderTextSystem>().Update(renderer, assetStore, camera);
     if (isDebug) {
         registry->GetSystem<RenderColliderSystem>().Update(renderer, camera);
     }
@@ -71,6 +73,7 @@ void MenuState::update(double deltaTime) {
     registry->GetSystem<ComposedUIRenderSystem>().SubscribeToEvents(eventBus);
     registry->Update();
     registry->GetSystem<AnimationSystem>().Update(assetStore);
+    registry->GetSystem<CommandSystem>().Update(deltaTime, registry);
 }
 
 void MenuState::handleInput(SDL_Event& event) {

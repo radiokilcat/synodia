@@ -4,7 +4,9 @@
 #include "../EventBus/EventBus.h"
 #include "../Events/KeyPressedEvent.h"
 #include "../Events/MouseEvents.h"
+#include "../Events/ButtonEvents.h"
 #include "../components/SpriteComponent.h"
+#include "../components/TransformComponent.h"
 #include "../Logger/Logger.h"
 #include "../Application.h"
 #include "../states/game_state_machine.h"
@@ -23,6 +25,16 @@ class ButtonSystem: public System {
         void SubscribeToEvents(std::unique_ptr<EventBus>& eventBus) {
             eventBus->SubscribeToEvent<MouseMotionEvent>(this, &ButtonSystem::onMouseMotion);
             eventBus->SubscribeToEvent<MouseClickedEvent>(this, &ButtonSystem::onMouseClicked);
+            eventBus->SubscribeToEvent<ButtonClickedEvent>([](ButtonClickedEvent& event) {
+                Logger::Log("Button clicked event received");
+                if (event.entity.HasTag("play-button")) {
+                    Logger::Log("Play button clicked in event");
+                    GameState* LoadState = new LoadingState(std::make_unique<PlayState>());
+                    Application::Instance()->getStateMachine()->changeState(LoadState);
+                } else if (event.entity.HasTag("exit-button")) {
+                    Logger::Log("Exit button clicked in event");
+                }
+            });
         }
 
         void onMouseMotion(MouseMotionEvent& event) {
