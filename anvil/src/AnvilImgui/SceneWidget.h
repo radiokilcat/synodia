@@ -17,7 +17,7 @@ namespace anvil {
 	
 	class GameSceneWidget : public IWidget {
 	public:
-		GameSceneWidget(const std::unique_ptr<Registry>& registry) : registry_(registry) {};
+		GameSceneWidget() {};
 		void draw() override;
         void propertyWindow(bool p_open);
 		void listEntity(const Entity& entity);
@@ -33,7 +33,6 @@ namespace anvil {
         void drawTextComponent(TextLabelComponent& text);
 
     private:
-		const std::unique_ptr<Registry>& registry_;
 		int m_openEntityId = -1;
 		bool showProperties = true;
 		bool showInspector = true;

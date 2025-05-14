@@ -7,6 +7,7 @@
 #include "../Render/IRenderer.hpp"
 #include <algorithm>
 #include <SDL3/SDL.h>
+#include "../Render/SDL/SDL_Renderer.hpp"
 
 namespace anvil {
 
@@ -64,6 +65,11 @@ class RenderSystem: public System {
                 // SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
                 // SDL_RenderRect(renderer, &dstRect);
                 // SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+
+                if (auto r = dynamic_cast<SDLRenderer*>(renderer.get())) {
+                    r->DrawGreenOutlineRect(dstRect, {0, 255, 0, 255});
+                }
+
                 auto texture = assetStore->GetTexture(sprite.assetId);
 
                 renderer->renderTextureRotated(

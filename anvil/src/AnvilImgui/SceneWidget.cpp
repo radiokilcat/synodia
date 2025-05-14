@@ -1,6 +1,8 @@
 #include "SceneWidget.h"
 
 #include "imgui.h"
+#include "../application.h"
+#include "../states/game_state_machine.h"
 #include "../ECS/ECS.h"
 #include "../components/TransformComponent.h"
 #include "../components/SpriteComponent.h"
@@ -12,8 +14,7 @@
 namespace anvil {
 
 void GameSceneWidget::draw() {
-    if (registry_)
-        propertyWindow(true);
+    propertyWindow(true);
 }
 
 void GameSceneWidget::propertyWindow(bool p_open) {
@@ -26,7 +27,7 @@ void GameSceneWidget::propertyWindow(bool p_open) {
         ImGui::TableHeadersRow();
         ImGui::TableNextColumn();
 
-        const auto& entities = registry_->GetEntities();
+        const auto& entities = Application::Instance()->getStateMachine()->getActiveState()->getRegistry()->GetEntities();
         for (const auto& e : entities) {
             listEntity(e);
         }
@@ -226,4 +227,4 @@ void GameSceneWidget::drawTextComponent(TextLabelComponent& text) {
 
 }
 
-} // namespace anvil
+} 

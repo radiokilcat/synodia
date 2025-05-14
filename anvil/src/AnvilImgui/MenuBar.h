@@ -15,6 +15,7 @@ namespace anvil {
 
 	private:
 		bool showInspector = true;
+		bool showTestWindow = false;
 		std::queue<std::function<void()>> callbacks;
 		bool show_demo_window = false;
 	};

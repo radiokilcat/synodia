@@ -57,9 +57,9 @@ void MenuState::render(std::shared_ptr<IRenderer> renderer) {
     registry->GetSystem<RenderSystem>().Update(renderer, assetStore, camera);
     registry->GetSystem<ComposedUIRenderSystem>().Update(renderer, assetStore);
     registry->GetSystem<RenderTextSystem>().Update(renderer, assetStore, camera);
-    if (isDebug) {
-        registry->GetSystem<RenderColliderSystem>().Update(renderer, camera);
-    }
+    // if (isDebug) {
+        // registry->GetSystem<RenderColliderSystem>().Update(renderer, camera);
+    // }
 }
 
 bool MenuState::onExit() {
