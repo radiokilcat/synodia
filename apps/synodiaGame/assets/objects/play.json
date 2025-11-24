@@ -10,7 +10,7 @@
                 "assetId": "lady_run_bow_body_000"
             },
             "animation": {
-                "frameRate": 10,
+                "frameRate": 24,
                 "loop": true
             },
             "transform": {
@@ -23,10 +23,10 @@
             },
             "cameraFollow": {},
             "keyboardControlled": {
-                "upVelocity": { "x": 0.0, "y": -100.0 },
-                "rightVelocity": { "x": 100.0, "y": 0.0 },
-                "downVelocity": { "x": 0.0, "y": 100.0 },
-                "leftVelocity": { "x": -100.0, "y": 0.0 }
+                "upVelocity": { "x": 0.0, "y": -200.0 },
+                "rightVelocity": { "x": 200.0, "y": 0.0 },
+                "downVelocity": { "x": 0.0, "y": 200.0 },
+                "leftVelocity": { "x": -200.0, "y": 0.0 }
             },
             "rigidBody": {
                 "velocity": { "x": 0.0, "y": 0.0 }
