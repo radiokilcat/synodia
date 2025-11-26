@@ -129,7 +129,7 @@ void Application::Setup() {
     m_stateMachine = new GameStateMachine();
     m_stateMachine->changeState(new MenuState());
     #ifndef NDEBUG
-        auto sceneWidget = std::make_shared<GameSceneWidget>(m_stateMachine->getActiveState()->getRegistry());
+        auto sceneWidget = std::make_shared<GameSceneWidget>();
         imgui->RegisterWidget("SceneWidget", sceneWidget);
     #endif
 }
@@ -201,13 +201,18 @@ void Application::ProcessInput() {
 }
 
 void Application::update() {
-    int timeToWait = MILLISECS_PER_FRAME - (SDL_GetTicks() - millisecsPreviousFrame);
-    if (timeToWait > 0 && timeToWait <= MILLISECS_PER_FRAME) {
-        SDL_Delay(timeToWait);
+    const Uint64 currentTicks = SDL_GetTicks();
+    if (millisecsPreviousFrame == 0) {
+        millisecsPreviousFrame = currentTicks;
+    }
+    const Uint64 elapsed = currentTicks - millisecsPreviousFrame;
+
+    if (elapsed < static_cast<Uint64>(MILLISECS_PER_FRAME)) {
+        SDL_Delay(static_cast<Uint32>(MILLISECS_PER_FRAME - elapsed));
     }
 
-    double deltaTime = (SDL_GetTicks() - millisecsPreviousFrame) / 1000.0;
-    millisecsPreviousFrame = SDL_GetTicks();
+    const double deltaTime = static_cast<double>(elapsed) / 1000.0;
+    millisecsPreviousFrame = currentTicks;
     m_stateMachine->update(deltaTime);
     for (auto callback : updateCallbacks) {
         callback();

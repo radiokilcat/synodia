@@ -16,6 +16,7 @@ bool AudioManager::initAudio()
         printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
         std::exit(1);
     }
+    return true;
 }
 
 bool AudioManager::loadFile(const std::string& fileName, const std::string& id)

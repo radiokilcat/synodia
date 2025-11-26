@@ -24,7 +24,7 @@ class TextureManager;
 class GameObject;
 class GameStateMachine;
 class Logger;
-class AppSettings;
+struct AppSettings;
 
 class Application
 {
@@ -75,7 +75,7 @@ private:
 
     bool isRunning;
     bool isDebug;
-    int millisecsPreviousFrame = 0;
+    Uint64 millisecsPreviousFrame = 0;
     int mapWidth;
     int mapHeight;
     int windowWidth;

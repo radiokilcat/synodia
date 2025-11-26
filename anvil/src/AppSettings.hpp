@@ -4,7 +4,6 @@
 #include <fstream>
 #include <cassert>
 #include <stdexcept>
-#include <nlohmann/json.hpp>
 #include "Logger/Logger.h"
 #include "Render/IRenderer.hpp"
 

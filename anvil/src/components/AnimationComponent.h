@@ -8,7 +8,7 @@ struct AnimationComponent {
     int currentFrame;
     int frameX = 0;
     int frameY = 0;
-    uint8_t startTime;
+    Uint64 startTime = 0;
 
     AnimationComponent(int frameSpeedRate = 1,
                        bool isLoop = true)

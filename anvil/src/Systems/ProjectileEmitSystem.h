@@ -75,7 +75,8 @@ class ProjectileEmitSystem: public System {
                     continue;
                 }
 
-                if (SDL_GetTicks() - projectileEmitter.lastEmissionTime > projectileEmitter.repeatFrequency) {
+                const Uint64 now = SDL_GetTicks();
+                if (now - projectileEmitter.lastEmissionTime > static_cast<Uint64>(projectileEmitter.repeatFrequency)) {
                     glm::vec2 projectilePosition = transform.position;
                     if (entity.HasComponent<SpriteComponent>()) {
                         const auto sprite = entity.GetComponent<SpriteComponent>();
@@ -91,7 +92,7 @@ class ProjectileEmitSystem: public System {
                     projectile.AddComponent<BoxColliderComponent>(4, 4);
                     projectile.AddComponent<ProjectileComponent>(projectileEmitter.isFriendly, projectileEmitter.hitPercentDamage, projectileEmitter.projectileDuration);
                 
-                    projectileEmitter.lastEmissionTime = SDL_GetTicks();
+                    projectileEmitter.lastEmissionTime = now;
                 }
             }
         }

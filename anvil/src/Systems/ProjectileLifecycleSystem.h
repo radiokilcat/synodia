@@ -15,7 +15,8 @@ class ProjectileLifecycleSystem: public System {
             for (auto entity: GetSystemEntities()) {
                 auto projectile = entity.GetComponent<ProjectileComponent>();
 
-                if (SDL_GetTicks() - projectile.startTime > projectile.duration) {
+                const Uint64 now = SDL_GetTicks();
+                if (now - projectile.startTime > static_cast<Uint64>(projectile.duration)) {
                     entity.Kill();
                 }
             }
