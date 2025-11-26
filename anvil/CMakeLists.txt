@@ -17,31 +17,45 @@ set_target_properties(anvil PROPERTIES
 )
 
 target_include_directories(anvil
-    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src
-    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+        $<INSTALL_INTERFACE:include>
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
 # Link dependencies
 if(BUILD_SHARED_LIBS)
-    target_link_libraries(anvil PUBLIC
-        SDL3::SDL3
-        SDL3_image::SDL3_image
-        SDL3_ttf::SDL3_ttf
-        SDL3_mixer::SDL3_mixer
-        fmt::fmt
-    )
+    set(ANVIL_SDL_TARGET SDL3::SDL3)
+    set(ANVIL_SDL_IMAGE_TARGET SDL3_image::SDL3_image)
+    set(ANVIL_SDL_TTF_TARGET SDL3_ttf::SDL3_ttf)
+    set(ANVIL_SDL_MIXER_TARGET SDL3_mixer::SDL3_mixer)
 else()
-    target_link_libraries(anvil PUBLIC
-        SDL3::SDL3-static
-        SDL3_image::SDL3_image-static
-        SDL3_ttf::SDL3_ttf-static
-        SDL3_mixer::SDL3_mixer-static
-        fmt::fmt
-    )
+    set(ANVIL_SDL_TARGET SDL3::SDL3-static)
+    set(ANVIL_SDL_IMAGE_TARGET SDL3_image::SDL3_image-static)
+    set(ANVIL_SDL_TTF_TARGET SDL3_ttf::SDL3_ttf-static)
+    set(ANVIL_SDL_MIXER_TARGET SDL3_mixer::SDL3_mixer-static)
 endif()
 
+set(ANVIL_PUBLIC_LIBS
+    ${ANVIL_SDL_TARGET}
+    ${ANVIL_SDL_TTF_TARGET}
+    fmt::fmt
+)
+
+set(ANVIL_PRIVATE_LIBS
+    ${ANVIL_SDL_IMAGE_TARGET}
+    ${ANVIL_SDL_MIXER_TARGET}
+    inipp
+    glm::glm-header-only
+    lua
+    sol2
+    glad
+    nlohmann_json
+    imgui
+)
+
 target_link_libraries(anvil
-    PRIVATE inipp glm::glm-header-only
-    PRIVATE lua sol2 glad
-    PUBLIC nlohmann_json imgui
+    PUBLIC ${ANVIL_PUBLIC_LIBS}
+    PRIVATE ${ANVIL_PRIVATE_LIBS}
 )
