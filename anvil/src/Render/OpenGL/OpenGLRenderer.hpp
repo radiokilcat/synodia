@@ -5,6 +5,9 @@
 #include <glad/glad.h>
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_opengl.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "../IRenderer.hpp"
 
@@ -36,8 +39,23 @@ public:
 private:
     SDL_Window* m_window = nullptr;
     SDL_GLContext m_glContext = nullptr;
+    GLuint m_shaderProgram = 0;
+    GLuint m_vao = 0;
+    GLuint m_vbo = 0;
+    GLuint m_ebo = 0;
+    GLint m_projectionLoc = -1;
+    GLint m_colorLoc = -1;
+    GLint m_useTextureLoc = -1;
+    GLint m_samplerLoc = -1;
+    glm::mat4 m_projection = glm::mat4(1.0f);
+    int m_logicalWidth = 0;
+    int m_logicalHeight = 0;
 
     void setup2DProjection(int width, int height);
-    void initGL();
+    bool initGL(int width, int height);
+    bool initGLResources();
+    bool createShaderProgram();
+    bool createQuadBuffers();
+    void destroyGLResources();
 };
 }
