@@ -12,7 +12,7 @@ set_target_properties(${APP_NAME} PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY_RELEASE ${EXECUTABLE_DIR}
 )
 
-include(${CMAKE_SOURCE_DIR}/cmake/Deploy.cmake)
+include("${CMAKE_CURRENT_LIST_DIR}/../../cmake/Deploy.cmake")
 
 copy_assets(
     ${APP_NAME}
