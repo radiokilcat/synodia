@@ -6,7 +6,10 @@ namespace anvil {
 SDLTexture::SDLTexture(SDL_Texture* texture)
     : m_texture(texture) {
     if (m_texture) {
-        SDL_QueryTexture(m_texture, NULL, NULL, &m_width, &m_height);
+        float w = 0, h = 0;
+        SDL_GetTextureSize(m_texture, &w, &h);
+        m_width = static_cast<int>(w);
+        m_height = static_cast<int>(h);
     }
 }
 

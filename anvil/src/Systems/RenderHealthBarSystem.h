@@ -56,7 +56,7 @@ class RenderHealthBarSystem: public System {
 
                 // Render the health percentage text label indicator
                 std::string healthText = std::to_string(health.healthPercentage);
-                SDL_Surface* surface = TTF_RenderText_Blended(assetStore->GetFont("pico8-font-5"), healthText.c_str(), healthBarColor);
+                SDL_Surface* surface = TTF_RenderText_Blended(assetStore->GetFont("pico8-font-5"), healthText.c_str(), 0, healthBarColor);
                 // SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
                 SDL_DestroySurface(surface);
 

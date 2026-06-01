@@ -11,71 +11,81 @@ AudioManager& AudioManager::instance() {
 
 bool AudioManager::initAudio()
 {
-    // Initialize SDL_mixer
-    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
-        printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
-        std::exit(1);
+    if (!MIX_Init()) {
+        printf("SDL_mixer could not initialize! Error: %s\n", SDL_GetError());
+        return false;
+    }
+    mixer_ = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, nullptr);
+    if (!mixer_) {
+        printf("Failed to create mixer device! Error: %s\n", SDL_GetError());
+        return false;
+    }
+    musicTrack_ = MIX_CreateTrack(mixer_);
+    if (!musicTrack_) {
+        printf("Failed to create music track! Error: %s\n", SDL_GetError());
+        return false;
     }
     return true;
 }
 
 bool AudioManager::loadFile(const std::string& fileName, const std::string& id)
 {
-    Mix_Music* sound = Mix_LoadMUS(fileName.c_str());
-    if (sound != 0)
-    {
-        sounds_[id] = sound;
-        return true;
+    if (!mixer_) return false;
+    MIX_Audio* audio = MIX_LoadAudio(mixer_, fileName.c_str(), true);
+    if (!audio) {
+        std::cout << SDL_GetError() << " : " << fileName << std::endl;
+        return false;
     }
-    std::cout << Mix_GetError() << " : " << fileName.c_str() << std::endl;
-    return false;
-
+    sounds_[id] = audio;
+    return true;
 }
 
-//ToDo: Add PlayChannel support for playing music and sounds separately
 void AudioManager::playMusic(const std::string& id, bool loop)
 {
-    if( Mix_PlayingMusic() == 0 )
-    {
-        Mix_PlayMusic(sounds_[id], -1);
-    }
+    if (!musicTrack_ || sounds_.find(id) == sounds_.end()) return;
+    MIX_SetTrackAudio(musicTrack_, sounds_[id]);
+    MIX_PlayTrack(musicTrack_, 0);
 }
 
 void AudioManager::pauseMusic()
 {
-    if( Mix_PlayingMusic() )
-    {
-        Mix_PauseMusic();
-    }
+    if (musicTrack_) MIX_PauseTrack(musicTrack_);
 }
 
 void AudioManager::resumeMusic()
 {
-    if( Mix_PausedMusic() )
-    {
-        Mix_ResumeMusic();
-    }
+    if (musicTrack_) MIX_ResumeTrack(musicTrack_);
+}
 
+bool AudioManager::isSoundMuted()
+{
+    return mute_;
 }
 
 void AudioManager::stopMusic()
 {
-    Mix_HaltMusic();
+    if (musicTrack_) MIX_StopTrack(musicTrack_, 0);
 }
 
 void AudioManager::cleanup()
 {
-    Mix_HaltChannel(-1);
-    for (auto sound: sounds_)
-    {
-        Mix_FreeMusic(sound.second);
+    stopMusic();
+    if (musicTrack_) {
+        MIX_DestroyTrack(musicTrack_);
+        musicTrack_ = nullptr;
     }
-    Mix_CloseAudio();
+    for (auto& [id, audio] : sounds_) {
+        MIX_DestroyAudio(audio);
+    }
+    sounds_.clear();
+    if (mixer_) {
+        MIX_DestroyMixer(mixer_);
+        mixer_ = nullptr;
+    }
 }
 
-AudioManager::AudioManager()
-{
+AudioManager::AudioManager() {}
 
-}
+AudioManager::~AudioManager() { cleanup(); }
 
 }

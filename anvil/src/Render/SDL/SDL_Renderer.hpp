@@ -19,7 +19,7 @@ public:
         const SDL_FRect* dstRect,
         double angle,
         const SDL_FPoint* center,
-        SDL_RendererFlip flip) override;
+        SDL_FlipMode flip) override;
     std::shared_ptr<ITexture> loadTextureFromFile(const std::string &filePath);
     std::shared_ptr<ITexture> createTextTexture(const std::string &text, TTF_Font *font, SDL_Color color);
     void setLogicalSize(int width, int height) override;

@@ -1,5 +1,5 @@
-#include <SDL_image.h>
-#include <SDL_ttf.h>
+#include <SDL3_image/SDL_image.h>
+#include <SDL3_ttf/SDL_ttf.h>
 
 #include "fontloader.h"
 #include <iostream>
@@ -11,8 +11,8 @@ namespace anvil {
 FontLoader::FontLoader()
 {
     // Initialize SDL_ttf
-    if (TTF_Init() == -1) {
-        printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
+    if (!TTF_Init()) {
+        printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", SDL_GetError());
         std::exit(1);
     }
 }
@@ -29,7 +29,7 @@ FontLoader* FontLoader::instance()
 
 void FontLoader::loadFont(const std::string fontName, const std::filesystem::path path, int size)
 {
-    TTF_Font* font = TTF_OpenFontDPI(path.string().c_str(), size, 2000, 2000);
+    TTF_Font* font = TTF_OpenFont(path.string().c_str(), size);
     if (font == nullptr)
     {
         std::cout << SDL_GetError() << " " <<  path << std::endl;

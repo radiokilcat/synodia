@@ -33,6 +33,7 @@ private:
     std::unordered_map<std::string, std::shared_ptr<IWidget>> widgets;
     std::unordered_map<std::string, bool> widgetVisibility;
     bool show_demo_window = false;
+    SDL_Renderer* m_sdlRenderer = nullptr;
 };
 
 }

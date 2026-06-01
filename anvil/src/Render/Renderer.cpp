@@ -8,7 +8,7 @@ std::shared_ptr<Renderer> Renderer::create(SDL_Window* window) {
 }
 
 Renderer::Renderer(SDL_Window* window)
-    : m_renderer(SDL_CreateRenderer(window, nullptr, 0), &SDL_DestroyRenderer)
+    : m_renderer(SDL_CreateRenderer(window, nullptr), &SDL_DestroyRenderer)
 {
 }
 

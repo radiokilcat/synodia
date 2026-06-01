@@ -79,7 +79,7 @@ void MenuState::update(double deltaTime) {
 void MenuState::handleInput(SDL_Event& event) {
     switch (event.type) {
         case SDL_EVENT_KEY_DOWN:
-            eventBus->EmitEvent<KeyPressedEvent>(event.key.keysym.sym);
+            eventBus->EmitEvent<KeyPressedEvent>(event.key.key);
             break;
         case SDL_EVENT_MOUSE_MOTION:
             eventBus->EmitEvent<MouseMotionEvent>(event.motion.x, event.motion.y);

@@ -18,7 +18,7 @@ class RenderImGUISystem: public System {
     public:
         RenderImGUISystem() = default;
 
-        void Update(const std::unique_ptr<Registry>& registry, const SDL_Rect& camera) {
+        void Update(const std::unique_ptr<Registry>& registry, const SDL_Rect& camera, SDL_Renderer* sdlRenderer) {
             ImGui_ImplSDLRenderer3_NewFrame();
             ImGui_ImplSDL3_NewFrame();
             ImGui::NewFrame();
@@ -166,7 +166,7 @@ class RenderImGUISystem: public System {
             ImGui::End();
 
             ImGui::Render();
-            ImGui_ImplSDLRenderer3_RenderDrawData(ImGui::GetDrawData());
+            ImGui_ImplSDLRenderer3_RenderDrawData(ImGui::GetDrawData(), sdlRenderer);
         }
 };
 

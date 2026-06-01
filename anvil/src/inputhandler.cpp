@@ -61,7 +61,7 @@ void InputHandler::handleEvents()
     while (SDL_PollEvent(&event))
     {
         m_keyState = SDL_GetKeyboardState(0);
-        m_releasedKeys = std::vector<Uint8>(512, 0);
+        m_releasedKeys = std::vector<bool>(512, false);
 
 #ifndef NDEBUG
         ImGui_ImplSDL3_ProcessEvent(&event);
@@ -71,10 +71,10 @@ void InputHandler::handleEvents()
             Application::Instance()->quit();
         }
         if (event.type == SDL_EVENT_KEY_DOWN) {
-            eventBus->EmitEvent<KeyPressedEvent>(event.key.keysym.sym);
+            eventBus->EmitEvent<KeyPressedEvent>(event.key.key);
         }
         if (event.type == SDL_EVENT_KEY_UP) {
-            m_releasedKeys[event.key.keysym.scancode] = 1;
+            m_releasedKeys[event.key.scancode] = 1;
         }
         if (event.button.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
             if (event.button.button == SDL_BUTTON_LEFT)

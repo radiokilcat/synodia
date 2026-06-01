@@ -4,7 +4,7 @@
 #include <memory>
 #include <string>
 #include <SDL3/SDL.h>
-#include <SDL_ttf.h>
+#include <SDL3_ttf/SDL_ttf.h>
 
 namespace anvil {
 

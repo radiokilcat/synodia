@@ -50,8 +50,8 @@ private:
     std::vector<bool> m_mouseButtonStates;
     Vector2D* m_mousePosition;
 
-    const Uint8* m_keyState;
-    std::vector<Uint8> m_releasedKeys;
+    const bool* m_keyState;
+    std::vector<bool> m_releasedKeys;
     bool anyKeyPressed_ = false;
     std::unique_ptr<EventBus> eventBus;
 };

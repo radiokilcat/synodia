@@ -3,7 +3,7 @@
 #include <string>
 #include <map>
 #include <filesystem>
-#include <SDL_ttf.h>
+#include <SDL3_ttf/SDL_ttf.h>
 
 namespace anvil {
 

@@ -21,6 +21,7 @@ namespace anvil {
         SDL_Renderer* sdlRenderer = static_cast<SDLRenderer*>(renderer.get())->getRawRenderer();
         if (auto sdlRenderer = dynamic_cast<SDLRenderer*>(renderer.get())) {
             SDL_Renderer* raw = sdlRenderer->getRawRenderer();
+            m_sdlRenderer = raw;
             ImGui_ImplSDL3_InitForSDLRenderer(window, raw);
             ImGui_ImplSDLRenderer3_Init(raw);
         }
@@ -52,7 +53,7 @@ namespace anvil {
             }
         }
         ImGui::Render();
-        ImGui_ImplSDLRenderer3_RenderDrawData(ImGui::GetDrawData());
+        ImGui_ImplSDLRenderer3_RenderDrawData(ImGui::GetDrawData(), m_sdlRenderer);
     }
 
     void SDLImguiSystem::handleEvent(SDL_Event& event) {
@@ -61,8 +62,8 @@ namespace anvil {
         float mouseX, mouseY;
         const int buttons = SDL_GetMouseState(&mouseX, &mouseY);
         io.MousePos = ImVec2(mouseX, mouseY);
-        io.MouseDown[0] = buttons & SDL_BUTTON(SDL_BUTTON_LEFT);
-        io.MouseDown[1] = buttons & SDL_BUTTON(SDL_BUTTON_RIGHT);
+        io.MouseDown[0] = buttons & SDL_BUTTON_MASK(SDL_BUTTON_LEFT);
+        io.MouseDown[1] = buttons & SDL_BUTTON_MASK(SDL_BUTTON_RIGHT);
     }
 
     void SDLImguiSystem::update() {

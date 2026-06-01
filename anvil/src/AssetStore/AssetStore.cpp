@@ -1,6 +1,6 @@
 #include "./AssetStore.h"
 #include "../Logger/Logger.h"
-#include <SDL_image.h>
+#include <SDL3_image/SDL_image.h>
 #include <stdexcept>
 #include "../Render/IRenderer.hpp"
 #include "../Render/ITexture.hpp"
@@ -63,12 +63,12 @@ void AssetStore::AddFont(const std::string& assetId, const std::string& filePath
         Logger::Log("AssetStore: Font with id {} already exists", assetId.c_str());
         return;
     }
-    TTF_Font* font = TTF_OpenFontDPI(filePath.c_str(), fontSize, 2000, 2000);
+    TTF_Font* font = TTF_OpenFont(filePath.c_str(), fontSize);
     if (font == nullptr) {
         Logger::Log("Failed to load font: {}", filePath);
         throw std::runtime_error("Failed to load font: " + filePath);
     }
-    fonts.emplace(assetId, TTF_OpenFont(filePath.c_str(), fontSize));
+    fonts.emplace(assetId, font);
 }
 
 TTF_Font* AssetStore::GetFont(const std::string& assetId) {

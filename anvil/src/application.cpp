@@ -11,9 +11,9 @@
 #include "audio_manager.h"
 #include "utils.h"
 
-#include <SDL_image.h>
-#include <SDL_ttf.h>
-#include <SDL_mixer.h>
+#include <SDL3_image/SDL_image.h>
+#include <SDL3_ttf/SDL_ttf.h>
+#include <SDL3_mixer/SDL_mixer.h>
 #include <cassert>
 #include <AnvilImgui/ImguiFactory.h>
 #include <AnvilImgui/SceneWidget.h>
@@ -28,234 +28,225 @@ namespace anvil {
 static Application* m_instance = nullptr;
 
 Application* Application::Instance() {
-    if(m_instance == nullptr) {
-        m_instance = new Application();
-        return m_instance;
-    }
-    return m_instance;
+	if(m_instance == nullptr) {
+		m_instance = new Application();
+		return m_instance;
+	}
+	return m_instance;
 }
 
 Application::Application()
-    : isRunning(true)
-    , isDebug(false)
-    , registry(std::make_unique<Registry>())
-    , assetStore(std::make_unique<AssetStore>())
-    , eventBus(std::make_unique<EventBus>()) {
+	: isRunning(true)
+	, isDebug(false)
+	, registry(std::make_unique<Registry>())
+	, assetStore(std::make_unique<AssetStore>())
+	, eventBus(std::make_unique<EventBus>()) {
 
-    Logger::Log("Application constructor called!");
+	Logger::Log("Application constructor called!");
 }
 
 Application::~Application() {
-    Logger::Log("Game destructor called!");   
+	Logger::Log("Game destructor called!");   
 }
 
 void Application::init(AppSettings settings) {
-    m_settings = settings;
+	m_settings = settings;
 
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) < 0) {
-        printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
-        std::exit(1);
-    }
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) < 0) {
+		printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
+		std::exit(1);
+	}
 
-    int imgFlags = IMG_INIT_PNG | IMG_INIT_WEBP;
-    if (!(IMG_Init(imgFlags) & imgFlags)) {
-        printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
-        std::exit(1);
-    }
-    // AudioManager::instance().initAudio();
+	// SDL_image 3 initializes automatically, no IMG_Init needed
 
-    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
-        printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
-        std::exit(1);
-    }
+	AudioManager::instance().initAudio();
 
-    if (TTF_Init() != 0) {
-        Logger::Err("Error initializing SDL TTF.");
-        return;
-    }
+	if (!TTF_Init()) {
+		Logger::Err("Error initializing SDL TTF.");
+		return;
+	}
 
-    {
-        Uint32 windowFlags = SDL_WINDOW_BORDERLESS;
-        
-        if (m_settings.rendererType == RendererType::OpenGL) {
-            windowFlags |= SDL_WINDOW_OPENGL;
-        }
+	{
+		Uint32 windowFlags = SDL_WINDOW_BORDERLESS;
+		
+		if (m_settings.rendererType == RendererType::OpenGL) {
+			windowFlags |= SDL_WINDOW_OPENGL;
+		}
 
-        #ifndef NDEBUG
-            windowFlags |= SDL_WINDOW_RESIZABLE;
-        #endif
+		#ifndef NDEBUG
+			windowFlags |= SDL_WINDOW_RESIZABLE;
+		#endif
 
-        window = SDL_CreateWindow(m_settings.windowTitle.c_str(), m_settings.screenWidth,
-        m_settings.screenHeight, windowFlags);
-        SDL_DisplayID display = SDL_GetPrimaryDisplay();
-        const SDL_DisplayMode* mode = SDL_GetCurrentDisplayMode(display);
+		window = SDL_CreateWindow(m_settings.windowTitle.c_str(), m_settings.screenWidth,
+		m_settings.screenHeight, windowFlags);
+		SDL_DisplayID display = SDL_GetPrimaryDisplay();
+		const SDL_DisplayMode* mode = SDL_GetCurrentDisplayMode(display);
 
-        if (mode) {
-            SDL_Log("Display %" SDL_PRIu32 " mode %d: %dx%d@%gx %gHz\n",
-                    display, mode->w, mode->h, mode->pixel_density, mode->refresh_rate);
-        }
-    }
+		if (mode) {
+			SDL_Log("Display %" SDL_PRIu32 " mode %d: %dx%d@%gx %gHz\n",
+					display, mode->w, mode->h, mode->pixel_density, mode->refresh_rate);
+		}
+	}
 
-    {
-        if (m_settings.rendererType == RendererType::SDL) {
-            renderer = std::make_shared<SDLRenderer>();
-        } else if (m_settings.rendererType == RendererType::OpenGL) {
-            renderer = std::make_shared<OpenGLRenderer>();
-        }
-        renderer->init(window, m_settings.screenWidth, m_settings.screenHeight);
-    }
+	{
+		if (m_settings.rendererType == RendererType::SDL) {
+			renderer = std::make_shared<SDLRenderer>();
+		} else if (m_settings.rendererType == RendererType::OpenGL) {
+			renderer = std::make_shared<OpenGLRenderer>();
+		}
+		renderer->init(window, m_settings.screenWidth, m_settings.screenHeight);
+	}
 
-    mapWidth = 1920;
-    mapHeight = 1064;
+	mapWidth = 1920;
+	mapHeight = 1064;
 
 
 #ifndef NDEBUG
-    imgui = createImGui(m_settings.rendererType);
-    imgui->init(window, renderer);
+	imgui = createImGui(m_settings.rendererType);
+	imgui->init(window, renderer);
 #endif
-    isRunning = true;
+	isRunning = true;
 }
 
 void Application::run() {
-    Setup();
-    while (isRunning) {
-        ProcessInput();
-        update();
-        render();
-    }
+	Setup();
+	while (isRunning) {
+		ProcessInput();
+		update();
+		render();
+	}
 }
 
 void Application::Setup() {
-    m_stateMachine = new GameStateMachine();
-    m_stateMachine->changeState(new MenuState());
-    #ifndef NDEBUG
-        auto sceneWidget = std::make_shared<GameSceneWidget>();
-        imgui->RegisterWidget("SceneWidget", sceneWidget);
-    #endif
+	m_stateMachine = new GameStateMachine();
+	m_stateMachine->changeState(new MenuState());
+	#ifndef NDEBUG
+		auto sceneWidget = std::make_shared<GameSceneWidget>();
+		imgui->RegisterWidget("SceneWidget", sceneWidget);
+	#endif
 }
 
 std::shared_ptr<IRenderer> Application::getRenderer() const {
-    return renderer;
+	return renderer;
 }
 
 std::shared_ptr<ImguiSystem> Application::getImguiSystem() const {
-    return imgui;
+	return imgui;
 }
 
 int Application::getScreenWidth() {
-    int w, h;
-    SDL_GetWindowSize(window, &w, &h);
-    return w;
+	int w, h;
+	SDL_GetWindowSize(window, &w, &h);
+	return w;
 }
 
 int Application::getScreenHeight() {
-    int w, h;
-    SDL_GetWindowSize(window, &w, &h);
-    return h;
+	int w, h;
+	SDL_GetWindowSize(window, &w, &h);
+	return h;
 }
 
 int Application::getLogicalWidth() {
-    return m_settings.screenWidth;
+	return m_settings.screenWidth;
 }
 
 int Application::getLogicalHeight() {
-    return m_settings.screenHeight;
+	return m_settings.screenHeight;
 }
 
 int Application::getMapWidth() {
-    return mapWidth;
+	return mapWidth;
 }
 
 int Application::getMapHeight() {
-    return mapHeight;
+	return mapHeight;
 }
 
 Uint64 Application::getTicks() {
-    return SDL_GetTicks();
+	return SDL_GetTicks();
 }
 
 void Application::ProcessInput() {
-    SDL_Event sdlEvent;
+	SDL_Event sdlEvent;
 
-    while (SDL_PollEvent(&sdlEvent)) {
-    #ifndef NDEBUG
-        imgui->handleEvent(sdlEvent);
-    #endif
+	while (SDL_PollEvent(&sdlEvent)) {
+	#ifndef NDEBUG
+		imgui->handleEvent(sdlEvent);
+	#endif
 
-        switch (sdlEvent.type) {
-            case SDL_EVENT_QUIT:
-                quit();
-                break;
-            case SDL_EVENT_KEY_DOWN:
-                if (sdlEvent.key.keysym.sym == SDLK_ESCAPE) {
-                    quit();
-                }
-                if (sdlEvent.key.keysym.sym == SDLK_d) {
-                    isDebug = !isDebug;
-                    m_stateMachine->getActiveState()->setDebug(isDebug);
-                }
-                break;
-        }
-        m_stateMachine->getActiveState()->handleInput(sdlEvent);
-    }
+		switch (sdlEvent.type) {
+			case SDL_EVENT_QUIT:
+				quit();
+				break;
+			case SDL_EVENT_KEY_DOWN:
+				if (sdlEvent.key.key == SDLK_ESCAPE) {
+					quit();
+				}
+				if (sdlEvent.key.key == SDLK_D) {
+					isDebug = !isDebug;
+					m_stateMachine->getActiveState()->setDebug(isDebug);
+				}
+				break;
+		}
+		m_stateMachine->getActiveState()->handleInput(sdlEvent);
+	}
 }
 
 void Application::update() {
-    const Uint64 currentTicks = SDL_GetTicks();
-    if (millisecsPreviousFrame == 0) {
-        millisecsPreviousFrame = currentTicks;
-    }
-    const Uint64 elapsed = currentTicks - millisecsPreviousFrame;
+	const Uint64 currentTicks = SDL_GetTicks();
+	if (millisecsPreviousFrame == 0) {
+		millisecsPreviousFrame = currentTicks;
+	}
+	const Uint64 elapsed = currentTicks - millisecsPreviousFrame;
 
-    if (elapsed < static_cast<Uint64>(MILLISECS_PER_FRAME)) {
-        SDL_Delay(static_cast<Uint32>(MILLISECS_PER_FRAME - elapsed));
-    }
+	if (elapsed < static_cast<Uint64>(MILLISECS_PER_FRAME)) {
+		SDL_Delay(static_cast<Uint32>(MILLISECS_PER_FRAME - elapsed));
+	}
 
-    const double deltaTime = static_cast<double>(elapsed) / 1000.0;
-    millisecsPreviousFrame = currentTicks;
-    m_stateMachine->update(deltaTime);
-    for (auto callback : updateCallbacks) {
-        callback();
-    }
+	const double deltaTime = static_cast<double>(elapsed) / 1000.0;
+	millisecsPreviousFrame = currentTicks;
+	m_stateMachine->update(deltaTime);
+	for (auto callback : updateCallbacks) {
+		callback();
+	}
 }
 
 void Application::render() {
-    renderer->clear();
-    m_stateMachine->render(renderer);
+	renderer->clear();
+	m_stateMachine->render(renderer);
 
 #ifndef NDEBUG
-    imgui->ShowWidget("MenuBar");
-    imgui->render();
+	imgui->ShowWidget("MenuBar");
+	imgui->render();
 #endif
-    renderer->present();
+	renderer->present();
 }
 
 void Application::cleanup() {
-    // AudioManager::instance().cleanup();
+	// AudioManager::instance().cleanup();
 #ifndef NDEBUG
-    imgui->shutDown();
+	imgui->shutDown();
 #endif
 
-    SDL_Quit();
-    IMG_Quit();
-    TTF_Quit();
-    Mix_Quit();
+	SDL_Quit();
+	TTF_Quit();
+	MIX_Quit();
 }
 
 void Application::quit() {
-    isRunning = false;
+	isRunning = false;
 }
 
 GameStateMachine* Application::getStateMachine() const {
-    return m_stateMachine;
+	return m_stateMachine;
 }
 
 void Application::addInitCallback(std::function<void ()> callback) {
-    m_initCallback = std::move(callback);
+	m_initCallback = std::move(callback);
 }
 
 void Application::addUpdateCallback(std::function<void ()> callback) {
-    updateCallbacks.emplace_back(std::move(callback));
+	updateCallbacks.emplace_back(std::move(callback));
 }
 
 }

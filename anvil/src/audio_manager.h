@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SDL_mixer.h>
+#include <SDL3_mixer/SDL_mixer.h>
 
 #include <string>
 #include <map>
@@ -11,6 +11,7 @@ class AudioManager
 {
 public:
     AudioManager();
+    ~AudioManager();
     static AudioManager& instance();
 
     bool initAudio();
@@ -25,8 +26,10 @@ public:
     void cleanup();
 
 private:
-    std::map<std::string, Mix_Music*> sounds_;
-    bool mute_;
+    MIX_Mixer* mixer_ = nullptr;
+    MIX_Track* musicTrack_ = nullptr;
+    std::map<std::string, MIX_Audio*> sounds_;
+    bool mute_ = false;
 };
 
 }

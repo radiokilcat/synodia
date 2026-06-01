@@ -63,8 +63,8 @@ std::optional<SDL_Event> Window::pollEvents()
 
 void Window::init()
 {
-    if (SDL_InitSubSystem(SDL_InitFlags::SDL_INIT_VIDEO)) {
-        SDL_LogCritical(SDL_LogCategory::SDL_LOG_CATEGORY_ERROR, SDL_GetError());
+    if (SDL_InitSubSystem(SDL_INIT_VIDEO)) {
+        SDL_LogCritical(SDL_LOG_CATEGORY_ERROR, SDL_GetError());
     }
 }
 
@@ -75,7 +75,7 @@ std::pair<int, int> Window::getWindowSize()
     int result = SDL_GetWindowSize(getWindow(), &width, &height);
 
     if (result != 0)
-        SDL_LogCritical(SDL_LogCategory::SDL_LOG_CATEGORY_ERROR, SDL_GetError());
+        SDL_LogCritical(SDL_LOG_CATEGORY_ERROR, SDL_GetError());
 
     return std::pair<int, int>(width, height);
 
@@ -83,7 +83,7 @@ std::pair<int, int> Window::getWindowSize()
 
 void Window::quit()
 {
-    SDL_QuitSubSystem(SDL_InitFlags::SDL_INIT_VIDEO);
+    SDL_QuitSubSystem(SDL_INIT_VIDEO);
 }
 
 }
