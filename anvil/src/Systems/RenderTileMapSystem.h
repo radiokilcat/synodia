@@ -29,8 +29,13 @@ class RenderTileMapSystem: public System {
         int gridFloor = 0;
         int tileMargin = 10;
         std::string assetId = "stone_e";
-        int w_ = assetStore->GetTexture(assetId)->getWidth();
-        int h_ = assetStore->GetTexture(assetId)->getHeight();
+        auto tileTexture = assetStore->GetTexture(assetId);
+        if (!tileTexture) {
+            Logger::Err("RenderTileMapSystem: texture not found for assetId '{}'", assetId);
+            return;
+        }
+        int w_ = tileTexture->getWidth();
+        int h_ = tileTexture->getHeight();
 
         for (int y = 0; y < mapNumRows; y++) {
             for (int x = 0; x < mapNumCols; x++) {
@@ -51,7 +56,7 @@ class RenderTileMapSystem: public System {
                 destRect.x = (float)tileX;
                 destRect.y = (float)tileY - srcRect.h / scaleFactor + tileHeight + tileMargin;
                 renderer->renderTextureRotated(
-                    assetStore->GetTexture(assetId).get(),
+                    tileTexture.get(),
                     &srcRect,
                     &destRect,
                     0.0,

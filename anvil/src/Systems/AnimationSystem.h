@@ -22,7 +22,10 @@ class AnimationSystem: public System {
                 auto& animation = entity.GetComponent<AnimationComponent>();
                 auto& sprite = entity.GetComponent<SpriteComponent>();
                 auto texture = assetStore->GetTexture(sprite.assetId);
-
+                if (!texture) {
+                    Logger::Err("AnimationSystem: texture not found for assetId '{}'", sprite.assetId);
+                    continue;
+                }
 
                 int columns = texture->getWidth() / sprite.width;
                 int rows = texture->getHeight() / sprite.height;

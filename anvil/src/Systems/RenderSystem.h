@@ -71,6 +71,7 @@ class RenderSystem: public System {
                 }
 
                 auto texture = assetStore->GetTexture(sprite.assetId);
+                if (!texture) continue;
 
                 renderer->renderTextureRotated(
                     texture.get(), &srcRect, &dstRect, transform.rotation, nullptr, sprite.flip
