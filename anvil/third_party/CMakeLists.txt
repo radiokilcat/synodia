@@ -9,6 +9,7 @@ option(SDL_TEST "Build the SDL3_test library" OFF)
 add_subdirectory(SDL)
 
 ### SDL_image
+set(SDLIMAGE_AVIF OFF CACHE BOOL "Support loading AVIF images" FORCE)
 option(SDL3IMAGE_PNG "Support loading PNG images" ON)
 option(SDL3IMAGE_WEBP "Support loading WEBP images" ON)
 option(SDL3IMAGE_SAMPLES "Build the SDL3_image sample program(s)" OFF)
@@ -34,9 +35,11 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 add_subdirectory(SDL_image)
 # To quiet down "target X has PUBLIC_HEADER files but no PUBLIC_HEADER DESTINATION"
-set_target_properties(SDL3_image PROPERTIES
-  PUBLIC_HEADER ""
-)
+foreach(_sdl3image_target SDL3_image-static SDL3_image-shared)
+  if(TARGET ${_sdl3image_target})
+    set_target_properties(${_sdl3image_target} PROPERTIES PUBLIC_HEADER "")
+  endif()
+endforeach()
 
 ### SDL_ttf
 option(SDL3TTF_SAMPLES "Build the SDL3_ttf sample program(s)" OFF)
@@ -44,9 +47,11 @@ option(SDL3TTF_INSTALL "Enable SDL3_ttf install target" OFF)
 option(SDL3TTF_VENDORED "Use vendored third-party libraries" ON)
 add_subdirectory(SDL_ttf)
 # To quiet down "target X has PUBLIC_HEADER files but no PUBLIC_HEADER DESTINATION"
-set_target_properties(SDL3_ttf PROPERTIES
-  PUBLIC_HEADER ""
-)
+foreach(_sdl3ttf_target SDL3_ttf-static SDL3_ttf-shared)
+  if(TARGET ${_sdl3ttf_target})
+    set_target_properties(${_sdl3ttf_target} PROPERTIES PUBLIC_HEADER "")
+  endif()
+endforeach()
 
 ### SDL_Mixer
 option(SDL3MIXER_INSTALL "Enable SDL3mixer install target" OFF)
@@ -61,9 +66,11 @@ option(SDL3MIXER_OPUS "Enable Opus music" OFF)
 
 add_subdirectory(SDL_mixer)
 # To quiet down "target X has PUBLIC_HEADER files but no PUBLIC_HEADER DESTINATION"
-set_target_properties(SDL3_mixer PROPERTIES
-  PUBLIC_HEADER ""
-)
+foreach(_sdl3mixer_target SDL3_mixer-static SDL3_mixer-shared)
+  if(TARGET ${_sdl3mixer_target})
+    set_target_properties(${_sdl3mixer_target} PROPERTIES PUBLIC_HEADER "")
+  endif()
+endforeach()
 
 ## inipp 
 add_subdirectory(inipp)
