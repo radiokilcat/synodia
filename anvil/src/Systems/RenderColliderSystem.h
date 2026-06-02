@@ -3,6 +3,7 @@
 #include "../ECS/ECS.h"
 #include "../Components/TransformComponent.h"
 #include "../Components/BoxColliderComponent.h"
+#include "../Render/RenderTypes.hpp"
 #include <SDL3/SDL.h>
 
 namespace anvil {
@@ -19,7 +20,7 @@ class RenderColliderSystem: public System {
                 const auto transform = entity.GetComponent<TransformComponent>();
                 const auto collider = entity.GetComponent<BoxColliderComponent>();
 
-                SDL_FRect colliderRect = {
+                anvil::FRect colliderRect = {
                     transform.position.x + collider.offset.x - camera.x,
                     transform.position.y + collider.offset.y - camera.y,
                     static_cast<float>(collider.width) * transform.scale.x,

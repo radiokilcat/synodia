@@ -5,6 +5,7 @@
 #include "../components/TransformComponent.h"
 #include "../components/SpriteComponent.h"
 #include "../components/HealthComponent.h"
+#include "../Render/RenderTypes.hpp"
 #include <SDL3/SDL.h>
 
 namespace anvil {
@@ -24,7 +25,7 @@ class RenderHealthBarSystem: public System {
                 const auto health = entity.GetComponent<HealthComponent>();
 
                 // Draw a the health bar with the correct color for the percentage
-                SDL_Color healthBarColor = {255, 255, 255};
+                anvil::Color healthBarColor = {255, 255, 255};
 
                 if (health.healthPercentage >= 0 && health.healthPercentage < 40) {
                     // 0-40 = red
@@ -45,7 +46,7 @@ class RenderHealthBarSystem: public System {
                 double healthBarPosX = (transform.position.x + (sprite.width * transform.scale.x)) - camera.x;
                 double healthBarPosY = (transform.position.y) - camera.y;
 
-                SDL_FRect healthBarRectangle = {
+                anvil::FRect healthBarRectangle = {
                     healthBarPosX,
                     healthBarPosY,
                     healthBarWidth * (health.healthPercentage / 100.0),
@@ -56,14 +57,14 @@ class RenderHealthBarSystem: public System {
 
                 // Render the health percentage text label indicator
                 std::string healthText = std::to_string(health.healthPercentage);
-                SDL_Surface* surface = TTF_RenderText_Blended(assetStore->GetFont("pico8-font-5"), healthText.c_str(), 0, healthBarColor);
+                // SDL_Surface* surface = TTF_RenderText_Blended(..., healthText, healthBarColor);
                 // SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-                SDL_DestroySurface(surface);
+                // SDL_DestroySurface(surface);
 
                 int labelWidth = 0;
                 int labelHeight = 0;
                 // SDL_QueryTexture(texture, NULL, NULL, &labelWidth, &labelHeight);
-                SDL_FRect healthBarTextRectangle = {
+                anvil::FRect healthBarTextRectangle = {
                     healthBarPosX,
                     healthBarPosY + 5,
                     labelWidth,

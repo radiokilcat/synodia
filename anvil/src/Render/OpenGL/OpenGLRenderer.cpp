@@ -1,8 +1,9 @@
 #include "OpenGLRenderer.hpp"
 #include "OpenGLTexture.hpp"
+#include "../SDL/SDLFont.hpp"
 #include <SDL3/SDL_log.h>
-#include <SDL3/SDL_image.h>
-#include <SDL3/SDL_ttf.h>
+#include <SDL3_image/SDL_image.h>
+#include <SDL3_ttf/SDL_ttf.h>
 #include <array>
 #include <cmath>
 #include <utility>
@@ -17,7 +18,7 @@ OpenGLRenderer::~OpenGLRenderer() {
     }
     destroyGLResources();
     if (m_glContext) {
-        SDL_GL_DeleteContext(m_glContext);
+        SDL_GL_DestroyContext(m_glContext);
         m_glContext = nullptr;
     }
 }
@@ -35,16 +36,16 @@ bool OpenGLRenderer::init(void* windowPtr, int width, int height) {
         return false;
     }
 
-    if (SDL_GL_MakeCurrent(m_window, m_glContext) != 0) {
+    if (!SDL_GL_MakeCurrent(m_window, m_glContext)) {
         SDL_Log("Failed to make OpenGL context current: %s", SDL_GetError());
-        SDL_GL_DeleteContext(m_glContext);
+        SDL_GL_DestroyContext(m_glContext);
         m_glContext = nullptr;
         return false;
     }
 
     if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)) {
         SDL_Log("Failed to initialize GLAD");
-        SDL_GL_DeleteContext(m_glContext);
+        SDL_GL_DestroyContext(m_glContext);
         m_glContext = nullptr;
         return false;
     }
@@ -53,7 +54,7 @@ bool OpenGLRenderer::init(void* windowPtr, int width, int height) {
 
     if (!initGL(width, height)) {
         destroyGLResources();
-        SDL_GL_DeleteContext(m_glContext);
+        SDL_GL_DestroyContext(m_glContext);
         m_glContext = nullptr;
         return false;
     }
@@ -98,11 +99,11 @@ void OpenGLRenderer::setLogicalSize(int width, int height)
 
 void OpenGLRenderer::renderTextureRotated(
     ITexture* texture,
-    const SDL_FRect* srcRect,
-    const SDL_FRect* dstRect,
+    const FRect* srcRect,
+    const FRect* dstRect,
     double angle,
-    const SDL_FPoint* center,
-    SDL_RendererFlip flip)
+    const FPoint* center,
+    FlipMode flip)
 {
     auto* glTexture = dynamic_cast<OpenGLTexture*>(texture);
     if (!glTexture || !dstRect || m_shaderProgram == 0) {
@@ -115,7 +116,7 @@ void OpenGLRenderer::renderTextureRotated(
         return;
     }
 
-    SDL_FRect effectiveSrc{};
+    FRect effectiveSrc{};
     if (srcRect) {
         effectiveSrc = *srcRect;
     } else {
@@ -130,14 +131,13 @@ void OpenGLRenderer::renderTextureRotated(
     float u1 = (effectiveSrc.x + srcW) / texWidth;
     float v1 = (effectiveSrc.y + srcH) / texHeight;
 
-    // Convert from SDL's top-left origin to OpenGL's bottom-left origin.
-    float vTop = 1.0f - v0;
-    float vBottom = 1.0f - v1;
+    float vTop = v0;
+    float vBottom = v1;
 
-    if (flip & SDL_FLIP_HORIZONTAL) {
+    if (flip & FlipMode::Horizontal) {
         std::swap(u0, u1);
     }
-    if (flip & SDL_FLIP_VERTICAL) {
+    if (flip & FlipMode::Vertical) {
         std::swap(vTop, vBottom);
     }
 
@@ -212,13 +212,13 @@ void OpenGLRenderer::renderTextureRotated(
 std::shared_ptr<ITexture> OpenGLRenderer::loadTextureFromFile(const std::string& path) {
     SDL_Surface* surface = IMG_Load(path.c_str());
     if (!surface) {
-        SDL_Log("Failed to load image: %s | %s", path.c_str(), IMG_GetError());
+        SDL_Log("Failed to load image: %s | %s", path.c_str(), SDL_GetError());
         return nullptr;
     }
 
     // SDL_Surface is usually in BGRA or ARGB depending on platform
     // Convert it to RGBA8888 (32-bit RGBA)
-    SDL_Surface* formatted = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_RGBA32);
+    SDL_Surface* formatted = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_RGBA32);
     SDL_DestroySurface(surface);
 
     if (!formatted) {
@@ -264,14 +264,20 @@ std::shared_ptr<ITexture> OpenGLRenderer::loadTextureFromFile(const std::string&
     return std::make_shared<OpenGLTexture>(textureID, texWidth, texHeight);
 }
 
-std::shared_ptr<ITexture> OpenGLRenderer::createTextTexture(const std::string& text, TTF_Font* font, SDL_Color color) {
-    SDL_Surface* surface = TTF_RenderUTF8_Blended(font, text.c_str(), color);
+std::shared_ptr<ITexture> OpenGLRenderer::createTextTexture(const std::string& text, IFont* font, Color color) {
+    auto* sdlFont = dynamic_cast<SDLFont*>(font);
+    if (!sdlFont) {
+        SDL_Log("OpenGLRenderer::createTextTexture: invalid font");
+        return nullptr;
+    }
+    SDL_Color sdlColor{color.r, color.g, color.b, color.a};
+    SDL_Surface* surface = TTF_RenderText_Blended(sdlFont->getRawFont(), text.c_str(), 0, sdlColor);
     if (!surface) {
-        SDL_Log("TTF_RenderUTF8_Blended failed: %s", TTF_GetError());
+        SDL_Log("TTF_RenderUTF8_Blended failed: %s", SDL_GetError());
         return nullptr;
     }
 
-    SDL_Surface* formatted = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_RGBA32);
+    SDL_Surface* formatted = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_RGBA32);
     SDL_DestroySurface(surface);
 
     if (!formatted) {
@@ -308,7 +314,7 @@ std::shared_ptr<ITexture> OpenGLRenderer::createTextTexture(const std::string& t
     return std::make_shared<OpenGLTexture>(texID, texWidth, texHeight);
 }
 
-void OpenGLRenderer::fillRect(const SDL_FRect &rect, SDL_Color color) {
+void OpenGLRenderer::fillRect(const FRect &rect, Color color) {
     if (m_shaderProgram == 0 || rect.w == 0.0f || rect.h == 0.0f) {
         return;
     }

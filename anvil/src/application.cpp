@@ -57,8 +57,6 @@ void Application::init(AppSettings settings) {
 		std::exit(1);
 	}
 
-	// SDL_image 3 initializes automatically, no IMG_Init needed
-
 	AudioManager::instance().initAudio();
 
 	if (!TTF_Init()) {
@@ -94,7 +92,10 @@ void Application::init(AppSettings settings) {
 		} else if (m_settings.rendererType == RendererType::OpenGL) {
 			renderer = std::make_shared<OpenGLRenderer>();
 		}
-		renderer->init(window, m_settings.screenWidth, m_settings.screenHeight);
+		if (!renderer->init(window, m_settings.screenWidth, m_settings.screenHeight)) {
+			Logger::Err("Renderer failed to initialize — exiting.");
+			std::exit(1);
+		}
 	}
 
 	mapWidth = 1920;
@@ -103,7 +104,9 @@ void Application::init(AppSettings settings) {
 
 #ifndef NDEBUG
 	imgui = createImGui(m_settings.rendererType);
-	imgui->init(window, renderer);
+	if (imgui) {
+		imgui->init(window, renderer);
+	}
 #endif
 	isRunning = true;
 }
@@ -171,7 +174,7 @@ void Application::ProcessInput() {
 
 	while (SDL_PollEvent(&sdlEvent)) {
 	#ifndef NDEBUG
-		imgui->handleEvent(sdlEvent);
+		if (imgui) imgui->handleEvent(sdlEvent);
 	#endif
 
 		switch (sdlEvent.type) {
@@ -216,8 +219,10 @@ void Application::render() {
 	m_stateMachine->render(renderer);
 
 #ifndef NDEBUG
-	imgui->ShowWidget("MenuBar");
-	imgui->render();
+	if (imgui) {
+		imgui->ShowWidget("MenuBar");
+		imgui->render();
+	}
 #endif
 	renderer->present();
 }
@@ -225,7 +230,7 @@ void Application::render() {
 void Application::cleanup() {
 	// AudioManager::instance().cleanup();
 #ifndef NDEBUG
-	imgui->shutDown();
+	if (imgui) imgui->shutDown();
 #endif
 
 	SDL_Quit();

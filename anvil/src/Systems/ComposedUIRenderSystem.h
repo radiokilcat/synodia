@@ -94,12 +94,12 @@ class ComposedUIRenderSystem: public System {
         void drawUICell(const std::shared_ptr<IRenderer>& renderer, const CellUIComponent& cell,
              const TransformComponent& transform, const std::unique_ptr<AssetStore>& assetStore,
              State state, float offset) {
-                    SDL_FRect dstLeftRect = {
+                    anvil::FRect dstLeftRect = {
                         transform.position.x + offset, transform.position.y,
                         cell.width * transform.scale.x,
                         cell.height * transform.scale.y
                     };
-                    SDL_FRect srcLeftRect = cell.srcRect;
+                    anvil::FRect srcLeftRect = cell.srcRect;
                     std::shared_ptr<ITexture> texture;
                     switch (state) {
                         case State::DEFAULT:
@@ -119,7 +119,7 @@ class ComposedUIRenderSystem: public System {
                     }
 
                     renderer->renderTextureRotated(
-                        texture.get(), &srcLeftRect, &dstLeftRect, transform.rotation, nullptr, SDL_FLIP_NONE
+                        texture.get(), &srcLeftRect, &dstLeftRect, transform.rotation, nullptr, anvil::FlipMode::None
                     );
         }
 

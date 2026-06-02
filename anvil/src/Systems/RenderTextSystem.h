@@ -6,7 +6,6 @@
 #include "../components/TransformComponent.h"
 #include "../Render/IRenderer.hpp"
 #include <SDL3/SDL.h>
-#include <SDL3_ttf/SDL_ttf.h>
 
 namespace anvil {
 
@@ -19,7 +18,7 @@ class RenderTextSystem: public System {
         void Update(std::shared_ptr<IRenderer> renderer, std::unique_ptr<AssetStore>& assetStore, const SDL_Rect& camera) {
             for (auto entity: GetSystemEntities()) {
                 const auto textlabel = entity.GetComponent<TextLabelComponent>();
-                auto label = renderer->createTextTexture(textlabel.text, assetStore->GetFont(textlabel.assetId), textlabel.color);
+                auto label = renderer->createTextTexture(textlabel.text, assetStore->GetFont(textlabel.assetId).get(), textlabel.color);
 
                 int labelWidth = label->getWidth();
                 int labelHeight = label->getHeight();
@@ -35,14 +34,14 @@ class RenderTextSystem: public System {
                     y_ += transform.position.y;
                 }
 
-                SDL_FRect dstRect = {
+                anvil::FRect dstRect = {
                     x_ - (textlabel.isFixed ? 0 : camera.x),
                     y_ - (textlabel.isFixed ? 0 : camera.y),
                     static_cast<float>(labelWidth),
                     static_cast<float>(labelHeight)
                 };
 
-                renderer->renderTextureRotated(label.get(), nullptr, &dstRect, 0.0, nullptr, SDL_FLIP_NONE);
+                renderer->renderTextureRotated(label.get(), nullptr, &dstRect, 0.0, nullptr, anvil::FlipMode::None);
             }
         }
 };

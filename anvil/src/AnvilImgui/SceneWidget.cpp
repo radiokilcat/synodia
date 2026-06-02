@@ -221,7 +221,7 @@ void GameSceneWidget::drawTextComponent(TextLabelComponent& text) {
     float x = text.position.x;
     float y = text.position.y;
     std::string assetId = text.assetId;
-    SDL_Color color = text.color;
+    anvil::Color color = text.color;
     bool isFixed = text.isFixed;
     bool isNested = text.isNested;
 

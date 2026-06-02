@@ -41,16 +41,14 @@ bool LoadingState::onEnter() {
 
     Entity newEntity = registry->CreateEntity();
     assetStore->AddFont("vera", "assets/fonts/VeraMono.ttf", 24);
-    SDL_Color color = { 255, 255, 255, 255 };
-
     Entity loadingText = registry->CreateEntity();
     loadingText.AddComponent<TextLabelComponent>( glm::vec2(50, 50), "Loading...",
-    "vera", SDL_Color{255, 255, 255, 255}, false, true);
+    "vera", anvil::Color{255, 255, 255, 255}, false, true);
     loadingText.Tag("loading-text");
 
     Entity currentFile = registry->CreateEntity();
     currentFile.AddComponent<TextLabelComponent>( glm::vec2(50, 90), "",
-    "vera", SDL_Color{255, 255, 255, 255}, false, true);
+    "vera", anvil::Color{255, 255, 255, 255}, false, true);
     currentFile.Tag("current-file");
 
     currentAssetIndex = 0;
@@ -78,9 +76,9 @@ void LoadingState::update(double deltaTime) {
 
 void LoadingState::render(std::shared_ptr<IRenderer> renderer) {
     registry->GetSystem<RenderTextSystem>().Update(renderer, assetStore, camera);
-    SDL_FRect barBg = { 50.0f, 120.0f, 300.0f, 25.0f };
+    anvil::FRect barBg = { 50.0f, 120.0f, 300.0f, 25.0f };
     renderer->fillRect(barBg, {255, 255, 255, 255});
-    SDL_FRect barFill = barBg;
+    anvil::FRect barFill = barBg;
     barFill.w *= progress;
     renderer->fillRect(barFill, {100, 100, 100, 255});
 }

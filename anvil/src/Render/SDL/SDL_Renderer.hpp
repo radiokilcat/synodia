@@ -8,27 +8,27 @@ namespace anvil {
 
 class SDLRenderer : public IRenderer {
 public:
-    bool init(void* window, int width, int height) override;
-    void clear() override;
-    void present() override;
-    void drawTexture(/* your params */) override;
-    SDL_Renderer* getRawRenderer() const;
-    void renderTextureRotated(
-        ITexture* texture,
-        const SDL_FRect* srcRect,
-        const SDL_FRect* dstRect,
-        double angle,
-        const SDL_FPoint* center,
-        SDL_FlipMode flip) override;
-    std::shared_ptr<ITexture> loadTextureFromFile(const std::string &filePath);
-    std::shared_ptr<ITexture> createTextTexture(const std::string &text, TTF_Font *font, SDL_Color color);
-    void setLogicalSize(int width, int height) override;
-    void fillRect(const SDL_FRect& rect, SDL_Color color) override;
-    void DrawGreenOutlineRect(const SDL_FRect& rect, SDL_Color color);
-    RendererType getType() const override { return RendererType::SDL; }
+	bool init(void* window, int width, int height) override;
+	void clear() override;
+	void present() override;
+	void drawTexture() override;
+	SDL_Renderer* getRawRenderer() const;
+	void renderTextureRotated(
+		ITexture* texture,
+		const FRect* srcRect,
+		const FRect* dstRect,
+		double angle,
+		const FPoint* center,
+		FlipMode flip) override;
+	std::shared_ptr<ITexture> loadTextureFromFile(const std::string& filePath) override;
+	std::shared_ptr<ITexture> createTextTexture(const std::string& text, IFont* font, Color color) override;
+	void setLogicalSize(int width, int height) override;
+	void fillRect(const FRect& rect, Color color) override;
+	void DrawGreenOutlineRect(const FRect& rect, Color color);
+	RendererType getType() const override { return RendererType::SDL; }
 
 private:
-    SDL_Renderer* m_renderer = nullptr;
+	SDL_Renderer* m_renderer = nullptr;
 };
 
 }

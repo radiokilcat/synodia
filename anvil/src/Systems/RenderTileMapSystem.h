@@ -42,8 +42,8 @@ class RenderTileMapSystem: public System {
                 auto tileX = startX + (x - y) * tileWidth / 2;
                 auto tileY = startY + (x + y) * tileHeight / 2;
 
-                SDL_FRect destRect;
-                SDL_FRect srcRect;
+                anvil::FRect destRect;
+                anvil::FRect srcRect;
                 srcRect.w = (float)w_;
                 srcRect.h = (float)h_;
                 srcRect.x = 0;
@@ -61,7 +61,7 @@ class RenderTileMapSystem: public System {
                     &destRect,
                     0.0,
                     nullptr,
-                    SDL_FLIP_NONE
+                    anvil::FlipMode::None
                 );
         // for (int y = 0; y < mapNumRows; y++) {
         //     for (int x = 0; x < mapNumCols; x++) {

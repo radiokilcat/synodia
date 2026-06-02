@@ -52,9 +52,9 @@ class RenderSystem: public System {
                 const auto transform = entity.transformComponent;
                 const auto sprite = entity.spriteComponent;
 
-                SDL_FRect srcRect = sprite.srcRect;
+                anvil::FRect srcRect = sprite.srcRect;
 
-                SDL_FRect dstRect = {
+                anvil::FRect dstRect = {
                     transform.position.x - (sprite.isFixed ? 0.f : static_cast<float>(camera.x)),
                     transform.position.y - (sprite.isFixed ? 0.f : static_cast<float>(camera.y)),
                     static_cast<float>(sprite.width) * transform.scale.x,
@@ -67,7 +67,7 @@ class RenderSystem: public System {
                 // SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
                 if (auto r = dynamic_cast<SDLRenderer*>(renderer.get())) {
-                    r->DrawGreenOutlineRect(dstRect, {0, 255, 0, 255});
+                    r->DrawGreenOutlineRect(dstRect, anvil::Color{0, 255, 0, 255});
                 }
 
                 auto texture = assetStore->GetTexture(sprite.assetId);

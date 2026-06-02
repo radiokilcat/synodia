@@ -76,12 +76,12 @@ class MovementSystem: public System {
 
                 if (rigidbody.velocity.x != 0) {
                     rigidbody.velocity.x *= -1;
-                    sprite.flip = (sprite.flip == SDL_FLIP_NONE) ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
+                    sprite.flip = (sprite.flip == anvil::FlipMode::None) ? anvil::FlipMode::Horizontal : anvil::FlipMode::None;
                 }
-                
+
                 if (rigidbody.velocity.y != 0) {
                     rigidbody.velocity.y *= -1;
-                    sprite.flip = (sprite.flip == SDL_FLIP_NONE) ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE;
+                    sprite.flip = (sprite.flip == anvil::FlipMode::None) ? anvil::FlipMode::Vertical : anvil::FlipMode::None;
                 }
             }
         }

@@ -322,11 +322,11 @@ void StateLoader::loadRigidBodyComponent(Entity& entity, const json& components)
 void StateLoader::loadTextLabelComponent(Entity& entity, const json& components) {
     if (components.contains("textLabel")) {
         auto& label = components["textLabel"];
-        SDL_Color color = {
-            static_cast<Uint8>(label.contains("color") ? label["color"][0].get<int>() : 0),
-            static_cast<Uint8>(label.contains("color") ? label["color"][1].get<int>() : 0),
-            static_cast<Uint8>(label.contains("color") ? label["color"][2].get<int>() : 0),
-            static_cast<Uint8>(label.contains("color") ? label["color"][3].get<int>() : 255)
+        anvil::Color color = {
+            static_cast<uint8_t>(label.contains("color") ? label["color"][0].get<int>() : 0),
+            static_cast<uint8_t>(label.contains("color") ? label["color"][1].get<int>() : 0),
+            static_cast<uint8_t>(label.contains("color") ? label["color"][2].get<int>() : 0),
+            static_cast<uint8_t>(label.contains("color") ? label["color"][3].get<int>() : 255)
         };
         if (components.contains("sprite")
         && components["sprite"].contains("width")
