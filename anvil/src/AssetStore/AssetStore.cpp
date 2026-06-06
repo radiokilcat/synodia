@@ -56,6 +56,16 @@ std::shared_ptr<ITexture> AssetStore::GetTexture(const std::string& assetId) {
 	return nullptr;
 }
 
+void AssetStore::AddTextureFromDecodedImage(std::shared_ptr<IRenderer> renderer, const std::string& assetId, const DecodedImage& image) {
+	if (textures.find(assetId) != textures.end()) return;
+	auto texture = renderer->createTextureFromDecodedImage(image);
+	if (texture) {
+		textures[assetId] = texture;
+	} else {
+		Logger::Log("AssetStore: createTextureFromDecodedImage failed for id {}", assetId);
+	}
+}
+
 void AssetStore::AddFont(const std::string& assetId, const std::string& filePath, int fontSize) {
 	if (fonts.find(assetId) != fonts.end()) {
 		Logger::Log("AssetStore: Font with id {} already exists", assetId.c_str());

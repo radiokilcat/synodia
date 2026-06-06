@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <vector>
 
 namespace anvil {
 
@@ -37,5 +38,16 @@ inline FlipMode operator|(FlipMode a, FlipMode b) {
 inline bool operator&(FlipMode a, FlipMode b) {
 	return (static_cast<uint32_t>(a) & static_cast<uint32_t>(b)) != 0;
 }
+
+struct DecodedImage {
+	int width = 0;
+	int height = 0;
+	std::vector<uint8_t> pixels; // RGBA8, row-major, tightly packed
+
+	bool isValid() const {
+		return width > 0 && height > 0 &&
+		       pixels.size() == static_cast<size_t>(width) * height * 4;
+	}
+};
 
 } // namespace anvil

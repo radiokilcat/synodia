@@ -122,22 +122,57 @@ void SDLRenderer::renderTextureRotated(
 	);
 }
 
-std::shared_ptr<ITexture> SDLRenderer::loadTextureFromFile(const std::string& filePath) {
-	SDL_Surface* surface = IMG_Load(filePath.c_str());
-	if (!surface) {
-		SDL_Log("Failed to load surface: %s", SDL_GetError());
+std::shared_ptr<ITexture> SDLRenderer::createTextureFromDecodedImage(const DecodedImage& image) {
+	if (!image.isValid()) {
+		SDL_Log("SDLRenderer::createTextureFromDecodedImage: invalid DecodedImage (%dx%d, %zu bytes)",
+			image.width, image.height, image.pixels.size());
 		return nullptr;
 	}
-
+	SDL_Surface* surface = SDL_CreateSurfaceFrom(
+		image.width, image.height, SDL_PIXELFORMAT_RGBA32,
+		const_cast<void*>(static_cast<const void*>(image.pixels.data())),
+		image.width * 4);
+	if (!surface) {
+		SDL_Log("SDLRenderer::createTextureFromDecodedImage: SDL_CreateSurfaceFrom failed: %s", SDL_GetError());
+		return nullptr;
+	}
 	SDL_Texture* sdlTex = SDL_CreateTextureFromSurface(m_renderer, surface);
 	SDL_DestroySurface(surface);
-
 	if (!sdlTex) {
-		SDL_Log("Failed to create SDL texture: %s", SDL_GetError());
+		SDL_Log("SDLRenderer::createTextureFromDecodedImage: SDL_CreateTextureFromSurface failed: %s", SDL_GetError());
 		return nullptr;
 	}
-
 	return std::make_shared<SDLTexture>(sdlTex);
+}
+
+DecodedImage SDLRenderer::decodeImageFromFile(const std::string& path) {
+	SDL_Surface* surface = IMG_Load(path.c_str());
+	if (!surface) {
+		SDL_Log("SDLRenderer::decodeImageFromFile: IMG_Load failed: %s", SDL_GetError());
+		return {};
+	}
+	SDL_Surface* converted = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_RGBA32);
+	SDL_DestroySurface(surface);
+	if (!converted) {
+		SDL_Log("SDLRenderer::decodeImageFromFile: SDL_ConvertSurface failed: %s", SDL_GetError());
+		return {};
+	}
+	DecodedImage img;
+	img.width = converted->w;
+	img.height = converted->h;
+	const int rowBytes = converted->w * 4;
+	img.pixels.resize(static_cast<size_t>(converted->h) * rowBytes);
+	const uint8_t* src = static_cast<const uint8_t*>(converted->pixels);
+	for (int y = 0; y < converted->h; ++y)
+		SDL_memcpy(img.pixels.data() + y * rowBytes, src + y * converted->pitch, rowBytes);
+	SDL_DestroySurface(converted);
+	return img;
+}
+
+std::shared_ptr<ITexture> SDLRenderer::loadTextureFromFile(const std::string& filePath) {
+	DecodedImage img = decodeImageFromFile(filePath);
+	if (img.pixels.empty()) return nullptr;
+	return createTextureFromDecodedImage(img);
 }
 
 std::shared_ptr<ITexture> SDLRenderer::createTextTexture(const std::string& text, IFont* font, Color color) {

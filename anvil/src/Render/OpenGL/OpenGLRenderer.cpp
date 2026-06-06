@@ -209,59 +209,59 @@ void OpenGLRenderer::renderTextureRotated(
     glUseProgram(0);
 }
 
-std::shared_ptr<ITexture> OpenGLRenderer::loadTextureFromFile(const std::string& path) {
-    SDL_Surface* surface = IMG_Load(path.c_str());
-    if (!surface) {
-        SDL_Log("Failed to load image: %s | %s", path.c_str(), SDL_GetError());
+std::shared_ptr<ITexture> OpenGLRenderer::createTextureFromDecodedImage(const DecodedImage& image) {
+    if (!image.isValid()) {
+        SDL_Log("OpenGLRenderer::createTextureFromDecodedImage: invalid DecodedImage (%dx%d, %zu bytes)",
+            image.width, image.height, image.pixels.size());
         return nullptr;
     }
-
-    // SDL_Surface is usually in BGRA or ARGB depending on platform
-    // Convert it to RGBA8888 (32-bit RGBA)
-    SDL_Surface* formatted = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_RGBA32);
-    SDL_DestroySurface(surface);
-
-    if (!formatted) {
-        SDL_Log("Failed to convert surface to RGBA32");
-        return nullptr;
-    }
-
     GLuint textureID = 0;
     glGenTextures(1, &textureID);
     if (textureID == 0) {
-        SDL_Log("Failed to generate OpenGL texture for %s", path.c_str());
-        SDL_DestroySurface(formatted);
+        SDL_Log("OpenGLRenderer::createTextureFromDecodedImage: glGenTextures failed");
         return nullptr;
     }
-
     glBindTexture(GL_TEXTURE_2D, textureID);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
-    glTexImage2D(
-        GL_TEXTURE_2D,
-        0,
-        GL_RGBA,
-        formatted->w,
-        formatted->h,
-        0,
-        GL_RGBA,
-        GL_UNSIGNED_BYTE,
-        formatted->pixels
-    );
-
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.width, image.height, 0,
+                 GL_RGBA, GL_UNSIGNED_BYTE, image.pixels.data());
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
     glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
     glBindTexture(GL_TEXTURE_2D, 0);
+    return std::make_shared<OpenGLTexture>(textureID, image.width, image.height);
+}
 
-    const int texWidth = formatted->w;
-    const int texHeight = formatted->h;
-    SDL_DestroySurface(formatted);
+DecodedImage OpenGLRenderer::decodeImageFromFile(const std::string& path) {
+    SDL_Surface* surface = IMG_Load(path.c_str());
+    if (!surface) {
+        SDL_Log("OpenGLRenderer::decodeImageFromFile: IMG_Load failed: %s | %s", path.c_str(), SDL_GetError());
+        return {};
+    }
+    SDL_Surface* converted = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_RGBA32);
+    SDL_DestroySurface(surface);
+    if (!converted) {
+        SDL_Log("OpenGLRenderer::decodeImageFromFile: SDL_ConvertSurface failed");
+        return {};
+    }
+    DecodedImage img;
+    img.width = converted->w;
+    img.height = converted->h;
+    const int rowBytes = converted->w * 4;
+    img.pixels.resize(static_cast<size_t>(converted->h) * rowBytes);
+    const uint8_t* src = static_cast<const uint8_t*>(converted->pixels);
+    for (int y = 0; y < converted->h; ++y)
+        SDL_memcpy(img.pixels.data() + y * rowBytes, src + y * converted->pitch, rowBytes);
+    SDL_DestroySurface(converted);
+    return img;
+}
 
-    return std::make_shared<OpenGLTexture>(textureID, texWidth, texHeight);
+std::shared_ptr<ITexture> OpenGLRenderer::loadTextureFromFile(const std::string& path) {
+    DecodedImage img = decodeImageFromFile(path);
+    if (img.pixels.empty()) return nullptr;
+    return createTextureFromDecodedImage(img);
 }
 
 std::shared_ptr<ITexture> OpenGLRenderer::createTextTexture(const std::string& text, IFont* font, Color color) {

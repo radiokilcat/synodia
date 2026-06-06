@@ -29,6 +29,8 @@ public:
 		const FPoint* center,
 		FlipMode flip) = 0;
 	virtual std::shared_ptr<ITexture> loadTextureFromFile(const std::string& path) = 0;
+	virtual DecodedImage decodeImageFromFile(const std::string& path) = 0;
+	virtual std::shared_ptr<ITexture> createTextureFromDecodedImage(const DecodedImage& image) = 0;
 	virtual std::shared_ptr<ITexture> createTextTexture(const std::string& text, IFont* font, Color color) = 0;
 	virtual void fillRect(const FRect& rect, Color color) = 0;
 	virtual RendererType getType() const = 0;

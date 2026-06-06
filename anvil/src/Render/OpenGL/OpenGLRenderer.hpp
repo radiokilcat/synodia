@@ -31,6 +31,8 @@ public:
 		FlipMode flip
 	) override;
 	std::shared_ptr<ITexture> loadTextureFromFile(const std::string& path) override;
+	DecodedImage decodeImageFromFile(const std::string& path) override;
+	std::shared_ptr<ITexture> createTextureFromDecodedImage(const DecodedImage& image) override;
 	std::shared_ptr<ITexture> createTextTexture(const std::string& text, IFont* font, Color color) override;
 	void fillRect(const FRect& rect, Color color) override;
 	RendererType getType() const override { return RendererType::OpenGL; }
