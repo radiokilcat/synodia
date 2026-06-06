@@ -18,7 +18,9 @@ class RenderTextSystem: public System {
         void Update(std::shared_ptr<IRenderer> renderer, std::unique_ptr<AssetStore>& assetStore, const SDL_Rect& camera) {
             for (auto entity: GetSystemEntities()) {
                 const auto textlabel = entity.GetComponent<TextLabelComponent>();
+                if (textlabel.text.empty()) continue;
                 auto label = renderer->createTextTexture(textlabel.text, assetStore->GetFont(textlabel.assetId).get(), textlabel.color);
+                if (!label) continue;
 
                 int labelWidth = label->getWidth();
                 int labelHeight = label->getHeight();
