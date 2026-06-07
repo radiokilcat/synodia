@@ -12,6 +12,7 @@ void OpenGLImguiSystem::init(SDL_Window* window, std::shared_ptr<IRenderer> rend
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
 	if (!ImGui_ImplSDL3_InitForOpenGL(window, SDL_GL_GetCurrentContext())) {
 		Logger::Err("OpenGLImguiSystem: ImGui_ImplSDL3_InitForOpenGL failed");
@@ -40,6 +41,14 @@ void OpenGLImguiSystem::render() {
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+	if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+		SDL_Window* backup_window = SDL_GL_GetCurrentWindow();
+		SDL_GLContext backup_context = SDL_GL_GetCurrentContext();
+		ImGui::UpdatePlatformWindows();
+		ImGui::RenderPlatformWindowsDefault();
+		SDL_GL_MakeCurrent(backup_window, backup_context);
+	}
 }
 
 void OpenGLImguiSystem::handleEvent(SDL_Event& event) {
