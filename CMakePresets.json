@@ -1,0 +1,63 @@
+{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "generator": "Visual Studio 18 2026",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      },
+      "architecture": { "value": "win32", "strategy": "set" },
+      "toolset": { "value": "host=x64", "strategy": "set" }
+    },
+    {
+      "name": "debug",
+      "displayName": "Debug (ImGui ON)",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "ANVIL_IMGUI": "ON"
+      }
+    },
+    {
+      "name": "release",
+      "displayName": "Release (ImGui OFF)",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "ANVIL_IMGUI": "OFF"
+      }
+    },
+    {
+      "name": "release-imgui",
+      "displayName": "Release (ImGui ON)",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "ANVIL_IMGUI": "ON"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "debug",
+      "displayName": "Debug",
+      "configurePreset": "debug",
+      "configuration": "Debug"
+    },
+    {
+      "name": "release",
+      "displayName": "Release",
+      "configurePreset": "release",
+      "configuration": "Release"
+    },
+    {
+      "name": "release-imgui",
+      "displayName": "Release (ImGui ON)",
+      "configurePreset": "release-imgui",
+      "configuration": "Release"
+    }
+  ]
+}

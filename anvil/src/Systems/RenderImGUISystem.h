@@ -7,9 +7,11 @@
 #include "../Components/BoxColliderComponent.h"
 #include "../Components/ProjectileEmitterComponent.h"
 #include "../Components/HealthComponent.h"
+#ifdef ANVIL_IMGUI
 #include <imgui.h>
 #include "backends/imgui_impl_sdlrenderer3.h"
 #include "backends/imgui_impl_sdl3.h"
+#endif
 
 namespace anvil {
     // Deprecated; use ImGuiSystem instead
@@ -19,6 +21,7 @@ class RenderImGUISystem: public System {
         RenderImGUISystem() = default;
 
         void Update(const std::unique_ptr<Registry>& registry, const SDL_Rect& camera, SDL_Renderer* sdlRenderer) {
+#ifdef ANVIL_IMGUI
             ImGui_ImplSDLRenderer3_NewFrame();
             ImGui_ImplSDL3_NewFrame();
             ImGui::NewFrame();
@@ -167,6 +170,7 @@ class RenderImGUISystem: public System {
 
             ImGui::Render();
             ImGui_ImplSDLRenderer3_RenderDrawData(ImGui::GetDrawData(), sdlRenderer);
+#endif
         }
 };
 

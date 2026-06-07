@@ -1,5 +1,7 @@
 #include <iostream>
+#ifdef ANVIL_IMGUI
 #include <backends/imgui_impl_sdl3.h>
+#endif
 
 #include "inputhandler.h"
 #include "application.h"
@@ -63,7 +65,7 @@ void InputHandler::handleEvents()
         m_keyState = SDL_GetKeyboardState(0);
         m_releasedKeys = std::vector<bool>(512, false);
 
-#ifndef NDEBUG
+#ifdef ANVIL_IMGUI
         ImGui_ImplSDL3_ProcessEvent(&event);
 #endif
 

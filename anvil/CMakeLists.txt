@@ -7,6 +7,8 @@ if(WIN32)
     set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 endif()
 
+option(ANVIL_IMGUI "Enable ImGui debug UI" ON)
+
 include(sources.cmake)
 
 add_library(anvil ${SOURCES} ${HEADERS})
@@ -52,8 +54,12 @@ set(ANVIL_PRIVATE_LIBS
     sol2
     glad
     nlohmann_json
-    imgui
 )
+
+if(ANVIL_IMGUI)
+    list(APPEND ANVIL_PRIVATE_LIBS imgui)
+    target_compile_definitions(anvil PUBLIC ANVIL_IMGUI)
+endif()
 
 target_link_libraries(anvil
     PUBLIC ${ANVIL_PUBLIC_LIBS}

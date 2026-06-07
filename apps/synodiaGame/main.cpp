@@ -1,5 +1,6 @@
 #include <filesystem>
 
+#include <SDL3/SDL_main.h>
 #include "anvil.h"
 
 

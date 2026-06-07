@@ -10,7 +10,9 @@
 #include "AssetStore/AssetStore.h"
 #include "EventBus/EventBus.h"
 #include "ECS/ECS.h"
+#ifdef ANVIL_IMGUI
 #include "AnvilImgui/ImguiSystem.h"
+#endif
 #include "AppSettings.hpp"
 
 namespace anvil {
@@ -39,7 +41,9 @@ public:
     void quit();
 
     std::shared_ptr<IRenderer> getRenderer() const;
+#ifdef ANVIL_IMGUI
     std::shared_ptr<ImguiSystem> getImguiSystem() const;
+#endif
     GameStateMachine* getStateMachine() const;
     Uint64 getTicks();
 
@@ -64,7 +68,9 @@ private:
     SDL_Window* window = nullptr;
     std::shared_ptr<IRenderer> renderer = nullptr;
     std::unique_ptr<Window> m_window = nullptr;
+#ifdef ANVIL_IMGUI
     std::shared_ptr<ImguiSystem> imgui = nullptr;
+#endif
 
     SDL_Texture* screenTexture = nullptr;
     GameStateMachine* m_stateMachine;

@@ -15,10 +15,12 @@
 #include <SDL3_ttf/SDL_ttf.h>
 #include <SDL3_mixer/SDL_mixer.h>
 #include <cassert>
+#ifdef ANVIL_IMGUI
 #include <AnvilImgui/ImguiFactory.h>
 #include <AnvilImgui/SceneWidget.h>
 #include "backends/imgui_impl_sdlrenderer3.h"
 #include "backends/imgui_impl_sdl3.h"
+#endif
 
 #include "Logger/Logger.h"
 
@@ -71,7 +73,7 @@ void Application::init(AppSettings settings) {
 			windowFlags |= SDL_WINDOW_OPENGL;
 		}
 
-		#ifndef NDEBUG
+		#ifdef ANVIL_IMGUI
 			windowFlags |= SDL_WINDOW_RESIZABLE;
 		#endif
 
@@ -102,7 +104,7 @@ void Application::init(AppSettings settings) {
 	mapHeight = 1064;
 
 
-#ifndef NDEBUG
+#ifdef ANVIL_IMGUI
 	imgui = createImGui(m_settings.rendererType);
 	if (imgui) {
 		imgui->init(window, renderer);
@@ -123,7 +125,7 @@ void Application::run() {
 void Application::Setup() {
 	m_stateMachine = new GameStateMachine();
 	m_stateMachine->changeState(new MenuState());
-	#ifndef NDEBUG
+	#ifdef ANVIL_IMGUI
 		auto sceneWidget = std::make_shared<GameSceneWidget>();
 		imgui->RegisterWidget("SceneWidget", sceneWidget);
 	#endif
@@ -133,9 +135,11 @@ std::shared_ptr<IRenderer> Application::getRenderer() const {
 	return renderer;
 }
 
+#ifdef ANVIL_IMGUI
 std::shared_ptr<ImguiSystem> Application::getImguiSystem() const {
 	return imgui;
 }
+#endif
 
 int Application::getScreenWidth() {
 	int w, h;
@@ -173,7 +177,7 @@ void Application::ProcessInput() {
 	SDL_Event sdlEvent;
 
 	while (SDL_PollEvent(&sdlEvent)) {
-	#ifndef NDEBUG
+	#ifdef ANVIL_IMGUI
 		if (imgui) imgui->handleEvent(sdlEvent);
 	#endif
 
@@ -218,7 +222,7 @@ void Application::render() {
 	renderer->clear();
 	m_stateMachine->render(renderer);
 
-#ifndef NDEBUG
+#ifdef ANVIL_IMGUI
 	if (imgui) {
 		imgui->ShowWidget("MenuBar");
 		imgui->render();
@@ -229,7 +233,7 @@ void Application::render() {
 
 void Application::cleanup() {
 	// AudioManager::instance().cleanup();
-#ifndef NDEBUG
+#ifdef ANVIL_IMGUI
 	if (imgui) imgui->shutDown();
 #endif
 
