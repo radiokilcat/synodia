@@ -43,14 +43,14 @@ class RenderHealthBarSystem: public System {
                 // Position the health bar indicator in the top-right part of the entity sprite
                 int healthBarWidth = 15;
                 int healthBarHeight = 3;
-                double healthBarPosX = (transform.position.x + (sprite.width * transform.scale.x)) - camera.x;
-                double healthBarPosY = (transform.position.y) - camera.y;
+                float healthBarPosX = (transform.position.x + (sprite.width * transform.scale.x)) - camera.x;
+                float healthBarPosY = (transform.position.y) - camera.y;
 
                 anvil::FRect healthBarRectangle = {
                     healthBarPosX,
                     healthBarPosY,
-                    healthBarWidth * (health.healthPercentage / 100.0),
-                    healthBarHeight
+                    healthBarWidth * (health.healthPercentage / 100.0f),
+                    static_cast<float>(healthBarHeight)
                 };
                 // SDL_SetRenderDrawColor(renderer, healthBarColor.r, healthBarColor.g, healthBarColor.b, 255);
                 // SDL_RenderFillRect(renderer, &healthBarRectangle);
@@ -66,9 +66,9 @@ class RenderHealthBarSystem: public System {
                 // SDL_QueryTexture(texture, NULL, NULL, &labelWidth, &labelHeight);
                 anvil::FRect healthBarTextRectangle = {
                     healthBarPosX,
-                    healthBarPosY + 5,
-                    labelWidth,
-                    labelHeight
+                    healthBarPosY + 5.0f,
+                    static_cast<float>(labelWidth),
+                    static_cast<float>(labelHeight)
                 };
                 
                 // SDL_RenderTexture(renderer, texture, NULL, &healthBarTextRectangle);

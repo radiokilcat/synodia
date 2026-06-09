@@ -121,7 +121,7 @@ class Pool: public IPool {
                 int index = size;
                 entityIdToIndex.emplace(entityId, index);
                 indexToEntityId.emplace(index, entityId);
-                if (index >= data.capacity()) {
+                if (static_cast<size_t>(index) >= data.capacity()) {
                     data.resize(size * 2);
                 }
                 data[index] = object;
@@ -255,7 +255,7 @@ void Registry::AddComponent(Entity entity, TArgs&& ...args) {
     const auto componentId = Component<TComponent>::GetId();
     const auto entityId = entity.GetId();
 
-    if (componentId >= componentPools.size()) {
+    if (static_cast<size_t>(componentId) >= componentPools.size()) {
         componentPools.resize(componentId + 1, nullptr);
     }
 

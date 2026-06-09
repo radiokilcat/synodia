@@ -73,7 +73,7 @@ void MenuState::update(double deltaTime) {
     registry->GetSystem<ComposedUIRenderSystem>().SubscribeToEvents(eventBus);
     registry->Update();
     registry->GetSystem<AnimationSystem>().Update(assetStore);
-    registry->GetSystem<CommandSystem>().Update(deltaTime, registry);
+    registry->GetSystem<CommandSystem>().Update(static_cast<float>(deltaTime), registry);
 }
 
 void MenuState::handleInput(SDL_Event& event) {

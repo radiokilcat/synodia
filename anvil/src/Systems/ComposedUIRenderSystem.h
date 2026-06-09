@@ -43,11 +43,11 @@ class ComposedUIRenderSystem: public System {
             });
         }
 
-        unsigned int GetRowWidth(RowUIComponent& ui) {
+        float GetRowWidth(RowUIComponent& ui) {
             return ui.left.width + ui.mid.width + ui.right.width;
         }
 
-        unsigned int GetRowHeight(RowUIComponent& ui) {
+        float GetRowHeight(RowUIComponent& ui) {
             return ui.left.height;
         }
 

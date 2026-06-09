@@ -12,8 +12,8 @@ struct TileMapComponent {
     
     TileMapComponent(int dimension = 0, int startPosX = 0, int startPosY = 0) {
         this->dimension = dimension;
-        this->startPosition.x = startPosX;
-        this->startPosition.y = startPosY;
+        this->startPosition.x = static_cast<float>(startPosX);
+        this->startPosition.y = static_cast<float>(startPosY);
     }
 };
 

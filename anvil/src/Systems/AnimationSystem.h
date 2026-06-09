@@ -35,8 +35,8 @@ class AnimationSystem: public System {
                 animation.frameX = animation.currentFrame % columns; 
                 animation.frameY = animation.currentFrame / columns; 
 
-                sprite.srcRect.x = animation.frameX * sprite.width;
-                sprite.srcRect.y = animation.frameY * sprite.height;
+                sprite.srcRect.x = static_cast<float>(animation.frameX * sprite.width);
+                sprite.srcRect.y = static_cast<float>(animation.frameY * sprite.height);
             }
         }
 };

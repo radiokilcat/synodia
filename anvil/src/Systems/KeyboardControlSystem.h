@@ -31,6 +31,8 @@ class KeyboardControlSystem: public System {
                     return "180" ;
                 case direction::LEFT:
                     return "270" ;
+                default:
+                    return "";
             }
         }
 

@@ -137,7 +137,7 @@ void GameSceneWidget::drawSpriteComponent(SpriteComponent& sprite) {
         // sprite.width = width;
     }
     char buffer[256];
-    std::strncpy(buffer, assetId.c_str(), sizeof(buffer));
+    strncpy_s(buffer, sizeof(buffer), assetId.c_str(), _TRUNCATE);
     if (ImGui::InputText("Asset ID", buffer, sizeof(buffer))) {
         sprite.assetId = std::string(buffer);
     }

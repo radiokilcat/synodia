@@ -107,14 +107,14 @@ glm::vec2 parsePosition(const json& j, int w = 0, int h = 0) {
             std::string x = j["position"]["x"];
             if (x == "center") {
                 int screenW = Application::Instance()->getScreenWidth();
-                position.x = (screenW - w) / 2;
+                position.x = static_cast<float>((screenW - w) / 2);
             }
         }
         if (j["position"]["y"].is_string()) {
             std::string y = j["position"]["y"];
             if (y == "center") {
                 int screenH = Application::Instance()->getScreenHeight();
-                position.y = (screenH - h) / 2;
+                position.y = static_cast<float>((screenH - h) / 2);
             }
         }
         if (j["position"]["x"].is_number()) {

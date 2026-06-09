@@ -12,8 +12,8 @@ public:
     int y;
     Uint8 button;
 
-    MouseClickedEvent(int x, int y, Uint8 button)
-        : x(x), y(y), button(button) {}
+    MouseClickedEvent(float x, float y, Uint8 button)
+        : x(static_cast<int>(x)), y(static_cast<int>(y)), button(button) {}
 };
 
 class MouseHoverEvent : public Event {
@@ -30,8 +30,8 @@ public:
     int x;
     int y;
 
-    MouseMotionEvent(int x, int y)
-        : x(x), y(y) {}
+    MouseMotionEvent(float x, float y)
+        : x(static_cast<int>(x)), y(static_cast<int>(y)) {}
 };
 
 }

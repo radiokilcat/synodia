@@ -40,8 +40,8 @@ class MovementSystem: public System {
                 auto& transform = entity.GetComponent<TransformComponent>();
                 const auto rigidbody = entity.GetComponent<RigidBodyComponent>();
 
-                transform.position.x += rigidbody.velocity.x * deltaTime; 
-                transform.position.y += rigidbody.velocity.y * deltaTime; 
+                transform.position.x += rigidbody.velocity.x * static_cast<float>(deltaTime);
+                transform.position.y += rigidbody.velocity.y * static_cast<float>(deltaTime);
 
                 if (entity.HasTag("player")) {
                     int paddingLeft = 10;

@@ -30,8 +30,8 @@ class RenderTextSystem: public System {
 
                 if (textlabel.isNested && entity.HasComponent<TransformComponent>()) {
                     const auto transform = entity.GetComponent<TransformComponent>();
-                    labelWidth *= transform.scale.x;
-                    labelHeight *= transform.scale.y;
+                    labelWidth = static_cast<int>(labelWidth * transform.scale.x);
+                    labelHeight = static_cast<int>(labelHeight * transform.scale.y);
                     x_ += transform.position.x;
                     y_ += transform.position.y;
                 }

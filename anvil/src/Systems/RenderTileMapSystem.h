@@ -49,8 +49,8 @@ class RenderTileMapSystem: public System {
                 srcRect.x = 0;
                 srcRect.y = 0;
 
-                int scaleFactor = srcRect.w / tileWidth;
-                destRect.w = tileWidth;
+                int scaleFactor = static_cast<int>(srcRect.w / static_cast<float>(tileWidth));
+                destRect.w = static_cast<float>(tileWidth);
                 destRect.h = srcRect.h / scaleFactor;
 
                 destRect.x = (float)tileX;

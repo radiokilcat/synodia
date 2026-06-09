@@ -53,7 +53,7 @@ Entity Registry::CreateEntity() {
 
     if (freeIds.empty()) {
         entityId = numEntities++;
-        if (entityId >= entityComponentSignatures.size()) {
+        if (static_cast<size_t>(entityId) >= entityComponentSignatures.size()) {
             entityComponentSignatures.resize(entityId + 1);
         }
     } else {

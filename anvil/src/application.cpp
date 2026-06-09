@@ -54,7 +54,7 @@ Application::~Application() {
 void Application::init(AppSettings settings) {
 	m_settings = settings;
 
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) < 0) {
+	if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK)) {
 		printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
 		std::exit(1);
 	}
